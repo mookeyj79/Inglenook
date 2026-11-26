@@ -1,0 +1,12 @@
+{
+  "day": {
+    "text": "black",
+    "raised": "lightwhite",
+    "faint": "lightblack"
+  },
+  "night": {
+    "text": "lightwhite",
+    "raised": "black",
+    "faint": "lightblack"
+  }
+}
