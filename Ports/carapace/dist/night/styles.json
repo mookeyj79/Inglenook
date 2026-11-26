@@ -1,0 +1,122 @@
+{
+  "carapace": {
+    "Value": "#d1c9bc",
+    "Description": "#b1aa9e",
+    "Error": "bold #d9897e",
+    "Usage": "#8f887f",
+    "KeywordAmbiguous": "#bdb377",
+    "KeywordNegative": "#d9897e",
+    "KeywordPositive": "#91bc88",
+    "KeywordUnknown": "#8f887f",
+    "LogLevelTrace": "#8f887f",
+    "LogLevelDebug": "#b1aa9e",
+    "LogLevelInfo": "#89b3d8",
+    "LogLevelWarning": "#bdb377",
+    "LogLevelError": "#d9897e",
+    "LogLevelCritical": "bold #d9897e",
+    "LogLevelFatal": "bold underlined #d9897e",
+    "Highlight1": "#89b3d8",
+    "Highlight2": "#da9f7c",
+    "Highlight3": "#cb9cc6",
+    "Highlight4": "#72bdbd",
+    "Highlight5": "#5c947c",
+    "Highlight6": "#a5a5d9",
+    "Highlight7": "#d4a2aa",
+    "Highlight8": "#b66f75",
+    "Highlight9": "#b1aa9e",
+    "Highlight10": "#8f887f",
+    "Highlight11": "bold #d1c9bc",
+    "Highlight12": "bold #b1aa9e",
+    "FlagArg": "#89b3d8",
+    "FlagMultiArg": "#cb9cc6",
+    "FlagNoArg": "#d1c9bc",
+    "FlagOptArg": "#da9f7c"
+  },
+  "carapace-bin": {
+    "HttpStatusInformational": "#89b3d8",
+    "HttpStatusSuccessful": "#91bc88",
+    "HttpStatusRedirection": "#72bdbd",
+    "HttpStatusClientError": "#d9897e",
+    "HttpStatusServerError": "bold #d9897e",
+    "HttpMethodCONNECT": "#d1c9bc",
+    "HttpMethodDELETE": "#d9897e",
+    "HttpMethodGET": "#89b3d8",
+    "HttpMethodHEAD": "#cb9cc6",
+    "HttpMethodOPTIONS": "#b1aa9e",
+    "HttpMethodPATCH": "#bdb377",
+    "HttpMethodPOST": "#91bc88",
+    "HttpMethodPUT": "#bdb377",
+    "HttpMethodTRACE": "#d1c9bc",
+    "KillSignalTerm": "#d9897e",
+    "KillSignalIgn": "#b1aa9e",
+    "KillSignalCore": "bold #d9897e",
+    "KillSignalStop": "#bdb377",
+    "KillSignalCont": "#91bc88"
+  },
+  "docker": {
+    "Container": "#89b3d8",
+    "Image": "#da9f7c",
+    "Network": "#cb9cc6",
+    "Node": "#72bdbd",
+    "Secret": "underlined #d1c9bc",
+    "Service": "#5c947c",
+    "Volume": "bold #d1c9bc"
+  },
+  "gh": {
+    "Draft": "#8f887f",
+    "JobFailed": "#d9897e",
+    "JobInProgress": "#89b3d8",
+    "JobSuccess": "#91bc88",
+    "OwnerOrganization": "#72bdbd",
+    "OwnerUser": "#d1c9bc",
+    "RepoArchived": "#8f887f",
+    "RepoFork": "#b1aa9e",
+    "RepoLocked": "bold #d1c9bc",
+    "RepoMirror": "#72bdbd",
+    "RepoPrivate": "#b66f75",
+    "RepoPublic": "#d1c9bc",
+    "RepoTemplate": "#d4a2aa",
+    "StateClosed": "#d9897e",
+    "StateMerged": "#cb9cc6",
+    "StateOpen": "#91bc88"
+  },
+  "git": {
+    "Branch": "#72bdbd",
+    "Commit": "#da9f7c",
+    "Head": "bold #f3a958",
+    "Note": "#b1aa9e",
+    "Stash": "#cb9cc6",
+    "Tag": "#d4a2aa"
+  },
+  "golang": {
+    "Constant": "#cb9cc6",
+    "Field": "#89b3d8",
+    "Function": "#89b3d8",
+    "Type": "#a5a5d9",
+    "Variable": "#d1c9bc"
+  },
+  "hg": {
+    "Bookmark": "#72bdbd",
+    "Branch": "#72bdbd",
+    "Stash": "#cb9cc6",
+    "Tag": "#d4a2aa"
+  },
+  "lore": {
+    "Branch": "#72bdbd",
+    "CurrentBranch": "bold #f3a958",
+    "Revision": "#da9f7c",
+    "Identity": "#d1c9bc"
+  },
+  "tea": {
+    "StateClosed": "#d9897e",
+    "StateMerged": "#cb9cc6",
+    "StateOpen": "#91bc88"
+  },
+  "zfs": {
+    "Pool": "bold #d1c9bc",
+    "Filesystem": "#89b3d8",
+    "Volume": "#da9f7c",
+    "Snapshot": "#cb9cc6",
+    "Bookmark": "#72bdbd"
+  }
+}

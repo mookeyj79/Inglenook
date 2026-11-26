@@ -1,0 +1,17 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "version": "1.8.5",
+  "host": "gnome-terminal",
+  "install": [
+    "curl -fsSL -o /tmp/carapace.tar.gz \"https://github.com/carapace-sh/carapace-bin/releases/download/v$INGLENOOK_VERSION/carapace-bin_${INGLENOOK_VERSION}_linux_amd64.tar.gz\" && echo 'e0543a02199ecec90fc4f0dc2c5bd52bdc995b72a9f3c4788f82b13d62669436  /tmp/carapace.tar.gz' | sha256sum -c - && tar -xzf /tmp/carapace.tar.gz -C /usr/local/bin carapace && chmod 755 /usr/local/bin/carapace && rm /tmp/carapace.tar.gz",
+    "apt-get install -y --no-install-recommends zsh"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/carapace",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/styles.json\" ~/.config/carapace/styles.json"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/carapace/stage.sh\""
+  ]
+}
