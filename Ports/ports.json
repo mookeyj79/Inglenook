@@ -223,17 +223,6 @@
       ]
     },
     {
-      "folder": "less",
-      "name": "less",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "mod-organizer-2",
       "name": "Mod Organizer 2",
       "category": "app",
