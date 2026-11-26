@@ -252,17 +252,6 @@
       ]
     },
     {
-      "folder": "psreadline",
-      "name": "PSReadLine",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "qbittorrent",
       "name": "qBittorrent",
       "category": "app",
