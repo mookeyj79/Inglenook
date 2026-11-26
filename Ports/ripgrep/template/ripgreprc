@@ -7,5 +7,6 @@
 --colors=path:fg:{{reference|comma}}
 --colors=line:fg:{{dim|comma}}
 --colors=column:fg:{{dim|comma}}
---colors=match:fg:{{accent|comma}}
+--colors=match:fg:{{text|comma}}
+--colors=match:bg:{{steel|wash|comma}}
 --colors=match:style:bold

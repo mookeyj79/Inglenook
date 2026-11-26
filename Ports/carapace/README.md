@@ -33,7 +33,7 @@ Files to use:
 - Inglenook Day: `dist/day/styles.json`
 - Inglenook Night: `dist/night/styles.json`
 
-carapace colors file and folder names from `LS_COLORS`, not from `styles.json`. For Inglenook file colors, also install the `LS_COLORS` file from the [eza port](../eza/README.md) (steps 5 to 7 there). It is optional.
+carapace colors file and folder names from the `LS_COLORS` variable, not from `styles.json`, so they keep the colors your `ls` already uses, or none if `LS_COLORS` is not set. Everything else works without it. If you want Inglenook file colors too, you can also install the `LS_COLORS` file from the [eza port](../eza/README.md) (steps 5 to 7 there).
 
 ## Set the font
 

@@ -7,5 +7,6 @@
 --colors=path:fg:1,114,114
 --colors=line:fg:73,84,93
 --colors=column:fg:73,84,93
---colors=match:fg:155,90,0
+--colors=match:fg:45,55,63
+--colors=match:bg:210,221,223
 --colors=match:style:bold

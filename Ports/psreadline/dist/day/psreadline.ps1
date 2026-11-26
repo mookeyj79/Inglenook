@@ -18,7 +18,7 @@
         Comment                = '#657178'
         ContinuationPrompt     = '#49545d'
         Error                  = '#a04037'
-        Emphasis               = '#9b5a00'
+        Emphasis               = '#2d373f', '#d2dddf'
         Selection              = '#2d373f', '#e3dbc8'
         InlinePrediction       = '#657178'
         ListPrediction         = '#657178'

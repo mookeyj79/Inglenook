@@ -46,7 +46,7 @@ ripgrep prints in your terminal's font, so set the font in the terminal. Ingleno
 
 ## Check that it worked
 
-Run `rg --column moss` in a folder with text files. File names are blue-green, line and column numbers are gray, and each match is amber and bold.
+Run `rg --column moss` in a folder with text files. File names are blue-green, line and column numbers are gray, and each match is bold on a soft blue-gray band.
 
 `rg --debug moss` shows which config file ripgrep read.
 
@@ -71,6 +71,7 @@ ripgrep has no light and dark setting and cannot follow the OS.
 ## Known limits
 
 - ripgrep colors only file names, line and column numbers, and matches. The background and the rest of each line come from your terminal's theme.
+- The band behind each match is made for the Inglenook background. On another terminal background it still reads, but looks less even.
 - Color names in your own config, such as `match:fg:red`, use the terminal's colors, not the theme's.
 
 ## Sources

@@ -21,7 +21,7 @@ One `Set-PSReadLineOption -Colors` call in `template/psreadline.ps1`, a PowerShe
 | `Comment` | faint | |
 | `ContinuationPrompt` | dim | The `>>` of a multi-line command: supporting text |
 | `Error` | error | Parse errors, and the prompt text PSReadLine marks on one |
-| `Emphasis` | accent | The matched text in history search and in the suggestion list. A match is "you are here", as in the ripgrep port. Not info, as in fzf: here commands are info, so a match on a command would not show |
+| `Emphasis` | text on the steel wash | The matched text in history search (Ctrl+R) and on every row of the suggestion list. Every match is steel (ADR 0009). PSReadLine has this one match color, with none for the picked row or the match at the cursor, so no match gets the firelight fill. A wash, not steel text, because steel is also the command color |
 | `Selection` | text on the accent wash | Selected text |
 | `InlinePrediction` | faint | A suggestion is a placeholder until accepted. zsh-autosuggestions uses the same |
 | `ListPrediction` | faint | The `>` markers, the `[History]` source names and the `<1/3>` counter: metadata |
@@ -30,11 +30,10 @@ One `Set-PSReadLineOption -Colors` call in `template/psreadline.ps1`, a PowerShe
 
 ## Gaps and trade-offs
 
-- Values are written as hex in the file and turned into 24-bit escape sequences when it loads, because a background needs an escape sequence (a hex value is only a foreground) and a placeholder cannot chain `|wash` and `|sgr`.
+- Values are written as hex in the file and turned into 24-bit escape sequences when it loads, because a background needs an escape sequence (a hex value is only a foreground).
 - Only the colors the loaded PSReadLine knows are set: `InlinePrediction` came in 2.1, `ListPrediction` and `ListPredictionSelected` in 2.2, `ListPredictionTooltip` in 2.3. An unknown name prints an error. Checked with PSReadLine 2.0.0 and 2.4.5.
 - The file runs in a script block, so it leaves no variables in the reader's session. It does nothing when PSReadLine is not installed.
 - PSReadLine has no punctuation color: brackets, braces, pipes and member dots are `Default`, so text, not dim.
-- Day accent on the accent wash is about 3.9:1 (Night 5.9:1), for the matched text on the picked suggestion. Short labels, above the floor of 3.
 - PSReadLine draws part of the list view's source summary (`<History(1/3)>`) in its own `DefaultInlinePredictionColor`, which no option changes (`Prediction.Views.cs`, `RenderMetadataLine`).
 - The scene cannot show `Selection`, `InlinePrediction`, `ListPredictionTooltip` or `Error`: past lines are drawn as PSReadLine leaves them after Enter, with no selection or suggestion, and the last line shows the list view. History suggestions have no tooltip.
 

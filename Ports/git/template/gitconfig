@@ -57,7 +57,7 @@
 	lineNumber = "{{literal}}"
 	column = "{{literal}}"
 	function = "{{dim}}"
-	match = "{{text}} {{accent|wash}} bold"
+	match = "{{text}} {{steel|wash}} bold"
 	separator = "{{dim}}"
 
 [color "interactive"]

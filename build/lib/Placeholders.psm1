@@ -7,7 +7,10 @@ Set-StrictMode -Version Latest
 
 Import-Module (Join-Path $PSScriptRoot 'Palette.psm1')
 
-$Pattern = '\{\{\s*([A-Za-z_][A-Za-z0-9_.]*)\s*(?:\|\s*([A-Za-z0-9]+)\s*)?\}\}'
+$Pattern = '\{\{\s*([A-Za-z_][A-Za-z0-9_.]*)\s*((?:\|\s*[A-Za-z0-9]+\s*)*)\}\}'
+
+# The filters of a match, as one string: '' or 'wash' or 'wash|comma'.
+function Get-MatchFilter($Match) { return ($Match.Groups[2].Value -replace '\s', '').TrimStart('|') }
 
 function Resolve-Placeholder {
     <#
@@ -15,7 +18,8 @@ function Resolve-Placeholder {
         Resolves one placeholder for a variant. Returns @{ Value } or @{ Error }.
     .DESCRIPTION
         Colors: {{<neutral>}}, {{<named color>}}, {{<role>}}, {{ansi.<slot>}},
-        each with an optional color filter. Text: {{meta.<key>}},
+        each with an optional color filter, or |wash and then one format
+        filter (nohash, rgb, sgr, comma), as in {{steel|wash|comma}}. Text: {{meta.<key>}},
         {{variant.name|key|mode}}, {{port.<key>}}, with an optional |slug.
     .PARAMETER PortValues
         The port's values.json: @{ day = @{ key = value }; night = @{ ... } }, or $null.
@@ -57,7 +61,7 @@ function Expand-Template {
     # one that does not resolve, naming $Source.
     param([string]$Text, $Palette, $Variant, $PortValues, [string]$Source)
     return $Text -creplace $Pattern, {
-        $r = Resolve-Placeholder -Name $_.Groups[1].Value -Filter $_.Groups[2].Value `
+        $r = Resolve-Placeholder -Name $_.Groups[1].Value -Filter (Get-MatchFilter $_) `
             -Palette $Palette -Variant $Variant -PortValues $PortValues
         if ($r.Contains('Error')) { throw "$($r.Error) In $Source." }
         $r.Value
@@ -71,7 +75,7 @@ function Find-PlaceholderError {
     $seen = [ordered]@{}
     foreach ($m in [regex]::Matches($Text, $Pattern)) {
         foreach ($variant in $Palette.Variants.Values) {
-            $r = Resolve-Placeholder -Name $m.Groups[1].Value -Filter $m.Groups[2].Value `
+            $r = Resolve-Placeholder -Name $m.Groups[1].Value -Filter (Get-MatchFilter $m) `
                 -Palette $Palette -Variant $variant -PortValues $PortValues
             if ($r.Contains('Error')) {
                 $msg = $r.Error
