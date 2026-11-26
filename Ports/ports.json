@@ -426,16 +426,6 @@
       ]
     },
     {
-      "folder": "zsh-history-substring-search",
-      "name": "zsh-history-substring-search",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "zsh-syntax-highlighting",
       "name": "zsh-syntax-highlighting",
       "category": "shell",
