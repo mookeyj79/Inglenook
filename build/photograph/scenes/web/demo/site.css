@@ -1,0 +1,179 @@
+/*
+ * The demo site's own stylesheet. It only reads the port's properties, the way
+ * the port README shows: map them once, switch the set with data-theme.
+ * No color is written here. Every surface is solid.
+ */
+:root {
+  color-scheme: light;
+  --page: var(--inglenook-day-base);
+  --chrome: var(--inglenook-day-deep);
+  --card: var(--inglenook-day-raised);
+  --hover: var(--inglenook-day-hover);
+  --line: var(--inglenook-day-line);
+  --ink: var(--inglenook-day-text);
+  --ink-dim: var(--inglenook-day-dim);
+  --ink-faint: var(--inglenook-day-faint);
+  --link: var(--inglenook-day-accent);
+  --on-link: var(--inglenook-day-on-accent);
+  --link-wash: var(--inglenook-day-accent-wash);
+  --error: var(--inglenook-day-error);
+  --warning: var(--inglenook-day-warning);
+  --success: var(--inglenook-day-success);
+  --info: var(--inglenook-day-info);
+  --error-wash: var(--inglenook-day-error-wash);
+  --warning-wash: var(--inglenook-day-warning-wash);
+  --success-wash: var(--inglenook-day-success-wash);
+  --oxblood: var(--inglenook-day-oxblood);
+  --ivy: var(--inglenook-day-ivy);
+  --syntax-key: var(--inglenook-day-syntax-key);
+  --syntax-string: var(--inglenook-day-syntax-string);
+  --syntax-number: var(--inglenook-day-syntax-number);
+  --syntax-keyword: var(--inglenook-day-syntax-keyword);
+  --syntax-type: var(--inglenook-day-syntax-type);
+  --syntax-reference: var(--inglenook-day-syntax-reference);
+  --syntax-tag: var(--inglenook-day-syntax-tag);
+  --syntax-punctuation: var(--inglenook-day-syntax-punctuation);
+  --syntax-comment: var(--inglenook-day-syntax-comment);
+}
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --page: var(--inglenook-night-base);
+  --chrome: var(--inglenook-night-deep);
+  --card: var(--inglenook-night-raised);
+  --hover: var(--inglenook-night-hover);
+  --line: var(--inglenook-night-line);
+  --ink: var(--inglenook-night-text);
+  --ink-dim: var(--inglenook-night-dim);
+  --ink-faint: var(--inglenook-night-faint);
+  --link: var(--inglenook-night-accent);
+  --on-link: var(--inglenook-night-on-accent);
+  --link-wash: var(--inglenook-night-accent-wash);
+  --error: var(--inglenook-night-error);
+  --warning: var(--inglenook-night-warning);
+  --success: var(--inglenook-night-success);
+  --info: var(--inglenook-night-info);
+  --error-wash: var(--inglenook-night-error-wash);
+  --warning-wash: var(--inglenook-night-warning-wash);
+  --success-wash: var(--inglenook-night-success-wash);
+  --oxblood: var(--inglenook-night-oxblood);
+  --ivy: var(--inglenook-night-ivy);
+  --syntax-key: var(--inglenook-night-syntax-key);
+  --syntax-string: var(--inglenook-night-syntax-string);
+  --syntax-number: var(--inglenook-night-syntax-number);
+  --syntax-keyword: var(--inglenook-night-syntax-keyword);
+  --syntax-type: var(--inglenook-night-syntax-type);
+  --syntax-reference: var(--inglenook-night-syntax-reference);
+  --syntax-tag: var(--inglenook-night-syntax-tag);
+  --syntax-punctuation: var(--inglenook-night-syntax-punctuation);
+  --syntax-comment: var(--inglenook-night-syntax-comment);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font: 16px/1.5 "IBM Plex Sans", sans-serif;
+  color: var(--ink);
+  background: var(--page);
+}
+::selection { background: var(--link-wash); color: var(--ink); }
+a { color: var(--link); }
+code, pre { font-family: "IBM Plex Mono", monospace; }
+
+/* Header: recessed chrome, plain text, the current page on the hover fill. */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--line);
+}
+.site { font-weight: 600; }
+nav { display: flex; gap: 4px; }
+nav a { color: var(--ink-dim); text-decoration: none; padding: 4px 14px; border-radius: 6px; }
+nav a.current { background: var(--hover); color: var(--ink); }
+
+main { flex: 1; display: flex; gap: 32px; align-items: flex-start; padding: 22px 40px; }
+article { flex: 1; min-width: 0; }
+.meta { color: var(--ink-faint); font-size: 14px; margin: 0; display: flex; align-items: center; gap: 8px; }
+.badge { font-size: 12px; line-height: 1; padding: 3px 7px; border: 1px solid currentColor; border-radius: 4px; }
+.badge.oxblood { color: var(--oxblood); }
+.badge.ivy { color: var(--ivy); }
+h1 { font-size: 30px; line-height: 1.25; margin: 6px 0 6px; }
+.lead { color: var(--ink-dim); font-size: 18px; margin: 0 0 12px; }
+p { margin: 0 0 14px; }
+.tags { display: flex; gap: 8px; list-style: none; padding: 0; margin: 0 0 14px; }
+.tags li { font-size: 14px; padding: 1px 10px; color: var(--ink-dim); background: var(--card); border: 1px solid var(--line); border-radius: 6px; }
+p code { font-size: 14px; padding: 1px 5px; background: var(--chrome); border: 1px solid var(--line); border-radius: 4px; }
+
+/* Code: the recessed block, the syntax colors, and diff lines on a wash. */
+.code {
+  margin: 0 0 14px;
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--chrome);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.code code { display: block; padding: 0 16px; }
+.code .line { display: inline-block; width: calc(100% + 32px); margin: 0 -16px; padding: 0 16px; }
+.code .del { background: var(--error-wash); }
+.code .add { background: var(--success-wash); }
+.code .del .mark { color: var(--error); }
+.code .add .mark { color: var(--success); }
+.code .c { color: var(--syntax-comment); font-style: italic; }
+.code .p { color: var(--syntax-punctuation); }
+.code .k { color: var(--syntax-keyword); }
+.code .t { color: var(--syntax-type); }
+.code .f { color: var(--syntax-key); }
+.code .s { color: var(--syntax-string); }
+.code .n { color: var(--syntax-number); }
+.code .r { color: var(--syntax-reference); }
+.code .g { color: var(--syntax-tag); }
+
+.note {
+  background: var(--warning-wash);
+  border-left: 3px solid var(--warning);
+  border-radius: 0 6px 6px 0;
+  padding: 8px 14px;
+}
+
+footer {
+  padding: 10px 40px;
+  font-size: 14px;
+  color: var(--ink-faint);
+  background: var(--chrome);
+  border-top: 1px solid var(--line);
+}
+
+/* A card: lifted, with a line edge (no shadow: shadows are not solid). */
+aside {
+  width: 300px;
+  padding: 16px 20px 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+aside h2 { font-size: 14px; font-weight: 600; color: var(--ink-dim); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+.checks { list-style: none; margin: 0 0 12px; padding: 0; }
+.checks li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.state { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+.dot.success { background: var(--success); } .state.success { color: var(--success); }
+.dot.error { background: var(--error); }     .state.error { color: var(--error); }
+.dot.warning { background: var(--warning); } .state.warning { color: var(--warning); }
+.dot.info { background: var(--info); }       .state.info { color: var(--info); }
+.aside-note { color: var(--ink-faint); font-size: 14px; }
+button {
+  font: 600 15px/1 "IBM Plex Sans", sans-serif;
+  padding: 9px 16px;
+  color: var(--on-link);
+  background: var(--link);
+  border: 0;
+  border-radius: 6px;
+}
