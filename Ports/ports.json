@@ -89,17 +89,6 @@
       ]
     },
     {
-      "folder": "fzf",
-      "name": "fzf",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
