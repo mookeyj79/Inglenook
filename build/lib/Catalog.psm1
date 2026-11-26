@@ -1,6 +1,7 @@
 # The port catalog: which folders under Ports/ are ports, what their port.json
-# and Ports/ports.json say, their card icons (ADR 0008), and a site.json for the
-# port the Pages site publishes.
+# and Ports/ports.json say, their card icons (ADR 0008), a site.json for the
+# port the Pages site publishes, a port's screenshot recipe (screenshot.json),
+# and the preview's shot list (shots.json).
 # Loaded and validated once here; check.ps1 reports the errors, site.ps1 publishes the records, icon.ps1 shares the icon rules.
 
 Set-StrictMode -Version Latest
@@ -160,23 +161,181 @@ function Read-SiteSpec([string]$Dir, [string]$Name, $Errors) {
     return $spec
 }
 
+# Recipes (screenshot.json): what the Photographer needs per port, and nothing it fixes itself.
+$SceneKinds = @('terminal', 'prompt', 'cli', 'editor', 'icon-theme', 'document', 'desktop', 'web')
+$RecipePlatforms = @('linux', 'windows', 'macos')
+$RecipeSteps = @('install', 'apply', 'stage', 'launch')
+
+function Test-RecipeShape($Recipe, [string]$Where, $Errors) {
+    # The checks that need only this file. Returns $true when they all pass.
+    if ($Recipe -isnot [System.Collections.IDictionary]) { $Errors.Add("$Where must be a JSON object."); return $false }
+    $before = $Errors.Count
+    $manual = $Recipe.Contains('manual')
+    $guest = $Recipe.Contains('host')
+    $known = if ($manual) { @('kind', 'platform', 'manual') } else { @('kind', 'platform', 'host', 'version', 'window') + $RecipeSteps }
+    foreach ($k in $Recipe.Keys) {
+        if ($k -in $known) { continue }
+        if ($manual) { $Errors.Add("$Where is a manual recipe, so it takes no '$k'.") }
+        else { $Errors.Add("$Where has an unknown field '$k'. A recipe holds only: $($known -join ', '). Timeouts, sizes, margins and the backdrop belong to the Photographer.") }
+    }
+    if ($Recipe['kind'] -notin $SceneKinds) { $Errors.Add("$Where has kind '$($Recipe['kind'])'. Use one of: $($SceneKinds -join ', ').") }
+    if ($Recipe['platform'] -notin $RecipePlatforms) { $Errors.Add("$Where has platform '$($Recipe['platform'])'. Use one of: $($RecipePlatforms -join ', ').") }
+    if ($manual) {
+        if (-not ($Recipe['manual'] -is [string] -and $Recipe['manual'].Trim())) { $Errors.Add("$Where needs 'manual': why the app cannot be shot automatically.") }
+        return $Errors.Count -eq $before
+    }
+    if ($Recipe.Contains('version') -and -not ($Recipe['version'] -is [string] -and $Recipe['version'].Trim())) { $Errors.Add("$Where has a 'version' that is not text.") }
+    if ($guest) {
+        if (-not ($Recipe['host'] -is [string] -and $Recipe['host'].Trim())) { $Errors.Add("$Where needs 'host', another port's folder name.") }
+        foreach ($k in 'launch', 'window') { if ($Recipe.Contains($k)) { $Errors.Add("$Where has a host, so it takes no '$k'. The host launches and finds the window.") } }
+    }
+    $required = if ($guest) { @('install', 'apply') } else { $RecipeSteps }
+    foreach ($k in $RecipeSteps) {
+        if (-not $Recipe.Contains($k)) {
+            if ($k -in $required) { $Errors.Add("$Where needs '$k', a list of shell lines (it can be empty).") }
+            continue
+        }
+        $lines = $Recipe[$k]
+        $ok = $lines -is [System.Collections.IList] -and @($lines | Where-Object { -not ($_ -is [string] -and $_.Trim()) }).Count -eq 0
+        if (-not $ok) { $Errors.Add("$Where needs '$k' as a list of shell lines, none of them empty.") }
+    }
+    if ($guest) { return $Errors.Count -eq $before }
+    if ($Recipe['kind'] -eq 'desktop') {
+        if ($Recipe.Contains('window')) { $Errors.Add("$Where is a desktop recipe, so it takes no 'window'. The Photographer crops a fixed area of the screen.") }
+    }
+    elseif (-not $Recipe.Contains('window')) { $Errors.Add("$Where needs 'window': { `"class`": ... } or { `"title`": `"<regex>`" }.") }
+    else {
+        $w = $Recipe['window']
+        $ok = $w -is [System.Collections.IDictionary] -and $w.Count -eq 1 -and @($w.Keys)[0] -in 'class', 'title' -and $w[@($w.Keys)[0]] -is [string] -and $w[@($w.Keys)[0]].Trim()
+        if (-not $ok) { $Errors.Add("$Where needs 'window' with one of 'class' or 'title', as text.") }
+        elseif ($w.Contains('title')) {
+            try { $null = [regex]::new($w['title']) } catch { $Errors.Add("$Where has a window 'title' that is not a valid regex.") }
+        }
+    }
+    return $Errors.Count -eq $before
+}
+
+function Read-Recipe([string]$Dir, [string]$Name, $Errors) {
+    # screenshot.json: how the Photographer shoots this port. Every port has one, or a
+    # shot list (shots.json) instead, as the preview does.
+    # Returns the recipe if its own shape is valid; hosts are checked across the catalog.
+    $path = Join-Path $Dir 'screenshot.json'
+    if (-not (Test-Path $path)) {
+        if (-not (Test-Path (Join-Path $Dir 'shots.json'))) {
+            $Errors.Add("Ports/$Name has no screenshot.json. Write the port's recipe (CONTRIBUTING.md, Add a port, step 7).")
+        }
+        return $null
+    }
+    $where = "Ports/$Name/screenshot.json"
+    $recipe = Read-JsonFile $path -Where $where -Errors $Errors
+    if ($null -eq $recipe) { return $null }
+    if (Test-RecipeShape $recipe $where $Errors) { return $recipe }
+    return $null
+}
+
+function Test-RecipeHosts($Ports, $Errors) {
+    # A guest's host must be a port with a recipe, on the same platform, and not a guest itself.
+    # Drops the recipe of a guest that fails.
+    $byName = @{}
+    foreach ($p in $Ports) { $byName[$p.Name] = $p }
+    foreach ($p in $Ports) {
+        $r = $p.Recipe
+        if ($null -eq $r -or -not $r.Contains('host')) { continue }
+        $where = "Ports/$($p.Name)/screenshot.json"
+        $h = $r['host']
+        $hp = $byName[$h]
+        $hr = if ($hp) { $hp.Recipe } else { $null }
+        $msg = if ($null -eq $hr) { "$where has host '$h', which has no screenshot.json (or an invalid one)." }
+        elseif ($hr.Contains('manual')) { "$where has host '$h', which has a manual recipe." }
+        elseif ($hr.Contains('host')) { "$where has host '$h', which is itself a guest." }
+        elseif ($hr['platform'] -ne $r['platform']) { "$where has host '$h', which is shot on $($hr['platform']), not $($r['platform'])." }
+        elseif ($hr['kind'] -eq 'desktop') { "$where has host '$h', a desktop, which has no window to show a guest in." }
+        else { $null }
+        if ($msg) { $Errors.Add($msg); $p.Recipe = $null }
+    }
+}
+
+# Shot lists (shots.json): the preview's shots of its own bare page, taken by the
+# Photographer with no scene. Not a recipe: a list of { name, variant, show }.
+function Read-ShotList([string]$Dir, [string]$Name, $Errors) {
+    # Returns the list of shots if it is valid, or $null.
+    #   name:    the image, screenshots/<name>.png (lowercase, hyphenated, unique)
+    #   variant: day or night
+    #   show:    "top" (the top of the page), or the accessible name of a page section
+    # Both variants are shot, or neither: the list needs at least one of each.
+    $path = Join-Path $Dir 'shots.json'
+    if (-not (Test-Path $path)) { return $null }
+    $where = "Ports/$Name/shots.json"
+    $list = Read-JsonFile $path -Where $where -Errors $Errors
+    if ($null -eq $list) { return $null }
+    $before = $Errors.Count
+    if (Test-Path (Join-Path $Dir 'screenshot.json')) { $Errors.Add("$where and screenshot.json are both here. A port has a recipe or a shot list, not both.") }
+    $shots = $null
+    if ($list -is [System.Collections.IDictionary]) {
+        $shots = $list['shots']
+        foreach ($k in $list.Keys) { if ($k -ne 'shots') { $Errors.Add("$where has an unknown field '$k'. It holds only 'shots'.") } }
+    }
+    if (-not ($shots -is [System.Collections.IList] -and $shots.Count -gt 0)) {
+        $Errors.Add("$where needs 'shots', a list of { name, variant, show }.")
+        return $null
+    }
+    $seen = @{}
+    $i = 0
+    foreach ($s in $shots) {
+        $at = "$where shots[$i]"
+        $i++
+        if ($s -isnot [System.Collections.IDictionary]) { $Errors.Add("$at must be an object { name, variant, show }."); continue }
+        foreach ($k in $s.Keys) { if ($k -notin 'name', 'variant', 'show') { $Errors.Add("$at has an unknown field '$k'. A shot holds only name, variant and show.") } }
+        if (-not ($s['name'] -is [string] -and $s['name'] -cmatch '^[a-z0-9]+(-[a-z0-9]+)*$')) { $Errors.Add("$at needs 'name', the image's file name without .png (lowercase, hyphenated).") }
+        elseif ($seen.ContainsKey($s['name'])) { $Errors.Add("$where names '$($s['name'])' twice.") }
+        else { $seen[$s['name']] = $true }
+        if ($s['variant'] -notin 'day', 'night') { $Errors.Add("$at needs 'variant': day or night.") }
+        if (-not ($s['show'] -is [string] -and $s['show'].Trim())) { $Errors.Add("$at needs 'show': top, or the name of a page section.") }
+    }
+    foreach ($v in 'day', 'night') {
+        if (-not @($shots | Where-Object { $_ -is [System.Collections.IDictionary] -and $_['variant'] -eq $v }).Count) { $Errors.Add("$where has no $v shot. Both variants are shot, or neither.") }
+    }
+    if ($Errors.Count -ne $before) { return $null }
+    return , ([object[]]@($shots))
+}
+
+function Get-ShotProblems($Catalog) {
+    # Every port the Photographer shoots ships with its images: day.png and night.png
+    # for a recipe, every image of a shot list. Lists one problem per missing image.
+    $problems = [System.Collections.Generic.List[string]]::new()
+    foreach ($p in $Catalog.Ports) {
+        $names = if ($p.Shots) { @($p.Shots | ForEach-Object { $_['name'] }) } elseif ($p.Recipe) { @('day', 'night') } else { continue }
+        foreach ($n in $names) {
+            if (-not (Test-Path -LiteralPath (Join-Path $p.Dir 'screenshots' "$n.png") -PathType Leaf)) {
+                $how = if ($p.Recipe -and $p.Recipe.Contains('manual')) { 'take it by hand, then run' } else { 'run' }
+                $problems.Add("Ports/$($p.Name)/screenshots/$n.png is missing. A port ships with real screenshots: $how pwsh build/photograph.ps1 -Port $($p.Name).")
+            }
+        }
+    }
+    return $problems.ToArray()
+}
+
 function Get-PortCatalog {
     <#
     .SYNOPSIS
         Every folder under Ports/, validated. Returns
-        @{ Ports; Categories; Planned; StructureErrors; Errors }.
+        @{ Ports; Categories; Planned; StructureErrors; Errors; RecipeErrors }.
     .DESCRIPTION
         Each port is @{ Name; Dir; Listed; HasTemplate; HasReadme; Meta;
         Variants; Icon; Site }. Listed is $false for folders in 'unlisted'
         (not app ports, like the preview page). Meta is port.json, Variants
         the dist/ variant folders present, Icon the validated credit or $null,
-        Site the validated site.json or $null. StructureErrors covers README.md, template/, and site.json; Errors
+        Site the validated site.json or $null, Recipe the validated
+        screenshot.json or $null, Shots the validated shots.json list (the
+        preview's) or $null. RecipeErrors covers screenshot.json and shots.json.
+        StructureErrors covers README.md, template/, and site.json; Errors
         covers port.json, ports.json, and icons.
     #>
     param([Parameter(Mandatory)][string]$PortsRoot, [string[]]$VariantKeys = @('day', 'night'))
     $errors = [System.Collections.Generic.List[string]]::new()
     $structure = [System.Collections.Generic.List[string]]::new()
-    $catalog = @{ Ports = [System.Collections.Generic.List[object]]::new(); Categories = [ordered]@{}; Planned = @(); StructureErrors = $structure; Errors = $errors }
+    $recipeErrors = [System.Collections.Generic.List[string]]::new()
+    $catalog = @{ RecipeErrors = $recipeErrors; Ports = [System.Collections.Generic.List[object]]::new(); Categories = [ordered]@{}; Planned = @(); StructureErrors = $structure; Errors = $errors }
     $dirs = if (Test-Path $PortsRoot) { @(Get-ChildItem -Path $PortsRoot -Directory | Sort-Object Name) } else { @() }
 
     $index = $null
@@ -201,12 +360,14 @@ function Get-PortCatalog {
             Name = $name; Dir = $dir.FullName; Listed = ($name -notin $unlisted)
             HasTemplate = Test-Path (Join-Path $dir.FullName 'template')
             HasReadme = Test-Path (Join-Path $dir.FullName 'README.md')
-            Meta = $null; Icon = $null; Site = $null
+            Meta = $null; Icon = $null; Site = $null; Recipe = $null; Shots = $null
             Variants = @(foreach ($v in $VariantKeys) { if (Test-Path (Join-Path $dir.FullName 'dist' $v)) { $v } })
         }
         if (-not $port.HasReadme) { $structure.Add("Ports/$name has no README.md.") }
         if (-not $port.HasTemplate) { $structure.Add("Ports/$name has no template/ folder.") }
         $port.Site = Read-SiteSpec $dir.FullName $name $structure
+        $port.Recipe = Read-Recipe $dir.FullName $name $recipeErrors
+        $port.Shots = Read-ShotList $dir.FullName $name $recipeErrors
         if ($port.Listed) {
             $where = "Ports/$name/port.json"
             $metaPath = Join-Path $dir.FullName 'port.json'
@@ -242,6 +403,8 @@ function Get-PortCatalog {
             if ($dirs | Where-Object Name -eq $folder) { $errors.Add("Ports/$folder exists, so remove it from 'planned' in Ports/ports.json.") }
         }
     }
+
+    Test-RecipeHosts $catalog.Ports $recipeErrors
     return $catalog
 }
 
@@ -278,4 +441,4 @@ function ConvertTo-PortsData {
     }
 }
 
-Export-ModuleMember -Function Get-PortCatalog, ConvertTo-PortsData, Get-IconRules, Read-JsonFile
+Export-ModuleMember -Function Get-PortCatalog, ConvertTo-PortsData, Get-IconRules, Read-JsonFile, Get-ShotProblems

@@ -20,7 +20,7 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-foreach ($m in 'Palette', 'Placeholders', 'Build', 'Catalog', 'Wallpaper') {
+foreach ($m in 'Palette', 'Placeholders', 'Build', 'Catalog', 'Wallpaper', 'Png', 'Photographer', 'ScreenshotRun') {
     Import-Module (Join-Path $PSScriptRoot 'lib' "$m.psm1") -Force
 }
 
@@ -464,6 +464,1158 @@ Test 'Catalog: icons and site.json' {
     Assert-True ($site -like "*copies 'nothere'*" -and $site -like "*opens 'missing.html'*" -and $site -like "*guide 'guides/missing.html'*") "site.json errors: $site"
 }
 
+function Set-Recipe([string]$Root, [string]$Name, $Recipe) {
+    ConvertTo-Json -InputObject $Recipe -Depth 6 | Set-Content (Join-Path $Root $Name 'screenshot.json')
+}
+function New-GoodRecipe {
+    return [ordered]@{
+        kind = 'terminal'; platform = 'linux'; version = '1.0'
+        install = @('apt-get install -y app'); apply = @('bash $INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/install.sh')
+        stage = @('true'); launch = @('app -- $INGLENOOK_SCENE/run.sh'); window = [ordered]@{ class = 'app' }
+    }
+}
+
+Test 'Catalog: a valid recipe is kept' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; planned = @() } @{ good = $GoodMeta }
+    Set-Recipe $root 'good' (New-GoodRecipe)
+    $c = Get-PortCatalog -PortsRoot $root
+    Assert-Equal 0 $c.Errors.Count "errors: $($c.Errors -join '; ')"
+    Assert-Equal 0 $c.RecipeErrors.Count "recipe errors: $($c.RecipeErrors -join '; ')"
+    $good = $c.Ports | Where-Object Name -eq 'good'
+    Assert-Equal 'terminal' $good.Recipe['kind'] 'recipe kind'
+}
+
+Test 'Catalog: every port has a recipe or a shot list' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; planned = @(); unlisted = @('hidden') } @{ good = $GoodMeta; bare = $GoodMeta; hidden = $null }
+    Set-Recipe $root 'good' (New-GoodRecipe)
+    $c = Get-PortCatalog -PortsRoot $root
+    $all = $c.RecipeErrors -join "`n"
+    foreach ($want in 'Ports/bare has no screenshot.json', 'Ports/hidden has no screenshot.json') {
+        Assert-True ($all -like "*$want*") "expected an error like '$want' in:`n$all"
+    }
+    Assert-True ($all -notlike '*Ports/good*') "port with a recipe flagged:`n$all"
+    Assert-Equal $null ($c.Ports | Where-Object Name -eq 'bare').Recipe 'no recipe'
+}
+
+Test 'Catalog: reports bad recipes' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; planned = @() } `
+        @{ odd = $GoodMeta; desk = $GoodMeta; nowin = $GoodMeta; twowin = $GoodMeta; steps = $GoodMeta; manual = $GoodMeta; badmanual = $GoodMeta }
+    $r = New-GoodRecipe; $r.timeout = 30; $r.kind = 'movie'; $r.platform = 'amiga'; Set-Recipe $root 'odd' $r
+    $r = New-GoodRecipe; $r.kind = 'desktop'; Set-Recipe $root 'desk' $r
+    $r = New-GoodRecipe; $r.Remove('window'); $r.Remove('launch'); Set-Recipe $root 'nowin' $r
+    $r = New-GoodRecipe; $r.window = @{ class = 'a'; title = 'b' }; Set-Recipe $root 'twowin' $r
+    $r = New-GoodRecipe; $r.apply = 'one line'; $r.stage = @(1, ''); $r.version = 2; Set-Recipe $root 'steps' $r
+    Set-Recipe $root 'manual' ([ordered]@{ kind = 'document'; platform = 'windows'; manual = 'Needs a license.' })
+    Set-Recipe $root 'badmanual' ([ordered]@{ kind = 'document'; platform = 'windows'; manual = ''; install = @('x') })
+    $c = Get-PortCatalog -PortsRoot $root
+    $all = $c.RecipeErrors -join "`n"
+    foreach ($want in "odd/screenshot.json has an unknown field 'timeout'", "odd/screenshot.json has kind 'movie'",
+                      "odd/screenshot.json has platform 'amiga'", 'desk/screenshot.json is a desktop recipe, so it takes no ''window''',
+                      "nowin/screenshot.json needs 'launch'", "nowin/screenshot.json needs 'window'",
+                      "twowin/screenshot.json needs 'window' with one of 'class' or 'title'",
+                      "steps/screenshot.json needs 'apply' as a list of shell lines", "steps/screenshot.json needs 'stage' as a list of shell lines",
+                      "steps/screenshot.json has a 'version' that is not text",
+                      "badmanual/screenshot.json is a manual recipe, so it takes no 'install'", "badmanual/screenshot.json needs 'manual'") {
+        Assert-True ($all -like "*$want*") "expected an error like '$want' in:`n$all"
+    }
+    Assert-True ($all -notmatch '(?m)^Ports/manual/') "manual recipe flagged:`n$all"
+    Assert-Equal $null ($c.Ports | Where-Object Name -eq 'odd').Recipe 'invalid recipe dropped'
+    Assert-Equal 'Needs a license.' ($c.Ports | Where-Object Name -eq 'manual').Recipe['manual'] 'manual recipe kept'
+}
+
+Test 'Catalog: a guest names a host on the same platform and has only install, apply and stage' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; planned = @() } `
+        @{ term = $GoodMeta; prompt = $GoodMeta; win = $GoodMeta; lost = $GoodMeta; staged = $GoodMeta; busy = $GoodMeta; nested = $GoodMeta }
+    Set-Recipe $root 'term' (New-GoodRecipe)
+    $guest = { param($h) [ordered]@{ kind = 'prompt'; platform = 'linux'; host = $h; version = '2'; install = @('i'); apply = @('a') } }
+    Set-Recipe $root 'prompt' (& $guest 'term')
+    $r = New-GoodRecipe; $r.platform = 'windows'; Set-Recipe $root 'win' $r
+    Set-Recipe $root 'lost' (& $guest 'win')
+    $r = & $guest 'term'; $r.stage = @('s'); Set-Recipe $root 'staged' $r
+    $r = & $guest 'term'; $r.launch = @('l'); $r.window = @{ class = 'x' }; Set-Recipe $root 'busy' $r
+    Set-Recipe $root 'nested' (& $guest 'prompt')
+    $c = Get-PortCatalog -PortsRoot $root
+    $all = $c.RecipeErrors -join "`n"
+    foreach ($want in "lost/screenshot.json has host 'win', which is shot on windows, not linux",
+                      "busy/screenshot.json has a host, so it takes no 'launch'", "busy/screenshot.json has a host, so it takes no 'window'",
+                      "nested/screenshot.json has host 'prompt', which is itself a guest") {
+        Assert-True ($all -like "*$want*") "expected an error like '$want' in:`n$all"
+    }
+    Assert-True ($all -notlike '*Ports/prompt/*') "good guest flagged:`n$all"
+    Assert-True ($all -notlike '*Ports/staged/*') "guest with stage flagged:`n$all"
+    Assert-Equal 'term' ($c.Ports | Where-Object Name -eq 'prompt').Recipe['host'] 'guest kept'
+    Set-Recipe $root 'prompt' (& $guest 'ghost')
+    $all = (Get-PortCatalog -PortsRoot $root).RecipeErrors -join "`n"
+    Assert-True ($all -like "*prompt/screenshot.json has host 'ghost', which has no screenshot.json*") "missing host not reported:`n$all"
+}
+
+function Set-ShotList([string]$Root, [string]$Name, $List) {
+    ConvertTo-Json -InputObject $List -Depth 6 | Set-Content (Join-Path $Root $Name 'shots.json')
+}
+function New-GoodShotList {
+    return [ordered]@{ shots = @(
+        [ordered]@{ name = 'day'; variant = 'day'; show = 'top' }
+        [ordered]@{ name = 'night'; variant = 'night'; show = 'top' }
+        [ordered]@{ name = 'roles'; variant = 'night'; show = 'Roles' }
+    ) }
+}
+
+Test 'Catalog: a valid shot list is kept, in order' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; planned = @(); unlisted = @('preview') } @{ preview = $null }
+    Set-ShotList $root 'preview' (New-GoodShotList)
+    $c = Get-PortCatalog -PortsRoot $root
+    Assert-Equal 0 $c.RecipeErrors.Count "errors: $($c.RecipeErrors -join '; ')"
+    $p = $c.Ports | Where-Object Name -eq 'preview'
+    Assert-Equal @('day', 'night', 'roles') @($p.Shots | ForEach-Object { $_['name'] }) 'shots'
+    Assert-Equal 'Roles' $p.Shots[2]['show'] 'section'
+    Assert-Equal $null $p.Recipe 'no recipe'
+}
+
+Test 'Catalog: reports bad shot lists' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; planned = @() } @{ odd = $GoodMeta; twice = $GoodMeta; onevar = $GoodMeta; both = $GoodMeta; empty = $GoodMeta }
+    $l = New-GoodShotList; $l.extra = 1; $l.shots[0].size = 2; $l.shots[1].name = 'Night.png'; $l.shots[2].variant = 'dusk'; $l.shots[2].show = ' '
+    Set-ShotList $root 'odd' $l
+    $l = New-GoodShotList; $l.shots[2].name = 'night'; Set-ShotList $root 'twice' $l
+    Set-ShotList $root 'onevar' ([ordered]@{ shots = @([ordered]@{ name = 'day'; variant = 'day'; show = 'top' }) })
+    Set-ShotList $root 'both' (New-GoodShotList); Set-Recipe $root 'both' (New-GoodRecipe)
+    Set-ShotList $root 'empty' ([ordered]@{ shots = @() })
+    $c = Get-PortCatalog -PortsRoot $root
+    $all = $c.RecipeErrors -join "`n"
+    foreach ($want in "odd/shots.json has an unknown field 'extra'", "odd/shots.json shots?0? has an unknown field 'size'",
+                      "odd/shots.json shots?1? needs 'name'", "odd/shots.json shots?2? needs 'variant'", "odd/shots.json shots?2? needs 'show'",
+                      "twice/shots.json names 'night' twice", 'onevar/shots.json has no night shot', 'both/shots.json and screenshot.json are both here',
+                      "empty/shots.json needs 'shots'") {
+        Assert-True ($all -like "*$want*") "expected an error like '$want' in:`n$all"
+    }
+    Assert-Equal 0 @($c.Ports | Where-Object Shots).Count 'invalid lists dropped'
+}
+
+# --- Photographer ---------------------------------------------------------------
+
+function Get-PlanLines($Steps) { @($Steps | ForEach-Object { "$($_.Port) $($_.Phase) $($_.Line)" }) }
+
+Test 'Catalog: a port the Photographer shoots ships with every image' {
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; unlisted = @('preview'); planned = @() } @{ good = $GoodMeta; plain = $GoodMeta; preview = $null }
+    Set-Recipe $root 'good' (New-GoodRecipe)
+    Set-ShotList $root 'preview' (New-GoodShotList)
+    $c = Get-PortCatalog -PortsRoot $root
+    $all = @(Get-ShotProblems $c) -join "`n"
+    foreach ($want in 'Ports/good/screenshots/day.png is missing', 'Ports/good/screenshots/night.png is missing',
+                      'Ports/preview/screenshots/roles.png is missing', 'photograph.ps1 -Port good') {
+        Assert-True ($all -like "*$want*") "expected '$want' in:`n$all"
+    }
+    Assert-True ($all -notlike '*Ports/plain/*') 'a port with no recipe is the recipe check''s to report'
+    foreach ($p in 'good/screenshots/day.png', 'good/screenshots/night.png') {
+        New-Item -ItemType Directory -Path (Split-Path (Join-Path $root $p)) -Force | Out-Null
+        Set-Content (Join-Path $root $p) 'png'
+    }
+    Assert-True (@(Get-ShotProblems (Get-PortCatalog -PortsRoot $root)) -notlike '*Ports/good/*') 'both images there'
+    $m = [ordered]@{ kind = 'document'; platform = 'linux'; manual = 'Needs a license.' }
+    Set-Recipe $root 'plain' $m
+    Assert-True ((@(Get-ShotProblems (Get-PortCatalog -PortsRoot $root)) -join ' ') -like '*plain/screenshots/day.png is missing*take it by hand*') 'a manual port is told to take them by hand'
+}
+
+Test 'Photographer: a port''s own steps, in order' {
+    $plan = Get-ShotPlan -Port 'term' -Recipe (New-GoodRecipe)
+    Assert-Equal @('term install apt-get install -y app') (Get-PlanLines $plan.Install) 'install'
+    Assert-Equal @('term apply bash $INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/install.sh', 'term stage true', 'term launch app -- $INGLENOOK_SCENE/run.sh') (Get-PlanLines $plan.Shot) 'shot'
+    Assert-Equal 'terminal' $plan.Kind 'scene kind'
+    Assert-Equal 'class' $plan.Window.Kind 'window kind'
+    Assert-Equal 'app' $plan.Window.Match 'window match'
+}
+
+Test 'Photographer: a guest runs inside its host' {
+    $guest = [ordered]@{ kind = 'prompt'; platform = 'linux'; host = 'term'; version = '2'; install = @('gi'); apply = @('ga') }
+    $plan = Get-ShotPlan -Port 'prompt' -Recipe $guest -HostPort 'term' -HostRecipe (New-GoodRecipe)
+    Assert-Equal @('term install apt-get install -y app', 'prompt install gi') (Get-PlanLines $plan.Install) 'install: host first'
+    Assert-Equal @('term apply bash $INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/install.sh', 'term stage true', 'prompt apply ga', 'term launch app -- $INGLENOOK_SCENE/run.sh') `
+        (Get-PlanLines $plan.Shot) 'shot: host apply and stage, guest apply, host launch'
+    Assert-Equal @('1.0', '2') @($plan.Install | ForEach-Object Version) 'each port keeps its own version'
+    Assert-Equal 'prompt' $plan.Kind 'the guest''s scene kind'
+    Assert-Equal 'app' $plan.Window.Match 'the host''s window'
+}
+
+Test 'Photographer: every guest follows one step order, whatever its host' {
+    $hostRecipe = [ordered]@{ kind = 'editor'; platform = 'linux'; install = @('hi1', 'hi2'); apply = @('ha1', 'ha2'); stage = @('hs1', 'hs2')
+        launch = @('hl1', 'hl2'); window = @{ title = 'Editor$' } }
+    $guest = [ordered]@{ kind = 'icon-theme'; platform = 'linux'; host = 'ed'; install = @('gi1', 'gi2'); apply = @('ga1', 'ga2')
+        stage = @('gs1', 'gs2'); launch = @('ignored'); window = @{ class = 'ignored' } }
+    $plan = Get-ShotPlan -Port 'icons' -Recipe $guest -HostPort 'ed' -HostRecipe $hostRecipe
+    Assert-Equal @('ed install hi1', 'ed install hi2', 'icons install gi1', 'icons install gi2') (Get-PlanLines $plan.Install) 'install: host, then guest'
+    Assert-Equal @('ed apply ha1', 'ed apply ha2', 'ed stage hs1', 'ed stage hs2', 'icons apply ga1', 'icons apply ga2', 'icons stage gs1', 'icons stage gs2', 'ed launch hl1', 'ed launch hl2') `
+        (Get-PlanLines $plan.Shot) 'shot: host apply and stage, guest apply and stage, host launch; never the guest''s launch'
+    Assert-Equal @(1, 2, 1, 2, 1, 2, 1, 2, 1, 2) @($plan.Shot | ForEach-Object Number) 'steps numbered within their own recipe and phase'
+    Assert-Equal 'icon-theme' $plan.Kind 'the guest''s scene kind'
+    Assert-Equal 'title Editor$' "$($plan.Window.Kind) $($plan.Window.Match)" 'the host''s window, never the guest''s'
+}
+
+Test 'Photographer: install steps become the port image, run as root, one layer each' {
+    $guest = [ordered]@{ kind = 'prompt'; platform = 'linux'; host = 'term'; install = @('echo "it''s $INGLENOOK_VERSION"'); apply = @('a') }
+    $plan = Get-ShotPlan -Port 'prompt' -Recipe $guest -HostPort 'term' -HostRecipe (New-GoodRecipe)
+    $text = ConvertTo-PortDockerfile -Base 'inglenook-photograph-base' -Steps $plan.Install
+    $want = @(
+        'FROM inglenook-photograph-base'
+        'USER root'
+        'ENV INGLENOOK_VERSION="1.0"'
+        'RUN ["bash","-euo","pipefail","-c","apt-get install -y app"]'
+        'ENV INGLENOOK_VERSION=""'
+        'RUN ["bash","-euo","pipefail","-c","echo \"it''s $INGLENOOK_VERSION\""]'
+    )
+    Assert-Equal $want @($text -split "`n" | Where-Object { $_ -and $_ -notlike '#*' }) 'Dockerfile'
+}
+
+Test 'Photographer: shot steps become one bash script with exactly four variables' {
+    $guest = [ordered]@{ kind = 'prompt'; platform = 'linux'; host = 'term'; version = '2'; install = @(); apply = @('echo ''hi''') }
+    $plan = Get-ShotPlan -Port 'prompt' -Recipe $guest -HostPort 'term' -HostRecipe (New-GoodRecipe)
+    $text = ConvertTo-StepScript -Steps $plan.Shot -Kind $plan.Kind -Variant 'night' -RepoRoot '/inglenook'
+    $calls = @($text -split "`n" | Where-Object { $_ -like 'step *' })
+    Assert-Equal @(
+        "step 'term' 'apply' '1' '1.0' 'bash `$INGLENOOK_PORT/dist/`$INGLENOOK_VARIANT/install.sh'"
+        "step 'term' 'stage' '1' '1.0' 'true'"
+        "step 'prompt' 'apply' '1' '2' 'echo '\''hi'\'''"
+        "step 'term' 'launch' '1' '1.0' 'app -- `$INGLENOOK_SCENE/run.sh'"
+    ) $calls 'steps in order, quoted for bash'
+    Assert-True ($text -match "(?m)^cd '/inglenook'$") 'runs from the repo root'
+    Assert-True ($text -match "(?m)^export INGLENOOK_VARIANT='night' INGLENOOK_SCENE='/inglenook/build/photograph/scenes/prompt'$") 'variant and scene'
+    Assert-True ($text -match 'INGLENOOK_PORT="/inglenook/Ports/\$1" INGLENOOK_VERSION="\$4"') 'port folder and version per step'
+    $names = @([regex]::Matches($text, 'INGLENOOK_[A-Z]+') | ForEach-Object Value | Sort-Object -Unique)
+    Assert-Equal @('INGLENOOK_PORT', 'INGLENOOK_SCENE', 'INGLENOOK_VARIANT', 'INGLENOOK_VERSION') $names 'no other variables'
+}
+
+Test 'Photographer: the crop is the window frame plus a 64 px margin, inside the screen' {
+    $c = Get-ShotCrop -Kind 'terminal' -Frame @{ X = 250; Y = 150; Width = 1100; Height = 700 }
+    Assert-Equal '1228x828+186+86' "$($c.Width)x$($c.Height)+$($c.X)+$($c.Y)" 'margin on every side'
+    $c = Get-ShotCrop -Kind 'editor' -Frame @{ X = 20; Y = 900; Width = 1560; Height = 300 }
+    Assert-Equal '1600x164+0+836' "$($c.Width)x$($c.Height)+$($c.X)+$($c.Y)" 'clipped to the 1600x1000 screen'
+    $c = Get-ShotCrop -Kind 'desktop'
+    Assert-Equal '1000x625+0+375' "$($c.Width)x$($c.Height)+$($c.X)+$($c.Y)" 'desktop: fixed bottom-left area'
+}
+
+Test 'Photographer: a take''s scene settings, for a window and for a desktop' {
+    $fill = [pscustomobject]@{ Kind = 'fill'; Name = 'deeper'; Value = '#123456' }
+    $plan = Get-ShotPlan -Port 'term' -Recipe (New-GoodRecipe)
+    $s = Get-SceneEnv -Plan $plan -Variant 'day' -RecipeFile 'Ports/term/screenshot.json' -Backdrop $fill
+    Assert-Equal @('KIND', 'SCREEN', 'BACKDROP_KIND', 'BACKDROP', 'GTK_THEME', 'TIMEOUT', 'RECIPE', 'WINDOW_KIND', 'WINDOW_MATCH', 'SETTLE') @($s.Keys) 'window scene keys'
+    Assert-Equal 8 $s.SETTLE 'a window scene is settled when the screen stays still for 8 s'
+    Assert-Equal 'terminal' $s.KIND 'kind'
+    Assert-Equal '1600x1000' $s.SCREEN 'screen'
+    Assert-Equal 'fill #123456' "$($s.BACKDROP_KIND) $($s.BACKDROP)" 'backdrop'
+    Assert-Equal 'Adwaita' $s.GTK_THEME 'day: the light stock frame through GTK_THEME'
+    Assert-Equal 'Adwaita:dark' (Get-SceneEnv -Plan $plan -Variant 'night' -RecipeFile 'x' -Backdrop $fill).GTK_THEME 'night: the dark stock frame'
+    Assert-Equal 'class' $s.WINDOW_KIND 'window kind'
+    Assert-Equal 'app' $s.WINDOW_MATCH 'window match'
+    Assert-Equal 'Ports/term/screenshot.json' $s.RECIPE 'recipe named in failures'
+
+    $desk = New-GoodRecipe; $desk.kind = 'desktop'; $desk.Remove('window')
+    $plan = Get-ShotPlan -Port 'desk' -Recipe $desk
+    $image = [pscustomobject]@{ Kind = 'image'; Name = 'a.jpg'; Value = 'wallpapers/a.jpg' }
+    $s = Get-SceneEnv -Plan $plan -Variant 'night' -RecipeFile 'Ports/desk/screenshot.json' -Backdrop $image
+    Assert-Equal @('KIND', 'SCREEN', 'BACKDROP_KIND', 'BACKDROP', 'GTK_THEME', 'TIMEOUT', 'RECIPE', 'FRAME_THEME', 'CLOCK') @($s.Keys) 'desktop scene keys: no window'
+    Assert-Equal 'image wallpapers/a.jpg' "$($s.BACKDROP_KIND) $($s.BACKDROP)" 'a wallpaper backdrop'
+    Assert-Equal 'Adwaita-dark' $s.FRAME_THEME 'night frame by theme name'
+    Assert-Equal 'Adwaita' (Get-SceneEnv -Plan $plan -Variant 'day' -RecipeFile 'x' -Backdrop $image).FRAME_THEME 'day frame by theme name'
+    Assert-Equal '2026-06-01 09:41:00' $s.CLOCK 'fixed clock'
+}
+
+Test 'Photographer: a Windows take has the system frame in the variant''s mode, on a screen the runner offers' {
+    $r = New-GoodRecipe; $r.platform = 'windows'; $r.window = [ordered]@{ class = 'CASCADIA_HOSTING_WINDOW_CLASS' }
+    $plan = Get-ShotPlan -Port 'wt' -Recipe $r
+    Assert-Equal 'windows' $plan.Platform 'platform'
+    $fill = [pscustomobject]@{ Kind = 'fill'; Name = 'deeper'; Value = '#123456' }
+    $s = Get-SceneEnv -Plan $plan -Variant 'night' -RecipeFile 'Ports/wt/screenshot.json' -Backdrop $fill
+    Assert-Equal @('KIND', 'SCREEN', 'BACKDROP_KIND', 'BACKDROP', 'MODE', 'TIMEOUT', 'RECIPE', 'WINDOW_KIND', 'WINDOW_MATCH') @($s.Keys) 'Windows scene keys: no GTK_THEME'
+    Assert-Equal '1920x1080' $s.SCREEN 'a size the runner offers'
+    Assert-Equal 'dark' $s.MODE 'night is Windows dark mode'
+    Assert-Equal 'light' (Get-SceneEnv -Plan $plan -Variant 'day' -RecipeFile 'x' -Backdrop $fill).MODE 'day is Windows light mode'
+    Assert-Equal '#123456' $s.BACKDROP 'same backdrop as Linux'
+    Assert-Equal 'CASCADIA_HOSTING_WINDOW_CLASS' $s.WINDOW_MATCH 'window'
+    Assert-Equal 'linux' (Get-ShotPlan -Port 'term' -Recipe (New-GoodRecipe)).Platform 'Linux plan'
+    $c = Get-ShotCrop -Kind 'terminal' -Frame @{ X = 20; Y = 900; Width = 1880; Height = 300 } -Platform 'windows'
+    Assert-Equal '1920x244+0+836' "$($c.Width)x$($c.Height)+$($c.X)+$($c.Y)" 'clipped to the 1920x1080 screen'
+}
+
+Test 'Photographer: Windows steps become one pwsh script with exactly four variables' {
+    $r = New-GoodRecipe; $r.platform = 'windows'; $r.version = '1.25'
+    $r.apply = @("Write-Output ""it's `$env:INGLENOOK_VARIANT""", "Write-Output $([char]0x2019)curly$([char]0x2019)"); $r.launch = @('Start-Process app')
+    $plan = Get-ShotPlan -Port 'wt' -Recipe $r
+    $text = ConvertTo-WindowsStepScript -Steps $plan.Shot -Kind $plan.Kind -Variant 'day' -RepoRoot 'D:\a\repo\' -Logs 'D:\work'
+    $calls = @($text -split "`n" | Where-Object { $_ -like 'Step *' })
+    $q = [string][char]0x2019
+    Assert-Equal @(
+        "Step 'wt' 'apply' '1' '1.25' 'Write-Output ""it''s `$env:INGLENOOK_VARIANT""'"
+        "Step 'wt' 'apply' '2' '1.25' 'Write-Output $q${q}curly$q$q'"
+        "Step 'wt' 'stage' '1' '1.25' 'true'"
+        "Step 'wt' 'launch' '1' '1.25' 'Start-Process app'"
+    ) $calls 'steps in order, quoted for PowerShell'
+    Assert-True ($text -match "(?m)^Set-Location -LiteralPath 'D:\\a\\repo'$") "runs from the repo root:`n$text"
+    Assert-True ($text -match "(?m)^\`$env:INGLENOOK_VARIANT = 'day'$") 'variant'
+    Assert-True ($text -match "(?m)^\`$env:INGLENOOK_SCENE = 'D:\\a\\repo\\build\\photograph\\scenes\\terminal'$") 'scene'
+    $names = @([regex]::Matches($text, 'INGLENOOK_[A-Z]+') | ForEach-Object Value | Sort-Object -Unique)
+    Assert-Equal @('INGLENOOK_PORT', 'INGLENOOK_SCENE', 'INGLENOOK_VARIANT', 'INGLENOOK_VERSION') $names 'no other variables'
+    $install = ConvertTo-WindowsStepScript -Steps $plan.Install -Kind $plan.Kind -RepoRoot 'D:\a\repo' -Logs 'D:\work'
+    Assert-True ($install -notmatch 'INGLENOOK_VARIANT|INGLENOOK_SCENE') 'install steps get no variant or scene'
+    Assert-True ($install -match "(?m)^Step 'wt' 'install' '1' '1.25' 'apt-get install -y app'$") 'install step'
+}
+
+Test 'Photographer: a Windows step script runs each step, and a failed one names the recipe and its last lines' {
+    $root = Join-Path $Tmp ('winsteps-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $root | Out-Null
+    $steps = @(
+        [pscustomobject]@{ Port = 'wt'; Phase = 'apply'; Number = 1; Version = '9.9'; Line = 'Write-Output "$env:INGLENOOK_VARIANT $env:INGLENOOK_VERSION $(Split-Path -Leaf $env:INGLENOOK_PORT) $(Split-Path -Leaf $env:INGLENOOK_SCENE)"' }
+        [pscustomobject]@{ Port = 'wt'; Phase = 'stage'; Number = 1; Version = '9.9'; Line = 'Write-Output ''last words''; Get-Item ''no-such-file''; Write-Output ''unreached''' }
+        [pscustomobject]@{ Port = 'wt'; Phase = 'stage'; Number = 2; Version = '9.9'; Line = 'Write-Output unreached' }
+    )
+    $script = Join-Path $root 'steps.ps1'
+    Set-Content -Path $script -Value (ConvertTo-WindowsStepScript -Steps $steps -Kind 'terminal' -Variant 'night' -RepoRoot $root -Logs $root)
+    $out = @(& pwsh -NoProfile -NonInteractive -File $script 2>&1 | ForEach-Object { "$_" })
+    Assert-Equal 1 $LASTEXITCODE 'exit code'
+    Assert-Equal 'night 9.9 wt terminal' ((Get-Content (Join-Path $root 'step-wt-apply-1.log')) -join '') 'four variables reach the step'
+    $all = $out -join "`n"
+    Assert-True ($all -like '*Ports/wt/screenshot.json, stage step 1 failed:*' -and $all -like '*last words*' -and $all -like '*no-such-file*') "failure: $all"
+    Assert-True (-not (Test-Path (Join-Path $root 'step-wt-stage-2.log'))) 'stops at the failed step'
+    Assert-True ((Get-Content -Raw (Join-Path $root 'step-wt-stage-1.log')) -notmatch '(?m)^unreached') 'an error stops the step'
+}
+
+Test 'Photographer: a Windows take finds the app''s window, never the runner''s own terminal' {
+    $own = 'C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.23\WindowsTerminal.exe'
+    $app = 'C:\Users\runner\AppData\Local\Programs\terminal-1.25\WindowsTerminal.exe'
+    $windows = @(
+        @{ Handle = 1; Class = 'CASCADIA_HOSTING_WINDOW_CLASS'; Title = 'Runner'; Path = $own }
+        @{ Handle = 2; Class = 'Shell_TrayWnd'; Title = ''; Path = $null }
+        @{ Handle = 3; Class = 'CASCADIA_HOSTING_WINDOW_CLASS'; Title = 'Terminal'; Path = $app }
+        @{ Handle = 4; Class = 'CASCADIA_HOSTING_WINDOW_CLASS'; Title = 'Terminal'; Path = $app }
+    )
+    $class = [pscustomobject]@{ Kind = 'class'; Match = 'CASCADIA_HOSTING_WINDOW_CLASS' }
+    Assert-Equal 3 (Find-ShotWindow -Windows $windows -Before @($own.ToUpper()) -Window $class).Handle 'frontmost new window; exe paths ignore case'
+    Assert-Equal $null (Find-ShotWindow -Windows $windows -Before @($own, $app) -Window $class) 'no new exe, no window'
+    Assert-Equal $null (Find-ShotWindow -Windows $windows -Before @($own) -Window ([pscustomobject]@{ Kind = 'class'; Match = 'cascadia_hosting_window_class' })) 'class is exact'
+    Assert-Equal 3 (Find-ShotWindow -Windows $windows -Before @() -Window ([pscustomobject]@{ Kind = 'title'; Match = '^Term' })).Handle 'title regex'
+    Assert-Equal $null (Find-ShotWindow -Windows @() -Window $class) 'nothing open'
+}
+
+Test 'Photographer: the README gets a Day and Night table under its header lines, once' {
+    $readme = "# Test for App`n`n**Tier:** 2 Flat\`n**Tested with:** Not tested yet`n`nIntro.`n`n## Install`n"
+    $out = Add-ShotTable -Readme $readme -DayName 'Test Day' -NightName 'Test Night'
+    $want = "# Test for App`n`n**Tier:** 2 Flat\`n**Tested with:** Not tested yet`n`n" +
+        "| Test Day | Test Night |`n|---|---|`n| ![Test Day](screenshots/day.png) | ![Test Night](screenshots/night.png) |`n`n" +
+        "Intro.`n`n## Install`n"
+    Assert-Equal $want $out 'table added'
+    Assert-Equal $want (Add-ShotTable -Readme $out -DayName 'Test Day' -NightName 'Test Night') 'added once'
+    $crlf = $readme -replace "`n", "`r`n"
+    Assert-True ((Add-ShotTable -Readme $crlf -DayName 'D' -NightName 'L') -like "*Not tested yet`r`n`r`n| D | L |`r`n|---|---|`r`n*") 'keeps CRLF'
+}
+
+Test 'Photographer: pins become the base image''s build arguments, and loose pins are refused' {
+    $path = Join-Path $Tmp 'pins.json'
+    $pins = [ordered]@{
+        base = 'example/mint@sha256:' + ('a' * 64); ubuntu_snapshot = '20261124T000000Z'
+        mint_packages = [ordered]@{ cinnamon = '6.6.9+zena'; nemo = '6.6.3+zena' }
+        font = [ordered]@{ url = 'https://example.invalid/font.zip'; sha256 = 'b' * 64 }
+        chromium = '158.0.8127.88~linuxmint1+mint22.3'
+    }
+    ConvertTo-Json $pins -Depth 4 | Set-Content $path
+    $built = Get-BaseBuildArgs -Path $path
+    Assert-Equal @("BASE=example/mint@sha256:$('a' * 64)", 'UBUNTU_SNAPSHOT=20261124T000000Z', 'MINT_PACKAGES=cinnamon=6.6.9+zena nemo=6.6.3+zena',
+        'FONT_URL=https://example.invalid/font.zip', "FONT_SHA256=$('b' * 64)", 'CHROMIUM_VERSION=158.0.8127.88~linuxmint1+mint22.3') $built 'build args'
+    $pins.base = 'example/mint:latest'; $pins.ubuntu_snapshot = 'yesterday'; $pins.mint_packages = @{ cinnamon = '' }; $pins.font.sha256 = 'x'; $pins.chromium = 'latest version'
+    ConvertTo-Json $pins -Depth 4 | Set-Content $path
+    Assert-Throws { Get-BaseBuildArgs -Path $path } '*base must name an image by digest*ubuntu_snapshot*mint_packages*font*chromium*'
+    $pins.Remove('chromium')
+    ConvertTo-Json $pins -Depth 4 | Set-Content $path
+    Assert-Throws { Get-BaseBuildArgs -Path $path } '*chromium must be*'
+}
+
+# A 1x1 PNG, to carry a stamp.
+$TinyPng = [Convert]::FromBase64String('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==')
+
+Test 'Photographer: a stamp round-trips through the PNG text chunk, and a second write replaces it' {
+    $png = Join-Path $Tmp 'stamp.png'
+    [System.IO.File]::WriteAllBytes($png, $TinyPng)
+    Assert-Equal $null (Read-ShotStamp -Path $png) 'no stamp yet'
+    Write-ShotStamp -Path $png -Stamp ([ordered]@{ fingerprint = 'abc'; inputs = [ordered]@{ port = '1' } })
+    $s = Read-ShotStamp -Path $png
+    Assert-Equal 'abc' $s['fingerprint'] 'fingerprint'
+    Assert-Equal '1' $s['inputs']['port'] 'group hash'
+    Write-ShotStamp -Path $png -Stamp @{ fingerprint = 'def' }
+    Assert-Equal 'def' (Read-ShotStamp -Path $png)['fingerprint'] 'replaced'
+    $bytes = [System.IO.File]::ReadAllBytes($png)
+    Assert-Equal 1 ([regex]::Matches([System.Text.Encoding]::Latin1.GetString($bytes), 'tEXtinglenook').Count) 'one stamp chunk'
+    Assert-Equal ($TinyPng.Length + 12 + 'inglenook'.Length + 1 + '{"fingerprint":"def"}'.Length) $bytes.Length 'image chunks kept as they were'
+    Assert-Equal 'IEND' ([System.Text.Encoding]::ASCII.GetString($bytes, $bytes.Length - 8, 4)) 'IEND stays last'
+    $txt = Join-Path $Tmp 'not.png'; Set-Content $txt 'hello'
+    Assert-Throws { Write-ShotStamp -Path $txt -Stamp @{} } '*not a PNG*'
+}
+
+# A small repo with a terminal, a prompt it hosts, an editor, and an icon theme
+# it hosts, each with
+# shots stamped with its current fingerprint. Returns the repo root.
+function New-ShotPalette([string]$Version = '1.0.4', [scriptblock]$Change) {
+    # A valid palette for a shot repo: the backdrop's color comes from it.
+    $d = New-PaletteData
+    $d.meta.version = $Version
+    if ($Change) { & $Change $d }
+    return (ConvertTo-Json -InputObject $d -Depth 8) + "`n"
+}
+function New-ShotRepo {
+    $root = Join-Path $Tmp ('shots-' + [guid]::NewGuid().ToString('N'))
+    $files = @{
+        'palette/palette.json' = (New-ShotPalette)
+        'Ports/term/dist/day/install.sh' = "# Inglenook 1.0.4`nset term day`n"
+        'Ports/term/dist/night/install.sh' = "# Inglenook 1.0.4`nset term night`n"
+        'Ports/term/template/install.sh' = "set term {{text}}`n"
+        'Ports/term/README.md' = "# Term`n"; 'Ports/term/MAPPING.md' = "x`n"; 'Ports/term/port.json' = "{}`n"; 'Ports/term/icon.svg' = "<svg/>`n"
+        'Ports/prompt/dist/day/prompt.toml' = "day = 1`n"
+        'Ports/prompt/dist/night/prompt.toml' = "night = 1`n"
+        'Ports/editor/dist/day/theme.json' = "{}`n"
+        'Ports/editor/dist/night/theme.json' = "{}`n"
+        'Ports/icons/dist/day/icons.json' = "{}`n"
+        'Ports/icons/dist/night/icons.json' = "{}`n"
+        'build/photograph/pins.json' = "{}`n"
+        'build/photograph/linux/shoot.sh' = "grab`n"
+        'build/photograph.ps1' = "shoot`n"; 'build/lib/Photographer.psm1' = "rules`n"; 'build/lib/Png.psm1' = "png`n"
+        'build/photograph/scenes/terminal/run.sh' = "ls`n"
+        'build/photograph/scenes/prompt/run.sh' = "cd`n"
+        'build/photograph/scenes/editor/main.py' = "print()`n"
+        'wallpapers/other.jpg' = "other`n"
+    }
+    foreach ($k in $files.Keys) {
+        $path = Join-Path $root $k
+        New-Item -ItemType Directory -Path (Split-Path $path) -Force | Out-Null
+        [System.IO.File]::WriteAllText($path, $files[$k])
+    }
+    $recipes = @{
+        term = [ordered]@{ kind = 'terminal'; platform = 'linux'; version = '3.52.0'; install = @('i'); apply = @('a'); stage = @(); launch = @('l'); window = @{ class = 't' } }
+        prompt = [ordered]@{ kind = 'prompt'; platform = 'linux'; host = 'term'; version = '1.24.0'; install = @('i'); apply = @('a') }
+        editor = [ordered]@{ kind = 'editor'; platform = 'linux'; install = @('i'); apply = @('a'); stage = @(); launch = @('l'); window = @{ class = 'e' } }
+        icons = [ordered]@{ kind = 'icon-theme'; platform = 'linux'; host = 'editor'; version = '5.0.0'; install = @('i'); apply = @('a') }
+    }
+    foreach ($name in $recipes.Keys) { Set-Recipe (Join-Path $root 'Ports') $name $recipes[$name] }
+    foreach ($name in $recipes.Keys) {
+        $dir = Join-Path $root 'Ports' $name 'screenshots'
+        New-Item -ItemType Directory -Path $dir | Out-Null
+        $f = Get-PortFingerprint $root $name
+        foreach ($v in 'day', 'night') {
+            [System.IO.File]::WriteAllBytes((Join-Path $dir "$v.png"), $TinyPng)
+            Write-ShotStamp -Path (Join-Path $dir "$v.png") -Stamp @{ fingerprint = $f.Fingerprint }
+        }
+    }
+    return $root
+}
+function Get-PortFingerprint([string]$Root, [string]$Name) {
+    $recipe = Get-Content -Raw (Join-Path $Root 'Ports' $Name 'screenshot.json') | ConvertFrom-Json -AsHashtable
+    return Get-ShotFingerprint -RepoRoot $Root -Port $Name -Recipe $recipe
+}
+function Get-StaleNames([string]$Root) {
+    @(foreach ($name in 'editor', 'icons', 'prompt', 'term') {
+        if (Test-ShotStale -Dir (Join-Path $Root 'Ports' $name 'screenshots') -Fingerprint (Get-PortFingerprint $Root $name).Fingerprint) { $name }
+    })
+}
+
+Test 'Photographer: one SHA-256 in lowercase hex, of text as UTF-8 or of bytes' {
+    $abc = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+    Assert-Equal $abc (Get-Sha256 'abc') 'text'
+    Assert-Equal $abc (Get-Sha256 ([byte[]](97, 98, 99))) 'bytes'
+    Assert-Equal 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' (Get-Sha256 ([byte[]]@())) 'no bytes'
+}
+
+Test 'Photographer: a fresh repo has no stale port, and the fingerprint does not depend on where the repo is' {
+    $a = New-ShotRepo; $b = New-ShotRepo
+    Assert-Equal @() (Get-StaleNames $a) 'stale'
+    Assert-Equal (Get-PortFingerprint $a 'prompt').Fingerprint (Get-PortFingerprint $b 'prompt').Fingerprint 'same inputs, same fingerprint'
+    $f = Get-PortFingerprint $a 'prompt'
+    Assert-Equal @('port', 'host', 'recipe', 'scene', 'photographer', 'backdrop') @($f.Inputs.Keys) 'input groups'
+    Assert-True ($f.Inputs['host'] -ne '') 'a guest has a host group'
+    Assert-Equal '' (Get-PortFingerprint $a 'editor').Inputs['host'] 'a port with no host has an empty host group'
+}
+
+Test 'Photographer: changing one input makes exactly the ports that use it stale' {
+    $cases = [ordered]@{
+        'Ports/term/dist/day/install.sh'          = @('prompt', 'term')
+        'Ports/term/screenshot.json'                = @('prompt', 'term')
+        'Ports/prompt/dist/night/prompt.toml'      = @('prompt')
+        'Ports/prompt/screenshot.json'              = @('prompt')
+        'Ports/editor/dist/day/new.json'           = @('editor', 'icons')
+        'Ports/editor/screenshot.json'              = @('editor', 'icons')
+        'Ports/icons/dist/day/icons.json'          = @('icons')
+        'build/photograph/scenes/terminal/run.sh'   = @('term')
+        'build/photograph/scenes/prompt/run.sh'     = @('prompt')
+        'build/photograph/scenes/editor/main.py'    = @('editor', 'icons')
+        'build/photograph/scenes/icon-theme/run.sh' = @()
+        'build/photograph/pins.json'                = @('editor', 'icons', 'prompt', 'term')
+        'build/photograph/linux/shoot.sh'           = @('editor', 'icons', 'prompt', 'term')
+        'build/photograph.ps1'                      = @('editor', 'icons', 'prompt', 'term')
+        'build/lib/Photographer.psm1'               = @('editor', 'icons', 'prompt', 'term')
+        'build/lib/Png.psm1'                        = @('editor', 'icons', 'prompt', 'term')
+    }
+    # A recipe change is an app version moving: a version number is not a version stamp there.
+    foreach ($path in $cases.Keys) {
+        $root = New-ShotRepo
+        $file = Join-Path $root $path
+        if ($path -like '*.json' -and (Test-Path $file)) { $r = Get-Content -Raw $file | ConvertFrom-Json -AsHashtable; $r['version'] = '3.53.0'; Set-Content $file (ConvertTo-Json $r -Depth 5) }
+        else { New-Item -ItemType Directory -Path (Split-Path $file) -Force | Out-Null; Add-Content -Path $file -Value 'changed' }
+        Assert-Equal $cases[$path] (Get-StaleNames $root) "after changing $path"
+    }
+}
+
+Test 'Photographer: the backdrop color makes every port stale, and other palette colors none' {
+    $root = New-ShotRepo
+    Set-Content (Join-Path $root 'palette/palette.json') (New-ShotPalette -Change { param($d) $d.variants.night.colors.moss.l = 0.7; $d.variants.day.neutrals.text.l = 0.25 }) -NoNewline
+    Assert-Equal @() (Get-StaleNames $root) 'a color the backdrop does not use'
+    Set-Content (Join-Path $root 'palette/palette.json') (New-ShotPalette -Change { param($d) $d.variants.night.neutrals.deeper.l = 0.15 }) -NoNewline
+    Assert-Equal @('editor', 'icons', 'prompt', 'term') (Get-StaleNames $root) 'the night backdrop moved'
+}
+
+Test 'Photographer: the backdrop is the deeper fill of each variant, or a wallpaper' {
+    $root = New-ShotRepo
+    $p = Read-Palette -Path (Join-Path $root 'palette/palette.json')
+    foreach ($v in 'day', 'night') {
+        $b = Get-SceneBackdrop -RepoRoot $root -Variant $v
+        Assert-Equal "fill deeper $($p.Variants[$v].Neutrals['deeper'].Hex)" "$($b.Kind) $($b.Name) $($b.Value)" "$v backdrop"
+        Assert-Equal "a plain $($b.Value) fill (deeper)" (Format-SceneBackdrop $b) "$v in words"
+    }
+    $w = Get-SceneBackdrop -RepoRoot $root -Variant 'day' -Backdrop 'other.jpg'
+    Assert-Equal 'image wallpapers/other.jpg' "$($w.Kind) $($w.Value)" 'a wallpaper'
+    Assert-Equal 'wallpapers/other.jpg' (Format-SceneBackdrop $w) 'a wallpaper in words'
+    Assert-Throws { Get-SceneBackdrop -RepoRoot $root -Variant 'day' -Backdrop 'gone.jpg' } '*does not exist*'
+    Assert-Throws { Get-SceneBackdrop -RepoRoot $root -Variant 'day' -Backdrop 'moss' } '*not a palette neutral*'
+}
+
+Test 'Photographer: version stamps, line endings, docs, templates and unused scenes change nothing' {
+    $root = New-ShotRepo
+    $f = Join-Path $root 'Ports/term/dist/day/install.sh'
+    [System.IO.File]::WriteAllText($f, "# Inglenook 1.1.0`r`nset term day`r`n")
+    [System.IO.File]::WriteAllText((Join-Path $root 'Ports/term/dist/night/install.sh'), "# Inglenook 1.1.0`nset term night`n")
+    [System.IO.File]::WriteAllText((Join-Path $root 'palette/palette.json'), (New-ShotPalette '1.1.0'))
+    foreach ($p in 'Ports/term/README.md', 'Ports/term/MAPPING.md', 'Ports/term/port.json', 'Ports/term/icon.svg', 'Ports/term/template/install.sh',
+                   'build/photograph/scenes/desktop/run.sh', 'wallpapers/other.jpg', 'Ports/term/screenshots/notes.txt') {
+        $file = Join-Path $root $p
+        New-Item -ItemType Directory -Path (Split-Path $file) -Force | Out-Null
+        Add-Content -Path $file -Value 'changed'
+    }
+    Assert-Equal @() (Get-StaleNames $root) 'stale'
+}
+
+Test 'Photographer: only the palette version is a version stamp, so another version number in dist/ counts' {
+    $root = New-ShotRepo
+    $f = Join-Path $root 'Ports/term/dist/day/install.sh'
+    [System.IO.File]::WriteAllText($f, "# Inglenook 1.0.4`nset term day`nneeds 2.0.0`n")
+    foreach ($name in 'prompt', 'term') {
+        $fp = (Get-PortFingerprint $root $name).Fingerprint
+        foreach ($v in 'day', 'night') { Write-ShotStamp -Path (Join-Path $root 'Ports' $name 'screenshots' "$v.png") -Stamp @{ fingerprint = $fp } }
+    }
+    Assert-Equal @() (Get-StaleNames $root) 'restamped'
+    [System.IO.File]::WriteAllText($f, "# Inglenook 1.0.4`nset term day`nneeds 2.1.0`n")
+    Assert-Equal @('prompt', 'term') (Get-StaleNames $root) 'an app version in dist/ is not a stamp'
+}
+
+Test 'Photographer: an icon theme is shot in the editor scene itself' {
+    $text = ConvertTo-StepScript -Steps @() -Kind 'icon-theme' -Variant 'day' -RepoRoot '/inglenook'
+    Assert-True ($text -match "(?m)^export INGLENOOK_VARIANT='day' INGLENOOK_SCENE='/inglenook/build/photograph/scenes/editor'$") 'the editor scene folder'
+    $root = New-ShotRepo
+    Assert-Equal (Get-PortFingerprint $root 'editor').Inputs['scene'] (Get-PortFingerprint $root 'icons').Inputs['scene'] 'the same scene group as the editor'
+}
+
+Test 'Photographer: a port with no shots, one shot, or an unstamped shot is stale' {
+    $root = New-ShotRepo
+    $dir = Join-Path $root 'Ports/term/screenshots'
+    $fp = (Get-PortFingerprint $root 'term').Fingerprint
+    Remove-Item (Join-Path $dir 'night.png')
+    Assert-True (Test-ShotStale -Dir $dir -Fingerprint $fp) 'one shot missing'
+    [System.IO.File]::WriteAllBytes((Join-Path $dir 'night.png'), $TinyPng)
+    Assert-True (Test-ShotStale -Dir $dir -Fingerprint $fp) 'unstamped shot'
+    Assert-True (Test-ShotStale -Dir (Join-Path $root 'Ports/none/screenshots') -Fingerprint $fp) 'no shots'
+}
+
+Test 'Photographer: the stamp keeps the fingerprint and, beside it, what the PR''s why line needs' {
+    $root = New-ShotRepo
+    $pins = Join-Path $root 'build/photograph/pins.json'
+    Set-Content $pins '{ "ubuntu_snapshot": "20261124T000000Z" }'
+    $f = Get-PortFingerprint $root 'prompt'
+    $term = Get-Content -Raw (Join-Path $root 'Ports/term/screenshot.json') | ConvertFrom-Json -AsHashtable
+    $prompt = Get-Content -Raw (Join-Path $root 'Ports/prompt/screenshot.json') | ConvertFrom-Json -AsHashtable
+    $s = New-ShotStamp -Fingerprint $f -Recipe $prompt -HostRecipe $term -PinsPath $pins -RunnerImage 'ubuntu24 20261120.1'
+    Assert-Equal @('fingerprint', 'inputs', 'app_version', 'host_version', 'package_date', 'runner_image') @($s.Keys) 'fields'
+    Assert-Equal $f.Fingerprint $s['fingerprint'] 'fingerprint'
+    Assert-Equal $f.Inputs['scene'] $s['inputs']['scene'] 'group hashes'
+    Assert-Equal @('1.24.0', '3.52.0', '20261124T000000Z', 'ubuntu24 20261120.1') @($s['app_version'], $s['host_version'], $s['package_date'], $s['runner_image']) 'versions'
+    $s = New-ShotStamp -Fingerprint (Get-PortFingerprint $root 'editor') -Recipe @{ kind = 'editor' } -PinsPath $pins -RunnerImage 'local'
+    Assert-Equal @('', '') @($s['app_version'], $s['host_version']) 'no version, no host'
+}
+
+# The preview in a small repo: its dist/ names one wallpaper, and it has assets
+# and a shot list. Its shots are stamped with its current fingerprint.
+function New-PreviewRepo {
+    $root = New-ShotRepo
+    $files = @{
+        'Ports/preview/dist/day/index.html' = "<p>Inglenook 1.0.4</p><style>body { background: url(../../../../wallpapers/other.jpg) }</style>`n"
+        'Ports/preview/dist/night/index.html' = "<p>Inglenook 1.0.4</p>`n"
+        'Ports/preview/assets/fonts/a.woff2' = "font`n"
+        'Ports/preview/template/index.html' = "<p>{{meta.version}}</p>`n"
+        'Ports/preview/README.md' = "# Preview`n"
+    }
+    foreach ($k in $files.Keys) {
+        $path = Join-Path $root $k
+        New-Item -ItemType Directory -Path (Split-Path $path) -Force | Out-Null
+        [System.IO.File]::WriteAllText($path, $files[$k])
+    }
+    Set-ShotList (Join-Path $root 'Ports') 'preview' (New-GoodShotList)
+    $dir = Join-Path $root 'Ports/preview/screenshots'
+    New-Item -ItemType Directory -Path $dir | Out-Null
+    $f = Get-PreviewFingerprint -RepoRoot $root -Port 'preview'
+    foreach ($n in 'day', 'night', 'roles') {
+        [System.IO.File]::WriteAllBytes((Join-Path $dir "$n.png"), $TinyPng)
+        Write-ShotStamp -Path (Join-Path $dir "$n.png") -Stamp @{ fingerprint = $f.Fingerprint }
+    }
+    return $root
+}
+function Test-PreviewStale([string]$Root) {
+    $f = Get-PreviewFingerprint -RepoRoot $Root -Port 'preview'
+    return Test-ShotStale -Dir (Join-Path $Root 'Ports/preview/screenshots') -Fingerprint $f.Fingerprint -Names @('day', 'night', 'roles')
+}
+
+Test 'Photographer: the preview is stale when its page, assets, shot list, Photographer or own wallpapers change, version stamp included' {
+    Assert-Equal @('port', 'assets', 'shots', 'photographer', 'wallpapers') @((Get-PreviewFingerprint -RepoRoot (New-PreviewRepo) -Port 'preview').Inputs.Keys) 'input groups'
+    Assert-True (-not (Test-PreviewStale (New-PreviewRepo))) 'fresh'
+    foreach ($path in 'Ports/preview/dist/night/index.html', 'Ports/preview/assets/fonts/a.woff2', 'Ports/preview/shots.json',
+                      'build/photograph/linux/preview.py', 'build/photograph/pins.json', 'wallpapers/other.jpg') {
+        $root = New-PreviewRepo
+        Add-Content -Path (Join-Path $root $path) -Value 'changed'
+        Assert-True (Test-PreviewStale $root) "after changing $path"
+    }
+    $root = New-PreviewRepo
+    $f = Join-Path $root 'Ports/preview/dist/day/index.html'
+    [System.IO.File]::WriteAllText($f, ([System.IO.File]::ReadAllText($f)).Replace('1.0.4', '1.0.5'))
+    Assert-True (Test-PreviewStale $root) 'the version stamp counts for the preview'
+}
+
+Test 'Photographer: scenes, templates and docs leave the preview fresh, and a missing image makes it stale' {
+    $root = New-PreviewRepo
+    foreach ($p in 'build/photograph/scenes/terminal/run.sh',
+                   'Ports/preview/template/index.html', 'Ports/preview/README.md') {
+        Add-Content -Path (Join-Path $root $p) -Value 'changed'
+    }
+    [System.IO.File]::WriteAllText((Join-Path $root 'Ports/preview/dist/day/index.html'), "<p>Inglenook 1.0.4</p><style>body { background: url(../../../../wallpapers/other.jpg) }</style>`r`n")
+    Assert-True (-not (Test-PreviewStale $root)) 'fresh'
+    Remove-Item (Join-Path $root 'Ports/preview/screenshots/roles.png')
+    Assert-True (Test-PreviewStale $root) 'a missing section shot'
+}
+
+# Tiny PNGs for the take verdict. Pixels is a list of RGBA quads (0-255), row by
+# row. -Rgb drops alpha (for opaque pixels), -Filter sets every row's filter
+# (0 None, 1 Sub, 2 Up, 3 Average, 4 Paeth), so the same pixels can be encoded
+# two ways.
+function New-TestPng([string]$Path, [int]$Width, [int[][]]$Pixels, [switch]$Rgb, [int]$Filter = 0, [hashtable]$Stamp) {
+    $height = [int]($Pixels.Count / $Width)
+    $bpp = if ($Rgb) { 3 } else { 4 }
+    $stride = $Width * $bpp
+    $raw = [byte[]]::new($height * $stride)
+    for ($i = 0; $i -lt $Pixels.Count; $i++) { for ($c = 0; $c -lt $bpp; $c++) { $raw[$i * $bpp + $c] = [byte]$Pixels[$i][$c] } }
+    $paeth = { param($a, $b, $c) $p = $a + $b - $c; $pa = [math]::Abs($p - $a); $pb = [math]::Abs($p - $b); $pc = [math]::Abs($p - $c)
+               if ($pa -le $pb -and $pa -le $pc) { $a } elseif ($pb -le $pc) { $b } else { $c } }
+    $filtered = [System.IO.MemoryStream]::new()
+    for ($y = 0; $y -lt $height; $y++) {
+        $filtered.WriteByte([byte]$Filter)
+        for ($x = 0; $x -lt $stride; $x++) {
+            $cur = [int]$raw[$y * $stride + $x]
+            $a = if ($x -ge $bpp) { [int]$raw[$y * $stride + $x - $bpp] } else { 0 }
+            $b = if ($y -gt 0) { [int]$raw[($y - 1) * $stride + $x] } else { 0 }
+            $c = if ($x -ge $bpp -and $y -gt 0) { [int]$raw[($y - 1) * $stride + $x - $bpp] } else { 0 }
+            $pred = switch ($Filter) { 0 { 0 } 1 { $a } 2 { $b } 3 { [math]::Floor(($a + $b) / 2) } 4 { & $paeth $a $b $c } }
+            $filtered.WriteByte([byte](($cur - $pred + 256) % 256))
+        }
+    }
+    $z = [System.IO.MemoryStream]::new()
+    $zs = [System.IO.Compression.ZLibStream]::new($z, [System.IO.Compression.CompressionLevel]::Optimal)
+    $bytes = $filtered.ToArray(); $zs.Write($bytes, 0, $bytes.Length); $zs.Dispose()
+    $chunk = {
+        param([string]$Type, [byte[]]$Data)
+        $body = [byte[]]([System.Text.Encoding]::ASCII.GetBytes($Type) + $Data)
+        $len = [BitConverter]::GetBytes([uint32]$Data.Length); [Array]::Reverse($len)
+        $c = [BitConverter]::GetBytes([uint32](Get-TestCrc $body)); [Array]::Reverse($c)
+        [byte[]]($len + $body + $c)
+    }
+    $ihdr = [byte[]]::new(13)
+    $w = [BitConverter]::GetBytes([uint32]$Width); [Array]::Reverse($w); [Array]::Copy($w, 0, $ihdr, 0, 4)
+    $h = [BitConverter]::GetBytes([uint32]$height); [Array]::Reverse($h); [Array]::Copy($h, 0, $ihdr, 4, 4)
+    $ihdr[8] = 8; $ihdr[9] = if ($Rgb) { 2 } else { 6 }
+    $out = [byte[]](137, 80, 78, 71, 13, 10, 26, 10) + (& $chunk 'IHDR' $ihdr) + (& $chunk 'IDAT' $z.ToArray()) + (& $chunk 'IEND' ([byte[]]@()))
+    [System.IO.File]::WriteAllBytes($Path, [byte[]]$out)
+    if ($Stamp) { Write-ShotStamp -Path $Path -Stamp $Stamp }
+    return $Path
+}
+function Get-TestCrc([byte[]]$Bytes) {
+    $c = [uint32]::MaxValue
+    foreach ($b in $Bytes) {
+        $c = $c -bxor $b
+        for ($k = 0; $k -lt 8; $k++) { $c = if ($c -band 1) { [uint32]3988292384 -bxor ($c -shr 1) } else { $c -shr 1 } }
+    }
+    return $c -bxor [uint32]::MaxValue
+}
+# Four pixels: a shot, and the same shot with one pixel off by 3.
+$ShotA = @(@(10, 20, 30, 255), @(200, 100, 50, 255), @(0, 0, 0, 255), @(255, 255, 255, 255))
+$ShotB = @(@(10, 20, 30, 255), @(200, 100, 53, 255), @(0, 0, 0, 255), @(255, 255, 255, 255))
+$ShotC = @(@(90, 20, 30, 255), @(200, 100, 50, 255), @(0, 0, 0, 255), @(255, 255, 255, 255))
+
+Test 'Photographer: shots compare by decoded pixels, not by bytes' {
+    $a = New-TestPng (Join-Path $Tmp 'cmp-a.png') 2 $ShotA
+    $a2 = New-TestPng (Join-Path $Tmp 'cmp-a2.png') 2 $ShotA -Rgb -Filter 4 -Stamp @{ fingerprint = 'x' }
+    $a3 = New-TestPng (Join-Path $Tmp 'cmp-a3.png') 4 $ShotA -Filter 3
+    $b = New-TestPng (Join-Path $Tmp 'cmp-b.png') 2 $ShotB -Filter 1
+    $r = Compare-ShotPixels -Path $a -Other $a2
+    Assert-True $r.Same 'same pixels, other encoding and a stamp'
+    Assert-Equal 0 $r.Differ 'differing pixels'
+    $r = Compare-ShotPixels -Path $a -Other $b
+    Assert-True (-not $r.Same) 'one pixel off'
+    Assert-Equal @(1, 3) @($r.Differ, $r.MaxDelta) 'differing pixels and the largest channel difference'
+    $r = Compare-ShotPixels -Path $a -Other $a3
+    Assert-True (-not $r.Same -and $r.Size -eq '2x2 against 4x1') "other size: $($r.Size)"
+}
+
+Test 'Photographer: an unchanged shot takes the new stamp when its fingerprint is old, pixels untouched' {
+    $committed = New-TestPng (Join-Path $Tmp 'restamp-old.png') 2 $ShotA -Stamp @{ fingerprint = 'old' }
+    $take = New-TestPng (Join-Path $Tmp 'restamp-take.png') 2 $ShotA -Filter 2 -Stamp @{ fingerprint = 'new'; runner_image = 'r2' }
+    $pixels = [System.IO.File]::ReadAllBytes($committed)
+    Assert-True (Update-ShotStamp -Committed $committed -Take $take) 'old fingerprint: restamped'
+    $s = Read-ShotStamp -Path $committed
+    Assert-Equal 'new' $s['fingerprint'] 'the take''s stamp'
+    Assert-Equal 'r2' $s['runner_image'] 'the whole stamp'
+    $after = [System.IO.File]::ReadAllBytes($committed)
+    $idatAt = { param($b) for ($i = 0; $i -lt $b.Length - 4; $i++) { if ($b[$i] -eq 0x49 -and $b[$i + 1] -eq 0x44 -and $b[$i + 2] -eq 0x41 -and $b[$i + 3] -eq 0x54) { return $i } } }
+    $len = { param($b, $at) ([int]$b[$at - 4] -shl 24) -bor ([int]$b[$at - 3] -shl 16) -bor ([int]$b[$at - 2] -shl 8) -bor [int]$b[$at - 1] }
+    $a1 = & $idatAt $pixels; $a2 = & $idatAt $after
+    Assert-Equal ([Convert]::ToBase64String($pixels[$a1..($a1 + (& $len $pixels $a1) + 3)])) ([Convert]::ToBase64String($after[$a2..($a2 + (& $len $after $a2) + 3)])) 'image data kept byte for byte'
+    Assert-True (-not (Update-ShotStamp -Committed $committed -Take $take)) 'same fingerprint: left alone'
+    $other = New-TestPng (Join-Path $Tmp 'restamp-other.png') 2 $ShotA -Stamp @{ fingerprint = 'new'; runner_image = 'r3' }
+    Assert-True (-not (Update-ShotStamp -Committed $committed -Take $other)) 'only the runner image moved: left alone'
+    Assert-Equal 'r2' (Read-ShotStamp -Path $committed)['runner_image'] 'not rewritten'
+    $bare = New-TestPng (Join-Path $Tmp 'restamp-bare.png') 2 $ShotA
+    Assert-True (Update-ShotStamp -Committed $bare -Take $take) 'no stamp at all: restamped'
+}
+
+Test 'Photographer: the take verdict, for every committed shot and take' {
+    $png = { param($n, $px) New-TestPng (Join-Path $Tmp "take-$n.png") 2 $px -Filter 2 }
+    $old = & $png 'old' $ShotA; $same = & $png 'same' $ShotA; $new = & $png 'new' $ShotB; $new2 = & $png 'new2' $ShotB; $odd = & $png 'odd' $ShotC
+    $third = & $png 'third' @(@(1, 1, 1, 255), @(2, 2, 2, 255), @(3, 3, 3, 255), @(4, 4, 4, 255))
+    $cases = @(
+        # committed, takes, verdict, shot
+        @($old,  @($same),             'unchanged', $old),
+        @($old,  @($new),              'retake',    $null),
+        @($old,  @($new, $same),       'unchanged', $old),
+        @($old,  @($new, $new2),       'changed',   $new2),
+        @($old,  @($new, $odd),        'retake',    $null),
+        @($old,  @($new, $odd, $same), 'unchanged', $old),
+        @($old,  @($new, $odd, $new2), 'changed',   $new2),
+        @($old,  @($odd, $new, $odd),  'changed',   $odd),
+        @($old,  @($new, $odd, $odd),  'changed',   $odd),
+        @($old,  @($new, $odd, $old),  'unchanged', $old),
+        @($old,  @($odd, $new, $same), 'unchanged', $old),
+        @($null, @($new),              'retake',    $null),
+        @($null, @($new, $new2),       'changed',   $new2),
+        @($null, @($new, $odd),        'retake',    $null),
+        @($null, @($new, $odd, $new2), 'changed',   $new2),
+        @($null, @($new, $odd, $same), 'failed',    $null),
+        @($old,  @($new, $odd, $third), 'failed',   $null)
+    )
+    foreach ($c in $cases) {
+        $v = Get-TakeVerdict -Committed $c[0] -Takes $c[1]
+        $what = "committed $(if ($c[0]) { 'A' } else { 'none' }), takes $(@($c[1] | ForEach-Object { Split-Path -LeafBase $_ }) -join ', ')"
+        Assert-Equal $c[2] $v.Verdict "verdict, $what"
+        Assert-Equal $c[3] $v.Shot "shot, $what"
+    }
+    Assert-Throws { Get-TakeVerdict -Committed $old -Takes @($new, $odd, $new2, $new) } '*at most three takes*'
+}
+
+Test 'Photographer: the why line names what moved, or only the runner image' {
+    $stamp = {
+        param([hashtable]$Change = @{})
+        $s = [ordered]@{ fingerprint = 'f'; inputs = [ordered]@{ port = 'p'; host = 'h'; recipe = 'r'; scene = 's'; photographer = 'g'; backdrop = 'b'; wallpapers = 'w' }
+                         app_version = '1.104.0'; host_version = '3.52.0'; package_date = '20261124T000000Z'; runner_image = 'ubuntu24 20261120.1' }
+        foreach ($k in $Change.Keys) { if ($s['inputs'].Contains($k)) { $s['inputs'][$k] = $Change[$k] } else { $s[$k] = $Change[$k] } }
+        $s
+    }
+    $why = { param($old, $new) Get-ShotWhy -Old $old -New $new -App 'VS Code' -HostApp 'GNOME Terminal' }
+    $old = & $stamp
+    Assert-Equal 'port files changed' (& $why $old (& $stamp @{ port = 'p2' })) 'port'
+    Assert-Equal 'VS Code 1.104.0 → 1.108.1' (& $why $old (& $stamp @{ app_version = '1.108.1'; recipe = 'r2' })) 'app version, recipe change not repeated'
+    Assert-Equal 'GNOME Terminal 3.52.0 → 3.54.0; host port changed' (& $why $old (& $stamp @{ host_version = '3.54.0'; host = 'h2' })) 'host version'
+    Assert-Equal 'recipe changed; scene changed; Photographer changed; backdrop changed; wallpapers changed' `
+        (& $why $old (& $stamp @{ recipe = 'r2'; scene = 's2'; photographer = 'g2'; backdrop = 'b2'; wallpapers = 'w2' })) 'every group, in order'
+    Assert-Equal 'package date 20261124T000000Z → 20261201T000000Z; Photographer changed' (& $why $old (& $stamp @{ package_date = '20261201T000000Z'; photographer = 'g2' })) 'package date'
+    Assert-Equal 'no input changed; runner image ubuntu24 20261120.1 → ubuntu24 20261201.2' (& $why $old (& $stamp @{ runner_image = 'ubuntu24 20261201.2' })) 'runner only'
+    Assert-Equal 'no input changed' (& $why $old (& $stamp)) 'nothing'
+    Assert-Equal 'first shot' (& $why $null (& $stamp)) 'no committed shot'
+    Assert-Equal 'the committed shot has no stamp' (& $why @{ } (& $stamp)) 'unstamped'
+}
+
+Test 'Photographer: a crop of a grab is written losslessly as RGB' {
+    $px = @(@(1, 2, 3, 255), @(4, 5, 6, 255), @(7, 8, 9, 255), @(10, 11, 12, 255), @(13, 14, 15, 255), @(16, 17, 18, 255),
+            @(200, 201, 202, 255), @(4, 5, 7, 255), @(250, 0, 9, 255), @(10, 11, 12, 255), @(0, 0, 0, 255), @(255, 255, 255, 255))
+    $grab = New-TestPng (Join-Path $Tmp 'grab.png') 3 $px -Filter 4
+    $out = Join-Path $Tmp 'grab-crop.png'
+    Export-ShotCrop -Path $grab -Crop @{ X = 1; Y = 1; Width = 2; Height = 3 } -Out $out
+    $want = New-TestPng (Join-Path $Tmp 'grab-want.png') 2 @($px[4], $px[5], $px[7], $px[8], $px[10], $px[11]) -Rgb
+    Assert-True (Compare-ShotPixels -Path $out -Other $want).Same 'same pixels as the area'
+    $bytes = [System.IO.File]::ReadAllBytes($out)
+    Assert-Equal 2 ([int]$bytes[25]) 'color type RGB'
+    Assert-Throws { Export-ShotCrop -Path $grab -Crop @{ X = 2; Y = 0; Width = 2; Height = 1 } -Out $out } '*not inside the 3x4 grab*'
+}
+
+# --- Screenshot run ---------------------------------------------------------------
+
+function Set-TestRunners([string]$Root, [hashtable]$Runners) {
+    Set-Content (Join-Path $Root 'build/photograph/pins.json') (ConvertTo-Json @{ runners = $Runners })
+    # Pins are an input: restamp every shot so the repo starts fresh again.
+    foreach ($name in 'editor', 'icons', 'prompt', 'term') {
+        $f = Get-PortFingerprint $Root $name
+        foreach ($v in 'day', 'night') { Write-ShotStamp -Path (Join-Path $Root 'Ports' $name 'screenshots' "$v.png") -Stamp @{ fingerprint = $f.Fingerprint } }
+    }
+}
+function Get-TargetNames($Targets) { @($Targets.Shoot | ForEach-Object { "$($_.port)@$($_.runner)" }) }
+
+Test 'Run: a run shoots the stale ports on their platform''s runner, and lists the rest' {
+    $root = New-ShotRepo
+    Set-TestRunners $root @{ linux = 'ubuntu-24.04' }
+    New-Item -ItemType Directory -Path (Join-Path $root 'Ports/paid') | Out-Null
+    Set-Recipe (Join-Path $root 'Ports') 'paid' ([ordered]@{ kind = 'document'; platform = 'windows'; manual = 'Needs a license.' })
+    New-Item -ItemType Directory -Path (Join-Path $root 'Ports/win') | Out-Null
+    Set-Recipe (Join-Path $root 'Ports') 'win' ([ordered]@{ kind = 'terminal'; platform = 'windows'; install = @('i'); apply = @('a'); stage = @('s'); launch = @('l'); window = @{ title = 'W' } })
+    $t = Get-ShotTargets -RepoRoot $root
+    Assert-Equal @() @($t.Errors) 'recipe errors'
+    Assert-Equal @() (Get-TargetNames $t) 'fresh linux ports'
+    Assert-Equal @('paid: Needs a license.') @($t.Manual | ForEach-Object { "$($_.port): $($_.reason)" }) 'stale manual ports'
+    Assert-Equal @('win: windows') @($t.Skipped | ForEach-Object { "$($_.port): $($_.platform)" }) 'stale ports with no runner'
+    Add-Content (Join-Path $root 'Ports/term/dist/day/install.sh') 'changed'
+    Assert-Equal @('prompt@ubuntu-24.04', 'term@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $root)) 'stale'
+    Assert-Equal @('editor@ubuntu-24.04', 'icons@ubuntu-24.04', 'prompt@ubuntu-24.04', 'term@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $root -All)) 'all'
+    Assert-Equal @('editor@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $root -Port 'editor')) 'one port, even fresh'
+    $t = Get-ShotTargets -RepoRoot $root -Port 'win'
+    Assert-Equal @() (Get-TargetNames $t) 'a port with no runner is not shot'
+    Assert-Equal 'win' $t.Skipped[0].port 'but listed'
+    Assert-Throws { Get-ShotTargets -RepoRoot $root -Port 'ghost' } '*ghost*no screenshot.json*'
+}
+
+Test 'Run: a pull request shoots the ports whose inputs or committed shots it changed' {
+    $base = New-ShotRepo
+    Set-TestRunners $base @{ linux = 'ubuntu-24.04' }
+    $copy = { $r = Join-Path $Tmp ('head-' + [guid]::NewGuid().ToString('N')); Copy-Item -Path $base -Destination $r -Recurse; $r }
+    $head = & $copy
+    Assert-Equal @() (Get-TargetNames (Get-ShotTargets -RepoRoot $head -BaseRoot $base)) 'no change'
+    Add-Content (Join-Path $head 'Ports/prompt/dist/day/prompt.toml') 'changed'
+    Add-Content (Join-Path $head 'Ports/editor/README.md') 'docs only'
+    Assert-Equal @('prompt@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $head -BaseRoot $base)) 'changed input'
+    $head = & $copy
+    Write-ShotStamp -Path (Join-Path $head 'Ports/editor/screenshots/day.png') -Stamp @{ fingerprint = 'other' }
+    Assert-Equal @('editor@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $head -BaseRoot $base)) 'changed committed shot'
+    $head = & $copy
+    Remove-Item -Recurse (Join-Path $base 'Ports/editor')
+    # A new host is a changed input of its guests too.
+    Assert-Equal @('editor@ubuntu-24.04', 'icons@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $head -BaseRoot $base)) 'new port'
+}
+
+Test 'Run: a Windows port is shot on a fresh job per take of each variant, and runner labels are pinned' {
+    $root = New-ShotRepo
+    Set-TestRunners $root @{ linux = 'ubuntu-24.04'; windows = 'windows-2025' }
+    New-Item -ItemType Directory -Path (Join-Path $root 'Ports/win') | Out-Null
+    Set-Recipe (Join-Path $root 'Ports') 'win' ([ordered]@{ kind = 'terminal'; platform = 'windows'; install = @('i'); apply = @('a'); stage = @('s'); launch = @('l'); window = @{ class = 'W' } })
+    $t = Get-ShotTargets -RepoRoot $root
+    Assert-Equal @('win@windows-2025 day 1', 'win@windows-2025 day 2', 'win@windows-2025 day 3', 'win@windows-2025 night 1', 'win@windows-2025 night 2', 'win@windows-2025 night 3') `
+        @($t.Shoot | ForEach-Object { "$($_.port)@$($_.runner) $($_.variant) $($_.take)" }) 'one job per take: the most the take verdict asks for'
+    Assert-Equal @() @($t.Skipped) 'nothing skipped'
+    Assert-Equal @('editor@ubuntu-24.04  ') @((Get-ShotTargets -RepoRoot $root -Port 'editor').Shoot | ForEach-Object { "$($_.port)@$($_.runner) $($_.variant) $($_.take)" }) 'Linux: one job for both, every take in it'
+    Set-TestRunners $root @{ linux = 'ubuntu-24.04'; windows = 'windows-latest' }
+    Assert-True ((@((Get-ShotTargets -RepoRoot $root).Errors) -join "`n") -like '*windows runner*windows-latest*never -latest*') 'a -latest label is an error'
+}
+
+Test 'Run: the preview''s shot list is shot on the Linux runner when stale, chosen, or changed by a pull request' {
+    $base = New-PreviewRepo
+    Set-TestRunners $base @{ linux = 'ubuntu-24.04' }
+    $f = Get-PreviewFingerprint -RepoRoot $base -Port 'preview'
+    foreach ($n in 'day', 'night', 'roles') { Write-ShotStamp -Path (Join-Path $base "Ports/preview/screenshots/$n.png") -Stamp @{ fingerprint = $f.Fingerprint } }
+    Assert-Equal @() (Get-TargetNames (Get-ShotTargets -RepoRoot $base)) 'fresh'
+    Assert-Equal @('preview@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $base -Port 'preview')) 'chosen'
+    Assert-True ((Get-TargetNames (Get-ShotTargets -RepoRoot $base -All)) -contains 'preview@ubuntu-24.04') 'all'
+    $head = Join-Path $Tmp ('head-' + [guid]::NewGuid().ToString('N')); Copy-Item -Path $base -Destination $head -Recurse
+    Assert-Equal @() (Get-TargetNames (Get-ShotTargets -RepoRoot $head -BaseRoot $base)) 'no change'
+    Write-ShotStamp -Path (Join-Path $head 'Ports/preview/screenshots/roles.png') -Stamp @{ fingerprint = 'other' }
+    Assert-Equal @('preview@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $head -BaseRoot $base)) 'a changed section shot'
+    Add-Content (Join-Path $base 'Ports/preview/assets/fonts/a.woff2') 'changed'
+    Assert-Equal @('preview@ubuntu-24.04') (Get-TargetNames (Get-ShotTargets -RepoRoot $base)) 'stale'
+}
+
+# What photograph.ps1 -Report leaves for one port: result.json and the last take of each variant.
+function New-TestResult([string]$Dir, [string]$Port, [string]$Status, [hashtable]$Verdicts = @{}, [string]$Why = '', [string]$Failure = '') {
+    $d = Join-Path $Dir $Port
+    New-Item -ItemType Directory -Path $d -Force | Out-Null
+    $variants = [ordered]@{}
+    foreach ($v in 'day', 'night') {
+        if (-not $Verdicts.Contains($v)) { continue }
+        $px = if ($Verdicts[$v] -eq 'changed') { $ShotB } else { $ShotA }
+        New-TestPng (Join-Path $d "$v.png") 2 $px -Stamp @{ fingerprint = "new-$Port" } | Out-Null
+        $variants[$v] = [ordered]@{ verdict = $Verdicts[$v]; takes = 2; committed = $true; compare = [ordered]@{ same = ($Verdicts[$v] -eq 'unchanged'); differ = 1; max_delta = 3; size = '' } }
+    }
+    $r = [ordered]@{ port = $Port; app = $Port.ToUpper(); status = $Status; why = $Why; error = $Failure; variants = $variants }
+    ConvertTo-Json $r -Depth 6 | Set-Content (Join-Path $d 'result.json')
+}
+
+Test 'Run: delivery copies only changed images, and adds missing README tables' {
+    $root = New-ShotRepo
+    $results = Join-Path $Tmp ('results-' + [guid]::NewGuid().ToString('N'))
+    New-TestResult $results 'term' 'changed' @{ day = 'changed'; night = 'unchanged' } 'port files changed'
+    New-TestResult $results 'editor' 'unchanged' @{ day = 'unchanged'; night = 'unchanged' }
+    New-TestResult $results 'prompt' 'failed' @{ day = 'changed' } '' 'apply step 1 failed'
+    Set-Content (Join-Path $root 'Ports/prompt/README.md') "# Prompt`n`n**Tier:** 2`n`nInstall it."
+    Set-Content (Join-Path $root 'Ports/editor/README.md') "# Editor`n`n| Day | Night |`n|---|---|`n| ![Day](screenshots/day.png) | ![Night](screenshots/night.png) |"
+    Copy-Item (Join-Path $root 'Ports/term/screenshots/night.png') ([System.IO.Path]::Combine($Tmp, 'restamp-before.png')) -Force
+    $d = Copy-ShotDelivery -RepoRoot $root -Results $results -DayName 'Day' -NightName 'Night'
+    Assert-Equal @('Ports/term/screenshots/day.png') @($d.Images) 'images'
+    Assert-Equal @('prompt', 'term') @($d.Tables) 'tables added'
+    Assert-True (Compare-ShotPixels -Path (Join-Path $root 'Ports/term/screenshots/day.png') -Other (Join-Path $results 'term/day.png')).Same 'changed image copied'
+    $night = Join-Path $root 'Ports/term/screenshots/night.png'
+    Assert-Equal @('Ports/editor/screenshots/day.png', 'Ports/editor/screenshots/night.png', 'Ports/term/screenshots/night.png') @($d.Restamped) 'unchanged images with an old fingerprint: stamp only'
+    Assert-Equal 'new-term' (Read-ShotStamp -Path $night)['fingerprint'] 'the new stamp written'
+    Assert-True (Compare-ShotPixels -Path $night -Other ([System.IO.Path]::Combine($Tmp, 'restamp-before.png'))).Same 'unchanged image keeps its pixels'
+    Assert-True (-not (@($d.Restamped) -like 'Ports/prompt/*')) 'a failed port is not restamped'
+    Assert-True ((Get-Content -Raw (Join-Path $root 'Ports/prompt/README.md')) -like '*| Day | Night |*') 'table under the header'
+    Assert-Equal @('editor', 'prompt', 'term') @($d.Results | ForEach-Object port) 'results read'
+}
+
+Test 'Run: delivery and the run summary cover every image of a shot list' {
+    $root = New-PreviewRepo
+    $results = Join-Path $Tmp ('results-' + [guid]::NewGuid().ToString('N'))
+    $d = Join-Path $results 'preview'
+    New-Item -ItemType Directory -Path $d -Force | Out-Null
+    $variants = [ordered]@{}
+    foreach ($n in 'day', 'night', 'roles') {
+        $verdict = if ($n -eq 'roles') { 'changed' } else { 'unchanged' }
+        New-TestPng (Join-Path $d "$n.png") 2 $(if ($verdict -eq 'changed') { $ShotB } else { $ShotA }) | Out-Null
+        $variants[$n] = [ordered]@{ verdict = $verdict; takes = 2; committed = $true; compare = [ordered]@{ same = ($verdict -eq 'unchanged'); differ = 1; max_delta = 3; size = '' } }
+    }
+    $r = [ordered]@{ port = 'preview'; app = 'preview'; status = 'changed'; why = 'port files changed'; error = ''; variants = $variants }
+    ConvertTo-Json $r -Depth 6 | Set-Content (Join-Path $d 'result.json')
+    $out = Copy-ShotDelivery -RepoRoot $root -Results $results -DayName 'Day' -NightName 'Night'
+    Assert-Equal @('Ports/preview/screenshots/roles.png') @($out.Images) 'the changed section shot'
+    Assert-True (@($out.Tables) -notcontains 'preview') 'no README table for the preview'
+    $read = Get-Content -Raw (Join-Path $d 'result.json') | ConvertFrom-Json -AsHashtable
+    $summary = ConvertTo-ShotSummary -Result $read
+    Assert-True ($summary -like '*- day: unchanged*' -and $summary -like '*- roles: changed*') "summary: $summary"
+    $body = New-DeliveryBody -Results @($read) -Images @($out.Images) -Repo 'o/r' -Base 'aaa111' -Commit 'bbb222'
+    Assert-True ($body -like '*| Roles |*bbb222/Ports/preview/screenshots/roles.png*') "body: $body"
+}
+
+Test 'Run: the rolling PR body shows old and new images, why, failures, manual ports and the hand-edit warning' {
+    $results = Join-Path $Tmp ('results-' + [guid]::NewGuid().ToString('N'))
+    New-TestResult $results 'term' 'changed' @{ day = 'changed'; night = 'unchanged' } 'port files changed'
+    New-TestResult $results 'prompt' 'failed' @{} '' "photograph: Ports/prompt/screenshot.json, apply step 1 failed: cp x`n    cp: no such file"
+    $results = @(Get-ChildItem $results -Directory | ForEach-Object { Get-Content -Raw (Join-Path $_.FullName 'result.json') | ConvertFrom-Json -AsHashtable })
+    $body = New-DeliveryBody -Results $results -Images @('Ports/term/screenshots/day.png') -Restamped @('Ports/term/screenshots/night.png') -Tables @('prompt') `
+        -Manual @(@{ port = 'paid'; reason = 'Needs a license.' }) -Skipped @(@{ port = 'win'; platform = 'windows' }) `
+        -Repo 'o/r' -Base 'aaa111' -Commit 'bbb222' -RunUrl 'https://example.invalid/run/1'
+    foreach ($want in '*## TERM*', '*port files changed*', '*https://github.com/o/r/raw/aaa111/Ports/term/screenshots/day.png*',
+                      '*https://github.com/o/r/raw/bbb222/Ports/term/screenshots/day.png*', '*Failed*prompt*apply step 1 failed*cp: no such file*',
+                      '*paid*Needs a license.*', '*win*windows*', '*README table*prompt*', '*hand edits*lost*', '*example.invalid/run/1*') {
+        Assert-True ($body -like $want) "body lacks $want`:`n$body"
+    }
+    Assert-True ($body -notlike '*raw/bbb222/Ports/term/screenshots/night.png*') "unchanged variant shown:`n$body"
+    Assert-True ($body -like '*## Stamp only*``Ports/term/screenshots/night.png``*') "stamp-only image not listed:`n$body"
+    Assert-True ($body -like '*no pixel*') "stamp only says no pixel changed:`n$body"
+    Assert-True ($body -notmatch '—') 'no em dash'
+    $note = New-DeliveryNote -Results $results -RunUrl 'https://example.invalid/run/1'
+    Assert-True ($note -like '*Nothing to deliver*' -and $note -like '*prompt*') "close note: $note"
+}
+
+# What photograph.ps1 -Variant -Report leaves: result-<variant>.json beside that variant's last take.
+function New-TestPart([string]$Dir, [string]$Port, [string]$Variant, [string]$Status, [string]$Verdict, [string]$Why = '', [string]$Failure = '') {
+    $d = Join-Path $Dir $Port
+    New-Item -ItemType Directory -Path $d -Force | Out-Null
+    $variants = [ordered]@{}
+    if ($Verdict) {
+        New-TestPng (Join-Path $d "$Variant.png") 2 $(if ($Verdict -eq 'changed') { $ShotB } else { $ShotA }) | Out-Null
+        $variants[$Variant] = [ordered]@{ verdict = $Verdict; takes = 2; committed = $true; compare = $null }
+    }
+    $r = [ordered]@{ port = $Port; app = $Port.ToUpper(); variant = $Variant; status = $Status; why = $Why; error = $Failure; variants = $variants }
+    ConvertTo-Json $r -Depth 6 | Set-Content (Join-Path $d "result-$Variant.json")
+}
+
+Test 'Run: a port shot in a job per variant is delivered only when both variants succeed' {
+    $results = Join-Path $Tmp ('results-' + [guid]::NewGuid().ToString('N'))
+    New-TestPart $results 'both' 'day' 'changed' 'changed' 'first shot'
+    New-TestPart $results 'both' 'night' 'unchanged' 'unchanged'
+    New-TestPart $results 'half' 'day' 'changed' 'changed' 'first shot'
+    New-TestPart $results 'broke' 'day' 'changed' 'changed' 'first shot'
+    New-TestPart $results 'broke' 'night' 'failed' '' '' 'launch step 1 failed'
+    New-TestResult $results 'term' 'unchanged' @{ day = 'unchanged'; night = 'unchanged' }
+    $merged = @(Read-ShotResults -Results $results)
+    Assert-Equal @('both changed', 'broke failed', 'half failed', 'term unchanged') @($merged | ForEach-Object { "$($_['port']) $($_['status'])" }) 'merged'
+    $both = $merged | Where-Object { $_['port'] -eq 'both' }
+    Assert-Equal @('day', 'night') @($both['variants'].Keys) 'both variants'
+    Assert-Equal 'first shot' $both['why'] 'why'
+    Assert-True (($merged | Where-Object { $_['port'] -eq 'half' })['error'] -like '*night job left no result*') 'missing variant named'
+    Assert-True (($merged | Where-Object { $_['port'] -eq 'broke' })['error'] -like '*night: launch step 1 failed*') 'failed variant named'
+    Assert-Equal 6 @(Read-ShotResults -Results $results -Parts).Count 'parts as they are'
+    $root = New-ShotRepo
+    foreach ($p in 'both', 'half', 'broke') { New-Item -ItemType Directory -Path (Join-Path $root "Ports/$p") -Force | Out-Null }
+    $d = Copy-ShotDelivery -RepoRoot $root -Results $results -DayName 'Day' -NightName 'Night'
+    Assert-Equal @('Ports/both/screenshots/day.png') @($d.Images) 'only the complete port''s changed image'
+    $part = Get-Content -Raw (Join-Path $results 'both/result-day.json') | ConvertFrom-Json -AsHashtable
+    Assert-True ((ConvertTo-ShotSummary -Result $part) -like '*both*, day): changed*') 'a job''s summary names its variant'
+}
+
+# What photograph.ps1 -Variant -Take -Report leaves: result-<variant>-<take>.json, and the take in takes/.
+function New-TestTake([string]$Dir, [string]$Port, [string]$Variant, [int]$Take, $Pixels, [string]$Failure = '') {
+    $d = Join-Path $Dir $Port
+    New-Item -ItemType Directory -Path (Join-Path $d 'takes') -Force | Out-Null
+    $variants = [ordered]@{}
+    if ($Pixels) {
+        New-TestPng (Join-Path $d 'takes' "$Variant-$Take.png") 2 $Pixels -Stamp @{ fingerprint = "new-$Port" } | Out-Null
+        $variants[$Variant] = [ordered]@{ verdict = 'shot'; take = $Take; takes = 1; committed = $true; compare = $null }
+    }
+    $r = [ordered]@{ port = $Port; app = $Port.ToUpper(); variant = $Variant; take = $Take; status = $(if ($Pixels) { 'shot' } else { 'failed' })
+                     why = 'port files changed'; error = $Failure; variants = $variants }
+    ConvertTo-Json $r -Depth 6 | Set-Content (Join-Path $d "result-$Variant-$Take.json")
+}
+
+Test 'Run: takes shot in a job each get the take verdict in order, and a later take counts only when asked for' {
+    $ShotD = @(@(10, 20, 30, 255), @(200, 100, 50, 255), @(0, 0, 0, 255), @(255, 255, 250, 255))
+    $root = Join-Path $Tmp ('takes-' + [guid]::NewGuid().ToString('N'))
+    $results = Join-Path $Tmp ('results-' + [guid]::NewGuid().ToString('N'))
+    $cases = [ordered]@{
+        same    = @($ShotA, $ShotB, $null)    # take 1 is the committed shot; take 3 failed, unasked
+        back    = @($ShotB, $ShotA, $ShotC)   # take 2 is the committed shot
+        confirm = @($ShotB, $ShotB, $null)    # takes 1 and 2 agree
+        third   = @($ShotB, $ShotC, $ShotB)   # take 3 agrees with take 1
+        flaky   = @($ShotB, $ShotC, $ShotD)   # no two agree
+        broke   = @($ShotB, $null, $ShotB)    # take 2 was asked for and failed
+    }
+    foreach ($port in $cases.Keys) {
+        $shots = Join-Path $root 'Ports' $port 'screenshots'
+        New-Item -ItemType Directory -Path $shots -Force | Out-Null
+        foreach ($v in 'day', 'night') { New-TestPng (Join-Path $shots "$v.png") 2 $ShotA | Out-Null }
+        for ($t = 1; $t -le 3; $t++) {
+            $px = $cases[$port][$t - 1]
+            New-TestTake $results $port 'day' $t $px $(if ($px) { '' } else { 'launch step 1 failed' })
+            New-TestTake $results $port 'night' $t $ShotA
+        }
+    }
+    $merged = @(Read-ShotResults -Results $results -RepoRoot $root)
+    $got = @($merged | ForEach-Object { $x = $_['variants']; "$($_['port']) $($_['status'])$(if ($x.Contains('day')) { " $($x['day']['verdict'])/$($x['day']['takes'])" })" })
+    Assert-Equal @('back unchanged unchanged/2', 'broke failed', 'confirm changed changed/2', 'flaky failed', 'same unchanged unchanged/1', 'third changed changed/3') $got 'verdicts'
+    $broke = $merged | Where-Object { $_['port'] -eq 'broke' }
+    Assert-True ($broke['error'] -like '*day: take 2: launch step 1 failed*') "the failed take named: $($broke['error'])"
+    Assert-True (($merged | Where-Object { $_['port'] -eq 'flaky' })['error'] -like '*day: three takes differ*') 'no two takes agree'
+    Assert-Equal 'port files changed' ($merged | Where-Object { $_['port'] -eq 'confirm' })['why'] 'why of a changed port'
+    Assert-Equal '' ($merged | Where-Object { $_['port'] -eq 'same' })['why'] 'no why when unchanged'
+    Assert-Equal 1 ($merged | Where-Object { $_['port'] -eq 'same' })['variants']['night']['takes'] 'night matched on take 1'
+
+    $d = Copy-ShotDelivery -RepoRoot $root -Results $results -DayName 'Day' -NightName 'Night'
+    Assert-Equal @('Ports/confirm/screenshots/day.png', 'Ports/third/screenshots/day.png') @($d.Images) 'only changed images'
+    Assert-True (Compare-ShotPixels -Path (Join-Path $root 'Ports/third/screenshots/day.png') -Other (Join-Path $results 'third/takes/day-3.png')).Same 'the confirming take is delivered'
+    Assert-Equal @('Ports/back/screenshots/day.png', 'Ports/back/screenshots/night.png', 'Ports/confirm/screenshots/night.png',
+                   'Ports/same/screenshots/day.png', 'Ports/same/screenshots/night.png', 'Ports/third/screenshots/night.png') @($d.Restamped) 'stamp only: unchanged images of ports that did not fail'
+    Assert-Equal 'new-same' (Read-ShotStamp -Path (Join-Path $root 'Ports/same/screenshots/day.png'))['fingerprint'] 'restamped from a take'
+    $part = Get-Content -Raw (Join-Path $results 'confirm/result-day-2.json') | ConvertFrom-Json -AsHashtable
+    Assert-True ((ConvertTo-ShotSummary -Result $part) -like '*confirm*, day, take 2): shot*') "a take job's summary names its take: $(ConvertTo-ShotSummary -Result $part)"
+    Assert-Equal 36 @(Read-ShotResults -Results $results -Parts).Count 'parts as they are'
+}
+
+Test 'Run: a pull request run reports whether each shot matches the committed one' {
+    $r = @{ port = 'term'; app = 'Term'; status = 'changed'; why = 'port files changed'; error = ''; variants = [ordered]@{
+        day = @{ verdict = 'unchanged'; takes = 1; committed = $true; compare = @{ same = $true; differ = 0; max_delta = 0; size = '' } }
+        night = @{ verdict = 'changed'; takes = 2; committed = $true; compare = @{ same = $false; differ = 1200; max_delta = 3; size = '' } } } }
+    $lines = ConvertTo-ShotSummary -Result $r
+    Assert-True ($lines -like '*term*day*matches*') "day: $lines"
+    Assert-True ($lines -like '*night*1200 pixels differ*up to 3 of 255*') "night: $lines"
+    $r.variants.night = @{ verdict = 'changed'; takes = 2; committed = $false; compare = $null }
+    Assert-True ((ConvertTo-ShotSummary -Result $r) -like '*night*no committed shot*') 'no committed shot'
+    $r.variants.night = @{ verdict = 'changed'; takes = 2; committed = $true; compare = @{ same = $false; differ = 9; max_delta = 255; size = '2x2 against 4x1' } }
+    Assert-True ((ConvertTo-ShotSummary -Result $r) -like '*night*2x2 against 4x1*') 'size'
+    $f = ConvertTo-ShotSummary -Result @{ port = 'p'; app = 'P'; status = 'failed'; why = ''; error = "step failed`n  last line"; variants = @{} }
+    Assert-True ($f -like '*p*failed*last line*') "failed: $f"
+}
+
+# A manual port in a shot repo: a recipe, a port.json name, and no shots.
+function Add-ManualPort([string]$Root) {
+    New-Item -ItemType Directory -Path (Join-Path $Root 'Ports/paid/dist/day') -Force | Out-Null
+    Set-Content (Join-Path $Root 'Ports/paid/dist/day/theme.css') 'body {}'
+    Set-Content (Join-Path $Root 'Ports/paid/port.json') '{ "name": "Paid App" }'
+    Set-Content (Join-Path $Root 'Ports/paid/README.md') "# Paid`n`n**Tier:** 2`n`nInstall it."
+    Set-Recipe (Join-Path $Root 'Ports') 'paid' ([ordered]@{ kind = 'document'; platform = 'linux'; manual = 'Needs a license.' })
+}
+
+Test 'Run: a manual port is listed stale with what changed, and fresh once its hand-taken shots are stamped' {
+    $root = New-ShotRepo
+    Add-ManualPort $root
+    $t = Get-ShotTargets -RepoRoot $root
+    Assert-Equal @() (Get-TargetNames $t) 'a manual port is never shot'
+    $m = $t.Manual[0]
+    Assert-Equal 'paid|Paid App|Needs a license.|document||False|' "$($m.port)|$($m.app)|$($m.reason)|$($m.kind)|$($m.scene)|$($m.shots)|$($m.why)" 'no shots yet'
+    Assert-Equal (Get-PortFingerprint $root 'paid').Fingerprint $m.fingerprint 'fingerprint'
+    $dir = Join-Path $root 'Ports/paid/screenshots'
+    New-Item -ItemType Directory -Path $dir | Out-Null
+    $stamp = New-ManualShotStamp -Fingerprint (Get-PortFingerprint $root 'paid')
+    foreach ($v in 'day', 'night') { New-TestPng (Join-Path $dir "$v.png") 2 $ShotA -Stamp $stamp | Out-Null }
+    $t = Get-ShotTargets -RepoRoot $root
+    Assert-Equal @() @($t.Manual) 'stamped: not stale'
+    Assert-Equal @('paid: Paid App') @($t.ManualFresh | ForEach-Object { "$($_.port): $($_.app)" }) 'fresh manual ports'
+    Add-Content (Join-Path $root 'Ports/paid/dist/day/theme.css') 'p {}'
+    $m = (Get-ShotTargets -RepoRoot $root).Manual[0]
+    Assert-Equal 'True|port files changed' "$($m.shots)|$($m.why)" 'stale after a dist change'
+    New-Item -ItemType Directory -Path (Join-Path $root 'build/photograph/scenes/document') | Out-Null
+    Set-Content (Join-Path $root 'build/photograph/scenes/document/doc.md') '# Doc'
+    $m = (Get-ShotTargets -RepoRoot $root).Manual[0]
+    Assert-Equal 'build/photograph/scenes/document' $m.scene 'scene folder, once it exists'
+    Assert-Equal 'port files changed; scene changed' $m.why 'every change named'
+}
+
+function New-ManualEntry([string]$Fingerprint = 'f1', [bool]$Shots = $false) {
+    [ordered]@{ port = 'paid'; app = 'Paid App'; reason = 'Needs a license.'; kind = 'document'; scene = ''; fingerprint = $Fingerprint
+                shots = $Shots; why = $(if ($Shots) { 'port files changed' } else { '' }) }
+}
+function New-TestIssue([int]$Number, [string]$State, [string]$Body = '', [string[]]$Comments = @(), [string]$Title = 'Screenshots for Paid App') {
+    [ordered]@{ number = $Number; title = $Title; state = $State; body = $Body; comments = @(foreach ($c in $Comments) { [ordered]@{ body = $c } }) }
+}
+function Get-ActionLines($Actions) { @($Actions | Where-Object { $_ } | ForEach-Object { "$($_.action) $($_.number)".Trim() }) }
+
+Test 'Run: a stale manual port gets one issue, created, reopened or kept, with one comment per new fingerprint' {
+    $names = @{ DayName = 'Day'; NightName = 'Night'; Backdrops = @{ day = 'a plain #eeeeee fill (deeper)'; night = 'a plain #111111 fill (deeper)' }; RunUrl = 'https://example.invalid/run/1' }
+    $other = New-TestIssue 5 'OPEN' -Title 'Screenshots for Other'
+
+    $a = @(Get-ManualIssueActions -Manual @(New-ManualEntry) -Issues @($other) @names)
+    Assert-Equal @('create') (Get-ActionLines $a) 'none yet: created'
+    Assert-Equal 'Screenshots for Paid App' $a[0].title 'title'
+    foreach ($want in '*Needs a license.*', '*no screenshots yet*', '*Day*a plain #eeeeee fill (deeper)*Ports/paid/screenshots/day.png*',
+                      '*Night*a plain #111111 fill (deeper)*Ports/paid/screenshots/night.png*', '*pwsh build/photograph.ps1 -Port paid*',
+                      '*document scene has no staged content*', '*example.invalid/run/1*', '*<!-- inglenook-screenshots paid f1 -->*') {
+        Assert-True ($a[0].body -like $want) "body lacks $want`:`n$($a[0].body)"
+    }
+    Assert-True ($a[0].body -notmatch '—') 'no em dash'
+    $created = New-TestIssue 7 'OPEN' $a[0].body
+
+    Assert-Equal @() (Get-ActionLines (Get-ManualIssueActions -Manual @(New-ManualEntry) -Issues @($created) @names)) 'same fingerprint: nothing'
+    $a = @(Get-ManualIssueActions -Manual @(New-ManualEntry 'f2' $true) -Issues @($created) @names)
+    Assert-Equal @('comment 7') (Get-ActionLines $a) 'new fingerprint: one comment'
+    Assert-True ($a[0].body -like '*stale: port files changed.*<!-- inglenook-screenshots paid f2 -->*') "comment: $($a[0].body)"
+    $told = New-TestIssue 7 'OPEN' $created.body @('thanks', $a[0].body)
+    Assert-Equal @() (Get-ActionLines (Get-ManualIssueActions -Manual @(New-ManualEntry 'f2' $true) -Issues @($told) @names)) 'told in a comment: nothing'
+
+    $closed = @((New-TestIssue 3 'CLOSED'), (New-TestIssue 7 'CLOSED' $created.body))
+    Assert-Equal @('reopen 7') (Get-ActionLines (Get-ManualIssueActions -Manual @(New-ManualEntry) -Issues $closed @names)) 'closed by hand, same fingerprint: reopened'
+    Assert-Equal @('reopen 7', 'comment 7') (Get-ActionLines (Get-ManualIssueActions -Manual @(New-ManualEntry 'f2' $true) -Issues $closed @names)) 'stale again: reopened with a comment'
+
+    $two = @((New-TestIssue 9 'OPEN' 'x'), (New-TestIssue 4 'OPEN' $created.body))
+    Assert-Equal @('close 9') (Get-ActionLines (Get-ManualIssueActions -Manual @(New-ManualEntry) -Issues $two @names)) 'two open: the newer closes as a duplicate'
+}
+
+Test 'Run: a fresh manual port''s open issue closes' {
+    $names = @{ DayName = 'Day'; NightName = 'Night' }
+    $fresh = @([ordered]@{ port = 'paid'; app = 'Paid App' })
+    $issues = @((New-TestIssue 7 'OPEN'), (New-TestIssue 3 'CLOSED'), (New-TestIssue 5 'OPEN' -Title 'Screenshots for Other'))
+    $a = @(Get-ManualIssueActions -Fresh $fresh -Issues $issues @names)
+    Assert-Equal @('close 7') (Get-ActionLines $a) 'open one closed'
+    Assert-True ($a[0].body -like '*fresh*') "note: $($a[0].body)"
+    Assert-Equal @() (Get-ActionLines (Get-ManualIssueActions -Fresh $fresh -Issues @($issues[1]) @names)) 'already closed: nothing'
+    Assert-Equal @() (Get-ActionLines (Get-ManualIssueActions @names)) 'no manual port: nothing'
+}
+
 # --- Wallpaper ----------------------------------------------------------------
 
 function New-Pixels([int]$Count, [byte[]]$Rgb) {
@@ -712,6 +1864,44 @@ Test 'Entry: site.ps1 assembles the site with the ports page and the planned por
     Assert-True (Test-Path (Join-Path $out 'ports' 'index.html')) 'no ports page'
     $js = Get-Content -Raw (Join-Path $out 'ports.js')
     Assert-True ($js -like '*window.THEME_PORTS*"planned":*') "no port list in ports.js"
+}
+
+Test 'Entry: photograph.ps1 -Port on a manual recipe stamps the hand-taken shots and adds the table' {
+    # A shot repo with the real script, modules and palette, so it runs as in the repo. No Docker.
+    $root = New-ShotRepo
+    Add-ManualPort $root
+    Copy-Item (Join-Path $PSScriptRoot 'photograph.ps1') (Join-Path $root 'build/photograph.ps1') -Force
+    Copy-Item (Join-Path $PSScriptRoot 'lib' '*.psm1') (Join-Path $root 'build/lib') -Force
+    Copy-Item (Join-Path $PSScriptRoot '..' 'palette' 'palette.json') (Join-Path $root 'palette/palette.json') -Force
+    $script = Join-Path $root 'build/photograph.ps1'
+    $run = { $out = & (Get-Process -Id $PID).Path -NoProfile -File $script -Port paid 2>&1; @{ Exit = $LASTEXITCODE; Text = ($out | ForEach-Object { "$_" }) -join "`n" } }
+    $dir = Join-Path $root 'Ports/paid/screenshots'
+
+    $r = & $run
+    Assert-Equal 1 $r.Exit "no shots: exit code, output:`n$($r.Text)"
+    Assert-True ($r.Text -like '*manual recipe, so its screenshots are taken by hand: Needs a license.*no day.png or night.png yet*Ports/paid/screenshots/day.png*run this again*') "no shots: output:`n$($r.Text)"
+    New-Item -ItemType Directory -Path $dir | Out-Null
+    New-TestPng (Join-Path $dir 'day.png') 2 $ShotA | Out-Null
+    $r = & $run
+    Assert-True ($r.Exit -eq 1 -and $r.Text -like '*no night.png yet*') "one shot: $($r.Exit)`n$($r.Text)"
+    Set-Content (Join-Path $dir 'night.png') 'not an image'
+    $r = & $run
+    Assert-True ($r.Exit -eq 1 -and $r.Text -like '*night.png is not a PNG*') "not a PNG: $($r.Exit)`n$($r.Text)"
+    Assert-Equal $null (Read-ShotStamp -Path (Join-Path $dir 'day.png')) 'neither stamped when one fails'
+
+    New-TestPng (Join-Path $dir 'night.png') 2 $ShotB | Out-Null
+    $r = & $run
+    Assert-Equal 0 $r.Exit "both shots: exit code, output:`n$($r.Text)"
+    $f = (Get-PortFingerprint $root 'paid').Fingerprint
+    Assert-True (-not (Test-ShotStale -Dir $dir -Fingerprint $f)) "stamped, fresh:`n$($r.Text)"
+    Assert-Equal 'by hand' (Read-ShotStamp -Path (Join-Path $dir 'night.png'))['runner_image'] 'stamp says by hand'
+    Assert-True (Compare-ShotPixels -Path (Join-Path $dir 'night.png') -Other (New-TestPng (Join-Path $Tmp 'b.png') 2 $ShotB)).Same 'pixels kept'
+    $readme = Get-Content -Raw (Join-Path $root 'Ports/paid/README.md')
+    $v = (Read-Palette -Path (Join-Path $root 'palette/palette.json')).Variants
+    Assert-True ($readme.Contains("| $($v['day'].Name) | $($v['night'].Name) |") -and $readme.Contains("![$($v['day'].Name)](screenshots/day.png)")) "table:`n$readme"
+    $r = & $run
+    Assert-True ($r.Exit -eq 0 -and $r.Text -like '*already stamped*') "again: $($r.Exit)`n$($r.Text)"
+    Assert-Equal $readme (Get-Content -Raw (Join-Path $root 'Ports/paid/README.md')) 'table added once'
 }
 
 # --- Summary ------------------------------------------------------------------

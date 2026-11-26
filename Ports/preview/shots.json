@@ -1,0 +1,6 @@
+{
+  "shots": [
+    { "name": "day", "variant": "day", "show": "top" },
+    { "name": "night", "variant": "night", "show": "top" }
+  ]
+}
