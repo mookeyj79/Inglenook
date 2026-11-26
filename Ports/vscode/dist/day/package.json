@@ -1,0 +1,32 @@
+{
+  "name": "inglenook-day",
+  "displayName": "Inglenook Day",
+  "description": "Inglenook Day color theme, part of Inglenook: a cozy, soothing theme for the tools you spend all day in.",
+  "version": "0.1.0",
+  "publisher": "inglenook",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mookeyj79/Inglenook"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "color-theme",
+    "light"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Inglenook Day",
+        "uiTheme": "vs",
+        "path": "./themes/inglenook-day-color-theme.json"
+      }
+    ]
+  }
+}
