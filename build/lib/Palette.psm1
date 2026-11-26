@@ -288,8 +288,12 @@ function Get-AnsiColor {
     $step = $AnsiBright[$Variant.Key]
     $l = $c.L + $step.Lightness
     if ($step.Lightness -gt 0) { $l = [math]::Min($l, $step.Cap) } else { $l = [math]::Max($l, $step.Cap) }
-    $s = ConvertTo-Srgb -L $l -C ($c.C * $AnsiBright.Chroma) -H $c.H
-    return @{ Slot = $Slot; Source = $src; Hex = $s.Hex; Bright = $true; L = $l; C = $c.C * $AnsiBright.Chroma; H = $c.H; Clip = $s.Clip }
+    # Computed colors stay inside sRGB: where the stronger chroma would clip,
+    # chroma is lowered until it fits, so hue and lightness are kept.
+    $ch = $c.C * $AnsiBright.Chroma
+    $s = ConvertTo-Srgb -L $l -C $ch -H $c.H
+    while ($s.Clip -gt 0.001 -and $ch -gt 0) { $ch = [math]::Max(0, $ch - 0.002); $s = ConvertTo-Srgb -L $l -C $ch -H $c.H }
+    return @{ Slot = $Slot; Source = $src; Hex = $s.Hex; Bright = $true; L = $l; C = $ch; H = $c.H; Clip = $s.Clip }
 }
 
 function Get-PaletteEntry {

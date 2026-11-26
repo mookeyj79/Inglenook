@@ -10,48 +10,568 @@
     "system": "Operating systems",
     "other": "Other"
   },
-  "unlisted": ["preview"],
+  "unlisted": [
+    "preview"
+  ],
   "planned": [
-    { "folder": "bash", "name": "Bash", "category": "shell", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "bat", "name": "bat", "category": "cli", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "btop", "name": "btop++", "category": "cli", "tier": null, "platforms": ["macos", "linux"] },
-    { "folder": "cinnamon", "name": "Cinnamon", "category": "system", "tier": null, "platforms": ["linux"] },
-    { "folder": "claude-code", "name": "Claude Code", "category": "cli", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "dopamine", "name": "Dopamine", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "eza", "name": "eza", "category": "cli", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "fzf", "name": "fzf", "category": "cli", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "ghidra", "name": "Ghidra", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "gnome-terminal", "name": "GNOME Terminal", "category": "terminal", "tier": null, "platforms": ["linux"] },
-    { "folder": "screen", "name": "GNU Screen", "category": "cli", "tier": null, "platforms": ["macos", "linux"] },
-    { "folder": "grub", "name": "GRUB", "category": "system", "tier": null, "platforms": ["linux"] },
-    { "folder": "gtk", "name": "GTK and MATE", "category": "system", "tier": null, "platforms": ["linux"] },
-    { "folder": "halloy", "name": "Halloy", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "helix", "name": "Helix", "category": "editor", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "heroic", "name": "Heroic Games Launcher", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "homepage", "name": "Homepage", "category": "web", "tier": null, "platforms": ["web"] },
-    { "folder": "insomnia", "name": "Insomnia", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "jellyfin", "name": "Jellyfin", "category": "web", "tier": null, "platforms": ["web"] },
-    { "folder": "k9s", "name": "K9s", "category": "cli", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "kicad", "name": "KiCad", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "mod-organizer-2", "name": "Mod Organizer 2", "category": "app", "tier": null, "platforms": ["windows"] },
-    { "folder": "neovim", "name": "Neovim", "category": "editor", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "notepad-plus-plus", "name": "Notepad++", "category": "editor", "tier": null, "platforms": ["windows"] },
-    { "folder": "obs-studio", "name": "OBS Studio", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "obsidian", "name": "Obsidian", "category": "writing", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "qbittorrent", "name": "qBittorrent", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "slack", "name": "Slack", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux", "web"] },
-    { "folder": "starship", "name": "Starship", "category": "shell", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "startallback", "name": "StartAllBack", "category": "system", "tier": null, "platforms": ["windows"] },
-    { "folder": "sumatrapdf", "name": "SumatraPDF", "category": "writing", "tier": null, "platforms": ["windows"] },
-    { "folder": "telegram", "name": "Telegram Desktop", "category": "app", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "theme-park", "name": "theme.park", "category": "web", "tier": null, "platforms": ["web"] },
-    { "folder": "tmux", "name": "tmux", "category": "cli", "tier": null, "platforms": ["macos", "linux"] },
-    { "folder": "typora", "name": "Typora", "category": "writing", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "vim", "name": "Vim", "category": "editor", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "visual-studio", "name": "Visual Studio", "category": "editor", "tier": null, "platforms": ["windows"] },
-    { "folder": "vscode", "name": "Visual Studio Code", "category": "editor", "tier": null, "platforms": ["windows", "macos", "linux"] },
-    { "folder": "windows", "name": "Windows", "category": "system", "tier": null, "platforms": ["windows"] },
-    { "folder": "windows-terminal", "name": "Windows Terminal", "category": "terminal", "tier": null, "platforms": ["windows"] },
-    { "folder": "zsh", "name": "Zsh", "category": "shell", "tier": null, "platforms": ["macos", "linux"] }
+    {
+      "folder": "bash",
+      "name": "Bash",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "bat",
+      "name": "bat",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "btop",
+      "name": "btop++",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "carapace",
+      "name": "carapace",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "cinnamon",
+      "name": "Cinnamon",
+      "category": "system",
+      "tier": null,
+      "platforms": [
+        "linux"
+      ]
+    },
+    {
+      "folder": "claude-code",
+      "name": "Claude Code",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "docker",
+      "name": "Docker build output",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "dopamine",
+      "name": "Dopamine",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "eza",
+      "name": "eza",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "fzf",
+      "name": "fzf",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "ghidra",
+      "name": "Ghidra",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "git",
+      "name": "Git",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "gh",
+      "name": "GitHub CLI",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "gnome-terminal",
+      "name": "GNOME Terminal",
+      "category": "terminal",
+      "tier": null,
+      "platforms": [
+        "linux"
+      ]
+    },
+    {
+      "folder": "screen",
+      "name": "GNU Screen",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "grub",
+      "name": "GRUB",
+      "category": "system",
+      "tier": null,
+      "platforms": [
+        "linux"
+      ]
+    },
+    {
+      "folder": "gtk",
+      "name": "GTK and MATE",
+      "category": "system",
+      "tier": null,
+      "platforms": [
+        "linux"
+      ]
+    },
+    {
+      "folder": "halloy",
+      "name": "Halloy",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "helix",
+      "name": "Helix",
+      "category": "editor",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "heroic",
+      "name": "Heroic Games Launcher",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "hexyl",
+      "name": "hexyl",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "homepage",
+      "name": "Homepage",
+      "category": "web",
+      "tier": null,
+      "platforms": [
+        "web"
+      ]
+    },
+    {
+      "folder": "insomnia",
+      "name": "Insomnia",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "jellyfin",
+      "name": "Jellyfin",
+      "category": "web",
+      "tier": null,
+      "platforms": [
+        "web"
+      ]
+    },
+    {
+      "folder": "k9s",
+      "name": "K9s",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "kicad",
+      "name": "KiCad",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "less",
+      "name": "less",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "mod-organizer-2",
+      "name": "Mod Organizer 2",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "nano",
+      "name": "nano",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "neovim",
+      "name": "Neovim",
+      "category": "editor",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "notepad-plus-plus",
+      "name": "Notepad++",
+      "category": "editor",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "obs-studio",
+      "name": "OBS Studio",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "obsidian",
+      "name": "Obsidian",
+      "category": "writing",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "powershell",
+      "name": "PowerShell",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "psreadline",
+      "name": "PSReadLine",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "qbittorrent",
+      "name": "qBittorrent",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "ripgrep",
+      "name": "ripgrep",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "slack",
+      "name": "Slack",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux",
+        "web"
+      ]
+    },
+    {
+      "folder": "starship",
+      "name": "Starship",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "startallback",
+      "name": "StartAllBack",
+      "category": "system",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "sumatrapdf",
+      "name": "SumatraPDF",
+      "category": "writing",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "telegram",
+      "name": "Telegram Desktop",
+      "category": "app",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "theme-park",
+      "name": "theme.park",
+      "category": "web",
+      "tier": null,
+      "platforms": [
+        "web"
+      ]
+    },
+    {
+      "folder": "tmux",
+      "name": "tmux",
+      "category": "cli",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "typora",
+      "name": "Typora",
+      "category": "writing",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "vim",
+      "name": "Vim",
+      "category": "editor",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "visual-studio",
+      "name": "Visual Studio",
+      "category": "editor",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "vscode",
+      "name": "Visual Studio Code",
+      "category": "editor",
+      "tier": null,
+      "platforms": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "windows",
+      "name": "Windows",
+      "category": "system",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "windows-terminal",
+      "name": "Windows Terminal",
+      "category": "terminal",
+      "tier": null,
+      "platforms": [
+        "windows"
+      ]
+    },
+    {
+      "folder": "zsh",
+      "name": "Zsh",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "zsh-autosuggestions",
+      "name": "zsh-autosuggestions",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "zsh-history-substring-search",
+      "name": "zsh-history-substring-search",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    },
+    {
+      "folder": "zsh-syntax-highlighting",
+      "name": "zsh-syntax-highlighting",
+      "category": "shell",
+      "tier": null,
+      "platforms": [
+        "macos",
+        "linux"
+      ]
+    }
   ]
 }

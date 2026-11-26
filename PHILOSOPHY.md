@@ -129,7 +129,7 @@ If a language has a token that does not fit, pick the closest row. Do not add a 
 | white | line | dim |
 | bright white | raised | text |
 
-Bright slots are the same hue as their normal slot, slightly stronger: Night is 0.05 lighter (at most 0.92), Day is 0.05 darker, and chroma is 1.1 times in both. The build computes them; they are not stored in the palette.
+Bright slots are the same hue as their normal slot, slightly stronger: Night is 0.05 lighter (at most 0.92), Day is 0.05 darker, and chroma is 1.1 times in both, lowered where needed to stay inside what a screen can show. The build computes them; they are not stored in the palette.
 
 ## Contrast floor
 
