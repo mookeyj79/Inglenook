@@ -232,16 +232,6 @@
       ]
     },
     {
-      "folder": "nano",
-      "name": "nano",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "neovim",
       "name": "Neovim",
       "category": "editor",

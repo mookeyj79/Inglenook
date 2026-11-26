@@ -1,0 +1,15 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends nano python3"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/nano",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/nanorc\" ~/.config/nano/nanorc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/nano/stage.sh\""
+  ]
+}
