@@ -11,6 +11,6 @@ set keycolor bold,blue
 set functioncolor {{port.text}}
 set numbercolor {{port.faint}}
 set selectedcolor {{port.raised}},{{port.text}}
-set spotlightcolor {{port.raised}},yellow
+set spotlightcolor {{port.raised}},blue
 set stripecolor ,{{port.raised}}
 set scrollercolor {{port.faint}}

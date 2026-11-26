@@ -43,7 +43,7 @@ The plugin draws in your terminal, so it uses the terminal's font. Set [IBM Plex
 
 ## Check that it worked
 
-1. Type part of a command you ran before, such as `commit`, and press Up. The matching part of the command that comes up sits on a soft amber band.
+1. Type part of a command you ran before, such as `commit`, and press Up. The matching part of the command that comes up is highlighted in solid amber.
 2. Press Ctrl+U, type something you never ran, and press Up. What you typed sits on a soft red band.
 
 ## Switch between Day and Night

@@ -11,8 +11,8 @@ One file per variant, `zsh.zsh`, sets the `zle_highlight` array and the `list-co
 | Context | Color | Why |
 |---|---|---|
 | `region` | background `accent` wash | A selection (PHILOSOPHY.md, Washes). Background only, so syntax colors from zsh-syntax-highlighting show through |
-| `isearch` | background `accent` wash, bold | A find match, as Git's grep match. Bold tells it apart from a selection |
-| `paste` | background `hover` | Text just inserted, marked without meaning. Not the accent: a paste is not "you are here". Owner to confirm |
+| `isearch` | `on_accent` on the `accent` fill, bold | The one match, at the cursor, per Search and matches in PHILOSOPHY.md |
+| `paste` | background `hover` | Text just inserted, marked without meaning. Not the accent: a paste is not "you are here". The owner's decision (2026-11-26) |
 | `suffix` | `dim` | The removable `/` after a folder is punctuation; matches `tc` in the list |
 | `special` | `literal` | An escaped character, as eza's `control_char` |
 | `default` | not set | The terminal's own text |
@@ -21,7 +21,7 @@ One file per variant, `zsh.zsh`, sets the `zle_highlight` array and the `list-co
 
 | Key | Color | Why |
 |---|---|---|
-| `ma` (the pick in a selection menu) | `text` on the `accent` wash | The same as a selection in the line editor. The wash is written as `#rrggbb` and turned into `r;g;b` by the file itself, because a placeholder cannot chain `wash` and `sgr` |
+| `ma` (the pick in a selection menu) | `text` on the `accent` wash | The same as a selection in the line editor. The wash is written as `r;g;b` (`{{accent|wash|sgr}}`), as the list's escape codes take it |
 | `no`, `fi` | not set | The terminal's own text |
 | `di` | `ansi.blue` (steel), bold | The same as eza's `LS_COLORS`, so `ls` and Tab agree |
 | `ln` | `reference` | |

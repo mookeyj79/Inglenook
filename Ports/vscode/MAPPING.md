@@ -68,7 +68,8 @@ Every color the theme sets. Every key was checked against the [Theme Color refer
 
 | App setting | Color | Why |
 |---|---|---|
-| `list.activeSelectionBackground`, `list.focusAndSelectionOutline`, `list.focusOutline`, `list.inactiveFocusOutline`, `list.highlightForeground` | `accent` |  |
+| `list.activeSelectionBackground`, `list.focusAndSelectionOutline`, `list.focusOutline`, `list.inactiveFocusOutline` | `accent` |  |
+| `list.highlightForeground` | `steel` | Matched characters in lists and the quick pick, per Search and matches in PHILOSOPHY.md. On the focused row they are `on_accent` (`list.focusHighlightForeground`) |
 | `list.activeSelectionForeground`, `list.activeSelectionIconForeground`, `list.focusHighlightForeground` | `on_accent` |  |
 | `list.inactiveSelectionBackground`, `list.focusBackground`, `list.dropBackground` | `accent` wash |  |
 | `list.inactiveSelectionForeground`, `list.focusForeground`, `list.hoverForeground` | `text` |  |
@@ -105,7 +106,7 @@ Every color the theme sets. Every key was checked against the [Theme Color refer
 | `notifications.background`, `notificationCenterHeader.background`, `editorWidget.background`, `editorHoverWidget.background`, `editorSuggestWidget.background`, `debugExceptionWidget.background`, `debugToolBar.background` | `raised` |  |
 | `notifications.foreground`, `notificationCenterHeader.foreground`, `editorWidget.foreground`, `editorHoverWidget.foreground`, `editorSuggestWidget.foreground`, `peekViewTitleLabel.foreground`, `peekViewResult.fileForeground` | `text` |  |
 | `notifications.border`, `notificationCenter.border`, `notificationToast.border`, `editorWidget.border`, `editorHoverWidget.border`, `editorSuggestWidget.border`, `editorHoverWidget.statusBarBackground`, `debugToolBar.border` | `line` |  |
-| `notificationLink.foreground`, `editorWidget.resizeBorder`, `editorSuggestWidget.selectedBackground`, `editorSuggestWidget.highlightForeground`, `peekView.border`, `peekViewResult.selectionBackground` | `accent` |  |
+| `notificationLink.foreground`, `editorWidget.resizeBorder`, `editorSuggestWidget.selectedBackground`, `peekView.border`, `peekViewResult.selectionBackground` | `accent` |  |
 | `notificationsErrorIcon.foreground`, `debugExceptionWidget.border` | `error` |  |
 | `notificationsWarningIcon.foreground` | `warning` |  |
 | `notificationsInfoIcon.foreground` | `info` |  |
@@ -113,7 +114,8 @@ Every color the theme sets. Every key was checked against the [Theme Color refer
 | `peekViewEditor.background`, `peekViewEditorGutter.background` | `base` |  |
 | `peekViewResult.background`, `peekViewTitle.background` | `deep` |  |
 | `peekViewTitleDescription.foreground`, `peekViewResult.lineForeground` | `dim` |  |
-| `peekViewEditor.matchHighlightBackground`, `peekViewResult.matchHighlightBackground` | `accent` wash |  |
+| `editorSuggestWidget.highlightForeground` | `steel` | Matched characters in the other suggestions; on the selected row they are `on_accent` |
+| `peekViewEditor.matchHighlightBackground`, `peekViewResult.matchHighlightBackground` | `steel` wash | Matches, per Search and matches in PHILOSOPHY.md |
 
 **Diff and merge**
 
@@ -137,9 +139,11 @@ Every color the theme sets. Every key was checked against the [Theme Color refer
 | `editor.background`, `editorGutter.background`, `minimap.background`, `editorStickyScroll.background` | `base` |  |
 | `editor.foreground`, `editorLineNumber.activeForeground` | `text` |  |
 | `editorLineNumber.foreground`, `editorIndentGuide.activeBackground1`, `editorCodeLens.foreground`, `editorInlayHint.foreground`, `editorGhostText.foreground`, `editorHint.foreground`, `editorUnnecessaryCode.border` | `faint` |  |
-| `editorCursor.foreground`, `editor.findMatchBorder`, `editorBracketMatch.border`, `editorLink.activeForeground`, `editorOverviewRuler.findMatchForeground`, `editorOverviewRuler.selectionHighlightForeground`, `minimap.findMatchHighlight`, `minimap.selectionHighlight` | `accent` |  |
+| `editorCursor.foreground`, `editor.findMatchBorder`, `editorBracketMatch.border`, `editorLink.activeForeground`, `editorOverviewRuler.selectionHighlightForeground`, `minimap.selectionHighlight` | `accent` |  |
 | `editorCursor.background` | `on_accent` |  |
-| `editor.selectionBackground`, `editor.inactiveSelectionBackground`, `editor.findMatchBackground`, `editor.findMatchHighlightBackground`, `editorBracketMatch.background` | `accent` wash |  |
+| `editor.selectionBackground`, `editor.inactiveSelectionBackground`, `editorBracketMatch.background` | `accent` wash |  |
+| `editor.findMatchBackground`, `editor.findMatchHighlightBackground` | `steel` wash | Every find match, per Search and matches in PHILOSOPHY.md. VS Code keeps syntax colors on a match, so the current one is told apart by the firelight `editor.findMatchBorder`, not a fill |
+| `editorOverviewRuler.findMatchForeground`, `minimap.findMatchHighlight` | `steel` | Marks for the matches |
 | `editor.selectionHighlightBackground`, `editor.wordHighlightBackground`, `editor.wordHighlightTextBackground` | `reference` wash | occurrences are references to the symbol |
 | `editor.wordHighlightStrongBackground`, `editor.stackFrameHighlightBackground` | `warning` wash |  |
 | `editor.findRangeHighlightBackground`, `editor.rangeHighlightBackground`, `editor.hoverHighlightBackground`, `editor.lineHighlightBackground`, `editor.lineHighlightBorder`, `editorInlayHint.background` | `raised` | lifted line; syntax colors keep their floor on `raised` |
@@ -191,7 +195,8 @@ Every color the theme sets. Every key was checked against the [Theme Color refer
 
 | App setting | Color | Why |
 |---|---|---|
-| `terminal.findMatchBackground`, `terminal.findMatchHighlightBackground`, `terminal.inactiveSelectionBackground` | `accent` wash |  |
+| `terminal.inactiveSelectionBackground` | `accent` wash |  |
+| `terminal.findMatchBackground`, `terminal.findMatchHighlightBackground` | `steel` wash | As in the editor: the current match has the firelight `terminal.findMatchBorder` |
 | `terminal.findMatchBorder`, `terminalCursor.foreground`, `terminal.selectionBackground` | `accent` |  |
 | `terminal.background` | `deep` | sits in the panel |
 | `terminal.foreground` | `text` |  |

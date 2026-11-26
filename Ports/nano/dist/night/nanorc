@@ -11,6 +11,6 @@ set keycolor bold,blue
 set functioncolor lightwhite
 set numbercolor lightblack
 set selectedcolor black,lightwhite
-set spotlightcolor black,yellow
+set spotlightcolor black,blue
 set stripecolor ,black
 set scrollercolor lightblack

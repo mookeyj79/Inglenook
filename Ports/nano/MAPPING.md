@@ -21,14 +21,14 @@ Neutral slots flip between the variants (black is `text` in Day and `raised` in 
 | `functioncolor` | `text` | The descriptions next to the keys |
 | `numbercolor` | `faint` (bright black) | Metadata |
 | `selectedcolor` | `raised` on `text` | A solid reverse block; see Gaps |
-| `spotlightcolor` | `raised` on brass (yellow) | A find match. Firelight has no slot; yellow is the closest, as in less |
+| `spotlightcolor` | `raised` on steel (blue) | The found match, per Search and matches in PHILOSOPHY.md: the blue slot reversed, as in less. nano has no reverse attribute, so the text is the `raised` slot |
 | `stripecolor` | background `raised` | A quiet guide column |
 | `scrollercolor` | `faint` | nano draws the thumb in reverse video, so the foreground is the thumb |
 | syntax `color` lines | not set | nano's own syntax files, in the terminal's slots |
 
 ## Gaps and trade-offs
 
-- No accent: the terminal has no amber slot. The selection is a neutral reverse block instead of a firelight wash, and the search match uses yellow (brass), the same trade as less. The terminal's own cursor stays firelight.
+- No accent: the terminal has no amber slot. The selection is a neutral reverse block instead of a firelight wash, and the search match uses the blue (steel) slot, as in less: yellow is brass, the warning color. The terminal's own cursor stays firelight.
 - No background: nano draws on the terminal's background.
 - Syntax: interface colors and syntax are separate in nano. Recoloring syntax means shipping a syntax file per language (nano's own are GPL and pick their colors per file), so syntax keeps nano's colors. They are terminal slot names, so they are palette colors in an Inglenook terminal, but not by role: the sh syntax, for example, colors comments cyan rather than faint.
 - Night `on_accent` is `deeper`, and Night `line` and `hover` have no slot: the closest slot, `raised` (black), stands in where a bar or block needs one.

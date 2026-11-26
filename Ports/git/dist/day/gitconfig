@@ -57,7 +57,7 @@
 	lineNumber = "#915023"
 	column = "#915023"
 	function = "#49545d"
-	match = "#2d373f #e3dbc8 bold"
+	match = "#2d373f #d2dddf bold"
 	separator = "#49545d"
 
 [color "interactive"]

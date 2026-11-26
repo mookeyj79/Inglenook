@@ -43,7 +43,7 @@ Every value is quoted in the template: Git reads an unquoted `#` as the start of
 | `color.grep.filename` | reference | Paths |
 | `color.grep.lineNumber`, `column` | literal | Numbers |
 | `color.grep.function` | dim | |
-| `color.grep.match` | text on the accent wash, bold | A find match (PHILOSOPHY.md, Washes) |
+| `color.grep.match` | text on the steel wash, bold | Every match, per Search and matches in PHILOSOPHY.md. Bold is Git's own second signal |
 | `color.grep.separator` | dim | Punctuation |
 | `color.grep.context`, `selected` | not set | Plain text |
 | `color.interactive.prompt` | accent, bold | Where you type |
