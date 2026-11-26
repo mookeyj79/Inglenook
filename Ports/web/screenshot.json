@@ -1,0 +1,21 @@
+{
+  "kind": "web",
+  "platform": "linux",
+  "install": [
+    "apt-get install -y --no-install-recommends fonts-ibm-plex"
+  ],
+  "apply": [
+    "mkdir -p ~/site/css",
+    "cp \"$INGLENOOK_PORT/dist/day/theme.css\" ~/site/css/inglenook-day.css",
+    "cp \"$INGLENOOK_PORT/dist/night/theme.css\" ~/site/css/inglenook-night.css"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/demo/stage.sh\" ~/site"
+  ],
+  "launch": [
+    "bash \"$INGLENOOK_SCENE/browser.sh\" \"file://$HOME/site/index.html#$INGLENOOK_VARIANT\""
+  ],
+  "window": {
+    "title": "^Moss, a shade softer$"
+  }
+}
