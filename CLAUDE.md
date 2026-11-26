@@ -37,6 +37,7 @@ Ports/<app_name>/
 build/lib/                  the rules, as modules the scripts share:
   Palette.psm1              loads and validates the palette; OKLCH to hex, gamut, contrast, wash, ANSI
   Placeholders.psm1         the {{...}} grammar: resolves, lists problems, reads template files
+  Shell.psm1                shell files: <tool>.env to .sh and .ps1, and whether a shell file sources cleanly
   Build.psm1                renders a port into dist/ and compares a build with dist/
   Catalog.psm1              finds ports, validates port.json, ports.json, icons, site.json
   Wallpaper.psm1            wallpaper rules: grades, variant marks and pairs, license

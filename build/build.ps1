@@ -6,7 +6,8 @@
 .DESCRIPTION
     For each folder in Ports/ that has a template/ folder, every file in
     template/ is rendered once per palette variant into dist/<variant>/.
-    File names and folder structure are kept. Placeholders are allowed in
+    File names and folder structure are kept, except that a <tool>.env
+    becomes <tool>.sh and <tool>.ps1 (build/lib/Shell.psm1). Placeholders are allowed in
     file contents and in file names. The placeholders are listed in
     CONTRIBUTING.md ("Add a port", step 4) and defined in
     build/lib/Placeholders.psm1.

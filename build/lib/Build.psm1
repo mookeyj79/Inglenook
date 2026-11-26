@@ -5,6 +5,7 @@
 Set-StrictMode -Version Latest
 
 Import-Module (Join-Path $PSScriptRoot 'Placeholders.psm1')
+Import-Module (Join-Path $PSScriptRoot 'Shell.psm1')
 
 function Read-PortValues([string]$PortDir) {
     $path = Join-Path $PortDir 'values.json'
@@ -33,13 +34,20 @@ function Write-PortFiles {
             $targetDir = Split-Path -Parent $target
             if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
             $tpl = Read-TemplateFile -Path $file.FullName
-            if ($tpl.Binary) { [System.IO.File]::WriteAllBytes($target, $tpl.Bytes) }
-            else {
-                $text = Expand-Template -Text $tpl.Text -Palette $Palette -Variant $variant -PortValues $values -Source $source
-                $bytes = [byte[]](@($tpl.Encoding.GetPreamble()) + @($tpl.Encoding.GetBytes($text)))
-                [System.IO.File]::WriteAllBytes($target, $bytes)
+            if ($tpl.Binary) { [System.IO.File]::WriteAllBytes($target, $tpl.Bytes); $count++; continue }
+            $text = Expand-Template -Text $tpl.Text -Palette $Palette -Variant $variant -PortValues $values -Source $source
+            $outputs = [ordered]@{ $target = $text }
+            if ($target -like '*.env') {
+                # A shell-variable tool: one .env becomes a .sh and a .ps1.
+                $shell = ConvertFrom-EnvText -Text $text -Source $source
+                $stem = $target.Substring(0, $target.Length - 4)
+                $outputs = [ordered]@{ "$stem.sh" = $shell.sh; "$stem.ps1" = $shell.ps1 }
             }
-            $count++
+            foreach ($out in $outputs.Keys) {
+                $bytes = [byte[]](@($tpl.Encoding.GetPreamble()) + @($tpl.Encoding.GetBytes($outputs[$out])))
+                [System.IO.File]::WriteAllBytes($out, $bytes)
+                $count++
+            }
         }
     }
     return $count

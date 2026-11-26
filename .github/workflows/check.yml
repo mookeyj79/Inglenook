@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Install zsh, for checking shell files
+        run: sudo apt-get update -q && sudo apt-get install -y -q zsh
       - name: Test the build modules
         shell: pwsh
         run: ./build/test.ps1
