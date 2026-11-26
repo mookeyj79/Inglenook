@@ -21,7 +21,7 @@ One `Set-PSReadLineOption -Colors` call in `template/psreadline.ps1`, a PowerShe
 | `Comment` | faint | |
 | `ContinuationPrompt` | dim | The `>>` of a multi-line command: supporting text |
 | `Error` | error | Parse errors, and the prompt text PSReadLine marks on one |
-| `Emphasis` | `on_accent` on the accent fill | The matched text in history search (Ctrl+R) and in the suggestion list. The owner's decision (2026-11-26): firelight, as the match at the cursor in Search and matches in PHILOSOPHY.md, not steel, which here is the command color. In the list view the match is marked on every row, not only the picked one |
+| `Emphasis` | text on the steel wash | The matched text in history search (Ctrl+R) and on every row of the suggestion list. Every match is steel (ADR 0009). PSReadLine has this one match color, with none for the picked row or the match at the cursor, so no match gets the firelight fill. A wash, not steel text, because steel is also the command color |
 | `Selection` | text on the accent wash | Selected text |
 | `InlinePrediction` | faint | A suggestion is a placeholder until accepted. zsh-autosuggestions uses the same |
 | `ListPrediction` | faint | The `>` markers, the `[History]` source names and the `<1/3>` counter: metadata |

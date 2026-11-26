@@ -9,6 +9,7 @@ Steel was picked because it is calm, reads as information, and is not the select
 ## Consequences
 
 - The selection stays a firelight wash. Steel never marks a selection, and firelight never marks a match away from the cursor.
-- Tools with one match, shown at the cursor (zsh's history search, zsh-history-substring-search, PSReadLine), use the firelight fill.
+- Tools with one match, shown at the cursor (zsh's history search, zsh-history-substring-search), use the firelight fill.
+- PSReadLine has one match color for history search and every row of its suggestion list, so it uses the steel wash everywhere.
 - A wash written as `r,g,b` or `r;g;b` chains a format filter after `|wash`, such as `{{steel|wash|comma}}` for ripgrep.
 - Washes are mixed into `base`, so a terminal tool's match wash is exact only on an Inglenook terminal.
