@@ -100,17 +100,6 @@
       ]
     },
     {
-      "folder": "eza",
-      "name": "eza",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "fzf",
       "name": "fzf",
       "category": "cli",
