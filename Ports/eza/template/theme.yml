@@ -1,0 +1,107 @@
+# {{meta.name}} theme for eza: {{variant.name}}.
+# Save as theme.yml in eza's config folder. Palette {{meta.version}}, {{meta.repository}}
+
+colourful: true
+
+filekinds:
+  normal: {foreground: "{{text}}"}
+  directory: {foreground: "{{ansi.blue}}", is_bold: true}
+  symlink: {foreground: "{{reference}}"}
+  pipe: {foreground: "{{heather}}"}
+  block_device: {foreground: "{{clay}}", is_bold: true}
+  char_device: {foreground: "{{clay}}", is_bold: true}
+  socket: {foreground: "{{heather}}", is_bold: true}
+  special: {foreground: "{{clay}}"}
+  executable: {foreground: "{{ansi.green}}", is_bold: true}
+  mount_point: {foreground: "{{ansi.blue}}", is_bold: true, is_underline: true}
+
+perms:
+  user_read: {foreground: "{{dim}}", is_bold: true}
+  user_write: {foreground: "{{clay}}", is_bold: true}
+  user_execute_file: {foreground: "{{ansi.green}}", is_bold: true}
+  user_execute_other: {foreground: "{{ansi.green}}", is_bold: true}
+  group_read: {foreground: "{{dim}}"}
+  group_write: {foreground: "{{clay}}"}
+  group_execute: {foreground: "{{ansi.green}}"}
+  other_read: {foreground: "{{dim}}"}
+  other_write: {foreground: "{{clay}}"}
+  other_execute: {foreground: "{{ansi.green}}"}
+  special_user_file: {foreground: "{{heather}}"}
+  special_other: {foreground: "{{heather}}"}
+  attribute: {foreground: "{{faint}}"}
+
+size:
+  major: {foreground: "{{literal}}", is_bold: false}
+  minor: {foreground: "{{literal}}", is_bold: false}
+  number_byte: {foreground: "{{literal}}", is_bold: false}
+  number_kilo: {foreground: "{{literal}}", is_bold: false}
+  number_mega: {foreground: "{{literal}}", is_bold: false}
+  number_giga: {foreground: "{{literal}}", is_bold: false}
+  number_huge: {foreground: "{{literal}}", is_bold: false}
+  unit_byte: {foreground: "{{dim}}", is_bold: false}
+  unit_kilo: {foreground: "{{dim}}", is_bold: false}
+  unit_mega: {foreground: "{{dim}}", is_bold: false}
+  unit_giga: {foreground: "{{dim}}", is_bold: false}
+  unit_huge: {foreground: "{{dim}}", is_bold: false}
+
+users:
+  user_you: {foreground: "{{text}}"}
+  user_root: {foreground: "{{keyword}}"}
+  user_other: {foreground: "{{dim}}"}
+  group_yours: {foreground: "{{text}}"}
+  group_root: {foreground: "{{keyword}}"}
+  group_other: {foreground: "{{dim}}"}
+
+links:
+  normal: {foreground: "{{literal}}"}
+  multi_link_file: {foreground: "{{literal}}", is_bold: true}
+
+git:
+  new: {foreground: "{{success}}"}
+  modified: {foreground: "{{warning}}"}
+  deleted: {foreground: "{{error}}"}
+  renamed: {foreground: "{{info}}"}
+  typechange: {foreground: "{{heather}}"}
+  ignored: {foreground: "{{faint}}"}
+  conflicted: {foreground: "{{error}}", is_bold: true}
+
+git_repo:
+  branch_main: {foreground: "{{reference}}"}
+  branch_other: {foreground: "{{reference}}"}
+  git_clean: {foreground: "{{success}}"}
+  git_dirty: {foreground: "{{warning}}"}
+
+security_context:
+  none: {foreground: "{{faint}}"}
+  selinux:
+    colon: {foreground: "{{faint}}"}
+    user: {foreground: "{{dim}}"}
+    role: {foreground: "{{dim}}"}
+    typ: {foreground: "{{info}}"}
+    range: {foreground: "{{faint}}"}
+
+file_type:
+  image: {foreground: "{{heather}}"}
+  video: {foreground: "{{heather}}", is_bold: true}
+  music: {foreground: "{{dusk}}"}
+  lossless: {foreground: "{{dusk}}", is_bold: true}
+  crypto: {foreground: "{{ivy}}", is_bold: true}
+  document: {foreground: "{{ivy}}"}
+  compressed: {foreground: "{{oxblood}}"}
+  temp: {foreground: "{{faint}}"}
+  compiled: {foreground: "{{faint}}"}
+  build: {foreground: "{{rosewood}}", is_bold: true, is_underline: true}
+  source: {foreground: "{{rosewood}}"}
+
+punctuation: {foreground: "{{faint}}", is_bold: false}
+date: {foreground: "{{info}}"}
+inode: {foreground: "{{faint}}"}
+blocks: {foreground: "{{faint}}"}
+header: {foreground: "{{text}}", is_underline: true}
+octal: {foreground: "{{literal}}"}
+flags: {foreground: "{{dim}}"}
+
+symlink_path: {foreground: "{{reference}}"}
+control_char: {foreground: "{{literal}}"}
+broken_symlink: {foreground: "{{error}}"}
+broken_path_overlay: {is_underline: true}

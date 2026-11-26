@@ -1,0 +1,25 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "version": "0.23.5",
+  "install": [
+    "curl -fsSL -o /tmp/eza.tar.gz \"https://github.com/eza-community/eza/releases/download/v$INGLENOOK_VERSION/eza_x86_64-unknown-linux-gnu.tar.gz\" && echo '35c70c5c43c29108075e58b893234c67ef585f0b53a7eaf8e9e7d4eec9f339b4  /tmp/eza.tar.gz' | sha256sum -c - && tar -xzf /tmp/eza.tar.gz -C /usr/local/bin && chmod 755 /usr/local/bin/eza && rm /tmp/eza.tar.gz",
+    "apt-get install -y --no-install-recommends gnome-terminal dconf-cli"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/eza",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/theme.yml\" ~/.config/eza/theme.yml",
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/eza.sh\" ~/.config/inglenook/eza.sh",
+    "echo 'source ~/.config/inglenook/eza.sh' >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/eza/stage.sh\""
+  ],
+  "launch": [
+    "gnome-terminal --geometry=100x34 -- bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": {
+    "class": "gnome-terminal-server"
+  }
+}
