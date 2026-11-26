@@ -54,7 +54,8 @@ h1 { font: 600 1.9rem/1.15 var(--font-display); margin: 0; text-wrap: balance; }
 /* Port cards */
 .group { display: flex; flex-direction: column; gap: 10px; }
 .group[hidden] { display: none; }
-h2 { font: 600 1.1rem var(--font-display); color: var(--text); margin: 0; }
+/* The heading sits on the wallpaper, so it gets a solid label of its own. */
+h2 { font: 600 1.1rem var(--font-display); color: var(--text); margin: 0; align-self: flex-start; padding: 4px 12px; background: var(--raised); border: 1px solid var(--line); border-radius: 8px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
 .card { position: relative; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
 .card:hover, .card:focus-within { border-color: var(--accent); }
@@ -163,6 +164,7 @@ footer p + p { margin-top: 4px; }
     <p>{{meta.name}} {{meta.version}}. This list is generated from each port's <code>port.json</code>, so it is always current.</p>
     <p>Every color on this page is generated from <code>palette/palette.json</code>.</p>
     <p id="icon-credits" hidden></p>
+    <p class="credit">Wallpapers: <a href="https://commons.wikimedia.org/wiki/File:Cozy_interior_of_a_wooden_cabin_with_a_seating_area.jpg">Cabin Seating</a> (Day) by Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>. <a href="https://commons.wikimedia.org/wiki/File:The_fireplace_in_the_dining_room_of_the_mission_house_at_the_The_Elms_-_Formerly_the_Te_Papa_Mission_Station.jpg">Mission Fireplace</a> (Night) by Richard N Horne, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>.</p>
   </footer>
 </main>
 

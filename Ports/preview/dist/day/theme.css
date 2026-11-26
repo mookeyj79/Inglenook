@@ -74,3 +74,9 @@
   --to-type: "dusk";
   --to-tag: "rosewood";
 }
+
+/* Behind the page: the variant's wallpaper, as it is, with no tint. Every panel on it is solid.
+   The path is relative to this file, in dist/day/. */
+html[data-variant="day"] {
+  background: #f1f3ee url("../../../../wallpapers/web/cabin-seating.jpg") center / cover no-repeat fixed;
+}

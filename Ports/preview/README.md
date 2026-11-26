@@ -20,3 +20,4 @@ The page frame opens in Day or Night to match your OS setting, and remembers the
 ## Sources
 
 - [IBM Plex](https://github.com/IBM/plex) Sans, Serif and Mono, loaded from Google Fonts, under the SIL Open Font License 1.1.
+- The wallpapers behind the page, resized for the web: [Cabin Seating](../../wallpapers/README.md#cabin-seating) by Shixart1985 under CC BY 2.0 in Day, and [Mission Fireplace](../../wallpapers/README.md#mission-fireplace) by Richard N Horne under CC BY-SA 4.0 in Night.

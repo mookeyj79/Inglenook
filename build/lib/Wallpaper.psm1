@@ -174,8 +174,9 @@ function Test-WallpaperUse {
     .SYNOPSIS
         A port may show a wallpaper only in a variant the wallpaper is marked
         for, or in either when it is marked both (ADR 0007). Checks every
-        wallpapers/<name>.jpg a port's values.json names. Returns a list of
-        problems.
+        wallpapers/<name>.jpg and web copy (wallpapers/web/<name>.jpg) a
+        port's values.json names, by the mark of its original. Returns a list
+        of problems.
     .PARAMETER Values
         values.json as a hashtable: variant key -> { key -> value }.
     #>
@@ -189,9 +190,9 @@ function Test-WallpaperUse {
         $set = $Values[$variant]
         if ($set -isnot [System.Collections.IDictionary]) { continue }
         foreach ($key in @($set.Keys | Sort-Object)) {
-            foreach ($m in [regex]::Matches([string]$set[$key], 'wallpapers/([^/"''()\s]+\.jpg)')) {
+            foreach ($m in [regex]::Matches([string]$set[$key], 'wallpapers/((?:web/)?([^/"''()\s]+\.jpg))')) {
                 $n = $m.Groups[1].Value
-                $mark = $marks[$n]
+                $mark = $marks[$m.Groups[2].Value]
                 if (-not $mark) { $problems.Add("${Source}: $variant uses $n, which wallpapers/README.md does not mark.") }
                 elseif ($mark -ne $variant -and $mark -ne 'both') { $problems.Add("${Source}: $variant uses $n, which wallpapers/README.md marks $mark.") }
             }
@@ -204,7 +205,7 @@ function Test-WallpaperFolder {
     <#
     .SYNOPSIS
         Every wallpaper has a thumbnail and a credit with a variant mark in
-        the folder's README. A pair is one section with a subsection per
+        the folder's README, and every web copy (web/<name>.jpg) a wallpaper. A pair is one section with a subsection per
         image: one day and one night, listed before single images. Returns a
         list of problems. Needs no image library, so CI runs it.
     #>
@@ -238,10 +239,11 @@ function Test-WallpaperFolder {
         }
         if (-not (Get-SectionMark $sections[$n])) { $problems.Add("wallpapers/README.md: the $n section has no Variant (day, night, or both).") }
     }
-    $thumbDir = Join-Path $Path 'thumbs'
-    if (Test-Path $thumbDir) {
-        foreach ($t in Get-ChildItem -Path $thumbDir -File) {
-            if (-not (Test-Path (Join-Path $Path $t.Name))) { $problems.Add("wallpapers/thumbs/$($t.Name) has no wallpaper.") }
+    foreach ($sub in 'thumbs', 'web') {
+        $subDir = Join-Path $Path $sub
+        if (-not (Test-Path $subDir)) { continue }
+        foreach ($t in Get-ChildItem -Path $subDir -File) {
+            if (-not (Test-Path (Join-Path $Path $t.Name))) { $problems.Add("wallpapers/$sub/$($t.Name) has no wallpaper.") }
         }
     }
     foreach ($n in $sections.Keys) {

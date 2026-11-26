@@ -19,7 +19,7 @@ name: screenshots
 on:
   push:
     branches: [main]
-    # The fingerprint's inputs (the palette for the backdrop's color), and this workflow. Not how a run reports
+    # The fingerprint's inputs (wallpapers/ for the backdrop and the preview's own), and this workflow. Not how a run reports
     # (screenshots.ps1, ScreenshotRun.psm1): that changes no shot. Committed shots
     # too, so the issue of a manual port closes once its hand-taken shots are stamped.
     paths:

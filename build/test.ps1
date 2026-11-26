@@ -997,6 +997,8 @@ function New-ShotRepo {
         'build/photograph/scenes/prompt/run.sh' = "cd`n"
         'build/photograph/scenes/editor/main.py' = "print()`n"
         'wallpapers/other.jpg' = "other`n"
+        'wallpapers/cabin-seating.jpg' = "day room`n"
+        'wallpapers/mission-fireplace.jpg' = "night room`n"
     }
     foreach ($k in $files.Keys) {
         $path = Join-Path $root $k
@@ -1077,25 +1079,26 @@ Test 'Photographer: changing one input makes exactly the ports that use it stale
     }
 }
 
-Test 'Photographer: the backdrop color makes every port stale, and other palette colors none' {
+Test 'Photographer: a backdrop wallpaper makes every port stale, and palette colors and other wallpapers none' {
     $root = New-ShotRepo
-    Set-Content (Join-Path $root 'palette/palette.json') (New-ShotPalette -Change { param($d) $d.variants.night.colors.moss.l = 0.7; $d.variants.day.neutrals.text.l = 0.25 }) -NoNewline
-    Assert-Equal @() (Get-StaleNames $root) 'a color the backdrop does not use'
-    Set-Content (Join-Path $root 'palette/palette.json') (New-ShotPalette -Change { param($d) $d.variants.night.neutrals.deeper.l = 0.15 }) -NoNewline
-    Assert-Equal @('editor', 'icons', 'prompt', 'term') (Get-StaleNames $root) 'the night backdrop moved'
+    Set-Content (Join-Path $root 'palette/palette.json') (New-ShotPalette -Change { param($d) $d.variants.night.neutrals.deeper.l = 0.15; $d.variants.day.neutrals.text.l = 0.25 }) -NoNewline
+    Add-Content -Path (Join-Path $root 'wallpapers/other.jpg') -Value 'changed'
+    Assert-Equal @() (Get-StaleNames $root) 'colors and a wallpaper the backdrop does not use'
+    Add-Content -Path (Join-Path $root 'wallpapers/mission-fireplace.jpg') -Value 'changed'
+    Assert-Equal @('editor', 'icons', 'prompt', 'term') (Get-StaleNames $root) 'the night backdrop changed'
 }
 
-Test 'Photographer: the backdrop is the deeper fill of each variant, or a wallpaper' {
+Test 'Photographer: the backdrop is Cabin Seating in Day and Mission Fireplace in Night, or a named fill' {
     $root = New-ShotRepo
+    $day = Get-SceneBackdrop -RepoRoot $root -Variant 'day'
+    Assert-Equal 'image cabin-seating.jpg wallpapers/cabin-seating.jpg' "$($day.Kind) $($day.Name) $($day.Value)" 'day backdrop'
+    Assert-Equal 'wallpapers/cabin-seating.jpg' (Format-SceneBackdrop $day) 'day in words'
+    $night = Get-SceneBackdrop -RepoRoot $root -Variant 'night'
+    Assert-Equal 'image mission-fireplace.jpg wallpapers/mission-fireplace.jpg' "$($night.Kind) $($night.Name) $($night.Value)" 'night backdrop'
     $p = Read-Palette -Path (Join-Path $root 'palette/palette.json')
-    foreach ($v in 'day', 'night') {
-        $b = Get-SceneBackdrop -RepoRoot $root -Variant $v
-        Assert-Equal "fill deeper $($p.Variants[$v].Neutrals['deeper'].Hex)" "$($b.Kind) $($b.Name) $($b.Value)" "$v backdrop"
-        Assert-Equal "a plain $($b.Value) fill (deeper)" (Format-SceneBackdrop $b) "$v in words"
-    }
-    $w = Get-SceneBackdrop -RepoRoot $root -Variant 'day' -Backdrop 'other.jpg'
-    Assert-Equal 'image wallpapers/other.jpg' "$($w.Kind) $($w.Value)" 'a wallpaper'
-    Assert-Equal 'wallpapers/other.jpg' (Format-SceneBackdrop $w) 'a wallpaper in words'
+    $f = Get-SceneBackdrop -RepoRoot $root -Variant 'night' -Backdrop 'deeper'
+    Assert-Equal "fill deeper $($p.Variants['night'].Neutrals['deeper'].Hex)" "$($f.Kind) $($f.Name) $($f.Value)" 'a fill'
+    Assert-Equal "a plain $($f.Value) fill (deeper)" (Format-SceneBackdrop $f) 'a fill in words'
     Assert-Throws { Get-SceneBackdrop -RepoRoot $root -Variant 'day' -Backdrop 'gone.jpg' } '*does not exist*'
     Assert-Throws { Get-SceneBackdrop -RepoRoot $root -Variant 'day' -Backdrop 'moss' } '*not a palette neutral*'
 }
@@ -1168,7 +1171,8 @@ function New-PreviewRepo {
     $root = New-ShotRepo
     $files = @{
         'Ports/preview/dist/day/index.html' = "<p>Inglenook 1.0.4</p><style>body { background: url(../../../../wallpapers/other.jpg) }</style>`n"
-        'Ports/preview/dist/night/index.html' = "<p>Inglenook 1.0.4</p>`n"
+        'Ports/preview/dist/night/index.html' = "<p>Inglenook 1.0.4</p><style>body { background: url(../../../../wallpapers/web/night.jpg) }</style>`n"
+        'wallpapers/web/night.jpg' = "small night`n"
         'Ports/preview/assets/fonts/a.woff2' = "font`n"
         'Ports/preview/template/index.html' = "<p>{{meta.version}}</p>`n"
         'Ports/preview/README.md' = "# Preview`n"
@@ -1197,7 +1201,7 @@ Test 'Photographer: the preview is stale when its page, assets, shot list, Photo
     Assert-Equal @('port', 'assets', 'shots', 'photographer', 'wallpapers') @((Get-PreviewFingerprint -RepoRoot (New-PreviewRepo) -Port 'preview').Inputs.Keys) 'input groups'
     Assert-True (-not (Test-PreviewStale (New-PreviewRepo))) 'fresh'
     foreach ($path in 'Ports/preview/dist/night/index.html', 'Ports/preview/assets/fonts/a.woff2', 'Ports/preview/shots.json',
-                      'build/photograph/linux/preview.py', 'build/photograph/pins.json', 'wallpapers/other.jpg') {
+                      'build/photograph/linux/preview.py', 'build/photograph/pins.json', 'wallpapers/other.jpg', 'wallpapers/web/night.jpg') {
         $root = New-PreviewRepo
         Add-Content -Path (Join-Path $root $path) -Value 'changed'
         Assert-True (Test-PreviewStale $root) "after changing $path"
@@ -1816,6 +1820,8 @@ Test 'Wallpaper: folder needs thumbnails and credits' {
     Set-Content (Join-Path $dir 'good.jpg') 'x'; Set-Content (Join-Path $dir 'thumbs' 'good.jpg') 'x'
     Set-Content (Join-Path $dir 'bare.jpg') 'x'
     Set-Content (Join-Path $dir 'thumbs' 'orphan.jpg') 'x'
+    New-Item -ItemType Directory -Path (Join-Path $dir 'web') -Force | Out-Null
+    Set-Content (Join-Path $dir 'web' 'good.jpg') 'x'; Set-Content (Join-Path $dir 'web' 'stray.jpg') 'x'
     Set-Content (Join-Path $dir 'README.md') @"
 # Wallpapers
 
@@ -1832,7 +1838,7 @@ Test 'Wallpaper: folder needs thumbnails and credits' {
 | File | [``gone.jpg``](gone.jpg) |
 "@
     $all = (Test-WallpaperFolder -Path $dir) -join "`n"
-    foreach ($want in 'bare.jpg has no thumbs/bare.jpg', 'bare.jpg has no section', 'thumbs/orphan.jpg has no wallpaper', 'credits gone.jpg') {
+    foreach ($want in 'bare.jpg has no thumbs/bare.jpg', 'bare.jpg has no section', 'thumbs/orphan.jpg has no wallpaper', 'web/stray.jpg has no wallpaper', 'credits gone.jpg') {
         Assert-True ($all -like "*$want*") "expected '$want' in:`n$all"
     }
     Assert-True ($all -notlike '*good.jpg*') "good.jpg should pass:`n$all"
@@ -1908,13 +1914,14 @@ Test 'Wallpaper: a port uses a wallpaper only for a variant it is marked for' {
     $image = { param($Name, $Mark) "## $Name`n`n| | |`n|---|---|`n| File | [``$Name.jpg``]($Name.jpg) |`n| Variant | $Mark |`n" }
     Set-Content (Join-Path $dir 'README.md') "# Wallpapers`n`n$(& $image 'snow' 'Day')`n$(& $image 'night' 'Night')`n$(& $image 'dusk' 'Both')"
     $url = { param($Name) "url(`"../../../../wallpapers/$Name.jpg`")" }
-    $good = @{ night = @{ wallpaper = (& $url 'night') }; day = @{ wallpaper = (& $url 'snow'); other = (& $url 'dusk') } }
+    $good = @{ night = @{ wallpaper = (& $url 'night') }; day = @{ wallpaper = (& $url 'snow'); other = (& $url 'dusk'); web = (& $url 'web/snow') } }
     Assert-Equal 0 @(Test-WallpaperUse -Path $dir -Values $good -Source 'values.json').Count 'marked uses pass'
     Assert-Equal 0 @(Test-WallpaperUse -Path $dir -Values @{ night = @{ wallpaper = 'none' } } -Source 'values.json').Count 'no wallpaper passes'
-    $bad = @{ night = @{ wallpaper = (& $url 'snow') }; day = @{ wallpaper = (& $url 'gone') } }
+    $bad = @{ night = @{ wallpaper = (& $url 'snow'); web = (& $url 'web/snow') }; day = @{ wallpaper = (& $url 'gone') } }
     Assert-Equal @(
         "values.json: day uses gone.jpg, which wallpapers/README.md does not mark.",
-        "values.json: night uses snow.jpg, which wallpapers/README.md marks day."
+        "values.json: night uses snow.jpg, which wallpapers/README.md marks day.",
+        "values.json: night uses web/snow.jpg, which wallpapers/README.md marks day."
     ) @(Test-WallpaperUse -Path $dir -Values $bad -Source 'values.json') 'problems'
 }
 

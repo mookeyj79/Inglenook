@@ -94,7 +94,7 @@ _Avoid_: Demo, sample
 The group a port belongs to for its scene: terminal, prompt, CLI/TUI, editor, icon theme, document, desktop or web.
 
 **Backdrop**:
-What is behind every shot of a variant: that variant's deeper color as a plain fill.
+What is behind every shot of a variant: that variant's wallpaper, shown as it is: Cabin Seating in Day and Mission Fireplace in Night. The preview site shows the same pair behind its page.
 
 **Host**:
 The app a port lives inside, shot wearing its own Inglenook port in the same variant. A prompt is hosted by a terminal, an icon theme by an editor.
@@ -118,3 +118,6 @@ _Avoid_: Background image
 
 **Wallpaper pair**:
 Two wallpapers of the same kind of scene, one for Day and one for Night.
+
+**Web copy**:
+A smaller copy of a wallpaper in `wallpapers/web/`, made by `build/wallpaper.ps1 -Web`, for the preview site.

@@ -22,12 +22,13 @@ $WindowTimeout = 60   # seconds to find the window, then again to settle
 # reach the next minute.)
 $SettleSeconds = 8
 $Clock = '2026-06-01 09:41:00'   # what any clock in the scene shows (a desktop's panel)
-# The backdrop behind every shot of a variant: a palette neutral laid down as a plain
-# fill, or the file name of a wallpaper in wallpapers/. Mode is the app and system
-# mode the variant asks for (the stock frame's, and Windows').
+# The backdrop behind every shot of a variant: the file name of a wallpaper in
+# wallpapers/, shown as it is, or a palette neutral laid down as a plain fill. Every
+# port is shot on the same wallpaper pair, the one the preview site shows. Mode is the
+# app and system mode the variant asks for (the stock frame's, and Windows').
 $Variants = [ordered]@{
-    day   = @{ Backdrop = 'deeper'; GtkTheme = 'Adwaita'; FrameTheme = 'Adwaita'; Mode = 'light' }
-    night = @{ Backdrop = 'deeper'; GtkTheme = 'Adwaita:dark'; FrameTheme = 'Adwaita-dark'; Mode = 'dark' }
+    day   = @{ Backdrop = 'cabin-seating.jpg'; GtkTheme = 'Adwaita'; FrameTheme = 'Adwaita'; Mode = 'light' }
+    night = @{ Backdrop = 'mission-fireplace.jpg'; GtkTheme = 'Adwaita:dark'; FrameTheme = 'Adwaita-dark'; Mode = 'dark' }
 }
 
 function Get-SceneBackdrop {
@@ -452,7 +453,7 @@ function Get-PreviewFingerprint {
         since the page prints the palette version), its assets/, its shots.json,
         the Photographer (as for a port: build/photograph/ but its scenes, with
         the pins, photograph.ps1, this module and Png.psm1), and the wallpapers its dist/
-        names (wallpapers/<file>). Text is read with LF line endings. The scenes
+        names (wallpapers/<file>, or a web copy, wallpapers/web/<file>). Text is read with LF line endings. The scenes
         and the scene wallpapers are not inputs.
     #>
     param([Parameter(Mandatory)][string]$RepoRoot, [Parameter(Mandatory)][string]$Port)
@@ -460,7 +461,7 @@ function Get-PreviewFingerprint {
     $named = [System.Collections.Generic.SortedSet[string]]::new([StringComparer]::Ordinal)
     if (Test-Path -LiteralPath $dist) {
         foreach ($f in Get-ChildItem -LiteralPath $dist -Recurse -File) {
-            foreach ($m in [regex]::Matches([System.IO.File]::ReadAllText($f.FullName), 'wallpapers/([A-Za-z0-9._-]+\.(?:jpe?g|png|webp))')) { $null = $named.Add("wallpapers/$($m.Groups[1].Value)") }
+            foreach ($m in [regex]::Matches([System.IO.File]::ReadAllText($f.FullName), 'wallpapers/((?:web/)?[A-Za-z0-9._-]+\.(?:jpe?g|png|webp))')) { $null = $named.Add("wallpapers/$($m.Groups[1].Value)") }
         }
     }
     $inputs = [ordered]@{

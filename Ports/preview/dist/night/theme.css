@@ -74,3 +74,9 @@
   --to-type: "dusk";
   --to-tag: "rosewood";
 }
+
+/* Behind the page: the variant's wallpaper, as it is, with no tint. Every panel on it is solid.
+   The path is relative to this file, in dist/night/. */
+html[data-variant="night"] {
+  background: #1b1917 url("../../../../wallpapers/web/mission-fireplace.jpg") center / cover no-repeat fixed;
+}

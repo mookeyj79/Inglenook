@@ -21,6 +21,8 @@
     -Add downloads a Commons file into wallpapers/, unmodified, writes the
     640 px thumbnail, and prints the credit section for wallpapers/README.md,
     with the variant mark given. It refuses an image that fails a gate.
+    -Web writes wallpapers/web/<name>.jpg, a 2400 px copy of a wallpaper for
+    the preview site, so its page stays light.
 
     Images are read with SixLabors.ImageSharp (Apache 2.0 for open source
     projects), downloaded once from NuGet, checked against a pinned hash, and
@@ -59,8 +61,14 @@
 .EXAMPLE
     pwsh build/wallpaper.ps1 -Check wallpapers/cabin-window-plants.jpg
 
+.PARAMETER Web
+    The short name of a wallpaper in wallpapers/, such as "cabin-seating".
+
 .EXAMPLE
     pwsh build/wallpaper.ps1 -Add "File:Example.jpg" -Name cabin-window-plants -Variant day
+
+.EXAMPLE
+    pwsh build/wallpaper.ps1 -Web cabin-seating
 #>
 [CmdletBinding(DefaultParameterSetName = 'Search')]
 param(
@@ -86,7 +94,10 @@ param(
     [string]$Add,
 
     [Parameter(Mandatory, ParameterSetName = 'Add')]
-    [string]$Name
+    [string]$Name,
+
+    [Parameter(Mandatory, ParameterSetName = 'Web')]
+    [string]$Web
 )
 
 Set-StrictMode -Version Latest
@@ -108,6 +119,7 @@ $MinWidth  = $Rules.Format.MinWidth
 $FitWidth  = 480
 $CheckWidth = 1920   # a standard Commons thumbnail size; grades are taken from a 480 px copy anyway
 $ThumbWidth = 640
+$WebWidth = 2400     # the preview site's copy: sharp enough behind the page, a few hundred KB
 
 # --- Downloads and ImageSharp -------------------------------------------------
 
@@ -420,6 +432,26 @@ if ($PSCmdlet.ParameterSetName -eq 'Check') {
     $gates = if ($candidate) { 'the format and license gates' } else { 'the format gate (license is checked for Commons titles)' }
     Write-Report $fit $problems $gates
     if ($problems.Count) { exit 1 }
+    return
+}
+
+# --- Web ------------------------------------------------------------------------
+
+if ($PSCmdlet.ParameterSetName -eq 'Web') {
+    $source = Join-Path $WallpaperDir "$Web.jpg"
+    if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "wallpapers/$Web.jpg does not exist." }
+    $out = Join-Path $WallpaperDir 'web' "$Web.jpg"
+    New-Item -ItemType Directory -Path (Split-Path $out) -Force | Out-Null
+    $img = Read-Image $source
+    try {
+        $small = Copy-Image $img $WebWidth
+        $enc = [SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder]::new()
+        $enc.Quality = 80
+        [SixLabors.ImageSharp.ImageExtensions]::Save($small, $out, $enc)
+        $small.Dispose()
+    }
+    finally { $img.Dispose() }
+    Write-Host "Wrote wallpapers/web/$Web.jpg ($([math]::Round((Get-Item $out).Length / 1KB)) KB)."
     return
 }
 

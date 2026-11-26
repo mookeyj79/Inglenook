@@ -74,3 +74,9 @@
   --to-type: "{{type|name}}";
   --to-tag: "{{tag|name}}";
 }
+
+/* Behind the page: the variant's wallpaper, as it is, with no tint. Every panel on it is solid.
+   The path is relative to this file, in dist/{{variant.key}}/. */
+html[data-variant="{{variant.key}}"] {
+  background: {{base}} url("../../../../{{port.wallpaper}}") center / cover no-repeat fixed;
+}
