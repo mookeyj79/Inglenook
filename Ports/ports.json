@@ -155,15 +155,6 @@
       ]
     },
     {
-      "folder": "gnome-terminal",
-      "name": "GNOME Terminal",
-      "category": "terminal",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "screen",
       "name": "GNU Screen",
       "category": "cli",
