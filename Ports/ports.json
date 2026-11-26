@@ -89,17 +89,6 @@
       ]
     },
     {
-      "folder": "fzf",
-      "name": "fzf",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
@@ -234,17 +223,6 @@
       ]
     },
     {
-      "folder": "less",
-      "name": "less",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "mod-organizer-2",
       "name": "Mod Organizer 2",
       "category": "app",
@@ -337,7 +315,8 @@
         "macos",
         "linux"
       ]
-    },    {
+    },
+    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
@@ -429,17 +408,6 @@
       ]
     },
     {
-      "folder": "vscode",
-      "name": "Visual Studio Code",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "windows",
       "name": "Windows",
       "category": "system",
@@ -460,16 +428,6 @@
     {
       "folder": "zsh",
       "name": "Zsh",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-autosuggestions",
-      "name": "zsh-autosuggestions",
       "category": "shell",
       "tier": null,
       "platforms": [

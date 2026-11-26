@@ -1,0 +1,16 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends less"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/less.sh\" ~/.config/inglenook/less.sh",
+    "echo 'source ~/.config/inglenook/less.sh' >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/less/stage.sh\""
+  ]
+}

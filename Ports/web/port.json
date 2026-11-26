@@ -1,0 +1,8 @@
+{
+  "name": "Web",
+  "category": "web",
+  "tier": 1,
+  "platforms": [
+    "web"
+  ]
+}
