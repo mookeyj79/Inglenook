@@ -18,7 +18,7 @@
         Comment                = '{{faint}}'
         ContinuationPrompt     = '{{dim}}'
         Error                  = '{{error}}'
-        Emphasis               = '{{accent}}'
+        Emphasis               = '{{on_accent}}', '{{accent}}'
         Selection              = '{{text}}', '{{accent|wash}}'
         InlinePrediction       = '{{faint}}'
         ListPrediction         = '{{faint}}'

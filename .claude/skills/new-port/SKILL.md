@@ -64,6 +64,7 @@ List every color slot the app exposes and give each one a neutral, a role, or a 
 - Surfaces: `base` for the main background, `deep` and `deeper` for recessed areas (sidebars, title bars, panels behind content), `raised` for lifted ones (popups, cards, inputs), `hover` for hovered and active rows, `line` for borders and dividers.
 - Text: `text` for content, `dim` for supporting text and punctuation, `faint` for comments, placeholders, and metadata.
 - Focus, selection, cursor, links, primary buttons: `accent`, with `on_accent` for text on an accent fill. Selections and highlighted lines use a wash (`{{accent|wash}}`, or another color's wash for diff lines).
+- Search and find matches: follow "Search and matches" in PHILOSOPHY.md. Every match is a `{{steel|wash}}` with `text` on it (steel text, bold, where the app colors only the text); the match at the cursor is an `accent` fill with `on_accent` text; a 16-color tool uses the blue slot in reverse. Never firelight for a match away from the cursor, never steel for a selection.
 - State: `error`, `warning`, `success`, `info`.
 - Syntax: follow the syntax mapping in PHILOSOPHY.md exactly.
 - Detail colors: `oxblood` and `ivy` for badges and small accents only. They carry no meaning.

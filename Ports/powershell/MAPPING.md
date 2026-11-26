@@ -14,7 +14,7 @@ One PowerShell-only shell file, `template/psstyle.ps1`, built into `psstyle.ps1`
 | `Formatting.Verbose` | `info` | Information. PowerShell's default draws verbose, debug and warning all the same yellow |
 | `Formatting.Debug` | `dim` | Supporting text. Kept apart from verbose and warning |
 | `Formatting.FormatAccent` (list labels) | `info` | Property names, per the syntax mapping (keys and properties) |
-| `Formatting.TableHeader` | `info` | Property names too, so table and list labels match. Owner to confirm: eza's header is `text`, underlined |
+| `Formatting.TableHeader` | `info` | Property names too, so table and list labels match. Steel headers are the owner's decision (2026-11-26), although eza's header is `text`, underlined |
 | `Formatting.CustomTableHeaderLabel` | `info`, italic | PowerShell's default keeps italic as the sign of a label that is not a property |
 | `Formatting.FeedbackName` | `dim` | The provider name above a suggestion |
 | `Formatting.FeedbackText` | `text` | |

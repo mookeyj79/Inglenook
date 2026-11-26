@@ -12,7 +12,7 @@ A slot letter stands for one ANSI slot (ADR 0005). Neutral slots flip between th
 |---|---|---|
 | `--use-color` | | Turns on the uppercase selectors |
 | `-DP` prompt | `text` on `raised` | A status bar, lifted. Default is reverse video |
-| `-DS` search results | `raised` on brass (yellow) | A find match. Firelight has no ANSI slot; yellow is the closest |
+| `-DS` search results | `raised` on steel (blue) | Every match, per Search and matches in PHILOSOPHY.md: the blue slot reversed. less 590 color strings have no reverse attribute, so the text is the `raised` slot, the nearest neutral to the terminal's `base` |
 | `-DE` errors and messages | `error` (red) | |
 | `-DN` line numbers | `faint` (bright black) | Metadata |
 | `-DM` marks in the status column | `reference` (cyan) | A mark is an anchor |
@@ -29,8 +29,8 @@ A slot letter stands for one ANSI slot (ADR 0005). Neutral slots flip between th
 
 ## Gaps and trade-offs
 
-- No accent: a terminal has no amber slot, so the search highlight uses yellow (brass), the closest hue. In this one place brass is not a warning.
-- No wash: less draws a search match with a solid background slot.
+- No accent: a terminal has no amber slot, and yellow is brass, the warning color, so the search highlight is the blue (steel) slot.
+- No wash: less draws a search match with a solid background slot. less has no current match, so every match looks the same.
 - No background: less draws on the terminal's background.
 - The `~` filler lines after the end of a file are bold, so they take the bold color.
 - Windows: lowercase selectors (`d`, `u`) also recolor bold and underlined text that came in as ANSI codes with `-R` (README, Known limits).

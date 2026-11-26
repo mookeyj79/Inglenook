@@ -19,9 +19,11 @@ The file in `template/colors/` (built as `colors/inglenook.lua`) is the same in 
 | `WinSeparator`, `NonText`, `Whitespace`, `EndOfBuffer`, `PmenuThumb` | `line` | |
 | `LineNr`, `SignColumn`, `FoldColumn`, `Conceal`, `LspInlayHint`, `ComplHint` | `faint` | Metadata |
 | `CursorLineNr` | `accent` | "You are here" |
-| `Cursor`, `lCursor`, `TermCursor`, `CurSearch` | `accent` fill, `on_accent` text | |
+| `Cursor`, `lCursor`, `TermCursor` | `accent` fill, `on_accent` text | |
+| `CurSearch`, `IncSearch`, `PmenuMatchSel` | `accent` fill, `on_accent` text | The match at the cursor, per Search and matches in PHILOSOPHY.md |
 | `Visual`, `SnippetTabstop` | `accent` wash | Selection |
-| `Search` | `steel` wash | Find matches use a wash; `info` is the closest meaning, and firelight is taken by the selection |
+| `Search`, `Substitute` | `steel` wash | Every other match, per Search and matches in PHILOSOPHY.md |
+| `PmenuMatch` | `steel`, bold, on `raised` | The matched characters in the other completion rows: a text-only match |
 | `MatchParen`, `LspSignatureActiveParameter` | `accent`, bold | |
 | `Directory`, `Special`, `Underlined`, `@module`, `@label`, `@string.special.path`, `@markup.link*` | `reference` | Paths and references |
 | `Title` | `info`, bold | Headings sit with keys, the closest row |
