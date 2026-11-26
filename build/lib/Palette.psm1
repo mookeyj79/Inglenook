@@ -293,7 +293,7 @@ function Get-AnsiColor {
     # chroma is lowered until it fits, so hue and lightness are kept.
     $ch = $c.C * $AnsiBright.Chroma
     $s = ConvertTo-Srgb -L $l -C $ch -H $c.H
-    while ($s.Clip -gt 0.001 -and $ch -gt 0) { $ch = [math]::Max(0, $ch - 0.002); $s = ConvertTo-Srgb -L $l -C $ch -H $c.H }
+    while ($s.Clip -gt 0.001 -and $ch -gt 0) { $ch = [math]::Max(0.0, $ch - 0.002); $s = ConvertTo-Srgb -L $l -C $ch -H $c.H }
     return @{ Slot = $Slot; Source = $src; Hex = $s.Hex; Bright = $true; L = $l; C = $ch; H = $c.H; Clip = $s.Clip }
 }
 

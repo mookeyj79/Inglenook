@@ -217,6 +217,14 @@ Test 'Palette: ANSI slots, with bright the same hue slightly stronger' {
     $d = New-PaletteData
     $d.variants.night.colors.moss.l = 0.9
     Assert-Equal 0.92 (Get-AnsiColor 'bright_green' (Get-TestPalette $d).Variants['night']).L 'night lightness is capped'
+    # A day yellow at l 0.45 cannot hold chroma 0.1045 in sRGB, but holds 0.09:
+    # the bright slot lowers chroma to the gamut edge and stays yellow, not gray.
+    $d = New-PaletteData
+    $d.variants.day.colors.brass = [ordered]@{ l = 0.5; c = 0.095; h = 100 }
+    $y = Get-AnsiColor 'bright_yellow' (Get-TestPalette $d).Variants['day']
+    if ($y.C -lt 0.09 -or $y.C -gt 0.1) { throw "day bright yellow: chroma lowered to the gamut edge (0.09 to 0.1), got $($y.C)" }
+    if ($y.Clip -gt 0.001) { throw "day bright yellow: inside sRGB, clip $($y.Clip)" }
+    Assert-Equal 100.0 $y.H 'clipped bright keeps its hue'
     Assert-Equal 16 @(Get-AnsiSlots).Count 'sixteen slots'
     Assert-Equal $null (Get-AnsiColor 'purple' $day) 'unknown slot'
 }
