@@ -124,6 +124,7 @@ A port ships only with real screenshots of both variants, taken by the Photograp
 
 - **kind**: the scene kind whose staged content fits the app: `terminal`, `prompt`, `cli`, `editor`, `icon-theme`, `document`, `desktop`, or `web`. The content is in `build/photograph/scenes/<kind>/`. The `web` and `document` scenes have no content yet: the first port of that kind writes it. If no kind fits, stop and propose one to the user.
 - **platform**: `linux` if the app runs there, else `windows`, else `macos`.
+- The backdrop is not the recipe's: every shot sits on the variant's wallpaper (Cabin Seating in Day and Mission Fireplace in Night), set by the Photographer.
 - **host**: for an app that lives inside another port (a prompt in a terminal, an icon theme in VS Code). The host launches it, so give only `install`, `apply`, and `stage`.
 - **apply**: the README's install steps, verbatim, with `$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/` for the files. **stage** never changes a color, and turns off self-update and first-run dialogs.
 - **version**: the exact app version, required unless the Ubuntu package date in `build/photograph/pins.json` pins the app. This is the port's first pin. Moving a pin in `pins.json` is its own PR; see "Move a pin" in CONTRIBUTING.md.

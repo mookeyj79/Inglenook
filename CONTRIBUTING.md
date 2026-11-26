@@ -141,7 +141,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    - `version` is the exact app version, unless the Ubuntu package date in `build/photograph/pins.json` already pins the app. See [Move a pin](#move-a-pin).
    - An app that only recommends a login, or lets you skip it, gets a normal recipe. One that requires a login or a license key to reach its themed screen, or whose trial is licensed for evaluation only, gets a manual recipe: only `kind`, `platform`, and `manual`, the reason in one sentence. Record which, with links to its terms, in `MAPPING.md`. Never put a key or a login in a recipe.
 
-   Behind every shot is the variant's `deeper` color as a plain fill. Then take the path that fits:
+   Behind every shot is the variant's wallpaper, shown as it is: Cabin Seating in Day and Mission Fireplace in Night (credits in [`wallpapers/README.md`](wallpapers/README.md)). The Photographer sets it; a recipe never does. Then take the path that fits:
 
    - **A Linux recipe, with Docker**: run `pwsh build/photograph.ps1 -Port <app_name>`. It writes `screenshots/day.png` and `night.png` and adds the Day and Night table to the README if it is missing. Check every row of your `MAPPING.md` table in both shots, and list under **Gaps** any color the scene cannot show. Commit the images and the table with the port.
    - **A Windows or macOS recipe, or no Docker**: commit the recipe. On your pull request, the `screenshots` workflow shoots the port and attaches the images to the run. Check them the same way, then commit them as `screenshots/day.png` and `night.png`: they carry their stamp, so the port is fresh. Windows takes run only on a hosted runner, each take in a job of its own, because a take changes system settings. macOS has no runner yet, so a macOS recipe is listed as not shot.
@@ -151,7 +151,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 
    **Tested with**: once you have looked at a good run's shots, replace "Not tested yet" in the README with the app version and OS the recipe shot, such as `GNOME Terminal 3.52.0 on Linux Mint 22.3`. You write this line, the pipeline never does. If a recipe step stands in for something the reader does by hand, note it in `MAPPING.md` as not tested by hand.
 
-   **How it stays current.** Each image carries a fingerprint of what it was made from: the port's `dist/` and recipe, its host's, the scene, the Photographer (`build/photograph/`, `photograph.ps1` and its rules modules), and each variant's backdrop color. When one changes, the port is stale. `pwsh build/photograph.ps1` with no `-Port` retakes every stale Linux port. A take that differs from the committed shot is taken again to confirm it, and only images whose exact pixels changed are written. An image a take matches exactly keeps its pixels and gets the new fingerprint, so the port is fresh again. `check.ps1` never fails on a stale port.
+   **How it stays current.** Each image carries a fingerprint of what it was made from: the port's `dist/` and recipe, its host's, the scene, the Photographer (`build/photograph/`, `photograph.ps1` and its rules modules), and each variant's backdrop wallpaper. When one changes, the port is stale. `pwsh build/photograph.ps1` with no `-Port` retakes every stale Linux port. A take that differs from the committed shot is taken again to confirm it, and only images whose exact pixels changed are written. An image a take matches exactly keeps its pixels and gets the new fingerprint, so the port is fresh again. `check.ps1` never fails on a stale port.
 
    The `screenshots` workflow does the same in GitHub Actions. On a pull request it shoots the ports the pull request changed, attaches the images, and says in the run summary whether they match the ones you committed. It never blocks a merge. After a merge to `main` it retakes every stale port and puts the changed images in one pull request from `build/screenshots`, rebuilt from `main` on each run. Merge it when you choose. Fix a bad shot on `main`, never on that branch: hand edits to it are lost. **Run workflow** retakes one port, or every port with **all**.
 8. **List the port** on the ports page by adding `Ports/<app_name>/port.json`:
@@ -182,8 +182,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 2. Bump `meta.version`: patch for a tuned value, minor for a new role or named color, major for a role whose meaning changed or a color that was removed.
 3. Run the build and the checks. Every port rebuilds, and the build prints one line per port: `changed`, `version stamp only`, or `unchanged`. Read the contrast table and any gamut warnings.
 4. For a new role or a changed meaning, add an ADR in [`docs/adr/`](docs/adr/) explaining why.
-5. The preview screenshots show the palette. Retake them with `pwsh build/photograph.ps1 -Port preview` and commit them with the change, or merge the rolling screenshots pull request after it. A change to `deeper` moves the backdrop behind every port's shots, so every port goes stale.
-
+5. The preview screenshots show the palette. Retake them with `pwsh build/photograph.ps1 -Port preview` and commit them with the change, or merge the rolling screenshots pull request after it.
 ## Move a pin
 
 A pin is the exact version of an app, font, base image, or runner that screenshots are made with: a recipe's `version`, or an entry in `build/photograph/pins.json`. Pins move by hand, never on a schedule. Good times are a port's first recipe, an app update that changes or breaks a port, and before a palette major version.
@@ -200,6 +199,7 @@ pwsh build/wallpaper.ps1 -Search "cabin window plants"                    # grad
 pwsh build/wallpaper.ps1 -Search "library fireplace" -Variant night       # only images that suit Night
 pwsh build/wallpaper.ps1 -Check "File:Example.jpg"                        # grade one from a large copy
 pwsh build/wallpaper.ps1 -Add "File:Example.jpg" -Name example -Variant night  # save it, its thumbnail, and its credit
+pwsh build/wallpaper.ps1 -Web example                                     # a smaller copy for the preview site
 ```
 
 Wallpapers are chosen by taste: calm and cozy, with warm color that sits well with the palette. Day: sunlit cabin interiors, window light on plants, a forest through a window. Night: firelit or lamplit libraries and reading rooms, fireplaces. Two rules are hard:
@@ -210,6 +210,8 @@ Wallpapers are chosen by taste: calm and cozy, with warm color that sits well wi
 Lightness, saturation, and detail are grades. They rank search results and suggest a variant from lightness: `day` at L* 60 or above, `night` at 40 or below, `both` in between.
 
 `-Add` needs `-Variant day`, `night`, or `both`. It saves the original unmodified as `wallpapers/<name>.jpg`, a 640 px thumbnail in `wallpapers/thumbs/`, and prints the credit section for [`wallpapers/README.md`](wallpapers/README.md). A pair (one Day and one Night image of the same kind of scene) is one section with a subsection per image, listed before single images. `check.ps1` confirms every image has a thumbnail, a credit, and a variant mark, and every pair has one Day and one Night image.
+
+The preview site shows a web copy, not the original: `-Web` writes a 2400 px copy to `wallpapers/web/`, and the preview's `values.json` names it. `check.ps1` confirms every web copy has its original and that a page shows it only in a variant its original is marked for.
 
 ## Branches and pull requests
 

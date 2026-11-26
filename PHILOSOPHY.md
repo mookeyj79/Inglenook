@@ -172,6 +172,8 @@ Wallpapers are optional. The theme must look complete without them. When the rep
 - **Day**: sunlit cabin interiors, window light on plants, a forest seen through a window.
 - **Night**: firelit or lamplit libraries and reading rooms, fireplaces.
 
+Every port screenshot and the preview site sit on one pair, shown as it is, with no tint: Cabin Seating in Day and Mission Fireplace in Night. Everything on top of it stays solid, so contrast is still measured on solid surfaces.
+
 See [ADR 0007](docs/adr/0007-wallpapers-are-found-images-chosen-by-taste.md).
 
 ## Hard no's

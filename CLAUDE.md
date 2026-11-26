@@ -20,7 +20,8 @@ docs/adr/                   recorded decisions and why
 docs/research/              research notes behind the palette
 prototypes/                 throwaway prototype pages, gitignored
 palette/palette.json        every color as OKLCH, for both variants, and the roles (source of truth for values)
-wallpapers/                 optional found images, thumbnails, and credits (README.md)
+wallpapers/                 optional found images, thumbnails, web copies for the preview site (web/),
+                            and credits (README.md)
 Ports/ports.json            category names, planned ports, and unlisted folders for the ports page
 Ports/preview/              the preview site: landing page with live demos, ports page, install-guide shell
 Ports/<app_name>/
