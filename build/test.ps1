@@ -340,6 +340,20 @@ Test 'Placeholders: comma gives r,g,b with no spaces, as ripgrep --colors takes 
     Assert-Equal 'match:fg:0,0,0 match:bg:255,255,255' $out 'comma'
 }
 
+Test 'Placeholders: wash takes one format filter after it, as ripgrep needs a wash as r,g,b' {
+    $d = New-PaletteData
+    $d.variants.day.neutrals.base = [ordered]@{ l = 1; c = 0; h = 0 }
+    $d.variants.day.colors.steel = [ordered]@{ l = 0; c = 0; h = 0 }
+    $d.variants.day.wash = 0.5
+    $p = Get-TestPalette $d
+    $v = $p.Variants['day']
+    Assert-Equal 'match:bg:128,128,128' (Expand-Template -Text 'match:bg:{{steel|wash|comma}}' -Palette $p -Variant $v -PortValues $null -Source 'test') 'wash then comma'
+    Assert-Equal '48;2;128;128;128' (Expand-Template -Text '48;2;{{info | wash | sgr}}' -Palette $p -Variant $v -PortValues $null -Source 'test') 'through a role, with spaces'
+    $errs = @(Find-PlaceholderError -Text '{{steel|comma|wash}} {{steel|wash|name}} {{text|wash|comma}} {{steel|wash|comma|sgr}}' -Palette $p -PortValues $null)
+    Assert-Equal 4 $errs.Count "only a format filter follows wash, and only one ($($errs -join '; '))"
+    Assert-Equal '{{steel|wash|comma|sgr}}' (Find-Placeholder 'a {{steel|wash|comma|sgr}}') 'three filters is still a placeholder, so it is caught as a leftover'
+}
+
 Test 'Placeholders: sgr gives the r;g;b of an escape code' {
     $p = Get-TestPalette (New-PaletteData)
     $v = $p.Variants['day']
