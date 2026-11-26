@@ -39,7 +39,7 @@ The structure follows Glamour's own `dark.json` (margins, prefixes, task marks),
 
 ## Gaps and trade-offs
 
-- Code blocks with a language go through Chroma's `terminal256` formatter, which Glamour hardcodes (`ansi/codeblock.go`) and gh does not change. Every token color is rounded to the nearest xterm 256 color, so they are approximate. Most stay close, but moss strings in Day land on a gray (`238`/`239`). A style file cannot pick the formatter. The alternative is to drop the `chroma` section: blocks would then be plain `text` in exact color, with no highlighting. Kept highlighting, owner to confirm.
+- Code blocks with a language go through Chroma's `terminal256` formatter, which Glamour hardcodes (`ansi/codeblock.go`) and gh does not change. Every token color is rounded to the nearest xterm 256 color, so they are approximate. Most stay close, but moss strings in Day land on a gray (`238`/`239`). A style file cannot pick the formatter. The alternative is to drop the `chroma` section: blocks would then be plain `text` in exact color, with no highlighting. Highlighting is kept (the owner's decision, 2026-11-26), accepting the rounding as Catppuccin's and Glamour's own Dracula and Tokyo Night styles do.
 - gh's own lines are outside the style: the repository name (bold), the description, issue and PR headers, and "View this repository on GitHub", which gh draws in 256-color gray `242`. Lists such as `gh issue list` use the terminal's 16 colors.
 - Label chips in `gh issue view` use the label's color from GitHub (with `GH_COLOR_LABELS`).
 - Bullets, list numbers, task marks and table borders are prefixes Glamour prints in the parent's style, so they cannot take `dim` without the item text taking it too.

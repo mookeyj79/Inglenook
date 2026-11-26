@@ -76,7 +76,7 @@ The port is `styles.json`, the file `carapace --style key=value` writes to (`int
 ## Gaps and trade-offs
 
 - Tier 1: carapace takes 24-bit colors and every field it has gets one. It has no surfaces: the background, the menu selection and the cursor come from the terminal and the shell.
-- File and folder names are colored by `LS_COLORS` (`pkg/style/path.go`), not by `styles.json`. The eza port already ships an Inglenook `LS_COLORS` (`eza.sh`, `eza.ps1`), so this port points to it as an optional extra instead of shipping a second copy that could drift.
+- File and folder names are colored by `LS_COLORS` (`pkg/style/path.go`), not by `styles.json`. The eza port already ships an Inglenook `LS_COLORS` (`eza.sh`, `eza.ps1`), so this port points to it as an optional extra instead of shipping a second copy that could drift (the owner's decision, 2026-11-26). The README works without it: file names then keep the reader's own `LS_COLORS`.
 - carapace draws styles only in Elvish, Nushell, PowerShell, Xonsh and Zsh. Bash and Fish get plain completions.
 - In Zsh, carapace drops value styles from lists longer than `CARAPACE_ZSH_STYLE_LIMIT` entries (`internal/shell/zsh/zstyle.go`).
 - Not in the shots: the carapace-bin, docker, gh, git, golang, hg, lore, tea and zfs groups, and file names. The scene lists the core group only, which fits one screen.
