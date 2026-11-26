@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-variant="{{variant.key}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{meta.name}}</title>
+<meta name="description" content="{{meta.name}} {{meta.version}}: a cozy color theme in two variants, Day and Night. Live demos, every color with its value and contrast, the roles and the syntax mapping.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../day/theme.css">
+<link rel="stylesheet" href="../night/theme.css">
+<link rel="stylesheet" href="base.css">
+<script src="variant.js"></script>
+<style>
+/* Every color on this page is a palette variable from theme.css. Do not add color values here. */
+main { max-width: 1240px; margin: 0 auto; padding: 24px 16px 48px; display: flex; flex-direction: column; gap: 24px; }
+.intro { padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+h1 { font: 600 2.2rem/1.15 var(--font-display); margin: 0; }
+.intro p { margin: 0; color: var(--dim); max-width: 70ch; }
+.intro .links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 4px; }
+h2 { font: 600 1.4rem/1.2 var(--font-display); margin: 0; }
+h3 { font: 600 1.1rem var(--font-display); margin: 0 0 6px; }
+h4 { font: 500 .75rem var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 14px 0 6px; }
+
+/* Both variants side by side. Each side carries its own data-variant. */
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 16px; }
+@media (max-width: 540px) { .pair { grid-template-columns: 1fr; } }
+.side { background: var(--base); color: var(--text); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.side .lede { margin: 0; color: var(--dim); }
+
+/* Windows */
+.win { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--base); }
+.bar { display: flex; align-items: center; gap: 10px; padding: 7px 12px; background: var(--deeper); border-bottom: 1px solid var(--line); font: .78rem var(--font-mono); color: var(--dim); }
+.dots { display: inline-flex; gap: 5px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+pre { margin: 0; padding: 14px; overflow-x: auto; font: .8rem/1.65 var(--font-mono); color: var(--text); background: var(--base); }
+.cursor { background: var(--accent); }
+.code .c { color: var(--faint); } .code .k { color: var(--keyword); } .code .s { color: var(--success); } .code .n { color: var(--literal); }
+.code .f { color: var(--info); } .code .t { color: var(--type); } .code .r { color: var(--reference); } .code .d { color: var(--tag); }
+.code .p { color: var(--dim); } .code .e { color: var(--error); text-decoration: underline wavy; text-underline-offset: 3px; }
+.code ::selection, .term ::selection { background: var(--wash-firelight); }
+.problems { margin: 0; padding: 7px 14px; border-top: 1px solid var(--line); background: var(--deep); font: .78rem var(--font-mono); color: var(--text); }
+.problems .err { color: var(--error); font-weight: 500; margin-right: 8px; }
+
+/* The small app */
+.app-body { display: grid; grid-template-columns: 150px 1fr; min-height: 260px; }
+.side-nav { background: var(--deep); border-right: 1px solid var(--line); padding: 10px 8px; display: flex; flex-direction: column; gap: 2px; font-size: .88rem; }
+.side-nav a { color: var(--text); text-decoration: none; padding: 5px 10px; border-radius: 6px; }
+.side-nav a:hover { background: var(--hover); }
+.side-nav a[aria-current="page"] { background: var(--wash-firelight); box-shadow: inset 3px 0 0 var(--accent); }
+.nav-label { margin: 10px 10px 2px; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.app-main { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; color: var(--dim); }
+.field input { font: .9rem var(--font-body); color: var(--text); background: var(--raised); border: 1px solid var(--accent); border-radius: 6px; padding: 6px 10px; outline: 2px solid var(--wash-firelight); }
+.rows { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; padding: 8px 10px; font-size: .88rem; }
+.row + .row { border-top: 1px solid var(--line); }
+.row b { font-weight: 500; }
+.row .meta { color: var(--dim); font-size: .8rem; margin-right: auto; }
+.row.is-hover, .row:hover { background: var(--hover); }
+.row.is-selected { background: var(--wash-firelight); }
+.chip { font: 500 .72rem var(--font-body); padding: 1px 9px; border-radius: 99px; color: var(--text); background: var(--w); border: 1px solid var(--c); }
+.notice { margin: 0; padding: 8px 12px; border-radius: 6px; background: var(--wash-brass); border-left: 3px solid var(--warning); font-size: .86rem; }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { font: 500 .85rem var(--font-body); padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--raised); color: var(--text); cursor: pointer; }
+.btn:hover { background: var(--hover); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.danger { color: var(--error); border-color: var(--error); }
+
+/* Swatches */
+.block { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.block > p { margin: 0; color: var(--dim); max-width: 75ch; }
+.swatches { background: var(--base); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.swatches ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.sw { display: grid; grid-template-columns: 28px 1fr auto auto; align-items: center; gap: 10px; font-size: .88rem; }
+.sw i { width: 28px; height: 20px; border-radius: 4px; border: 1px solid var(--line); }
+.sw b { font-weight: 500; }
+.sw .hex, .sw .ratio { font: .78rem var(--font-mono); color: var(--dim); }
+.sw .ratio { min-width: 7.5em; text-align: right; }
+.ansi { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+.ansi i { height: 22px; border-radius: 4px; border: 1px solid var(--line); }
+
+/* Tables */
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.scroll { overflow-x: auto; }
+th, td { padding: 7px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+thead th { font-weight: 500; color: var(--dim); font-size: .8rem; }
+tbody th { font-weight: 500; }
+.cell { background: var(--base); font-weight: 500; }
+.cell .fill { background: var(--accent); color: var(--on-accent); padding: 2px 10px; border-radius: 6px; }
+.cell code.c { color: var(--faint); } .cell code.k { color: var(--keyword); } .cell code.s { color: var(--success); } .cell code.n { color: var(--literal); }
+.cell code.f { color: var(--info); } .cell code.t { color: var(--type); } .cell code.r { color: var(--reference); } .cell code.d { color: var(--tag); }
+.cell code.p { color: var(--dim); } .cell code.e { color: var(--error); }
+/* The color a role points at, by name, from theme.css. */
+.to::before { content: var(--t); }
+footer { padding: 14px 16px; color: var(--dim); font-size: .8rem; }
+footer p { margin: 0; }
+footer p + p { margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">{{meta.name}}<small>v{{meta.version}}</small></span>
+  <div class="topbar-end">
+    <a class="repo" href="ports.html">Ports</a>
+    <a class="repo" href="{{meta.repository}}">GitHub</a>
+    <nav class="switch" aria-label="Variant">
+      <a href="?variant=day" data-set="day">Day</a>
+      <a href="?variant=night" data-set="night">Night</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section class="panel intro" aria-labelledby="title">
+    <h1 id="title">{{meta.name}}</h1>
+    <p>A cozy, soothing color theme: technology meets simple life charm. Two equal variants. Day is a cabin room in natural light, with plants on the sill. Night is a Victorian library by the fire. Both are easy on the eyes, with calm, evenly matched colors and one warm accent, firelight, that marks where you are.</p>
+    <p>Everything below is live HTML in both variants, colored from the same palette as every port. The switch at the top changes this page's frame; the demos always show Day and Night side by side.</p>
+    <p class="links"><a href="ports.html">Browse the ports</a> <a href="{{meta.repository}}">Source on GitHub</a> <a href="{{meta.repository}}/blob/main/PHILOSOPHY.md">Design rules</a></p>
+  </section>
+
+  <div class="pair">
+    <section class="side" data-variant="day" aria-labelledby="day-title">
+      <h2 id="day-title">{{meta.name}} Day</h2>
+      <p class="lede">A soft neutral background leaning faintly green, dark slate text, earthy colors.</p>
+      <div class="win">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
+        <pre class="term"><span style="color: var(--ansi-cyan)">~/cabin</span> <span style="color: var(--ansi-magenta)"> main</span> <span style="color: var(--ansi-yellow)">●</span> <span style="color: var(--ansi-bright-black)">took 2s</span>
+<span style="color: var(--ansi-green)">❯</span> git status --short
+ <span style="color: var(--ansi-yellow)">M</span> hearth.py
+ <span style="color: var(--ansi-green)">A</span> kettle.py
+ <span style="color: var(--ansi-red)">D</span> draft.txt
+<span style="color: var(--ansi-green)">❯</span> pytest -q
+<span style="color: var(--ansi-green)">.....</span><span style="color: var(--ansi-red)">F</span>
+<span style="color: var(--ansi-red)">FAILED</span> tests/test_tea.py::test_strong <span style="color: var(--ansi-bright-black)">- ValueError</span>
+<span style="color: var(--ansi-green)">5 passed</span>, <span style="color: var(--ansi-red)">1 failed</span> <span style="color: var(--ansi-bright-black)">in 0.42s</span>
+<span style="color: var(--ansi-green)">❯</span> ls
+<span style="color: var(--ansi-blue)">books/</span>  notes.md  <span style="color: var(--ansi-green)">run.sh</span>  <span style="color: var(--ansi-cyan)">shelf</span> <span style="color: var(--ansi-bright-black)">-&gt;</span> <span style="color: var(--ansi-blue)">books/</span>
+<span style="color: var(--ansi-green)">❯</span> <span class="cursor"> </span></pre>
+      </div>
+      <div class="win">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>kettle.py</span></div>
+        <pre class="code"><span class="c"># Brew a pot and note how long it steeped</span>
+<span class="k">from</span> <span class="r">dataclasses</span> <span class="k">import</span> dataclass
+
+<span class="d">@dataclass</span>
+<span class="k">class</span> <span class="t">Kettle</span><span class="p">:</span>
+    name<span class="p">:</span> <span class="t">str</span>
+    litres<span class="p">:</span> <span class="t">float</span> <span class="p">=</span> <span class="n">1.7</span>
+
+<span class="k">def</span> <span class="f">steep</span><span class="p">(</span>kettle<span class="p">:</span> <span class="t">Kettle</span><span class="p">,</span> minutes<span class="p">:</span> <span class="t">int</span> <span class="p">=</span> <span class="n">4</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="t">str</span><span class="p">:</span>
+    <span class="k">if</span> minutes <span class="p">&gt;</span> <span class="n">6</span> <span class="k">and not</span> kettle<span class="p">.</span><span class="f">name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="t">ValueError</span><span class="p">(</span><span class="s">"too strong"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">f"</span><span class="p">{</span>kettle<span class="p">.</span><span class="f">name</span><span class="p">}</span><span class="s">: </span><span class="p">{</span>minutes<span class="p">}</span><span class="s"> min"</span>
+
+<span class="f">print</span><span class="p">(</span><span class="f">steep</span><span class="p">(</span><span class="t">Kettle</span><span class="p">(</span><span class="s">"copper"</span><span class="p">),</span> <span class="n">3</span><span class="p">))</span>  <span class="c"># copper: 3 min</span>
+<span class="f">steep</span><span class="p">(</span><span class="e">kettel</span><span class="p">)</span></pre>
+        <p class="problems"><span class="err">1 error</span> line 17: name 'kettel' is not defined</p>
+      </div>
+      <div class="win app">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Reading list</span></div>
+        <div class="app-body">
+          <nav class="side-nav" aria-label="Library">
+            <a href="#books" aria-current="page">All books</a>
+            <a href="#books">Shelves</a>
+            <a href="#books">Notes</a>
+            <p class="nav-label">Tags</p>
+            <a href="#books">Poetry</a>
+            <a href="#books">Gardening</a>
+          </nav>
+          <div class="app-main">
+            <label class="field"><span>Search</span><input type="search" value="field guide" aria-label="Search books"></label>
+            <ul class="rows">
+              <li class="row is-selected"><b>A Field Guide to Mosses</b><span class="meta">Hawthorne, 1921</span><span class="chip" style="--c: var(--steel); --w: var(--wash-steel)">Reading</span><span class="chip" style="--c: var(--oxblood); --w: var(--wash-oxblood)">Rare</span></li>
+              <li class="row is-hover"><b>The Long Winter Kitchen</b><span class="meta">Alder, 1958</span><span class="chip" style="--c: var(--moss); --w: var(--wash-moss)">Finished</span><span class="chip" style="--c: var(--ivy); --w: var(--wash-ivy)">Signed</span></li>
+              <li class="row"><b>Letters by Lamplight</b><span class="meta">Marsh, 1903</span><span class="chip" style="--c: var(--ember); --w: var(--wash-ember)">Overdue</span></li>
+            </ul>
+            <p class="notice">Two books are due back on Friday. <a href="#books">Renew them</a></p>
+            <div class="buttons">
+              <button type="button" class="btn primary">Borrow</button>
+              <button type="button" class="btn">Add to shelf</button>
+              <button type="button" class="btn danger">Return</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="side" data-variant="night" aria-labelledby="night-title">
+      <h2 id="night-title">{{meta.name}} Night</h2>
+      <p class="lede">A warm smoked-walnut background, parchment text, colors like lamplight on old bindings.</p>
+      <div class="win">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
+        <pre class="term"><span style="color: var(--ansi-cyan)">~/cabin</span> <span style="color: var(--ansi-magenta)"> main</span> <span style="color: var(--ansi-yellow)">●</span> <span style="color: var(--ansi-bright-black)">took 2s</span>
+<span style="color: var(--ansi-green)">❯</span> git status --short
+ <span style="color: var(--ansi-yellow)">M</span> hearth.py
+ <span style="color: var(--ansi-green)">A</span> kettle.py
+ <span style="color: var(--ansi-red)">D</span> draft.txt
+<span style="color: var(--ansi-green)">❯</span> pytest -q
+<span style="color: var(--ansi-green)">.....</span><span style="color: var(--ansi-red)">F</span>
+<span style="color: var(--ansi-red)">FAILED</span> tests/test_tea.py::test_strong <span style="color: var(--ansi-bright-black)">- ValueError</span>
+<span style="color: var(--ansi-green)">5 passed</span>, <span style="color: var(--ansi-red)">1 failed</span> <span style="color: var(--ansi-bright-black)">in 0.42s</span>
+<span style="color: var(--ansi-green)">❯</span> ls
+<span style="color: var(--ansi-blue)">books/</span>  notes.md  <span style="color: var(--ansi-green)">run.sh</span>  <span style="color: var(--ansi-cyan)">shelf</span> <span style="color: var(--ansi-bright-black)">-&gt;</span> <span style="color: var(--ansi-blue)">books/</span>
+<span style="color: var(--ansi-green)">❯</span> <span class="cursor"> </span></pre>
+      </div>
+      <div class="win">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>kettle.py</span></div>
+        <pre class="code"><span class="c"># Brew a pot and note how long it steeped</span>
+<span class="k">from</span> <span class="r">dataclasses</span> <span class="k">import</span> dataclass
+
+<span class="d">@dataclass</span>
+<span class="k">class</span> <span class="t">Kettle</span><span class="p">:</span>
+    name<span class="p">:</span> <span class="t">str</span>
+    litres<span class="p">:</span> <span class="t">float</span> <span class="p">=</span> <span class="n">1.7</span>
+
+<span class="k">def</span> <span class="f">steep</span><span class="p">(</span>kettle<span class="p">:</span> <span class="t">Kettle</span><span class="p">,</span> minutes<span class="p">:</span> <span class="t">int</span> <span class="p">=</span> <span class="n">4</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="t">str</span><span class="p">:</span>
+    <span class="k">if</span> minutes <span class="p">&gt;</span> <span class="n">6</span> <span class="k">and not</span> kettle<span class="p">.</span><span class="f">name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="t">ValueError</span><span class="p">(</span><span class="s">"too strong"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">f"</span><span class="p">{</span>kettle<span class="p">.</span><span class="f">name</span><span class="p">}</span><span class="s">: </span><span class="p">{</span>minutes<span class="p">}</span><span class="s"> min"</span>
+
+<span class="f">print</span><span class="p">(</span><span class="f">steep</span><span class="p">(</span><span class="t">Kettle</span><span class="p">(</span><span class="s">"copper"</span><span class="p">),</span> <span class="n">3</span><span class="p">))</span>  <span class="c"># copper: 3 min</span>
+<span class="f">steep</span><span class="p">(</span><span class="e">kettel</span><span class="p">)</span></pre>
+        <p class="problems"><span class="err">1 error</span> line 17: name 'kettel' is not defined</p>
+      </div>
+      <div class="win app">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Reading list</span></div>
+        <div class="app-body">
+          <nav class="side-nav" aria-label="Library">
+            <a href="#books" aria-current="page">All books</a>
+            <a href="#books">Shelves</a>
+            <a href="#books">Notes</a>
+            <p class="nav-label">Tags</p>
+            <a href="#books">Poetry</a>
+            <a href="#books">Gardening</a>
+          </nav>
+          <div class="app-main">
+            <label class="field"><span>Search</span><input type="search" value="field guide" aria-label="Search books"></label>
+            <ul class="rows">
+              <li class="row is-selected"><b>A Field Guide to Mosses</b><span class="meta">Hawthorne, 1921</span><span class="chip" style="--c: var(--steel); --w: var(--wash-steel)">Reading</span><span class="chip" style="--c: var(--oxblood); --w: var(--wash-oxblood)">Rare</span></li>
+              <li class="row is-hover"><b>The Long Winter Kitchen</b><span class="meta">Alder, 1958</span><span class="chip" style="--c: var(--moss); --w: var(--wash-moss)">Finished</span><span class="chip" style="--c: var(--ivy); --w: var(--wash-ivy)">Signed</span></li>
+              <li class="row"><b>Letters by Lamplight</b><span class="meta">Marsh, 1903</span><span class="chip" style="--c: var(--ember); --w: var(--wash-ember)">Overdue</span></li>
+            </ul>
+            <p class="notice">Two books are due back on Friday. <a href="#books">Renew them</a></p>
+            <div class="buttons">
+              <button type="button" class="btn primary">Borrow</button>
+              <button type="button" class="btn">Add to shelf</button>
+              <button type="button" class="btn danger">Return</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel block" aria-labelledby="swatches-title">
+    <h2 id="swatches-title">Every color</h2>
+    <p>Nine plain neutrals and twelve named colors per variant. The ratio is the contrast with <code>base</code>; for the surfaces it is the contrast of <code>text</code> on them. Terminal colors run normal then bright, black to white.</p>
+    <div class="pair">
+      <div class="swatches" data-variant="day">
+        <h3>{{meta.name}} Day</h3>
+        <h4>Neutrals</h4>
+        <ul><li class="sw" data-name="deeper"><i style="background: var(--deeper)"></i><b>deeper</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="deep"><i style="background: var(--deep)"></i><b>deep</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="base"><i style="background: var(--base)"></i><b>base</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="raised"><i style="background: var(--raised)"></i><b>raised</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="hover"><i style="background: var(--hover)"></i><b>hover</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="line"><i style="background: var(--line)"></i><b>line</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="faint"><i style="background: var(--faint)"></i><b>faint</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="dim"><i style="background: var(--dim)"></i><b>dim</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="text"><i style="background: var(--text)"></i><b>text</b><span class="hex"></span><span class="ratio"></span></li></ul>
+        <h4>Named colors</h4>
+        <ul><li class="sw" data-name="firelight"><i style="background: var(--firelight)"></i><b style="color: var(--firelight)">firelight</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="ember"><i style="background: var(--ember)"></i><b style="color: var(--ember)">ember</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="oxblood"><i style="background: var(--oxblood)"></i><b style="color: var(--oxblood)">oxblood</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="clay"><i style="background: var(--clay)"></i><b style="color: var(--clay)">clay</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="brass"><i style="background: var(--brass)"></i><b style="color: var(--brass)">brass</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="moss"><i style="background: var(--moss)"></i><b style="color: var(--moss)">moss</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="ivy"><i style="background: var(--ivy)"></i><b style="color: var(--ivy)">ivy</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="pine"><i style="background: var(--pine)"></i><b style="color: var(--pine)">pine</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="steel"><i style="background: var(--steel)"></i><b style="color: var(--steel)">steel</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="dusk"><i style="background: var(--dusk)"></i><b style="color: var(--dusk)">dusk</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="heather"><i style="background: var(--heather)"></i><b style="color: var(--heather)">heather</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="rosewood"><i style="background: var(--rosewood)"></i><b style="color: var(--rosewood)">rosewood</b><span class="hex"></span><span class="ratio"></span></li></ul>
+        <h4>Terminal</h4>
+        <div class="ansi"><i title="black" style="background: var(--ansi-black)"></i><i title="red" style="background: var(--ansi-red)"></i><i title="green" style="background: var(--ansi-green)"></i><i title="yellow" style="background: var(--ansi-yellow)"></i><i title="blue" style="background: var(--ansi-blue)"></i><i title="magenta" style="background: var(--ansi-magenta)"></i><i title="cyan" style="background: var(--ansi-cyan)"></i><i title="white" style="background: var(--ansi-white)"></i><i title="bright black" style="background: var(--ansi-bright-black)"></i><i title="bright red" style="background: var(--ansi-bright-red)"></i><i title="bright green" style="background: var(--ansi-bright-green)"></i><i title="bright yellow" style="background: var(--ansi-bright-yellow)"></i><i title="bright blue" style="background: var(--ansi-bright-blue)"></i><i title="bright magenta" style="background: var(--ansi-bright-magenta)"></i><i title="bright cyan" style="background: var(--ansi-bright-cyan)"></i><i title="bright white" style="background: var(--ansi-bright-white)"></i></div>
+      </div>
+      <div class="swatches" data-variant="night">
+        <h3>{{meta.name}} Night</h3>
+        <h4>Neutrals</h4>
+        <ul><li class="sw" data-name="deeper"><i style="background: var(--deeper)"></i><b>deeper</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="deep"><i style="background: var(--deep)"></i><b>deep</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="base"><i style="background: var(--base)"></i><b>base</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="raised"><i style="background: var(--raised)"></i><b>raised</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="hover"><i style="background: var(--hover)"></i><b>hover</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="line"><i style="background: var(--line)"></i><b>line</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="faint"><i style="background: var(--faint)"></i><b>faint</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="dim"><i style="background: var(--dim)"></i><b>dim</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="text"><i style="background: var(--text)"></i><b>text</b><span class="hex"></span><span class="ratio"></span></li></ul>
+        <h4>Named colors</h4>
+        <ul><li class="sw" data-name="firelight"><i style="background: var(--firelight)"></i><b style="color: var(--firelight)">firelight</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="ember"><i style="background: var(--ember)"></i><b style="color: var(--ember)">ember</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="oxblood"><i style="background: var(--oxblood)"></i><b style="color: var(--oxblood)">oxblood</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="clay"><i style="background: var(--clay)"></i><b style="color: var(--clay)">clay</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="brass"><i style="background: var(--brass)"></i><b style="color: var(--brass)">brass</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="moss"><i style="background: var(--moss)"></i><b style="color: var(--moss)">moss</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="ivy"><i style="background: var(--ivy)"></i><b style="color: var(--ivy)">ivy</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="pine"><i style="background: var(--pine)"></i><b style="color: var(--pine)">pine</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="steel"><i style="background: var(--steel)"></i><b style="color: var(--steel)">steel</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="dusk"><i style="background: var(--dusk)"></i><b style="color: var(--dusk)">dusk</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="heather"><i style="background: var(--heather)"></i><b style="color: var(--heather)">heather</b><span class="hex"></span><span class="ratio"></span></li><li class="sw" data-name="rosewood"><i style="background: var(--rosewood)"></i><b style="color: var(--rosewood)">rosewood</b><span class="hex"></span><span class="ratio"></span></li></ul>
+        <h4>Terminal</h4>
+        <div class="ansi"><i title="black" style="background: var(--ansi-black)"></i><i title="red" style="background: var(--ansi-red)"></i><i title="green" style="background: var(--ansi-green)"></i><i title="yellow" style="background: var(--ansi-yellow)"></i><i title="blue" style="background: var(--ansi-blue)"></i><i title="magenta" style="background: var(--ansi-magenta)"></i><i title="cyan" style="background: var(--ansi-cyan)"></i><i title="white" style="background: var(--ansi-white)"></i><i title="bright black" style="background: var(--ansi-bright-black)"></i><i title="bright red" style="background: var(--ansi-bright-red)"></i><i title="bright green" style="background: var(--ansi-bright-green)"></i><i title="bright yellow" style="background: var(--ansi-bright-yellow)"></i><i title="bright blue" style="background: var(--ansi-bright-blue)"></i><i title="bright magenta" style="background: var(--ansi-bright-magenta)"></i><i title="bright cyan" style="background: var(--ansi-bright-cyan)"></i><i title="bright white" style="background: var(--ansi-bright-white)"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel block" aria-labelledby="roles-title">
+    <h2 id="roles-title">Roles</h2>
+    <p>Ports pick a role or a named color, never a value. Each role has one meaning in every app. Oxblood and ivy are detail colors for badges and small accents, with no role.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Role</th><th>Means</th><th>Day</th><th>Night</th></tr></thead>
+      <tbody>
+          <tr><th scope="row"><code>accent</code></th><td>You are here: focus, cursor, selection, links, primary buttons</td><td data-variant="day" class="cell" style="color: var(--accent)"><span class="to" style="--t: var(--to-accent)"></span></td><td data-variant="night" class="cell" style="color: var(--accent)"><span class="to" style="--t: var(--to-accent)"></span></td></tr>
+          <tr><th scope="row"><code>error</code></th><td>Failure, removal</td><td data-variant="day" class="cell" style="color: var(--error)"><span class="to" style="--t: var(--to-error)"></span></td><td data-variant="night" class="cell" style="color: var(--error)"><span class="to" style="--t: var(--to-error)"></span></td></tr>
+          <tr><th scope="row"><code>warning</code></th><td>Caution, change</td><td data-variant="day" class="cell" style="color: var(--warning)"><span class="to" style="--t: var(--to-warning)"></span></td><td data-variant="night" class="cell" style="color: var(--warning)"><span class="to" style="--t: var(--to-warning)"></span></td></tr>
+          <tr><th scope="row"><code>success</code></th><td>Success, addition</td><td data-variant="day" class="cell" style="color: var(--success)"><span class="to" style="--t: var(--to-success)"></span></td><td data-variant="night" class="cell" style="color: var(--success)"><span class="to" style="--t: var(--to-success)"></span></td></tr>
+          <tr><th scope="row"><code>info</code></th><td>Information, in progress</td><td data-variant="day" class="cell" style="color: var(--info)"><span class="to" style="--t: var(--to-info)"></span></td><td data-variant="night" class="cell" style="color: var(--info)"><span class="to" style="--t: var(--to-info)"></span></td></tr>
+          <tr><th scope="row"><code>keyword</code></th><td>Keywords, booleans, constants</td><td data-variant="day" class="cell" style="color: var(--keyword)"><span class="to" style="--t: var(--to-keyword)"></span></td><td data-variant="night" class="cell" style="color: var(--keyword)"><span class="to" style="--t: var(--to-keyword)"></span></td></tr>
+          <tr><th scope="row"><code>reference</code></th><td>Paths, references, anchors</td><td data-variant="day" class="cell" style="color: var(--reference)"><span class="to" style="--t: var(--to-reference)"></span></td><td data-variant="night" class="cell" style="color: var(--reference)"><span class="to" style="--t: var(--to-reference)"></span></td></tr>
+          <tr><th scope="row"><code>literal</code></th><td>Numbers, flags, literals</td><td data-variant="day" class="cell" style="color: var(--literal)"><span class="to" style="--t: var(--to-literal)"></span></td><td data-variant="night" class="cell" style="color: var(--literal)"><span class="to" style="--t: var(--to-literal)"></span></td></tr>
+          <tr><th scope="row"><code>type</code></th><td>Types</td><td data-variant="day" class="cell" style="color: var(--type)"><span class="to" style="--t: var(--to-type)"></span></td><td data-variant="night" class="cell" style="color: var(--type)"><span class="to" style="--t: var(--to-type)"></span></td></tr>
+          <tr><th scope="row"><code>tag</code></th><td>Tags, annotations, decorators</td><td data-variant="day" class="cell" style="color: var(--tag)"><span class="to" style="--t: var(--to-tag)"></span></td><td data-variant="night" class="cell" style="color: var(--tag)"><span class="to" style="--t: var(--to-tag)"></span></td></tr>
+          <tr><th scope="row"><code>on_accent</code></th><td>Text on an accent fill</td><td data-variant="day" class="cell"><span class="fill to" style="--t: var(--to-on-accent)"></span></td><td data-variant="night" class="cell"><span class="fill to" style="--t: var(--to-on-accent)"></span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="panel block" aria-labelledby="syntax-title">
+    <h2 id="syntax-title">Syntax</h2>
+    <p>Every editor and highlighter port colors code the same way. A token that does not fit takes the closest row.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Token</th><th>Color</th><th>Day</th><th>Night</th></tr></thead>
+      <tbody>
+          <tr><th scope="row">Keys, properties, functions</th><td><code>info</code></td><td data-variant="day" class="cell" style=""><code class="f">steep()</code></td><td data-variant="night" class="cell" style=""><code class="f">steep()</code></td></tr>
+          <tr><th scope="row">Strings</th><td><code>success</code></td><td data-variant="day" class="cell" style=""><code class="s">"copper"</code></td><td data-variant="night" class="cell" style=""><code class="s">"copper"</code></td></tr>
+          <tr><th scope="row">Numbers, flags, literals</th><td><code>literal</code></td><td data-variant="day" class="cell" style=""><code class="n">1.7</code></td><td data-variant="night" class="cell" style=""><code class="n">1.7</code></td></tr>
+          <tr><th scope="row">Keywords, booleans, constants</th><td><code>keyword</code></td><td data-variant="day" class="cell" style=""><code class="k">return</code></td><td data-variant="night" class="cell" style=""><code class="k">return</code></td></tr>
+          <tr><th scope="row">Types</th><td><code>type</code></td><td data-variant="day" class="cell" style=""><code class="t">Kettle</code></td><td data-variant="night" class="cell" style=""><code class="t">Kettle</code></td></tr>
+          <tr><th scope="row">Paths, references, anchors</th><td><code>reference</code></td><td data-variant="day" class="cell" style=""><code class="r">dataclasses</code></td><td data-variant="night" class="cell" style=""><code class="r">dataclasses</code></td></tr>
+          <tr><th scope="row">Tags, annotations, decorators</th><td><code>tag</code></td><td data-variant="day" class="cell" style=""><code class="d">@dataclass</code></td><td data-variant="night" class="cell" style=""><code class="d">@dataclass</code></td></tr>
+          <tr><th scope="row">Errors, invalid</th><td><code>error</code></td><td data-variant="day" class="cell" style=""><code class="e">kettel</code></td><td data-variant="night" class="cell" style=""><code class="e">kettel</code></td></tr>
+          <tr><th scope="row">Punctuation</th><td><code>dim</code></td><td data-variant="day" class="cell" style=""><code class="p">( ) :</code></td><td data-variant="night" class="cell" style=""><code class="p">( ) :</code></td></tr>
+          <tr><th scope="row">Comments</th><td><code>faint</code></td><td data-variant="day" class="cell" style=""><code class="c"># note</code></td><td data-variant="night" class="cell" style=""><code class="c"># note</code></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer class="panel">
+    <p>{{meta.name}} {{meta.version}}. Every color on this page is generated from <code>palette/palette.json</code>.</p>
+    <p>Type: IBM Plex Sans, Serif and Mono, under the SIL Open Font License.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  // Hex values and contrast, read from each variant's own colors.
+  function lum(hex) {
+    const c = [1, 3, 5].map(function (i) {
+      const s = parseInt(hex.substr(i, 2), 16) / 255;
+      return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function ratio(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  const surfaces = ["deeper", "deep", "base", "raised", "hover", "line"];
+  document.querySelectorAll(".swatches").forEach(function (box) {
+    const style = getComputedStyle(box);
+    const get = function (n) { return style.getPropertyValue("--" + n).trim(); };
+    box.querySelectorAll(".sw").forEach(function (li) {
+      const n = li.dataset.name;
+      const hex = get(n);
+      li.querySelector(".hex").textContent = hex;
+      const r = surfaces.indexOf(n) >= 0 ? ratio(get("text"), hex) : ratio(hex, get("base"));
+      li.querySelector(".ratio").textContent = (surfaces.indexOf(n) >= 0 ? "text " : "") + r.toFixed(2) + ":1";
+    });
+  });
+})();
+</script>
+</body>
+</html>
