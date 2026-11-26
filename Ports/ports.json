@@ -26,17 +26,6 @@
       ]
     },
     {
-      "folder": "bat",
-      "name": "bat",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "btop",
       "name": "btop++",
       "category": "cli",
