@@ -89,17 +89,6 @@
       ]
     },
     {
-      "folder": "fzf",
-      "name": "fzf",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
@@ -234,17 +223,6 @@
       ]
     },
     {
-      "folder": "less",
-      "name": "less",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "mod-organizer-2",
       "name": "Mod Organizer 2",
       "category": "app",
@@ -337,7 +315,8 @@
         "macos",
         "linux"
       ]
-    },    {
+    },
+    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
@@ -437,17 +416,6 @@
       "tier": null,
       "platforms": [
         "windows"
-      ]
-    },
-    {
-      "folder": "vscode",
-      "name": "Visual Studio Code",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {
