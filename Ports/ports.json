@@ -297,17 +297,6 @@
       ]
     },
     {
-      "folder": "starship",
-      "name": "Starship",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "startallback",
       "name": "StartAllBack",
       "category": "system",
