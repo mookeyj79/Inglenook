@@ -53,6 +53,10 @@ A terminal's bright slot: the same hue as its normal slot, slightly stronger. Co
 Inglenook applied to one app, with its own folder, templates, generated output, screenshots, and install guide.
 _Avoid_: Theme (for a single app), plugin
 
+**Shell file**:
+The file a port ships for a tool that takes its colors from the shell, named after the tool: `<tool>.sh` for bash and zsh, `<tool>.zsh` for Zsh only, `<tool>.ps1` for PowerShell. The user sources it from their profile. Built from a `<tool>.env` when the tool takes environment variables.
+_Avoid_: Theme file (Nowhere's name for its own hook file), snippet
+
 **Tier**:
 The grade a port declares for how much of the palette the app allows: Full, Partial, or Minimal.
 

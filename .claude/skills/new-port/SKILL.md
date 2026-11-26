@@ -84,6 +84,7 @@ Prefer a role where one fits; use a named color only for a slot that is about th
 - Use placeholders for every color. The table is in CONTRIBUTING.md, step 4 of "Add a port".
 - One template should serve both variants. Split only if the app needs structurally different files per mode.
 - Use `{{meta.name}}` and `{{variant.name}}` for display names inside the file.
+- A tool that takes its colors from the shell (environment variables, shell variables, PSReadLine) ships a shell file named after the tool: `template/<tool>.env` for environment variables in any shell (built into `<tool>.sh` and `<tool>.ps1`), `<tool>.sh` plus `<tool>.ps1` when it needs code, `<tool>.zsh` for Zsh only, `<tool>.ps1` for PowerShell only. The table is in CONTRIBUTING.md, step 4. Start each file with a `#` comment naming the theme, the variant, and the tool. The port stands alone: it never depends on another port's file or on Nowhere.
 - No raw color values, including in comments.
 
 ## 7. Build and check
@@ -110,6 +111,7 @@ The README is first and foremost a step-by-step install guide. Write it for some
 - Use real paths, real menu names, and real setting names, taken from the docs you read in step 3. Windows first.
 - Say what the reader should see when a step worked.
 - Include how to switch variants and how to uninstall.
+- For a shell file, the install is: save the file to `~/.config/inglenook/`, add one line to the profile that sources it (`source ~/.config/inglenook/<tool>.sh` in `~/.zshrc` or `~/.bashrc`, `. ~/.config/inglenook/<tool>.ps1` in `$PROFILE`, after the tool or plugin loads), open a new shell. For an environment variable, also show the value for readers who set variables another way. Add one line for Nowhere users: Nowhere loads `~/.config/nowhere/theme.zsh` and `theme.ps1` last, so they can put the same source line there instead of in the profile. A Zsh-only port says Bash is not supported, and why, under **Known limits**.
 - Fill in **Set the font**: where this app sets its font, pointing to IBM Plex Mono, or BlexMono Nerd Font Mono where the app shows icons (ADR 0006). If the app cannot change its font, say so.
 - **Known limits** says what the reader will notice, in the app's own terms. A 16 or 256 color app says its colors are approximate. The reasons go in `MAPPING.md`.
 - **Sources** lists the official docs, and a credit for any reused files. Nothing else.

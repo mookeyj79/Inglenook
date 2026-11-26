@@ -20,7 +20,7 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-foreach ($m in 'Palette', 'Placeholders', 'Build', 'Catalog', 'Wallpaper', 'Png', 'Photographer', 'ScreenshotRun') {
+foreach ($m in 'Palette', 'Placeholders', 'Shell', 'Build', 'Catalog', 'Wallpaper', 'Png', 'Photographer', 'ScreenshotRun') {
     Import-Module (Join-Path $PSScriptRoot 'lib' "$m.psm1") -Force
 }
 
@@ -323,6 +323,13 @@ Test 'Placeholders: slug turns a name into an identifier' {
     Assert-Equal 'inglenook-night-v2' $punct 'runs of punctuation become one hyphen, trimmed'
 }
 
+Test 'Placeholders: sgr gives the r;g;b of an escape code' {
+    $p = Get-TestPalette (New-PaletteData)
+    $v = $p.Variants['day']
+    $rgb = (Expand-Template -Text '{{moss|rgb}}' -Palette $p -Variant $v -PortValues $null -Source 'test') -replace ', ', ';'
+    Assert-Equal "38;2;$rgb" (Expand-Template -Text '38;2;{{moss|sgr}}' -Palette $p -Variant $v -PortValues $null -Source 'test') 'sgr'
+}
+
 Test 'Placeholders: the first bad placeholder throws, naming the source' {
     $p = Get-TestPalette (New-PaletteData)
     Assert-Throws { Expand-Template -Text '{{nope}}' -Palette $p -Variant $p.Variants['day'] -PortValues $null -Source 'x.css' } '*Unknown placeholder {{nope}}*x.css*'
@@ -395,12 +402,85 @@ Test 'Build: drift kinds' {
     Assert-Equal @('day/b.txt=missing', 'day/extra.txt=extra', 'night/a.txt=out of date') $kinds 'files'
 }
 
+Test 'Build: a .env template becomes a .sh and a .ps1 with the same values' {
+    $port = New-TestPort 'envport' @{ 'tool.env' = "# Test for tool, {{variant.name}}.`n`nTOOL_COLORS=fg:{{base}} --x`nTOOL_OTHER=a b`n" }
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 4 $r.Written 'files written'
+    $hex = $p.Variants['night'].Neutrals['base'].Hex
+    $sh = Get-Content -Raw (Join-Path $port 'dist' 'night' 'tool.sh')
+    Assert-Equal "# Test for tool, Test Night.`n`nexport TOOL_COLORS='fg:$hex --x'`nexport TOOL_OTHER='a b'`n" $sh 'sh'
+    $ps1 = Get-Content -Raw (Join-Path $port 'dist' 'night' 'tool.ps1')
+    Assert-Equal "# Test for tool, Test Night.`n`n`$env:TOOL_COLORS = 'fg:$hex --x'`n`$env:TOOL_OTHER = 'a b'`n" $ps1 'ps1'
+    Assert-True (-not (Test-Path (Join-Path $port 'dist' 'night' 'tool.env'))) 'the .env itself is not shipped'
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'rebuild'
+}
+
+Test 'Build: a .env line that is not NAME=value, or a value with a quote, does not build' {
+    $p = Get-TestPalette (New-PaletteData)
+    $bad = New-TestPort 'envbad' @{ 'tool.env' = "# ok`nexport X=1`n" }
+    Assert-Throws { Update-Port -Palette $p -PortDir $bad } '*envbad/template/tool.env:2*NAME=value*'
+    $quote = New-TestPort 'envquote' @{ 'tool.env' = "X=it's`n" }
+    Assert-Throws { Update-Port -Palette $p -PortDir $quote } '*envquote/template/tool.env:1*single quote*'
+}
+
 Test 'Build: CRLF in dist is not drift' {
     $port = New-TestPort 'crlf' @{ 'a.txt' = "one`ntwo" }
     $p = Get-TestPalette (New-PaletteData)
     $null = Update-Port -Palette $p -PortDir $port
     Set-Content -Path (Join-Path $port 'dist' 'day' 'a.txt') -Value "one`r`ntwo" -NoNewline
     Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'status'
+}
+
+# --- Shell files ----------------------------------------------------------------
+
+function New-ShellFile([string]$Name, [string]$Text) {
+    $path = Join-Path $Tmp 'shell' $Name
+    New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
+    Set-Content -Path $path -Value $Text -NoNewline
+    return $path
+}
+$HaveBash = [bool](Get-Command bash -CommandType Application -ErrorAction SilentlyContinue)
+$HaveZsh  = [bool](Get-Command zsh -CommandType Application -ErrorAction SilentlyContinue)
+
+Test 'Shell: a clean file in each shell has no problems' {
+    foreach ($f in @(
+        (New-ShellFile 'ok.sh' "# a comment`nexport TOOL_X='a b'`n"),
+        (New-ShellFile 'ok.zsh' "typeset -gA TOOL_STYLES`nTOOL_STYLES[comment]='fg=8'`n"),
+        (New-ShellFile 'ok.ps1' "`$env:TOOL_X = 'a b'`n"))) {
+        $r = Test-ShellFile -Path $f
+        Assert-Equal 0 $r.Problems.Count "problems in $(Split-Path -Leaf $f): $($r.Problems -join '; ')"
+    }
+}
+
+Test 'Shell: a .sh is checked in both bash and zsh' {
+    $r = Test-ShellFile -Path (New-ShellFile 'bashonly.sh' "shopt -s nullglob`n")
+    if ($HaveZsh) { Assert-True (($r.Problems -join "`n") -like 'zsh:*shopt*') "zsh did not object: $($r.Problems -join '; ')" }
+    else { Assert-True ('zsh' -in $r.Skipped) 'zsh missing but not skipped' }
+    if ($HaveBash) { Assert-Equal 0 @($r.Problems | Where-Object { $_ -like 'bash:*' }).Count "bash objected: $($r.Problems -join '; ')" }
+    $r = Test-ShellFile -Path (New-ShellFile 'syntax.sh' "if then`n")
+    if ($HaveBash) { Assert-True (($r.Problems -join "`n") -like '*bash*') "bash did not object to a syntax error" }
+}
+
+Test 'Shell: sourcing must print nothing' {
+    $r = Test-ShellFile -Path (New-ShellFile 'noisy.sh' "echo hello`n")
+    if ($HaveBash) { Assert-True (($r.Problems -join "`n") -like '*bash*hello*') "no bash problem: $($r.Problems -join '; ')" }
+    $r = Test-ShellFile -Path (New-ShellFile 'noisy.ps1' "Write-Output hello`n")
+    Assert-True (($r.Problems -join "`n") -like '*PowerShell*hello*') "no PowerShell problem: $($r.Problems -join '; ')"
+}
+
+Test 'Shell: a .ps1 that does not parse is a problem' {
+    $r = Test-ShellFile -Path (New-ShellFile 'bad.ps1' "`$env:X = 'a`n")
+    Assert-True (($r.Problems -join "`n") -like '*does not parse*') "no parse problem: $($r.Problems -join '; ')"
+}
+
+Test 'Shell: a .env-built port sources cleanly in every shell' {
+    $port = New-TestPort 'envsrc' @{ 'tool.env' = "TOOL_COLORS=--color=bg:{{base}},fg:{{text}} --border`n" }
+    $null = Update-Port -Palette (Get-TestPalette (New-PaletteData)) -PortDir $port
+    foreach ($f in Get-ChildItem (Join-Path $port 'dist') -Recurse -File) {
+        $r = Test-ShellFile -Path $f.FullName
+        Assert-Equal 0 $r.Problems.Count "problems in $($f.Name): $($r.Problems -join '; ')"
+    }
 }
 
 # --- Catalog ------------------------------------------------------------------
