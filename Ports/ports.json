@@ -36,17 +36,6 @@
       ]
     },
     {
-      "folder": "carapace",
-      "name": "carapace",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "cinnamon",
       "name": "Cinnamon",
       "category": "system",
@@ -232,27 +221,6 @@
       ]
     },
     {
-      "folder": "nano",
-      "name": "nano",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "neovim",
-      "name": "Neovim",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "notepad-plus-plus",
       "name": "Notepad++",
       "category": "editor",
@@ -276,17 +244,6 @@
       "folder": "obsidian",
       "name": "Obsidian",
       "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "powershell",
-      "name": "PowerShell",
-      "category": "shell",
       "tier": null,
       "platforms": [
         "windows",
@@ -326,17 +283,6 @@
         "macos",
         "linux",
         "web"
-      ]
-    },
-    {
-      "folder": "starship",
-      "name": "Starship",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {
@@ -434,26 +380,6 @@
       "tier": null,
       "platforms": [
         "windows"
-      ]
-    },
-    {
-      "folder": "zsh-history-substring-search",
-      "name": "zsh-history-substring-search",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-syntax-highlighting",
-      "name": "zsh-syntax-highlighting",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
       ]
     }
   ]

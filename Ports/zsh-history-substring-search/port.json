@@ -1,0 +1,9 @@
+{
+  "name": "zsh-history-substring-search",
+  "category": "shell",
+  "tier": 1,
+  "platforms": [
+    "macos",
+    "linux"
+  ]
+}
