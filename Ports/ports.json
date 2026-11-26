@@ -26,16 +26,6 @@
       ]
     },
     {
-      "folder": "btop",
-      "name": "btop++",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "cinnamon",
       "name": "Cinnamon",
       "category": "system",

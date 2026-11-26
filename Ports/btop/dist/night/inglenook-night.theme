@@ -1,0 +1,95 @@
+# Inglenook Night for btop++, from Inglenook 0.1.0: https://github.com/mookeyj79/Inglenook
+# Save it in btop's themes folder and set color_theme = "inglenook-night" in btop.conf.
+
+# Main background. btop leaves it to the terminal when theme_background = false.
+theme[main_bg]="#1b1917"
+
+# Main text
+theme[main_fg]="#d1c9bc"
+
+# Box titles
+theme[title]="#d1c9bc"
+
+# Keyboard shortcut letters and box numbers
+theme[hi_fg]="#89b3d8"
+
+# The selected row in the process list
+theme[selected_bg]="#463624"
+theme[selected_fg]="#d1c9bc"
+
+# Inactive and disabled text
+theme[inactive_fg]="#8f887f"
+
+# Text drawn over graphs: uptime, network scale
+theme[graph_text]="#b1aa9e"
+
+# The empty part of the meters
+theme[meter_bg]="#363331"
+
+# Process details: the running state, the memory graph
+theme[proc_misc]="#89b3d8"
+
+# Box outlines
+theme[cpu_box]="#363331"
+theme[mem_box]="#363331"
+theme[net_box]="#363331"
+theme[proc_box]="#363331"
+
+# Dividers inside boxes
+theme[div_line]="#363331"
+
+# Each graph and meter is one color: btop blends between its start, mid and end.
+# Temperatures
+theme[temp_start]="#da9f7c"
+theme[temp_mid]="#da9f7c"
+theme[temp_end]="#da9f7c"
+
+# CPU graphs
+theme[cpu_start]="#89b3d8"
+theme[cpu_mid]="#89b3d8"
+theme[cpu_end]="#89b3d8"
+
+# Memory and disks: free
+theme[free_start]="#cb9cc6"
+theme[free_mid]="#cb9cc6"
+theme[free_end]="#cb9cc6"
+
+# Memory and disks: cached
+theme[cached_start]="#a5a5d9"
+theme[cached_mid]="#a5a5d9"
+theme[cached_end]="#a5a5d9"
+
+# Memory and disks: available
+theme[available_start]="#72bdbd"
+theme[available_mid]="#72bdbd"
+theme[available_end]="#72bdbd"
+
+# Memory and disks: used
+theme[used_start]="#d4a2aa"
+theme[used_mid]="#d4a2aa"
+theme[used_end]="#d4a2aa"
+
+# Network: download
+theme[download_start]="#72bdbd"
+theme[download_mid]="#72bdbd"
+theme[download_end]="#72bdbd"
+
+# Network: upload
+theme[upload_start]="#cb9cc6"
+theme[upload_mid]="#cb9cc6"
+theme[upload_end]="#cb9cc6"
+
+# Process list: CPU and memory use
+theme[process_start]="#89b3d8"
+theme[process_mid]="#89b3d8"
+theme[process_end]="#89b3d8"
+
+# The process list banner (btop 1.4 and newer): paused, following, or both
+theme[proc_pause_bg]="#3b382a"
+theme[proc_follow_bg]="#31383e"
+theme[proc_banner_bg]="#3e333a"
+theme[proc_banner_fg]="#d1c9bc"
+
+# The followed process (btop 1.4 and newer)
+theme[followed_bg]="#31383e"
+theme[followed_fg]="#d1c9bc"

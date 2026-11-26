@@ -1,0 +1,16 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends btop proot tcc"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/btop/themes",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/inglenook-$INGLENOOK_VARIANT.theme\" ~/.config/btop/themes/",
+    "echo \"color_theme = \\\"inglenook-$INGLENOOK_VARIANT\\\"\" >> ~/.config/btop/btop.conf"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/btop/stage.sh\""
+  ]
+}
