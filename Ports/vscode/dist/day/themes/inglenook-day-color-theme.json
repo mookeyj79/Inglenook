@@ -432,10 +432,10 @@
     "terminal.ansiBrightBlack": "#657178",
     "terminal.ansiBrightRed": "#942a23",
     "terminal.ansiBrightGreen": "#2d6420",
-    "terminal.ansiBrightYellow": "#555555",
+    "terminal.ansiBrightYellow": "#615602",
     "terminal.ansiBrightBlue": "#195a88",
     "terminal.ansiBrightMagenta": "#783a73",
-    "terminal.ansiBrightCyan": "#555555",
+    "terminal.ansiBrightCyan": "#056262",
     "terminal.ansiBrightWhite": "#f9fbf8"
   },
   "tokenColors": [
