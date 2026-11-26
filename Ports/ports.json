@@ -295,17 +295,6 @@
       ]
     },
     {
-      "folder": "powershell",
-      "name": "PowerShell",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "psreadline",
       "name": "PSReadLine",
       "category": "shell",
