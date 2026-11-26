@@ -1,0 +1,29 @@
+{
+  "kind": "editor",
+  "platform": "linux",
+  "version": "1.148.0-1795526052",
+  "install": [
+    "curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg",
+    "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main' > /etc/apt/sources.list.d/vscode.list",
+    "apt-get update && apt-get install -y --no-install-recommends code=$INGLENOOK_VERSION jq xz-utils fonts-ibm-plex",
+    "curl -fsSL -o /tmp/node.tar.xz https://nodejs.org/dist/v26.13.1/node-v26.13.1-linux-x64.tar.xz && echo '5c063e46bab0fbc1c17cc445d7ff129cbdcd0471be6ed83b6ab864f8143bc864  /tmp/node.tar.xz' | sha256sum -c - && tar -xJf /tmp/node.tar.xz -C /usr/local --strip-components=1 --exclude=CHANGELOG.md --exclude=README.md --exclude=LICENSE && rm /tmp/node.tar.xz",
+    "npm install -g @vscode/vsce@4.1.1 && npm config set --location=global update-notifier false"
+  ],
+  "apply": [
+    "cd Ports/vscode/dist/day && npx @vscode/vsce package --out \"$HOME\"",
+    "cd Ports/vscode/dist/night && npx @vscode/vsce package --out \"$HOME\"",
+    "code --install-extension \"$HOME\"/inglenook-day-*.vsix",
+    "code --install-extension \"$HOME\"/inglenook-night-*.vsix",
+    "mkdir -p \"$HOME/.config/Code/User\" && jq -n --arg font \"'IBM Plex Mono'\" --arg term \"'BlexMono Nerd Font Mono'\" --arg theme \"$(jq -r '.contributes.themes[0].label' Ports/vscode/dist/$INGLENOOK_VARIANT/package.json)\" '{\"editor.fontFamily\": $font, \"terminal.integrated.fontFamily\": $term, \"workbench.colorTheme\": $theme}' > \"$HOME/.config/Code/User/settings.json\""
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/prepare.sh\"",
+    "s=\"$HOME/.config/Code/User/settings.json\"; jq '. + {\"update.mode\": \"none\", \"extensions.autoUpdate\": false, \"extensions.autoCheckUpdates\": false, \"extensions.ignoreRecommendations\": true, \"telemetry.telemetryLevel\": \"off\", \"workbench.enableExperiments\": false, \"workbench.startupEditor\": \"none\", \"workbench.tips.enabled\": false, \"security.workspace.trust.enabled\": false, \"chat.disableAIFeatures\": true, \"workbench.secondarySideBar.defaultVisibility\": \"hidden\", \"git.autofetch\": false, \"editor.cursorBlinking\": \"solid\", \"editor.fontSize\": 16}' \"$s\" > \"$s.new\" && mv \"$s.new\" \"$s\""
+  ],
+  "launch": [
+    "code --no-sandbox --password-store=basic --disable-gpu --disable-partial-raster --ui-disable-partial-swap \"$HOME/Inglenook\""
+  ],
+  "window": {
+    "title": "^Contrast\\.psm1 - Inglenook - Visual Studio Code$"
+  }
+}

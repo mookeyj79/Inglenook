@@ -429,17 +429,6 @@
       ]
     },
     {
-      "folder": "vscode",
-      "name": "Visual Studio Code",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "windows",
       "name": "Windows",
       "category": "system",
