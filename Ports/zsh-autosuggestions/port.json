@@ -1,0 +1,17 @@
+{
+  "name": "zsh-autosuggestions",
+  "category": "shell",
+  "tier": 1,
+  "platforms": [
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "text-cursor-input",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/text-cursor-input",
+    "license": "ISC"
+  }
+}
