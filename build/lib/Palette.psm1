@@ -24,6 +24,7 @@ $Filters = [ordered]@{
     ''       = 'hex'
     'nohash' = 'hex without #'
     'rgb'    = 'r, g, b'
+    'sgr'    = 'r;g;b, for terminal escape codes such as 38;2;r;g;b'
     'wash'   = 'the color washed over base, #rrggbb'
     'clear'  = '#rrggbb00, fully transparent'
     'name'   = 'the neutral or named color drawn, by name'
@@ -338,6 +339,7 @@ function Format-PaletteColor {
         ''       { return $hex }
         'nohash' { return $hex.Substring(1) }
         'rgb'    { return (ConvertFrom-Hex $hex) -join ', ' }
+        'sgr'    { return (ConvertFrom-Hex $hex) -join ';' }
         'clear'  { return $hex + '00' }
         'wash'   { return Get-WashColor $Variant $e.Source }
         'name'   { return $e.Source }

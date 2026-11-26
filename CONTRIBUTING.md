@@ -79,6 +79,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    | `{{color}}` | `#rrggbb`, such as `{{base}}`, `{{moss}}`, or `{{error}}` |
    | `{{color\|nohash}}` | `rrggbb` |
    | `{{color\|rgb}}` | `r, g, b` |
+   | `{{color\|sgr}}` | `r;g;b`, for terminal escape codes: `38;2;{{text\|sgr}}` is a foreground, `48;2;...` a background |
    | `{{color\|wash}}` | `#rrggbb`, the color mixed into `base` at the variant's wash strength, for selections, diff lines, and chips. Named colors only, or a role or ANSI slot that points at one |
    | `{{color\|clear}}` | `#rrggbb00`, fully transparent, for app settings that can only be switched off with a color |
    | `{{color\|name}}` | the neutral or named color drawn, by name, such as `firelight` for `{{accent\|name}}` |
@@ -89,6 +90,17 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    | `{{port.<key>}}` | a per-variant app value that is not a color, from `Ports/<app_name>/values.json` (`{ "day": { "<key>": "..." }, "night": { ... } }`) |
 
    `build/lib/Placeholders.psm1` defines them. `build/check.ps1` reports every placeholder that does not resolve, and fails if this table misses a filter.
+
+   **Tools that take their colors from the shell** (fzf, less, zsh plugins, PSReadLine) ship a shell file per variant, named after the tool, that the user sources from their profile:
+
+   | Template | dist/day/ and dist/night/ | For |
+   |---|---|---|
+   | `<tool>.env` | `<tool>.sh` and `<tool>.ps1` | a tool that takes environment variables, in any shell. One `NAME=value` per line, plus blank lines and `# comments`. The build writes `export NAME='value'` and `$env:NAME = 'value'`, so both shells get the same values. A value cannot contain a single quote |
+   | `<tool>.sh` and `<tool>.ps1` | the same | a tool that needs code in both shells, such as adding to a variable that is already set |
+   | `<tool>.zsh` | the same | a Zsh-only tool (the line editor, Zsh plugins). Bash is not supported: say so in the README |
+   | `<tool>.ps1` | the same | a PowerShell-only tool (PSReadLine, `$PSStyle`) |
+
+   `check.ps1` parses every shell file and sources it in a fresh shell, which must print nothing: `.sh` in bash and zsh, `.zsh` in zsh, `.ps1` in PowerShell. A shell that is not installed is a warning locally; CI checks them all. `build/lib/Shell.psm1` holds these rules.
 
 5. **Build and check**:
 
