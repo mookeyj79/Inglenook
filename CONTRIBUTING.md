@@ -107,7 +107,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    | `<tool>.zsh` | the same | a Zsh-only tool (the line editor, Zsh plugins). Bash is not supported: say so in the README |
    | `<tool>.ps1` | the same | a PowerShell-only tool (PSReadLine, `$PSStyle`) |
 
-   `check.ps1` parses every shell file and sources it in a fresh shell, which must print nothing: `.sh` in bash and zsh, `.zsh` in zsh, `.ps1` in PowerShell. A shell that is not installed is a warning locally; CI checks them all. `build/lib/Shell.psm1` holds these rules.
+   `check.ps1` parses every shell file and sources it in a fresh shell, which must print nothing: `.sh` in bash and zsh, `.zsh` in zsh, `.ps1` in PowerShell. A script that starts with a shebang (`#!`), such as an install script the reader runs, is only parsed, by the shell its shebang names. A shell that is not installed is a warning locally; CI checks them all. `build/lib/Shell.psm1` holds these rules.
 
 5. **Build and check**:
 
