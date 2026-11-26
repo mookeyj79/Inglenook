@@ -331,6 +331,14 @@ Test 'Placeholders: slug turns a name into an identifier' {
     Assert-Equal 'inglenook-night-v2' $punct 'runs of punctuation become one hyphen, trimmed'
 }
 
+Test 'Placeholders: meta.slug and variant.slug slug the names without a filter, for file names' {
+    $p = Get-TestPalette (New-PaletteData)
+    $out = Expand-Template -Text 'colors/{{meta.slug}}/{{variant.slug}}.theme' `
+        -Palette $p -Variant $p.Variants['night'] -PortValues $null -Source 'test'
+    Assert-Equal 'colors/test/test-night.theme' $out 'slugged names'
+    Assert-Equal 0 @(Find-PlaceholderError -Text '{{meta.slug}} {{variant.slug}}' -Palette $p -PortValues $null).Count 'both resolve'
+}
+
 Test 'Placeholders: comma gives r,g,b with no spaces, as ripgrep --colors takes it' {
     $d = New-PaletteData
     $d.variants.day.neutrals.base = [ordered]@{ l = 1; c = 0; h = 0 }
@@ -461,6 +469,20 @@ Test 'Build: CRLF in dist is not drift' {
     $null = Update-Port -Palette $p -PortDir $port
     Set-Content -Path (Join-Path $port 'dist' 'day' 'a.txt') -Value "one`r`ntwo" -NoNewline
     Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'status'
+}
+
+Test 'Build: a path Windows can not check out is named, with the reason' {
+    $paths = @(
+        'Ports/btop/template/{{variant.slug}}.theme', 'README.md', 'a/.hidden/b.txt',
+        'Ports/btop/template/{{variant.name|slug}}.theme', 'x/what?.txt', 'x/a<b>.txt', 'C:x', 'say"hi"', 'star*',
+        'trailing /file', 'dir./file', 'file.', "tab`tthere"
+    )
+    $errs = @(Find-WindowsPathError -Path $paths)
+    Assert-Equal 10 $errs.Count "errors ($($errs -join '; '))"
+    Assert-True ($errs[0] -like "*{{variant.name|slug}}.theme*'|'*") 'names the path and the character'
+    Assert-True (($errs -join "`n") -like '*dir./file*ends in a dot*') 'a folder that ends in a dot'
+    Assert-True (($errs -join "`n") -like '*trailing /file*ends in a space*') 'a folder that ends in a space'
+    Assert-Equal 0 @(Find-WindowsPathError -Path @('a/b.c', '.github/workflows/ci.yml', 'Ports/x/dist/day/Inglenook Day.tmTheme')).Count 'good paths'
 }
 
 # --- Shell files ----------------------------------------------------------------

@@ -9,6 +9,9 @@ Import-Module (Join-Path $PSScriptRoot 'Palette.psm1')
 
 $Pattern = '\{\{\s*([A-Za-z_][A-Za-z0-9_.]*)\s*((?:\|\s*[A-Za-z0-9]+\s*)*)\}\}'
 
+# A name as an identifier: 'Inglenook Night' is 'inglenook-night'.
+function ConvertTo-Slug([string]$Text) { return ($Text.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-') }
+
 # The filters of a match, as one string: '' or 'wash' or 'wash|comma'.
 function Get-MatchFilter($Match) { return ($Match.Groups[2].Value -replace '\s', '').TrimStart('|') }
 
@@ -21,6 +24,8 @@ function Resolve-Placeholder {
         each with an optional color filter, or |wash and then one format
         filter (nohash, rgb, sgr, comma), as in {{steel|wash|comma}}. Text: {{meta.<key>}},
         {{variant.name|key|mode}}, {{port.<key>}}, with an optional |slug.
+        {{meta.slug}} and {{variant.slug}} are the names slugged with no
+        filter, for file names: Windows does not allow '|' in a file name.
     .PARAMETER PortValues
         The port's values.json: @{ day = @{ key = value }; night = @{ ... } }, or $null.
     #>
@@ -29,11 +34,12 @@ function Resolve-Placeholder {
     $value = $null
     switch -Regex ($Name) {
         '^meta\.(.+)$' {
-            if ($Palette.Meta.Contains($Matches[1])) { $value = [string]$Palette.Meta[$Matches[1]] }
+            if ($Matches[1] -eq 'slug' -and $Palette.Meta.Contains('name')) { $value = ConvertTo-Slug $Palette.Meta['name'] }
+            elseif ($Palette.Meta.Contains($Matches[1])) { $value = [string]$Palette.Meta[$Matches[1]] }
             break
         }
         '^variant\.(.+)$' {
-            switch ($Matches[1]) { 'key' { $value = $Variant.Key } 'name' { $value = $Variant.Name } 'mode' { $value = $Variant.Mode } }
+            switch ($Matches[1]) { 'key' { $value = $Variant.Key } 'name' { $value = $Variant.Name } 'slug' { $value = ConvertTo-Slug $Variant.Name } 'mode' { $value = $Variant.Mode } }
             break
         }
         '^port\.(.+)$' {
@@ -51,7 +57,7 @@ function Resolve-Placeholder {
         }
     }
     if ($null -eq $value) { return @{ Error = "Unknown placeholder $token." } }
-    if ($Filter -eq 'slug') { return @{ Value = ($value.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-') } }
+    if ($Filter -eq 'slug') { return @{ Value = (ConvertTo-Slug $value) } }
     if ($Filter) { return @{ Error = "Only slug applies to text placeholders: $token." } }
     return @{ Value = $value }
 }

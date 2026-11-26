@@ -95,6 +95,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    | `{{meta.name}}`, `{{meta.version}}`, `{{meta.repository}}` | theme name, palette version, repo URL |
    | `{{variant.name}}`, `{{variant.mode}}`, `{{variant.key}}` | variant name, `light` or `dark`, `day` or `night` |
    | `{{variant.name\|slug}}` | the name as an identifier, such as `inglenook-night`. Works on any `meta.`, `variant.`, or `port.` value |
+   | `{{meta.slug}}`, `{{variant.slug}}` | the theme and variant names as identifiers, `inglenook` and `inglenook-night`, with no filter. Use these in file names: Windows does not allow `\|` in a file name, and `build/check.ps1` fails on any path Windows cannot check out |
    | `{{port.<key>}}` | a per-variant app value that is not a color, from `Ports/<app_name>/values.json` (`{ "day": { "<key>": "..." }, "night": { ... } }`) |
 
    `build/lib/Placeholders.psm1` defines them. `build/check.ps1` reports every placeholder that does not resolve, and fails if this table misses a filter.

@@ -43,6 +43,10 @@
                      shows a wallpaper only in a variant it is marked for.
    13. Prose         No em dashes in the repo's Markdown (outside dist/).
                      Add "inglenook-ignore" to a line to skip it.
+   14. Paths         Every tracked path can be checked out on Windows: no
+                     < > : " | ? * or control character, and no file or
+                     folder name that ends in a space or a dot. In a file
+                     name, write {{variant.slug}}, not {{variant.name|slug}}.
 
     The rules live in build/lib/: Palette.psm1, Placeholders.psm1,
     Shell.psm1, Build.psm1, Catalog.psm1, and Wallpaper.psm1. This script runs them and reports.
@@ -343,6 +347,23 @@ Invoke-Section 'Prose' {
             }
         }
     }
+}
+
+# --- 14. Paths ------------------------------------------------------------------
+
+Invoke-Section 'Paths' {
+    $paths = @()
+    Push-Location $RepoRoot
+    try { $listed = git -c core.quotepath=off ls-files -z 2>$null }
+    finally { Pop-Location }
+    if ($LASTEXITCODE -eq 0 -and $listed) { $paths = @(($listed -join '') -split [char]0 | Where-Object { $_ }) }
+    else {
+        # Not a git checkout: fall back to the file system, skipping local folders.
+        $paths = @(Get-ChildItem -Path $RepoRoot -Recurse -File -Force |
+            ForEach-Object { Get-RepoPath $_.FullName } |
+            Where-Object { $_ -notmatch '^(\.git|_site|prototypes|\.claude/worktrees)/' })
+    }
+    foreach ($e in Find-WindowsPathError -Path $paths) { Add-Failure "Paths: $e" }
 }
 
 # --- Summary ------------------------------------------------------------------

@@ -1,6 +1,7 @@
 # Building a port: rendering its template/ into dist/<variant>/ for every
 # palette variant, and telling how a build compares with the committed dist/.
-# build.ps1 writes with it; check.ps1 asks it whether dist/ is current.
+# build.ps1 writes with it; check.ps1 asks it whether dist/ is current, and
+# whether every repo path can be checked out on Windows.
 
 Set-StrictMode -Version Latest
 
@@ -140,4 +141,29 @@ function Update-Port {
     return $result
 }
 
-Export-ModuleMember -Function Get-PortStatus, Update-Port, Remove-VersionStamp
+# Characters Windows does not allow in a file or folder name.
+$WindowsForbidden = '<>:"|?*'
+
+function Find-WindowsPathError {
+    # Every path in $Path (repo-relative, '/' between parts) that Windows can
+    # not check out, as messages: a forbidden or control character in any part,
+    # or a part that ends in a space or a dot. Empty when every path is fine.
+    param([string[]]$Path)
+    $errs = [System.Collections.Generic.List[string]]::new()
+    foreach ($p in $Path) {
+        $why = $null
+        foreach ($part in $p -split '/') {
+            foreach ($c in $part.ToCharArray()) {
+                if ($WindowsForbidden.Contains($c)) { $why = "has '$c', which Windows does not allow in a file name"; break }
+                if ([int]$c -lt 32) { $why = 'has a control character'; break }
+            }
+            if (-not $why -and $part.EndsWith(' ')) { $why = "has a part, '$part', that ends in a space" }
+            if (-not $why -and $part.EndsWith('.') -and $part -notin '.', '..') { $why = "has a part, '$part', that ends in a dot" }
+            if ($why) { break }
+        }
+        if ($why) { $errs.Add("$p $why. Windows can not check it out.") }
+    }
+    return @($errs)
+}
+
+Export-ModuleMember -Function Get-PortStatus, Update-Port, Remove-VersionStamp, Find-WindowsPathError
