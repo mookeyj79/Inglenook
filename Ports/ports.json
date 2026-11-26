@@ -36,17 +36,6 @@
       ]
     },
     {
-      "folder": "carapace",
-      "name": "carapace",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "cinnamon",
       "name": "Cinnamon",
       "category": "system",

@@ -1,0 +1,122 @@
+{
+  "carapace": {
+    "Value": "#2d373f",
+    "Description": "#49545d",
+    "Error": "bold #a04037",
+    "Usage": "#657178",
+    "KeywordAmbiguous": "#706416",
+    "KeywordNegative": "#a04037",
+    "KeywordPositive": "#407135",
+    "KeywordUnknown": "#657178",
+    "LogLevelTrace": "#657178",
+    "LogLevelDebug": "#49545d",
+    "LogLevelInfo": "#326893",
+    "LogLevelWarning": "#706416",
+    "LogLevelError": "#a04037",
+    "LogLevelCritical": "bold #a04037",
+    "LogLevelFatal": "bold underlined #a04037",
+    "Highlight1": "#326893",
+    "Highlight2": "#915023",
+    "Highlight3": "#844b80",
+    "Highlight4": "#017272",
+    "Highlight5": "#135b42",
+    "Highlight6": "#5e5a9a",
+    "Highlight7": "#905560",
+    "Highlight8": "#7e2e39",
+    "Highlight9": "#49545d",
+    "Highlight10": "#657178",
+    "Highlight11": "bold #2d373f",
+    "Highlight12": "bold #49545d",
+    "FlagArg": "#326893",
+    "FlagMultiArg": "#844b80",
+    "FlagNoArg": "#2d373f",
+    "FlagOptArg": "#915023"
+  },
+  "carapace-bin": {
+    "HttpStatusInformational": "#326893",
+    "HttpStatusSuccessful": "#407135",
+    "HttpStatusRedirection": "#017272",
+    "HttpStatusClientError": "#a04037",
+    "HttpStatusServerError": "bold #a04037",
+    "HttpMethodCONNECT": "#2d373f",
+    "HttpMethodDELETE": "#a04037",
+    "HttpMethodGET": "#326893",
+    "HttpMethodHEAD": "#844b80",
+    "HttpMethodOPTIONS": "#49545d",
+    "HttpMethodPATCH": "#706416",
+    "HttpMethodPOST": "#407135",
+    "HttpMethodPUT": "#706416",
+    "HttpMethodTRACE": "#2d373f",
+    "KillSignalTerm": "#a04037",
+    "KillSignalIgn": "#49545d",
+    "KillSignalCore": "bold #a04037",
+    "KillSignalStop": "#706416",
+    "KillSignalCont": "#407135"
+  },
+  "docker": {
+    "Container": "#326893",
+    "Image": "#915023",
+    "Network": "#844b80",
+    "Node": "#017272",
+    "Secret": "underlined #2d373f",
+    "Service": "#135b42",
+    "Volume": "bold #2d373f"
+  },
+  "gh": {
+    "Draft": "#657178",
+    "JobFailed": "#a04037",
+    "JobInProgress": "#326893",
+    "JobSuccess": "#407135",
+    "OwnerOrganization": "#017272",
+    "OwnerUser": "#2d373f",
+    "RepoArchived": "#657178",
+    "RepoFork": "#49545d",
+    "RepoLocked": "bold #2d373f",
+    "RepoMirror": "#017272",
+    "RepoPrivate": "#7e2e39",
+    "RepoPublic": "#2d373f",
+    "RepoTemplate": "#905560",
+    "StateClosed": "#a04037",
+    "StateMerged": "#844b80",
+    "StateOpen": "#407135"
+  },
+  "git": {
+    "Branch": "#017272",
+    "Commit": "#915023",
+    "Head": "bold #9b5a00",
+    "Note": "#49545d",
+    "Stash": "#844b80",
+    "Tag": "#905560"
+  },
+  "golang": {
+    "Constant": "#844b80",
+    "Field": "#326893",
+    "Function": "#326893",
+    "Type": "#5e5a9a",
+    "Variable": "#2d373f"
+  },
+  "hg": {
+    "Bookmark": "#017272",
+    "Branch": "#017272",
+    "Stash": "#844b80",
+    "Tag": "#905560"
+  },
+  "lore": {
+    "Branch": "#017272",
+    "CurrentBranch": "bold #9b5a00",
+    "Revision": "#915023",
+    "Identity": "#2d373f"
+  },
+  "tea": {
+    "StateClosed": "#a04037",
+    "StateMerged": "#844b80",
+    "StateOpen": "#407135"
+  },
+  "zfs": {
+    "Pool": "bold #2d373f",
+    "Filesystem": "#326893",
+    "Volume": "#915023",
+    "Snapshot": "#844b80",
+    "Bookmark": "#017272"
+  }
+}
