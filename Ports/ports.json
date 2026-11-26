@@ -390,19 +390,7 @@
         "macos",
         "linux"
       ]
-    },
-    {
-      "folder": "ripgrep",
-      "name": "ripgrep",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
+    },    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
