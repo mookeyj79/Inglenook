@@ -89,17 +89,6 @@
       ]
     },
     {
-      "folder": "fzf",
-      "name": "fzf",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
@@ -438,17 +427,6 @@
       "tier": null,
       "platforms": [
         "windows"
-      ]
-    },
-    {
-      "folder": "vscode",
-      "name": "Visual Studio Code",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {

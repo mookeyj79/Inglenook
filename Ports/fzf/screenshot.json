@@ -1,0 +1,21 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "install": [
+    "apt-get install -y --no-install-recommends fzf xterm"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/fzf.sh\" ~/.config/inglenook/fzf.sh",
+    "echo 'source ~/.config/inglenook/fzf.sh' >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/fzf/stage.sh\""
+  ],
+  "launch": [
+    "xterm -b 0 -geometry 110x30 -fa \"BlexMono Nerd Font Mono\" -fs 12 -xrm \"XTerm*forceBoxChars: true\" -e bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": {
+    "class": "xterm"
+  }
+}
