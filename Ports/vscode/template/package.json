@@ -1,0 +1,32 @@
+{
+  "name": "{{meta.name|slug}}-{{variant.key}}",
+  "displayName": "{{variant.name}}",
+  "description": "{{variant.name}} color theme, part of {{meta.name}}: a cozy, soothing theme for the tools you spend all day in.",
+  "version": "{{meta.version}}",
+  "publisher": "{{meta.name|slug}}",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "{{meta.repository}}"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "color-theme",
+    "{{variant.mode}}"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "{{variant.name}}",
+        "uiTheme": "{{port.ui_theme}}",
+        "path": "./themes/{{meta.name|slug}}-{{variant.key}}-color-theme.json"
+      }
+    ]
+  }
+}
