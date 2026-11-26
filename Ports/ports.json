@@ -45,17 +45,6 @@
       ]
     },
     {
-      "folder": "claude-code",
-      "name": "Claude Code",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "docker",
       "name": "Docker build output",
       "category": "cli",
