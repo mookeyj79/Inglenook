@@ -1,0 +1,26 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "version": "0.26.1",
+  "install": [
+    "curl -fsSL -o /tmp/bat.deb \"https://github.com/sharkdp/bat/releases/download/v$INGLENOOK_VERSION/bat_${INGLENOOK_VERSION}_amd64.deb\"",
+    "echo 'ad59954aa1540e526f97267f60557ea5ef4c7dcf91a0811254134537cb353a3c  /tmp/bat.deb' | sha256sum -c -",
+    "apt-get install -y --no-install-recommends /tmp/bat.deb gnome-terminal && rm /tmp/bat.deb"
+  ],
+  "apply": [
+    "mkdir -p \"$(bat --config-dir)/themes\"",
+    "cp \"$INGLENOOK_PORT/dist/day/Inglenook Day.tmTheme\" \"$INGLENOOK_PORT/dist/night/Inglenook Night.tmTheme\" \"$(bat --config-dir)/themes/\"",
+    "bat cache --build",
+    "printf '%s\\n' '--theme-light=\"Inglenook Day\"' '--theme-dark=\"Inglenook Night\"' >> \"$(bat --config-file)\""
+  ],
+  "stage": [
+    "p=/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}cursor-blink-mode \"'off'\"; dconf write ${p}default-size-columns 90; dconf write ${p}default-size-rows 30; dconf write ${p}scrollbar-policy \"'never'\"",
+    "bash \"$INGLENOOK_SCENE/bat/stage.sh\""
+  ],
+  "launch": [
+    "gnome-terminal -- bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": {
+    "class": "gnome-terminal-server"
+  }
+}

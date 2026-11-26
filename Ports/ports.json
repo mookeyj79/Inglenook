@@ -26,17 +26,6 @@
       ]
     },
     {
-      "folder": "bat",
-      "name": "bat",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "btop",
       "name": "btop++",
       "category": "cli",
@@ -125,17 +114,6 @@
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "git",
-      "name": "Git",
-      "category": "cli",
       "tier": null,
       "platforms": [
         "windows",
@@ -370,19 +348,7 @@
         "macos",
         "linux"
       ]
-    },
-    {
-      "folder": "ripgrep",
-      "name": "ripgrep",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
+    },    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",

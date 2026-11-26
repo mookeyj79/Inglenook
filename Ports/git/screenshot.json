@@ -1,0 +1,21 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "install": [
+    "apt-get install -y --no-install-recommends gnome-terminal"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/gitconfig\" ~/.config/inglenook/gitconfig",
+    "cd ~ && git config --global --add include.path '~/.config/inglenook/gitconfig'"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/git/stage.sh\""
+  ],
+  "launch": [
+    "gnome-terminal -- bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": {
+    "class": "gnome-terminal-server"
+  }
+}

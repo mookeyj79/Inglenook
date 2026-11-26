@@ -1,0 +1,11 @@
+# Inglenook Night for ripgrep. Point RIPGREP_CONFIG_PATH at this file.
+# Each line is one ripgrep flag. Clear ripgrep's own colors first, then set ours.
+--colors=path:none
+--colors=line:none
+--colors=column:none
+--colors=match:none
+--colors=path:fg:114,189,189
+--colors=line:fg:177,170,158
+--colors=column:fg:177,170,158
+--colors=match:fg:243,169,88
+--colors=match:style:bold

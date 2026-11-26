@@ -323,6 +323,15 @@ Test 'Placeholders: slug turns a name into an identifier' {
     Assert-Equal 'inglenook-night-v2' $punct 'runs of punctuation become one hyphen, trimmed'
 }
 
+Test 'Placeholders: comma gives r,g,b with no spaces, as ripgrep --colors takes it' {
+    $d = New-PaletteData
+    $d.variants.day.neutrals.base = [ordered]@{ l = 1; c = 0; h = 0 }
+    $d.variants.day.colors.ember = [ordered]@{ l = 0; c = 0; h = 0 }
+    $p = Get-TestPalette $d
+    $out = Expand-Template -Text 'match:fg:{{error|comma}} match:bg:{{base|comma}}' -Palette $p -Variant $p.Variants['day'] -PortValues $null -Source 'test'
+    Assert-Equal 'match:fg:0,0,0 match:bg:255,255,255' $out 'comma'
+}
+
 Test 'Placeholders: sgr gives the r;g;b of an escape code' {
     $p = Get-TestPalette (New-PaletteData)
     $v = $p.Variants['day']
