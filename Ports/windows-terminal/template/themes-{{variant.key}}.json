@@ -1,0 +1,20 @@
+{
+  "themes": [
+    {
+      "name": "{{variant.name}}",
+      "window": {
+        "applicationTheme": "{{variant.mode}}",
+        "frame": "{{accent}}",
+        "unfocusedFrame": "{{line}}"
+      },
+      "tabRow": {
+        "background": "{{deeper}}",
+        "unfocusedBackground": "{{deeper}}"
+      },
+      "tab": {
+        "background": "{{base}}",
+        "unfocusedBackground": null
+      }
+    }
+  ]
+}

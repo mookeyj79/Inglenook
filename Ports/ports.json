@@ -350,15 +350,6 @@
       "platforms": [
         "windows"
       ]
-    },
-    {
-      "folder": "windows-terminal",
-      "name": "Windows Terminal",
-      "category": "terminal",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
     }
   ]
 }

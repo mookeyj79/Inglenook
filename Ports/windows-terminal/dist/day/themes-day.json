@@ -1,0 +1,20 @@
+{
+  "themes": [
+    {
+      "name": "Inglenook Day",
+      "window": {
+        "applicationTheme": "light",
+        "frame": "#9b5a00",
+        "unfocusedFrame": "#cfd2cb"
+      },
+      "tabRow": {
+        "background": "#e0e2dc",
+        "unfocusedBackground": "#e0e2dc"
+      },
+      "tab": {
+        "background": "#f1f3ee",
+        "unfocusedBackground": null
+      }
+    }
+  ]
+}
