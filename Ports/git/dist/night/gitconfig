@@ -1,0 +1,86 @@
+# Inglenook Night for Git, from Inglenook 0.1.0 (https://github.com/mookeyj79/Inglenook).
+# Include this file from your Git config:
+#   git config --global --add include.path ~/.config/inglenook/gitconfig
+# Colors are 24-bit, quoted because Git reads an unquoted # as a comment. Text with no color here uses your terminal's own colors.
+
+[color "diff"]
+	meta = "#d1c9bc bold"
+	frag = "#72bdbd"
+	func = "#b1aa9e"
+	old = "#d9897e"
+	new = "#91bc88"
+	commit = "#da9f7c"
+	whitespace = "#d9897e reverse"
+	oldMoved = "#cb9cc6"
+	newMoved = "#72bdbd"
+	oldMovedAlternative = "#89b3d8"
+	newMovedAlternative = "#a5a5d9"
+	oldMovedDimmed = "#cb9cc6 dim"
+	newMovedDimmed = "#72bdbd dim"
+	oldMovedAlternativeDimmed = "#89b3d8 dim"
+	newMovedAlternativeDimmed = "#a5a5d9 dim"
+	contextDimmed = "#8f887f"
+	oldDimmed = "#d9897e dim"
+	newDimmed = "#91bc88 dim"
+	contextBold = "bold"
+	oldBold = "#d9897e bold"
+	newBold = "#91bc88 bold"
+
+[color "decorate"]
+	HEAD = "#f3a958 bold"
+	branch = "#72bdbd"
+	remoteBranch = "#89b3d8"
+	tag = "#d4a2aa"
+	stash = "#cb9cc6"
+	grafted = "#bdb377"
+
+[color "branch"]
+	current = "#f3a958 bold"
+	local = "#72bdbd"
+	remote = "#89b3d8"
+	upstream = "#89b3d8"
+	plain = "#b1aa9e"
+
+[color "status"]
+	header = "#8f887f"
+	added = "#91bc88"
+	changed = "#bdb377"
+	untracked = "#89b3d8"
+	branch = "#f3a958 bold"
+	nobranch = "#bdb377 bold"
+	localBranch = "#72bdbd"
+	remoteBranch = "#89b3d8"
+	unmerged = "#d9897e bold"
+
+[color "grep"]
+	filename = "#72bdbd"
+	lineNumber = "#da9f7c"
+	column = "#da9f7c"
+	function = "#b1aa9e"
+	match = "#d1c9bc #463624 bold"
+	separator = "#b1aa9e"
+
+[color "interactive"]
+	prompt = "#f3a958 bold"
+	header = "bold"
+	help = "#b1aa9e"
+	error = "#d9897e"
+
+[color "remote"]
+	hint = "#89b3d8"
+	warning = "#bdb377"
+	success = "#91bc88"
+	error = "#d9897e"
+
+[color "advice"]
+	hint = "#89b3d8"
+
+[color "push"]
+	error = "#d9897e"
+
+[color "transport"]
+	rejected = "#d9897e"
+
+[color "blame"]
+	repeatedLines = "#8f887f"
+	highlightRecent = "#8f887f,12 month ago,#b1aa9e,1 month ago,#d1c9bc"

@@ -1,0 +1,18 @@
+{
+  "kind": "terminal",
+  "platform": "linux",
+  "version": "3.52.0+mint2+xia",
+  "install": [
+    "apt-get install -y --no-install-recommends gnome-terminal=$INGLENOOK_VERSION gnome-terminal-data=$INGLENOOK_VERSION"
+  ],
+  "apply": [
+    "bash \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/install.sh\" --default"
+  ],
+  "stage": [
+    "dconf write \"/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\")/cursor-blink-mode\" \"'off'\""
+  ],
+  "launch": [
+    "gnome-terminal --geometry=110x30 -- bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": { "class": "gnome-terminal-server" }
+}
