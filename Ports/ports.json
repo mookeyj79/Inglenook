@@ -133,17 +133,6 @@
       ]
     },
     {
-      "folder": "git",
-      "name": "Git",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "gh",
       "name": "GitHub CLI",
       "category": "cli",

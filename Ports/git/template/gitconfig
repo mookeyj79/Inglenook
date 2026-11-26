@@ -1,0 +1,86 @@
+# {{variant.name}} for Git, from {{meta.name}} {{meta.version}} ({{meta.repository}}).
+# Include this file from your Git config:
+#   git config --global --add include.path ~/.config/inglenook/gitconfig
+# Colors are 24-bit, quoted because Git reads an unquoted # as a comment. Text with no color here uses your terminal's own colors.
+
+[color "diff"]
+	meta = "{{text}} bold"
+	frag = "{{reference}}"
+	func = "{{dim}}"
+	old = "{{error}}"
+	new = "{{success}}"
+	commit = "{{literal}}"
+	whitespace = "{{error}} reverse"
+	oldMoved = "{{heather}}"
+	newMoved = "{{pine}}"
+	oldMovedAlternative = "{{steel}}"
+	newMovedAlternative = "{{dusk}}"
+	oldMovedDimmed = "{{heather}} dim"
+	newMovedDimmed = "{{pine}} dim"
+	oldMovedAlternativeDimmed = "{{steel}} dim"
+	newMovedAlternativeDimmed = "{{dusk}} dim"
+	contextDimmed = "{{faint}}"
+	oldDimmed = "{{error}} dim"
+	newDimmed = "{{success}} dim"
+	contextBold = "bold"
+	oldBold = "{{error}} bold"
+	newBold = "{{success}} bold"
+
+[color "decorate"]
+	HEAD = "{{accent}} bold"
+	branch = "{{reference}}"
+	remoteBranch = "{{info}}"
+	tag = "{{tag}}"
+	stash = "{{heather}}"
+	grafted = "{{warning}}"
+
+[color "branch"]
+	current = "{{accent}} bold"
+	local = "{{reference}}"
+	remote = "{{info}}"
+	upstream = "{{info}}"
+	plain = "{{dim}}"
+
+[color "status"]
+	header = "{{faint}}"
+	added = "{{success}}"
+	changed = "{{warning}}"
+	untracked = "{{info}}"
+	branch = "{{accent}} bold"
+	nobranch = "{{warning}} bold"
+	localBranch = "{{reference}}"
+	remoteBranch = "{{info}}"
+	unmerged = "{{error}} bold"
+
+[color "grep"]
+	filename = "{{reference}}"
+	lineNumber = "{{literal}}"
+	column = "{{literal}}"
+	function = "{{dim}}"
+	match = "{{text}} {{accent|wash}} bold"
+	separator = "{{dim}}"
+
+[color "interactive"]
+	prompt = "{{accent}} bold"
+	header = "bold"
+	help = "{{dim}}"
+	error = "{{error}}"
+
+[color "remote"]
+	hint = "{{info}}"
+	warning = "{{warning}}"
+	success = "{{success}}"
+	error = "{{error}}"
+
+[color "advice"]
+	hint = "{{info}}"
+
+[color "push"]
+	error = "{{error}}"
+
+[color "transport"]
+	rejected = "{{error}}"
+
+[color "blame"]
+	repeatedLines = "{{faint}}"
+	highlightRecent = "{{faint}},12 month ago,{{dim}},1 month ago,{{text}}"
