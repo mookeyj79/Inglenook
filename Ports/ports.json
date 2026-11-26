@@ -424,16 +424,6 @@
         "macos",
         "linux"
       ]
-    },
-    {
-      "folder": "zsh-syntax-highlighting",
-      "name": "zsh-syntax-highlighting",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
     }
   ]
 }
