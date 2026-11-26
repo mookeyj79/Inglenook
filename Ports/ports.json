@@ -26,33 +26,11 @@
       ]
     },
     {
-      "folder": "carapace",
-      "name": "carapace",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "cinnamon",
       "name": "Cinnamon",
       "category": "system",
       "tier": null,
       "platforms": [
-        "linux"
-      ]
-    },
-    {
-      "folder": "claude-code",
-      "name": "Claude Code",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
         "linux"
       ]
     },
@@ -82,17 +60,6 @@
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "gh",
-      "name": "GitHub CLI",
-      "category": "cli",
       "tier": null,
       "platforms": [
         "windows",
@@ -222,27 +189,6 @@
       ]
     },
     {
-      "folder": "nano",
-      "name": "nano",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "neovim",
-      "name": "Neovim",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "notepad-plus-plus",
       "name": "Notepad++",
       "category": "editor",
@@ -274,28 +220,6 @@
       ]
     },
     {
-      "folder": "powershell",
-      "name": "PowerShell",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "psreadline",
-      "name": "PSReadLine",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "qbittorrent",
       "name": "qBittorrent",
       "category": "app",
@@ -316,17 +240,6 @@
         "macos",
         "linux",
         "web"
-      ]
-    },
-    {
-      "folder": "starship",
-      "name": "Starship",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {
@@ -415,45 +328,6 @@
       "tier": null,
       "platforms": [
         "windows"
-      ]
-    },
-    {
-      "folder": "windows-terminal",
-      "name": "Windows Terminal",
-      "category": "terminal",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
-      "folder": "zsh",
-      "name": "Zsh",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-history-substring-search",
-      "name": "zsh-history-substring-search",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-syntax-highlighting",
-      "name": "zsh-syntax-highlighting",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
       ]
     }
   ]

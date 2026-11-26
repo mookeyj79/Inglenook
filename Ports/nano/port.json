@@ -1,0 +1,9 @@
+{
+  "name": "nano",
+  "category": "cli",
+  "tier": 2,
+  "platforms": [
+    "macos",
+    "linux"
+  ]
+}

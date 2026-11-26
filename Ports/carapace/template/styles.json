@@ -1,0 +1,122 @@
+{
+  "carapace": {
+    "Value": "{{text}}",
+    "Description": "{{dim}}",
+    "Error": "bold {{error}}",
+    "Usage": "{{faint}}",
+    "KeywordAmbiguous": "{{warning}}",
+    "KeywordNegative": "{{error}}",
+    "KeywordPositive": "{{success}}",
+    "KeywordUnknown": "{{faint}}",
+    "LogLevelTrace": "{{faint}}",
+    "LogLevelDebug": "{{dim}}",
+    "LogLevelInfo": "{{info}}",
+    "LogLevelWarning": "{{warning}}",
+    "LogLevelError": "{{error}}",
+    "LogLevelCritical": "bold {{error}}",
+    "LogLevelFatal": "bold underlined {{error}}",
+    "Highlight1": "{{steel}}",
+    "Highlight2": "{{clay}}",
+    "Highlight3": "{{heather}}",
+    "Highlight4": "{{pine}}",
+    "Highlight5": "{{ivy}}",
+    "Highlight6": "{{dusk}}",
+    "Highlight7": "{{rosewood}}",
+    "Highlight8": "{{oxblood}}",
+    "Highlight9": "{{dim}}",
+    "Highlight10": "{{faint}}",
+    "Highlight11": "bold {{text}}",
+    "Highlight12": "bold {{dim}}",
+    "FlagArg": "{{steel}}",
+    "FlagMultiArg": "{{heather}}",
+    "FlagNoArg": "{{text}}",
+    "FlagOptArg": "{{literal}}"
+  },
+  "carapace-bin": {
+    "HttpStatusInformational": "{{info}}",
+    "HttpStatusSuccessful": "{{success}}",
+    "HttpStatusRedirection": "{{reference}}",
+    "HttpStatusClientError": "{{error}}",
+    "HttpStatusServerError": "bold {{error}}",
+    "HttpMethodCONNECT": "{{text}}",
+    "HttpMethodDELETE": "{{error}}",
+    "HttpMethodGET": "{{info}}",
+    "HttpMethodHEAD": "{{heather}}",
+    "HttpMethodOPTIONS": "{{dim}}",
+    "HttpMethodPATCH": "{{warning}}",
+    "HttpMethodPOST": "{{success}}",
+    "HttpMethodPUT": "{{warning}}",
+    "HttpMethodTRACE": "{{text}}",
+    "KillSignalTerm": "{{error}}",
+    "KillSignalIgn": "{{dim}}",
+    "KillSignalCore": "bold {{error}}",
+    "KillSignalStop": "{{warning}}",
+    "KillSignalCont": "{{success}}"
+  },
+  "docker": {
+    "Container": "{{steel}}",
+    "Image": "{{clay}}",
+    "Network": "{{heather}}",
+    "Node": "{{pine}}",
+    "Secret": "underlined {{text}}",
+    "Service": "{{ivy}}",
+    "Volume": "bold {{text}}"
+  },
+  "gh": {
+    "Draft": "{{faint}}",
+    "JobFailed": "{{error}}",
+    "JobInProgress": "{{info}}",
+    "JobSuccess": "{{success}}",
+    "OwnerOrganization": "{{reference}}",
+    "OwnerUser": "{{text}}",
+    "RepoArchived": "{{faint}}",
+    "RepoFork": "{{dim}}",
+    "RepoLocked": "bold {{text}}",
+    "RepoMirror": "{{reference}}",
+    "RepoPrivate": "{{oxblood}}",
+    "RepoPublic": "{{text}}",
+    "RepoTemplate": "{{tag}}",
+    "StateClosed": "{{error}}",
+    "StateMerged": "{{heather}}",
+    "StateOpen": "{{success}}"
+  },
+  "git": {
+    "Branch": "{{reference}}",
+    "Commit": "{{literal}}",
+    "Head": "bold {{accent}}",
+    "Note": "{{dim}}",
+    "Stash": "{{heather}}",
+    "Tag": "{{tag}}"
+  },
+  "golang": {
+    "Constant": "{{keyword}}",
+    "Field": "{{info}}",
+    "Function": "{{info}}",
+    "Type": "{{type}}",
+    "Variable": "{{text}}"
+  },
+  "hg": {
+    "Bookmark": "{{reference}}",
+    "Branch": "{{reference}}",
+    "Stash": "{{heather}}",
+    "Tag": "{{tag}}"
+  },
+  "lore": {
+    "Branch": "{{reference}}",
+    "CurrentBranch": "bold {{accent}}",
+    "Revision": "{{literal}}",
+    "Identity": "{{text}}"
+  },
+  "tea": {
+    "StateClosed": "{{error}}",
+    "StateMerged": "{{heather}}",
+    "StateOpen": "{{success}}"
+  },
+  "zfs": {
+    "Pool": "bold {{text}}",
+    "Filesystem": "{{steel}}",
+    "Volume": "{{clay}}",
+    "Snapshot": "{{heather}}",
+    "Bookmark": "{{reference}}"
+  }
+}

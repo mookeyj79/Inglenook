@@ -1,0 +1,18 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "version": "7.6.10",
+  "install": [
+    "curl -fsSL -o /tmp/powershell.deb \"https://github.com/PowerShell/PowerShell/releases/download/v$INGLENOOK_VERSION/powershell_$INGLENOOK_VERSION-1.deb_amd64.deb\" && echo '81a5a944702b116ea74c88b01ba5f1f46b1cd7c42c36d85e1bae90de1230b4d1  /tmp/powershell.deb' | sha256sum -c - && apt-get install -y --no-install-recommends /tmp/powershell.deb && rm /tmp/powershell.deb"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/psreadline.ps1\" ~/.config/inglenook/psreadline.ps1",
+    "mkdir -p ~/.config/powershell",
+    "echo '. ~/.config/inglenook/psreadline.ps1' >> ~/.config/powershell/Microsoft.PowerShell_profile.ps1"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/psreadline/stage.sh\""
+  ]
+}
