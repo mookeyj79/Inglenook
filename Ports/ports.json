@@ -253,17 +253,6 @@
       ]
     },
     {
-      "folder": "neovim",
-      "name": "Neovim",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "notepad-plus-plus",
       "name": "Notepad++",
       "category": "editor",

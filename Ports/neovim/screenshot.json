@@ -1,0 +1,21 @@
+{
+  "kind": "editor",
+  "platform": "linux",
+  "version": "0.12.6",
+  "host": "gnome-terminal",
+  "install": [
+    "curl -fsSL --retry 5 --retry-all-errors -o /tmp/nvim.tar.gz \"https://github.com/neovim/neovim/releases/download/v$INGLENOOK_VERSION/nvim-linux-x86_64.tar.gz\"",
+    "echo '474430d53e6264f6d6dd18db42d6dc9df3a1b56ca9e88a325bbf860e1a811d87  /tmp/nvim.tar.gz' | sha256sum -c -",
+    "tar -xzf /tmp/nvim.tar.gz -C /opt && ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim && rm /tmp/nvim.tar.gz"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/nvim",
+    "cp -r \"$INGLENOOK_PORT/dist/day/.\" \"$INGLENOOK_PORT/dist/night/.\" ~/.config/nvim/",
+    "if [ \"$INGLENOOK_VARIANT\" = day ]; then bg=light; else bg=dark; fi; printf \"vim.o.background = '%s'\\nvim.cmd.colorscheme('inglenook')\\n\" \"$bg\" > ~/.config/nvim/init.lua"
+  ],
+  "stage": [
+    "p=/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\")/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}scrollbar-policy \"'never'\"",
+    "bash \"$INGLENOOK_SCENE/repo.sh\"",
+    "printf 'bash %q\\n' \"$INGLENOOK_SCENE/neovim-scene/run.sh\" > ~/.inglenook-editor"
+  ]
+}
