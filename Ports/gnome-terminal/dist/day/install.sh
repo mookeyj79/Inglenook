@@ -32,7 +32,7 @@ cursor-foreground-color='#f9fbf8'
 highlight-colors-set=true
 highlight-background-color='#e3dbc8'
 highlight-foreground-color='#2d373f'
-palette=['#2d373f', '#a04037', '#407135', '#706416', '#326893', '#844b80', '#017272', '#cfd2cb', '#657178', '#942a23', '#2d6420', '#555555', '#195a88', '#783a73', '#555555', '#f9fbf8']
+palette=['#2d373f', '#a04037', '#407135', '#706416', '#326893', '#844b80', '#017272', '#cfd2cb', '#657178', '#942a23', '#2d6420', '#615602', '#195a88', '#783a73', '#056262', '#f9fbf8']
 use-system-font=false
 font='BlexMono Nerd Font Mono 12'
 EOF
