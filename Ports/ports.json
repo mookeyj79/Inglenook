@@ -437,16 +437,6 @@
       ]
     },
     {
-      "folder": "zsh-autosuggestions",
-      "name": "zsh-autosuggestions",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "zsh-history-substring-search",
       "name": "zsh-history-substring-search",
       "category": "shell",
