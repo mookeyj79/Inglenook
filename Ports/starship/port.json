@@ -1,0 +1,19 @@
+{
+  "name": "Starship",
+  "category": "shell",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "brand",
+    "set": "Simple Icons 16.37.0",
+    "name": "starship",
+    "author": "Simple Icons contributors",
+    "source": "https://simpleicons.org/?q=starship",
+    "license": "CC0-1.0",
+    "mark": "https://github.com/starship/starship/blob/master/LICENSE"
+  }
+}
