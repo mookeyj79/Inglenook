@@ -1,0 +1,86 @@
+# Inglenook Day for Git, from Inglenook 0.1.0 (https://github.com/mookeyj79/Inglenook).
+# Include this file from your Git config:
+#   git config --global --add include.path ~/.config/inglenook/gitconfig
+# Colors are 24-bit, quoted because Git reads an unquoted # as a comment. Text with no color here uses your terminal's own colors.
+
+[color "diff"]
+	meta = "#2d373f bold"
+	frag = "#017272"
+	func = "#49545d"
+	old = "#a04037"
+	new = "#407135"
+	commit = "#915023"
+	whitespace = "#a04037 reverse"
+	oldMoved = "#844b80"
+	newMoved = "#017272"
+	oldMovedAlternative = "#326893"
+	newMovedAlternative = "#5e5a9a"
+	oldMovedDimmed = "#844b80 dim"
+	newMovedDimmed = "#017272 dim"
+	oldMovedAlternativeDimmed = "#326893 dim"
+	newMovedAlternativeDimmed = "#5e5a9a dim"
+	contextDimmed = "#657178"
+	oldDimmed = "#a04037 dim"
+	newDimmed = "#407135 dim"
+	contextBold = "bold"
+	oldBold = "#a04037 bold"
+	newBold = "#407135 bold"
+
+[color "decorate"]
+	HEAD = "#9b5a00 bold"
+	branch = "#017272"
+	remoteBranch = "#326893"
+	tag = "#905560"
+	stash = "#844b80"
+	grafted = "#706416"
+
+[color "branch"]
+	current = "#9b5a00 bold"
+	local = "#017272"
+	remote = "#326893"
+	upstream = "#326893"
+	plain = "#49545d"
+
+[color "status"]
+	header = "#657178"
+	added = "#407135"
+	changed = "#706416"
+	untracked = "#326893"
+	branch = "#9b5a00 bold"
+	nobranch = "#706416 bold"
+	localBranch = "#017272"
+	remoteBranch = "#326893"
+	unmerged = "#a04037 bold"
+
+[color "grep"]
+	filename = "#017272"
+	lineNumber = "#915023"
+	column = "#915023"
+	function = "#49545d"
+	match = "#2d373f #e3dbc8 bold"
+	separator = "#49545d"
+
+[color "interactive"]
+	prompt = "#9b5a00 bold"
+	header = "bold"
+	help = "#49545d"
+	error = "#a04037"
+
+[color "remote"]
+	hint = "#326893"
+	warning = "#706416"
+	success = "#407135"
+	error = "#a04037"
+
+[color "advice"]
+	hint = "#326893"
+
+[color "push"]
+	error = "#a04037"
+
+[color "transport"]
+	rejected = "#a04037"
+
+[color "blame"]
+	repeatedLines = "#657178"
+	highlightRecent = "#657178,12 month ago,#49545d,1 month ago,#2d373f"

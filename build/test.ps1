@@ -331,6 +331,15 @@ Test 'Placeholders: slug turns a name into an identifier' {
     Assert-Equal 'inglenook-night-v2' $punct 'runs of punctuation become one hyphen, trimmed'
 }
 
+Test 'Placeholders: comma gives r,g,b with no spaces, as ripgrep --colors takes it' {
+    $d = New-PaletteData
+    $d.variants.day.neutrals.base = [ordered]@{ l = 1; c = 0; h = 0 }
+    $d.variants.day.colors.ember = [ordered]@{ l = 0; c = 0; h = 0 }
+    $p = Get-TestPalette $d
+    $out = Expand-Template -Text 'match:fg:{{error|comma}} match:bg:{{base|comma}}' -Palette $p -Variant $p.Variants['day'] -PortValues $null -Source 'test'
+    Assert-Equal 'match:fg:0,0,0 match:bg:255,255,255' $out 'comma'
+}
+
 Test 'Placeholders: sgr gives the r;g;b of an escape code' {
     $p = Get-TestPalette (New-PaletteData)
     $v = $p.Variants['day']
@@ -475,6 +484,15 @@ Test 'Shell: sourcing must print nothing' {
     if ($HaveBash) { Assert-True (($r.Problems -join "`n") -like '*bash*hello*') "no bash problem: $($r.Problems -join '; ')" }
     $r = Test-ShellFile -Path (New-ShellFile 'noisy.ps1' "Write-Output hello`n")
     Assert-True (($r.Problems -join "`n") -like '*PowerShell*hello*') "no PowerShell problem: $($r.Problems -join '; ')"
+}
+
+Test 'Shell: a script with a shebang is parsed by its shell, never sourced' {
+    # An install script prints and changes settings when it runs, so sourcing it is wrong.
+    $r = Test-ShellFile -Path (New-ShellFile 'install.sh' "#!/usr/bin/env bash`nshopt -s nullglob`necho installed`n")
+    Assert-Equal 0 $r.Problems.Count "problems: $($r.Problems -join '; ')"
+    Assert-Equal 0 $r.Skipped.Count "skipped a shell the shebang does not name: $($r.Skipped -join ', ')"
+    $r = Test-ShellFile -Path (New-ShellFile 'broken.sh' "#!/usr/bin/env bash`nif then`n")
+    if ($HaveBash) { Assert-True (($r.Problems -join "`n") -like 'bash: does not parse*') "bash did not object: $($r.Problems -join '; ')" }
 }
 
 Test 'Shell: a .ps1 that does not parse is a problem' {
