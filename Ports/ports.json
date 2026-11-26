@@ -359,16 +359,6 @@
       "platforms": [
         "windows"
       ]
-    },
-    {
-      "folder": "zsh",
-      "name": "Zsh",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
     }
   ]
 }
