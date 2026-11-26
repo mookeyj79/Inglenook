@@ -1,0 +1,10 @@
+{
+  "name": "Claude Code",
+  "category": "cli",
+  "tier": 2,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}

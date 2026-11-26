@@ -91,7 +91,17 @@ Firelight is the only accent. It means "you are here" and nothing else: not succ
 
 ### Washes
 
-A wash is a named color mixed into `base` at the variant's wash strength, as a solid color. It marks a line or an item without hiding the text on it: selections (a firelight wash), diff lines (moss and ember washes), find matches, chips.
+A wash is a named color mixed into `base` at the variant's wash strength, as a solid color. It marks a line or an item without hiding the text on it: selections (a firelight wash), diff lines (moss and ember washes), find matches (a steel wash), chips.
+
+### Search and matches
+
+Every port that highlights search matches marks them the same way:
+
+- **Every match**: a steel wash, with `text` on it. Where an app can only color the text of a match, steel, bold if it can.
+- **The match at the cursor** (or on the selected line): a firelight fill with `on_accent` text. It is "you are here". Where the app keeps syntax colors on a match (VS Code), a steel wash with a firelight border instead.
+- **16-color tools** (less, nano): the blue slot, which is steel, in reverse video, for every match. Yellow is brass, the warning color.
+
+The selection stays a firelight wash. Steel never marks a selection, and firelight never marks a match away from the cursor. See [ADR 0009](docs/adr/0009-matches-are-steel-the-current-match-is-firelight.md).
 
 ### Syntax mapping
 
@@ -172,6 +182,8 @@ Wallpapers are optional. The theme must look complete without them. When the rep
 - **Day**: sunlit cabin interiors, window light on plants, a forest seen through a window.
 - **Night**: firelit or lamplit libraries and reading rooms, fireplaces.
 
+Every port screenshot and the preview site sit on one pair, shown as it is, with no tint: Cabin Seating in Day and Mission Fireplace in Night. Everything on top of it stays solid, so contrast is still measured on solid surfaces.
+
 See [ADR 0007](docs/adr/0007-wallpapers-are-found-images-chosen-by-taste.md).
 
 ## Hard no's
@@ -226,3 +238,4 @@ Every palette change rebuilds every port. CI fails if any committed output does 
 - **Font.** IBM Plex Mono. See [ADR 0006](docs/adr/0006-ibm-plex-mono.md).
 - **Wallpapers.** Found images, chosen by taste. See [ADR 0007](docs/adr/0007-wallpapers-are-found-images-chosen-by-taste.md).
 - **Port icons.** Single-color, colored by the page. See [ADR 0008](docs/adr/0008-port-icons-are-single-color.md).
+- **Search matches.** A steel wash for every match, firelight for the one at the cursor. See [ADR 0009](docs/adr/0009-matches-are-steel-the-current-match-is-firelight.md).

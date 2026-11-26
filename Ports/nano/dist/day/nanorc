@@ -1,0 +1,16 @@
+# Inglenook Day for nano, from Inglenook 0.1.0.
+# Put these lines at the end of your own nanorc (~/.config/nano/nanorc or ~/.nanorc).
+# nano reads interface colors only from a nanorc, never from an included file.
+# The color names are terminal colors: set your terminal to Inglenook Day too.
+set titlecolor black,lightwhite
+set promptcolor black,lightwhite
+set minicolor black,lightwhite
+set statuscolor black,lightwhite
+set errorcolor bold,lightwhite,red
+set keycolor bold,blue
+set functioncolor black
+set numbercolor lightblack
+set selectedcolor lightwhite,black
+set spotlightcolor lightwhite,blue
+set stripecolor ,lightwhite
+set scrollercolor lightblack

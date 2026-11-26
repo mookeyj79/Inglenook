@@ -1,0 +1,270 @@
+name: screenshots
+
+# Retakes port screenshots, and the preview shots, with the Photographer (build/photograph.ps1).
+# On main: every stale port is shot, and images whose exact pixels changed arrive
+# in one rolling pull request from build/screenshots, rebuilt from main each run.
+# An image a retake matched exactly arrives there too, with only its stamp new,
+# listed as stamp only, so its port is fresh again.
+# On a pull request: the ports it changed are shot, the images are attached to the
+# run, and the summary says whether they match the ones committed in the pull request.
+# Run workflow: an optional port and "all"; it delivers only from main.
+# Manual recipes are shot by hand: on main, each stale one keeps one
+# "Screenshots for <app>" issue open, and its issue closes once it is fresh.
+#
+# The jobs that run recipe steps (shoot) get a read-only token. Only deliver,
+# which runs no recipe step, can write. It needs the repo setting
+# "Allow GitHub Actions to create and approve pull requests".
+# The rules are in build/lib/Photographer.psm1 (with Png.psm1) and build/lib/ScreenshotRun.psm1.
+
+on:
+  push:
+    branches: [main]
+    # The fingerprint's inputs (wallpapers/ for the backdrop and the preview's own), and this workflow. Not how a run reports
+    # (screenshots.ps1, ScreenshotRun.psm1): that changes no shot. Committed shots
+    # too, so the issue of a manual port closes once its hand-taken shots are stamped.
+    paths:
+      - 'Ports/*/dist/**'
+      - 'Ports/*/screenshot.json'
+      - 'Ports/*/shots.json'
+      - 'Ports/*/assets/**'
+      - 'Ports/*/screenshots/**'
+      - 'build/photograph/**'
+      - 'build/photograph.ps1'
+      - 'build/lib/Photographer.psm1'
+      - 'build/lib/Png.psm1'
+      - 'wallpapers/**'
+      - 'palette/palette.json'
+      - '.github/workflows/screenshots.yml'
+  pull_request:
+    paths:
+      - 'Ports/*/dist/**'
+      - 'Ports/*/screenshot.json'
+      - 'Ports/*/shots.json'
+      - 'Ports/*/assets/**'
+      - 'Ports/*/screenshots/**'
+      - 'build/photograph/**'
+      - 'build/photograph.ps1'
+      - 'build/lib/Photographer.psm1'
+      - 'build/lib/Png.psm1'
+      - 'wallpapers/**'
+      - 'palette/palette.json'
+      - '.github/workflows/screenshots.yml'
+  workflow_dispatch:
+    inputs:
+      port:
+        description: 'One port to shoot (its folder under Ports/). Empty: every stale port.'
+        type: string
+        required: false
+      all:
+        description: 'Shoot every port, even fresh ones.'
+        type: boolean
+        default: false
+
+permissions: {}
+
+# A newer merge cancels an older run.
+concurrency:
+  group: screenshots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      shoot: ${{ steps.plan.outputs.shoot }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+
+      - name: Check out the pull request's base
+        if: github.event_name == 'pull_request'
+        run: git worktree add --detach "$RUNNER_TEMP/base" HEAD^1
+
+      - name: Plan
+        id: plan
+        env:
+          PORT: ${{ inputs.port }}
+          ALL: ${{ inputs.all }}
+        run: |
+          args=(plan -Out "$RUNNER_TEMP/plan.json")
+          if [ "$GITHUB_EVENT_NAME" = pull_request ]; then args+=(-BaseRoot "$RUNNER_TEMP/base")
+          elif [ -n "$PORT" ]; then args+=(-Port "$PORT")
+          elif [ "$ALL" = true ]; then args+=(-All)
+          fi
+          pwsh -NoProfile -File build/screenshots.ps1 "${args[@]}"
+          echo "shoot=$(jq -c .shoot "$RUNNER_TEMP/plan.json")" >> "$GITHUB_OUTPUT"
+          echo "count=$(jq '.shoot | length' "$RUNNER_TEMP/plan.json")" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: plan
+          path: ${{ runner.temp }}/plan.json
+
+  # One job per port, on the runner its platform's pin names (build/photograph/pins.json,
+  # "runners"). A Windows port gets a fresh job per take of each variant, as a Linux take
+  # gets a fresh container: takes 1 to 3 run at once, and the verdict job reads them in
+  # order, so a later take counts only when the take verdict asks for it. A port on a
+  # platform with no runner pinned is listed in the plan as not shot yet.
+  # The steps run in bash on every runner (Git Bash on Windows).
+  shoot:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    name: shoot ${{ matrix.port }}${{ matrix.variant && format(' ({0})', matrix.variant) || '' }}${{ matrix.take && format(' take {0}', matrix.take) || '' }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.shoot) }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # A failed take is retried once; if either variant fails, neither is
+      # replaced and this job goes red, naming the step and its last lines.
+      - name: Shoot
+        shell: bash
+        env:
+          PORT: ${{ matrix.port }}
+          VARIANT: ${{ matrix.variant }}
+          TAKE: ${{ matrix.take }}
+        run: pwsh -NoProfile -File build/photograph.ps1 -Port "$PORT" ${VARIANT:+-Variant "$VARIANT"} ${TAKE:+-Take "$TAKE"} -Report "$RUNNER_TEMP/shots"
+
+      - name: Compare with the committed shots
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: pwsh -NoProfile -File build/screenshots.ps1 summary -Results "$RUNNER_TEMP/shots" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: shots-${{ matrix.port }}${{ matrix.variant && format('-{0}', matrix.variant) || '' }}${{ matrix.take && format('-{0}', matrix.take) || '' }}
+          path: ${{ runner.temp }}/shots
+          if-no-files-found: ignore
+
+  # Every port's result, with the take verdict of a port shot in a job per take,
+  # on pull requests too. Runs no recipe step.
+  verdict:
+    needs: [plan, shoot]
+    if: ${{ !cancelled() && needs.plan.result == 'success' && needs.shoot.result != 'skipped' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: plan
+          path: ${{ runner.temp }}
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: shots-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/shots
+
+      - name: Compare with the committed shots
+        run: pwsh -NoProfile -File build/screenshots.ps1 summary -Results "$RUNNER_TEMP/shots" -Plan "$RUNNER_TEMP/plan.json" -Whole >> "$GITHUB_STEP_SUMMARY"
+
+  # Commits only images and README tables, and runs no recipe step.
+  deliver:
+    needs: [plan, shoot]
+    if: ${{ !cancelled() && needs.plan.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    env:
+      BRANCH: build/screenshots
+      GH_TOKEN: ${{ github.token }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: plan
+          path: ${{ runner.temp }}
+
+      - uses: actions/download-artifact@v8
+        if: needs.shoot.result != 'skipped'
+        with:
+          pattern: shots-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/shots
+
+      - name: Put the changed images and new stamps on main
+        run: pwsh -NoProfile -File build/screenshots.ps1 deliver -Results "$RUNNER_TEMP/shots" -Out "$RUNNER_TEMP/delivery.json"
+
+      - name: Open, update, or close the rolling pull request
+        run: |
+          set -euo pipefail
+          base=$(git rev-parse HEAD)
+          open=$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+          args=(-Results "$RUNNER_TEMP/shots" -Plan "$RUNNER_TEMP/plan.json" -RunUrl "$RUN_URL")
+
+          if [ -z "$(git status --porcelain -- Ports)" ]; then
+            echo "Nothing to deliver." | tee -a "$GITHUB_STEP_SUMMARY"
+            if [ -n "$open" ]; then
+              gh pr close "$open" --comment "$(pwsh -NoProfile -File build/screenshots.ps1 note "${args[@]}")"
+            fi
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add -- Ports
+          git commit -q -m "Retake screenshots" -m "Rebuilt from main at $base by $RUN_URL"
+
+          # Same images as the open pull request already has: leave it alone.
+          if [ -n "$open" ] && git fetch -q --depth=1 origin "$BRANCH" 2>/dev/null \
+             && [ "$(git rev-parse 'FETCH_HEAD^{tree}')" = "$(git rev-parse 'HEAD^{tree}')" ]; then
+            echo "The open pull request #$open already has these images." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+          pwsh -NoProfile -File build/screenshots.ps1 body "${args[@]}" -Delivery "$RUNNER_TEMP/delivery.json" \
+            -Repo "$GITHUB_REPOSITORY" -Base "$base" -Commit "$(git rev-parse HEAD)" > "$RUNNER_TEMP/body.md"
+          if [ -n "$open" ]; then
+            gh pr edit "$open" --body-file "$RUNNER_TEMP/body.md"
+          else
+            gh pr create --base main --head "$BRANCH" --title 'Retake screenshots' --body-file "$RUNNER_TEMP/body.md"
+          fi
+          cat "$RUNNER_TEMP/body.md" >> "$GITHUB_STEP_SUMMARY"
+
+      # One "Screenshots for <app>" issue open per stale manual port, with one comment
+      # per new fingerprint; closed once fresh. The rules are in ScreenshotRun.psm1.
+      - name: Keep the manual ports' issues
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          gh issue list --state all --limit 1000 --json number,title,state,body,comments > "$RUNNER_TEMP/issues.json"
+          pwsh -NoProfile -File build/screenshots.ps1 issues -Plan "$RUNNER_TEMP/plan.json" -Issues "$RUNNER_TEMP/issues.json" \
+            -RunUrl "$RUN_URL" -Out "$RUNNER_TEMP/issue-actions.json"
+          mapfile -t actions < <(jq -c '.[]' "$RUNNER_TEMP/issue-actions.json")
+          for a in "${actions[@]}"; do
+            n=$(jq -r '.number // empty' <<<"$a")
+            title=$(jq -r '.title' <<<"$a")
+            jq -r '.body // ""' <<<"$a" > "$RUNNER_TEMP/issue-body.md"
+            case "$(jq -r '.action' <<<"$a")" in
+              create)  gh issue create --title "$title" --label ready-for-human --body-file "$RUNNER_TEMP/issue-body.md" ;;
+              reopen)  gh issue reopen "$n" && gh issue edit "$n" --add-label ready-for-human ;;
+              comment) gh issue comment "$n" --body-file "$RUNNER_TEMP/issue-body.md" ;;
+              close)   gh issue close "$n" --comment "$(cat "$RUNNER_TEMP/issue-body.md")" ;;
+            esac
+            echo "$(jq -r '.action' <<<"$a") $n $title" | tee -a "$GITHUB_STEP_SUMMARY"
+          done

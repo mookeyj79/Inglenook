@@ -1,0 +1,12 @@
+# {{variant.name}} for ripgrep. Point RIPGREP_CONFIG_PATH at this file.
+# Each line is one ripgrep flag. Clear ripgrep's own colors first, then set ours.
+--colors=path:none
+--colors=line:none
+--colors=column:none
+--colors=match:none
+--colors=path:fg:{{reference|comma}}
+--colors=line:fg:{{dim|comma}}
+--colors=column:fg:{{dim|comma}}
+--colors=match:fg:{{text|comma}}
+--colors=match:bg:{{steel|wash|comma}}
+--colors=match:style:bold

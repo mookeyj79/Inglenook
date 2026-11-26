@@ -1,0 +1,16 @@
+{
+  "name": "Windows Terminal",
+  "category": "terminal",
+  "tier": 1,
+  "platforms": [
+    "windows"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "square-terminal",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/square-terminal",
+    "license": "ISC"
+  }
+}

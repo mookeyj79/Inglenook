@@ -1,0 +1,19 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "version": "400e58a87f72ecec14f783fbd29bc6be4ff1641c",
+  "install": [
+    "curl -fsSL -o /tmp/zsh-history-substring-search.tar.gz \"https://github.com/zsh-users/zsh-history-substring-search/archive/$INGLENOOK_VERSION.tar.gz\" && echo '95e79b647d51521199ded9cb6108ff788141e72266fbdfa3018ff2d2f8690b96  /tmp/zsh-history-substring-search.tar.gz' | sha256sum -c - && mkdir -p /usr/local/share/zsh-history-substring-search && tar -xzf /tmp/zsh-history-substring-search.tar.gz --strip-components=1 -C /usr/local/share/zsh-history-substring-search && rm /tmp/zsh-history-substring-search.tar.gz",
+    "apt-get install -y --no-install-recommends zsh",
+    "echo 'source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh' >> /etc/zsh/zshrc"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/zsh-history-substring-search.zsh\" ~/.config/inglenook/zsh-history-substring-search.zsh",
+    "echo 'source ~/.config/inglenook/zsh-history-substring-search.zsh' >> ~/.zshrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/zsh-history-substring-search/stage.sh\""
+  ]
+}

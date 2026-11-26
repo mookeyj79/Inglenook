@@ -1,0 +1,107 @@
+# Inglenook theme for eza: Inglenook Night.
+# Save as theme.yml in eza's config folder. Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+
+colourful: true
+
+filekinds:
+  normal: {foreground: "#d1c9bc"}
+  directory: {foreground: "#89b3d8", is_bold: true}
+  symlink: {foreground: "#72bdbd"}
+  pipe: {foreground: "#cb9cc6"}
+  block_device: {foreground: "#da9f7c", is_bold: true}
+  char_device: {foreground: "#da9f7c", is_bold: true}
+  socket: {foreground: "#cb9cc6", is_bold: true}
+  special: {foreground: "#da9f7c"}
+  executable: {foreground: "#91bc88", is_bold: true}
+  mount_point: {foreground: "#89b3d8", is_bold: true, is_underline: true}
+
+perms:
+  user_read: {foreground: "#b1aa9e", is_bold: true}
+  user_write: {foreground: "#da9f7c", is_bold: true}
+  user_execute_file: {foreground: "#91bc88", is_bold: true}
+  user_execute_other: {foreground: "#91bc88", is_bold: true}
+  group_read: {foreground: "#b1aa9e"}
+  group_write: {foreground: "#da9f7c"}
+  group_execute: {foreground: "#91bc88"}
+  other_read: {foreground: "#b1aa9e"}
+  other_write: {foreground: "#da9f7c"}
+  other_execute: {foreground: "#91bc88"}
+  special_user_file: {foreground: "#cb9cc6"}
+  special_other: {foreground: "#cb9cc6"}
+  attribute: {foreground: "#8f887f"}
+
+size:
+  major: {foreground: "#da9f7c", is_bold: false}
+  minor: {foreground: "#da9f7c", is_bold: false}
+  number_byte: {foreground: "#da9f7c", is_bold: false}
+  number_kilo: {foreground: "#da9f7c", is_bold: false}
+  number_mega: {foreground: "#da9f7c", is_bold: false}
+  number_giga: {foreground: "#da9f7c", is_bold: false}
+  number_huge: {foreground: "#da9f7c", is_bold: false}
+  unit_byte: {foreground: "#b1aa9e", is_bold: false}
+  unit_kilo: {foreground: "#b1aa9e", is_bold: false}
+  unit_mega: {foreground: "#b1aa9e", is_bold: false}
+  unit_giga: {foreground: "#b1aa9e", is_bold: false}
+  unit_huge: {foreground: "#b1aa9e", is_bold: false}
+
+users:
+  user_you: {foreground: "#d1c9bc"}
+  user_root: {foreground: "#cb9cc6"}
+  user_other: {foreground: "#b1aa9e"}
+  group_yours: {foreground: "#d1c9bc"}
+  group_root: {foreground: "#cb9cc6"}
+  group_other: {foreground: "#b1aa9e"}
+
+links:
+  normal: {foreground: "#da9f7c"}
+  multi_link_file: {foreground: "#da9f7c", is_bold: true}
+
+git:
+  new: {foreground: "#91bc88"}
+  modified: {foreground: "#bdb377"}
+  deleted: {foreground: "#d9897e"}
+  renamed: {foreground: "#89b3d8"}
+  typechange: {foreground: "#cb9cc6"}
+  ignored: {foreground: "#8f887f"}
+  conflicted: {foreground: "#d9897e", is_bold: true}
+
+git_repo:
+  branch_main: {foreground: "#72bdbd"}
+  branch_other: {foreground: "#72bdbd"}
+  git_clean: {foreground: "#91bc88"}
+  git_dirty: {foreground: "#bdb377"}
+
+security_context:
+  none: {foreground: "#8f887f"}
+  selinux:
+    colon: {foreground: "#8f887f"}
+    user: {foreground: "#b1aa9e"}
+    role: {foreground: "#b1aa9e"}
+    typ: {foreground: "#89b3d8"}
+    range: {foreground: "#8f887f"}
+
+file_type:
+  image: {foreground: "#cb9cc6"}
+  video: {foreground: "#cb9cc6", is_bold: true}
+  music: {foreground: "#a5a5d9"}
+  lossless: {foreground: "#a5a5d9", is_bold: true}
+  crypto: {foreground: "#5c947c", is_bold: true}
+  document: {foreground: "#5c947c"}
+  compressed: {foreground: "#b66f75"}
+  temp: {foreground: "#8f887f"}
+  compiled: {foreground: "#8f887f"}
+  build: {foreground: "#d4a2aa", is_bold: true, is_underline: true}
+  source: {foreground: "#d4a2aa"}
+
+punctuation: {foreground: "#8f887f", is_bold: false}
+date: {foreground: "#89b3d8"}
+inode: {foreground: "#8f887f"}
+blocks: {foreground: "#8f887f"}
+header: {foreground: "#d1c9bc", is_underline: true}
+octal: {foreground: "#da9f7c"}
+flags: {foreground: "#b1aa9e"}
+
+symlink_path: {foreground: "#72bdbd"}
+control_char: {foreground: "#da9f7c"}
+broken_symlink: {foreground: "#d9897e"}
+broken_path_overlay: {is_underline: true}

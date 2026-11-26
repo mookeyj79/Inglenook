@@ -1,0 +1,18 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "version": "2.1.326",
+  "install": [
+    "curl -fsSL -o /usr/local/bin/claude \"https://downloads.claude.ai/claude-code-releases/$INGLENOOK_VERSION/linux-x64/claude\" && echo 'b6b3647d981130dc44fc670846ae97b6cde531ffb667cf9c4d17cfcafb38cb37  /usr/local/bin/claude' | sha256sum -c - && chmod 755 /usr/local/bin/claude",
+    "apt-get install -y --no-install-recommends fonts-symbola"
+  ],
+  "apply": [
+    "mkdir -p ~/.claude/themes",
+    "cp \"$INGLENOOK_PORT/dist/day/inglenook-day.json\" \"$INGLENOOK_PORT/dist/night/inglenook-night.json\" ~/.claude/themes/",
+    "printf '{\\n  \"theme\": \"custom:inglenook-%s\"\\n}\\n' \"$INGLENOOK_VARIANT\" > ~/.claude/settings.json"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/claude-code/stage.sh\""
+  ]
+}

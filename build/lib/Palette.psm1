@@ -24,10 +24,15 @@ $Filters = [ordered]@{
     ''       = 'hex'
     'nohash' = 'hex without #'
     'rgb'    = 'r, g, b'
+    'sgr'    = 'r;g;b, for terminal escape codes such as 38;2;r;g;b'
+    'comma'  = 'r,g,b with no spaces, for tools that take a comma list such as ripgrep'
     'wash'   = 'the color washed over base, #rrggbb'
     'clear'  = '#rrggbb00, fully transparent'
     'name'   = 'the neutral or named color drawn, by name'
 }
+
+# The filters that can follow |wash, to write the wash in another format.
+$ChainFormats = @('nohash', 'rgb', 'sgr', 'comma')
 
 # A channel outside 0..1 by more than this is reported as a gamut warning.
 $GamutTolerance = 0.003
@@ -292,7 +297,7 @@ function Get-AnsiColor {
     # chroma is lowered until it fits, so hue and lightness are kept.
     $ch = $c.C * $AnsiBright.Chroma
     $s = ConvertTo-Srgb -L $l -C $ch -H $c.H
-    while ($s.Clip -gt 0.001 -and $ch -gt 0) { $ch = [math]::Max(0, $ch - 0.002); $s = ConvertTo-Srgb -L $l -C $ch -H $c.H }
+    while ($s.Clip -gt 0.001 -and $ch -gt 0) { $ch = [math]::Max(0.0, $ch - 0.002); $s = ConvertTo-Srgb -L $l -C $ch -H $c.H }
     return @{ Slot = $Slot; Source = $src; Hex = $s.Hex; Bright = $true; L = $l; C = $ch; H = $c.H; Clip = $s.Clip }
 }
 
@@ -329,18 +334,35 @@ function Format-PaletteColor {
     param($Variant, [string]$Name, [string]$Filter = '')
     $e = Get-PaletteEntry -Variant $Variant -Name $Name
     if (-not $e) { throw "unknown color '$Name'" }
+    $chain = @($Filter -split '\|')
+    if ($chain.Count -gt 1) {
+        # A wash, then one format filter for it: {{steel|wash|comma}}.
+        if ($chain.Count -ne 2 -or $chain[0] -ne 'wash' -or $chain[1] -notin $ChainFormats) {
+            throw "only |wash takes a second filter, and only one of: $($ChainFormats -join ', ')"
+        }
+        $wash = Format-PaletteColor -Variant $Variant -Name $Name -Filter 'wash'
+        return Format-Hex $wash $chain[1]
+    }
     if (-not $Filters.Contains($Filter)) { throw "unknown filter '$Filter'. Use one of: $((Get-ColorFilters) -join ', ')" }
     if ($Filter -eq 'wash' -and -not $e.Washable) {
         throw "|wash only applies to named colors and the roles and ANSI slots that point at one, not '$Name'"
     }
-    $hex = $e.Hex
     switch ($Filter) {
-        ''       { return $hex }
-        'nohash' { return $hex.Substring(1) }
-        'rgb'    { return (ConvertFrom-Hex $hex) -join ', ' }
-        'clear'  { return $hex + '00' }
         'wash'   { return Get-WashColor $Variant $e.Source }
         'name'   { return $e.Source }
+        default  { return Format-Hex $e.Hex $Filter }
+    }
+}
+
+function Format-Hex([string]$Hex, [string]$Format) {
+    # A #rrggbb color written by one of the format filters.
+    switch ($Format) {
+        ''       { return $Hex }
+        'nohash' { return $Hex.Substring(1) }
+        'rgb'    { return (ConvertFrom-Hex $Hex) -join ', ' }
+        'sgr'    { return (ConvertFrom-Hex $Hex) -join ';' }
+        'comma'  { return (ConvertFrom-Hex $Hex) -join ',' }
+        'clear'  { return $Hex + '00' }
     }
 }
 

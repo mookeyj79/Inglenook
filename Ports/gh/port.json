@@ -1,0 +1,18 @@
+{
+  "name": "GitHub CLI",
+  "category": "cli",
+  "tier": 2,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "git-pull-request",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/git-pull-request",
+    "license": "ISC"
+  }
+}

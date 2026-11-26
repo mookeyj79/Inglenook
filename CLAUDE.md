@@ -20,7 +20,8 @@ docs/adr/                   recorded decisions and why
 docs/research/              research notes behind the palette
 prototypes/                 throwaway prototype pages, gitignored
 palette/palette.json        every color as OKLCH, for both variants, and the roles (source of truth for values)
-wallpapers/                 optional found images, thumbnails, and credits (README.md)
+wallpapers/                 optional found images, thumbnails, web copies for the preview site (web/),
+                            and credits (README.md)
 Ports/ports.json            category names, planned ports, and unlisted folders for the ports page
 Ports/preview/              the preview site: landing page with live demos, ports page, install-guide shell
 Ports/<app_name>/
@@ -31,15 +32,23 @@ Ports/<app_name>/
   template/                 files with palette placeholders, no raw colors
   dist/day/                 generated output, committed
   dist/night/               generated output, committed
-  screenshots/              day.png and night.png, from the real app
+  screenshot.json           the recipe: how the Photographer installs, applies, stages and finds the app
+  shots.json                the preview's shot list instead of a recipe (only the preview has one)
+  screenshots/              day.png and night.png, from the Photographer
   README.md                 step-by-step install guide for users; also its page on the Pages site
   MAPPING.md                color mapping, trade-offs, and research notes, for maintainers
 build/lib/                  the rules, as modules the scripts share:
   Palette.psm1              loads and validates the palette; OKLCH to hex, gamut, contrast, wash, ANSI
   Placeholders.psm1         the {{...}} grammar: resolves, lists problems, reads template files
+  Shell.psm1                shell files: <tool>.env to .sh and .ps1, and whether a shell file sources cleanly
   Build.psm1                renders a port into dist/ and compares a build with dist/
-  Catalog.psm1              finds ports, validates port.json, ports.json, icons, site.json
+  Catalog.psm1              finds ports, validates port.json, ports.json, icons, site.json,
+                            screenshot.json, shots.json
   Wallpaper.psm1            wallpaper rules: grades, variant marks and pairs, license
+  Photographer.psm1         screenshot rules: step order, step scripts, backdrop, crop, README table,
+                            pins, fingerprint, take verdict, why line
+  Png.psm1                  PNG files: the stamp in a shot's text chunk, pixel compare, crop
+  ScreenshotRun.psm1        screenshot workflow: what a run shoots, what it delivers, what the PR says
 build/build.ps1             palette + templates = dist
 build/check.ps1             runs the rules: palette, gamut, contrast, structure, port list, raw color,
                             placeholders, drift, leftovers, file format, wallpapers, em dashes
@@ -49,6 +58,12 @@ build/roles.ps1             which palette names each port uses
 build/site.ps1              assembles the GitHub Pages site, the port list, and the install guides into _site/
 build/icon.ps1              finds and fetches a port's card icon
 build/wallpaper.ps1         finds, checks, and adds wallpapers from Wikimedia Commons
+build/photograph.ps1        takes a port's Day and Night screenshots (the Photographer): Linux in
+                            Docker, Windows only on a hosted runner in the screenshots workflow
+build/photograph/           pins.json, the Linux base image and take script, the Windows desktop
+                            and take scripts, scenes/<kind>/ content
+build/screenshots.ps1       the screenshot workflow's steps that are not a shot (plan, summary, delivery)
+.github/workflows/screenshots.yml  retakes stale ports after a merge; delivers one rolling PR from build/screenshots
 .githooks/pre-commit        runs test.ps1 and check.ps1 before a commit (git config core.hooksPath .githooks)
 .claude/skills/new-port/    the new-port skill and the port README and MAPPING templates
 .claude/skills/port-icon/   the port-icon skill
@@ -95,6 +110,8 @@ pwsh build/roles.ps1                     # which palette names each port uses (-
 pwsh build/site.ps1                      # assemble the Pages site into _site/
 pwsh build/icon.ps1 -Search <words>      # find a card icon (see the port-icon skill)
 pwsh build/wallpaper.ps1 -Search <words> # find a wallpaper (see the wallpaper skill)
+pwsh build/photograph.ps1 -Port <app>    # take a Linux port's screenshots in Docker
+pwsh build/photograph.ps1                # retake every stale Linux port (-All: every Linux port)
 ```
 
 Run build and check before every commit that touches `palette/` or `Ports/`. Run the tests too when `build/` changes.
@@ -108,7 +125,7 @@ The placeholder table (`{{<neutral>}}`, `{{<color>}}`, `{{<role>}}`, `{{color|wa
 - Work on a branch named `port/<app_name>`, `palette/<change>`, or `build/<change>` for tooling and docs. Do not commit to `main` directly.
 - Do not install a theme on the user's machine or change system settings unless asked. Building files in the repo is the job.
 - For your own look at a render, capture at 1280x800 or crop to the area in question before reading the image.
-- Port screenshots come from the real app, never from a mock. Show the user every new or changed shot.
+- Port screenshots come from the Photographer (`pwsh build/photograph.ps1 -Port <app_name>`), never from a mock, and so do the preview shots (`-Port preview`). Ask the user for shots only when the port has a manual recipe. Show the user every new or changed shot (the rolling PR counts).
 - Before asking the user to lock a palette candidate, list every check it fails and every gamut warning.
 - Run `node --check` on a prototype page's script before rendering it: a syntax error leaves the page blank with no message.
 - READMEs are for their readers: a port README for the person installing it, the root README for a visitor. No measurements, role names, palette versions, ADR links, research notes, or notes to an agent in them.

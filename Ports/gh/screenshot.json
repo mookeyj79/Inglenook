@@ -1,0 +1,18 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "version": "2.106.0",
+  "install": [
+    "curl -fsSL -o /tmp/gh.deb \"https://github.com/cli/cli/releases/download/v$INGLENOOK_VERSION/gh_${INGLENOOK_VERSION}_linux_amd64.deb\" && echo 'd76d387b8fe7619b9b7bfdf40883fa2b38f6e80cf773a3f4b1fcd5e8070ab346  /tmp/gh.deb' | sha256sum -c - && apt-get install -y --no-install-recommends /tmp/gh.deb && rm /tmp/gh.deb"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/gh-markdown.json\" ~/.config/inglenook/gh-markdown.json",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/gh.sh\" ~/.config/inglenook/gh.sh",
+    "echo 'source ~/.config/inglenook/gh.sh' >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/gh/stage.sh\""
+  ]
+}

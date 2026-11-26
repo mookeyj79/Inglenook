@@ -64,6 +64,7 @@ List every color slot the app exposes and give each one a neutral, a role, or a 
 - Surfaces: `base` for the main background, `deep` and `deeper` for recessed areas (sidebars, title bars, panels behind content), `raised` for lifted ones (popups, cards, inputs), `hover` for hovered and active rows, `line` for borders and dividers.
 - Text: `text` for content, `dim` for supporting text and punctuation, `faint` for comments, placeholders, and metadata.
 - Focus, selection, cursor, links, primary buttons: `accent`, with `on_accent` for text on an accent fill. Selections and highlighted lines use a wash (`{{accent|wash}}`, or another color's wash for diff lines).
+- Search and find matches: follow "Search and matches" in PHILOSOPHY.md. Every match is a `{{steel|wash}}` with `text` on it (steel text, bold, where the app colors only the text); the match at the cursor is an `accent` fill with `on_accent` text; a 16-color tool uses the blue slot in reverse. Never firelight for a match away from the cursor, never steel for a selection.
 - State: `error`, `warning`, `success`, `info`.
 - Syntax: follow the syntax mapping in PHILOSOPHY.md exactly.
 - Detail colors: `oxblood` and `ivy` for badges and small accents only. They carry no meaning.
@@ -84,6 +85,7 @@ Prefer a role where one fits; use a named color only for a slot that is about th
 - Use placeholders for every color. The table is in CONTRIBUTING.md, step 4 of "Add a port".
 - One template should serve both variants. Split only if the app needs structurally different files per mode.
 - Use `{{meta.name}}` and `{{variant.name}}` for display names inside the file.
+- A tool that takes its colors from the shell (environment variables, shell variables, PSReadLine) ships a shell file named after the tool: `template/<tool>.env` for environment variables in any shell (built into `<tool>.sh` and `<tool>.ps1`), `<tool>.sh` plus `<tool>.ps1` when it needs code, `<tool>.zsh` for Zsh only, `<tool>.ps1` for PowerShell only. The table is in CONTRIBUTING.md, step 4. Start each file with a `#` comment naming the theme, the variant, and the tool. The port stands alone: it never depends on another port's file or on Nowhere.
 - No raw color values, including in comments.
 
 ## 7. Build and check
@@ -110,22 +112,33 @@ The README is first and foremost a step-by-step install guide. Write it for some
 - Use real paths, real menu names, and real setting names, taken from the docs you read in step 3. Windows first.
 - Say what the reader should see when a step worked.
 - Include how to switch variants and how to uninstall.
+- For a shell file, the install is: save the file to `~/.config/inglenook/`, add one line to the profile that sources it (`source ~/.config/inglenook/<tool>.sh` in `~/.zshrc` or `~/.bashrc`, `. ~/.config/inglenook/<tool>.ps1` in `$PROFILE`, after the tool or plugin loads), open a new shell. For an environment variable, also show the value for readers who set variables another way. Add one line for Nowhere users: Nowhere loads `~/.config/nowhere/theme.zsh` and `theme.ps1` last, so they can put the same source line there instead of in the profile. A Zsh-only port says Bash is not supported, and why, under **Known limits**.
 - Fill in **Set the font**: where this app sets its font, pointing to IBM Plex Mono, or BlexMono Nerd Font Mono where the app shows icons (ADR 0006). If the app cannot change its font, say so.
 - **Known limits** says what the reader will notice, in the app's own terms. A 16 or 256 color app says its colors are approximate. The reasons go in `MAPPING.md`.
 - **Sources** lists the official docs, and a credit for any reused files. Nothing else.
 - Keep out role names, placeholders, contrast numbers, palette versions, ADR links, build commands, research notes, TODOs, and notes to an agent.
 - The README is also published as the port's page on the Pages site (`/Ports/<app_name>/`). Link to repo files with relative paths: a link to another port's README opens that port's guide, other files open on GitHub, and `build/site.ps1` stops on a link to a file that does not exist.
 
-## 9. Screenshots
+## 9. Write the recipe and get the screenshots
 
-A port ships only with real screenshots of both variants. Until the screenshot tooling is back, take them by hand:
+A port ships only with real screenshots of both variants, taken by the Photographer. Write `Ports/<app_name>/screenshot.json`, the recipe. Every port needs one: `check.ps1` fails without it, and fails without `screenshots/day.png` and `night.png`. Start from the example in CONTRIBUTING.md (Add a port, step 7), or the closest existing `Ports/*/screenshot.json`, and change only what differs. `build/lib/Catalog.psm1` holds the fields and `check.ps1` validates them.
 
-1. Install the port from `dist/day/` in the real app, set the font, and take a screenshot of a typical screen. Save it as `Ports/<app_name>/screenshots/day.png`.
-2. Do the same for Night as `screenshots/night.png`.
-3. Add a two-column table (Day, Night) with both images near the top of the README.
-4. Check every row of the `MAPPING.md` table in both shots. List any color the screen cannot show under **Gaps** in `MAPPING.md`.
+- **kind**: the scene kind whose staged content fits the app: `terminal`, `prompt`, `cli`, `editor`, `icon-theme`, `document`, `desktop`, or `web`. The content is in `build/photograph/scenes/<kind>/`. The `web` and `document` scenes have no content yet: the first port of that kind writes it. If no kind fits, stop and propose one to the user.
+- **platform**: `linux` if the app runs there, else `windows`, else `macos`.
+- The backdrop is not the recipe's: every shot sits on the variant's wallpaper (Cabin Seating in Day and Mission Fireplace in Night), set by the Photographer.
+- **host**: for an app that lives inside another port (a prompt in a terminal, an icon theme in VS Code). The host launches it, so give only `install`, `apply`, and `stage`.
+- **apply**: the README's install steps, verbatim, with `$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/` for the files. **stage** never changes a color, and turns off self-update and first-run dialogs.
+- **version**: the exact app version, required unless the Ubuntu package date in `build/photograph/pins.json` pins the app. This is the port's first pin. Moving a pin in `pins.json` is its own PR; see "Move a pin" in CONTRIBUTING.md.
+- Does the app **require** a login or a license to reach its themed screen, or only recommend one? Look it up in its docs and license terms, and write the answer with links under **Screenshot recipe** in `MAPPING.md`. Required means a manual recipe.
+- A step that stands in for something the reader does by hand (a dialog answered by a config file) gets a line in `MAPPING.md` under **Screenshot recipe**: not tested by hand.
 
-Never use a mock. If you cannot run the app here, ask the user for the shots.
+Then follow the one path that fits:
+
+- **Linux recipe, Docker works** (it does in the sandbox): run `pwsh build/photograph.ps1 -Port <app_name>`. Go through the color checklist: for each row of the `MAPPING.md` table, find the color in both shots and confirm it reads as its role. List each color the scene cannot show under **Gaps** in `MAPPING.md`; never stage a fake one. Show both shots to the user, then commit the images and the README with the port.
+- **Windows or macOS recipe, or no Docker here**: commit the recipe. The `screenshots` workflow shoots it on the pull request and attaches the images to the run. Ask the user to review them there, go through the checklist on them, and commit them as `screenshots/day.png` and `night.png`. macOS has no runner pinned yet, so the run lists a macOS recipe as not shot: ask the user for the shots.
+- **Manual recipe** (the app requires a login or license): write only `kind`, `platform`, and `manual`, the reason in one sentence. Run `pwsh build/photograph.ps1 -Port <app_name>`: with no shots it names the scene and each variant's backdrop. Ask the user to take both shots by hand to that scene, then run the same command again to stamp them and add the table.
+
+**Tested with**: after a good run that the user has reviewed, replace "Not tested yet" with the app version and OS the recipe shot, such as `GNOME Terminal 3.52.0 on Linux Mint 22.3`, adding `in <host> <version>` for a guest. The pull request author writes this line; the pipeline never does. A manual port keeps "Not tested yet" until someone installs it by hand.
 
 ## 10. Finish
 
@@ -133,6 +146,6 @@ Never use a mock. If you cannot run the app here, ask the user for the shots.
 - Give the card an icon with the `port-icon` skill (`/port-icon <app_name>`). If no icon fits, the monogram stays.
 - Commit on a branch named `port/<app_name>`.
 - Show the user both screenshots and ask for approval. The port is not done without it.
-- Report back in a few lines: tier, what is covered, what is not, and what the user needs to do.
+- Report back in a few lines: tier, what is covered, what is not, which screenshot path the port took, and what the user needs to do.
 
 Do not install the theme on the user's machine unless they ask.

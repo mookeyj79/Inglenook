@@ -1,0 +1,16 @@
+# {{variant.name}} for nano, from {{meta.name}} {{meta.version}}.
+# Put these lines at the end of your own nanorc (~/.config/nano/nanorc or ~/.nanorc).
+# nano reads interface colors only from a nanorc, never from an included file.
+# The color names are terminal colors: set your terminal to {{variant.name}} too.
+set titlecolor {{port.text}},{{port.raised}}
+set promptcolor {{port.text}},{{port.raised}}
+set minicolor {{port.text}},{{port.raised}}
+set statuscolor {{port.text}},{{port.raised}}
+set errorcolor bold,{{port.raised}},red
+set keycolor bold,blue
+set functioncolor {{port.text}}
+set numbercolor {{port.faint}}
+set selectedcolor {{port.raised}},{{port.text}}
+set spotlightcolor {{port.raised}},blue
+set stripecolor ,{{port.raised}}
+set scrollercolor {{port.faint}}

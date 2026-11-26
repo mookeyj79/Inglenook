@@ -1,0 +1,320 @@
+# Inglenook for Starship: Inglenook Day.
+# A whole starship.toml: the Nowhere prompt layout, colored from the palette
+# table at the end. Use it as your config, or copy the palette line and the
+# [palettes] table into your own. Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+# Docs: https://starship.rs/config/
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# The palette table at the end of this file.
+palette = "inglenook-day"
+
+format = """
+[](oxblood)\
+$os\
+$username\
+$hostname\
+[](bg:reference fg:oxblood)\
+$directory\
+[](bg:info fg:reference)\
+$git_branch\
+$git_status\
+[](fg:info bg:ivy)\
+$kubernetes\
+$docker_context\
+$c\
+$rust\
+$golang\
+$nodejs\
+$bun\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+$helm\
+$terraform\
+$aws\
+[](fg:ivy bg:line)\
+$time\
+[ ](fg:line)\
+[](reset)\
+$cmd_duration\
+$line_break\
+$character"""
+
+# =============================================================================
+#  OS icon: Windows  Linux  macOS glyph (requires Nerd Font)
+# =============================================================================
+
+[os]
+disabled = false
+style    = "bg:oxblood fg:on_accent"
+
+[os.symbols]
+Windows          = ""
+Ubuntu           = "󰕈"
+SUSE             = ""
+Raspbian         = "󰐿"
+Mint             = "󰣭"
+Macos            = "󰀵"
+Manjaro          = ""
+Linux            = "󰌽"
+Gentoo           = "󰣨"
+Fedora           = "󰣛"
+Alpine           = ""
+Amazon           = ""
+Android          = ""
+AOSC             = ""
+Arch             = "󰣇"
+Artix            = "󰣇"
+CentOS           = ""
+Debian           = "󰣚"
+Redhat           = "󱄛"
+RedHatEnterprise = "󱄛"
+
+# =============================================================================
+#  Identity: the user name, and the host name on SSH sessions
+# =============================================================================
+
+[username]
+format      = '[ $user]($style)'
+show_always = true
+style_user  = "bg:oxblood fg:on_accent"
+style_root  = "bg:oxblood fg:on_accent"
+
+[hostname]
+format   = "[@]($style)[$hostname]($style)"
+ssh_only = true
+style    = "bg:oxblood fg:on_accent"
+
+# =============================================================================
+#  Directory
+# =============================================================================
+
+[directory]
+format            = "[ $path ]($style)[$read_only]($style)"
+home_symbol       = "󱂶 "
+read_only         = "󰌾 "
+style             = "bg:reference fg:on_accent"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Developer" = "󱂀 "
+"Documents" = "󱧷 "
+"Downloads" = "󱃩 "
+"Music"     = "󱍚 "
+"Pictures"  = "󱞋 "
+"Projects"  = "󱞋 "
+
+# =============================================================================
+#  Git
+# =============================================================================
+
+[git_branch]
+format = '[[ $symbol $branch ](fg:on_accent bg:info)]($style)'
+style  = "bg:info"
+symbol = ""
+
+[git_status]
+ahead      = ' ahead=${count}'
+behind     = ' behind=${count}'
+conflicted = '[ conflicted=${count}](fg:on_accent bg:info) '
+deleted    = '[󰍶 deleted=${count}](fg:on_accent bg:info) '
+diverged   = ' ahead=${ahead_count}  behind=${behind_count}'
+format     = '[[\( ($all_status$ahead_behind\))](fg:on_accent bg:info)]($style)'
+modified   = '[󰛿 modified=${count}](fg:on_accent bg:info) '
+renamed    = '[󱍸 renamed=${count}](fg:on_accent bg:info) '
+staged     = '[󰐗 staged=${count}](fg:on_accent bg:info) '
+stashed    = '[ stashed=${count}](fg:on_accent bg:info) '
+style      = "bg:info"
+up_to_date = '[󰘽 up-to-date](fg:on_accent bg:info) '
+untracked  = '[󰋗 untracked=${count}](fg:on_accent bg:info) '
+
+# =============================================================================
+#  Kubernetes
+# =============================================================================
+
+[kubernetes]
+disabled          = false
+detect_files      = ["*.yaml", "*.yml", "helmfile.yaml", "kustomization.yaml",
+                     "Chart.yaml", ".helmignore"]
+detect_folders    = [".kube", "k8s", "kubernetes", "helm", "charts", "manifests"]
+format            = '[[ $symbol$context( \($namespace\)) ](fg:on_accent bg:ivy)]($style)'
+style             = "bg:ivy"
+symbol            = "󱃾 "
+
+[kubernetes.context_aliases]
+".*dev.*"     = " dev"
+".*prod.*"    = " prod"
+".*staging.*" = " stg"
+
+[helm]
+detect_files   = ["helmfile.yaml", "Chart.yaml", "Chart.lock"]
+detect_folders = ["charts"]
+format         = "[ $symbol$version]($style) "
+style          = "bg:ivy"
+symbol         = "⎈ "
+
+# =============================================================================
+#  Docker
+# =============================================================================
+
+[docker_context]
+format          = '[[ $symbol( $context) ](fg:on_accent bg:ivy)]($style)'
+only_with_files = true
+style           = "bg:ivy"
+symbol          = ""
+
+# =============================================================================
+#  Terraform
+# =============================================================================
+
+[terraform]
+format = '[[ $symbol$workspace ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = "󱁢 "
+
+# =============================================================================
+#  AWS
+# =============================================================================
+
+[aws]
+force_display = false
+format        = "[[ $symbol$profile(\\($region\\))](fg:on_accent bg:ivy)]($style) "
+style         = "bg:ivy"
+symbol        = " "
+
+# =============================================================================
+#  Languages
+# =============================================================================
+
+[nodejs]
+detect_extensions = ["js", "mjs", "cjs", "ts", "mts", "cts"]
+detect_files      = ["package.json", ".nvmrc", ".node-version"]
+detect_folders    = ["node_modules"]
+format            = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style             = "bg:ivy"
+symbol            = ""
+
+[bun]
+format = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = ""
+
+[c]
+format = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = " "
+
+[rust]
+detect_extensions = ["rs"]
+detect_files      = ["Cargo.toml", "Cargo.lock"]
+format            = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style             = "bg:ivy"
+symbol            = ""
+
+[golang]
+detect_extensions = ["go"]
+detect_files      = ["go.mod", "go.sum", "go.work"]
+format            = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style             = "bg:ivy"
+symbol            = ""
+
+[php]
+format = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = ""
+
+[java]
+format = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = " "
+
+[kotlin]
+format = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = ""
+
+[haskell]
+format = '[[ $symbol( $version) ](fg:on_accent bg:ivy)]($style)'
+style  = "bg:ivy"
+symbol = ""
+
+[python]
+pyenv_version_name = true
+detect_extensions  = ["py"]
+detect_files       = [".python-version", "requirements.txt", "pyproject.toml",
+                      "setup.py", "setup.cfg", "Pipfile", "tox.ini"]
+detect_folders     = [".venv", "venv", ".tox"]
+format             = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:on_accent bg:ivy)]($style)'
+style              = "bg:ivy"
+symbol             = ""
+
+# =============================================================================
+#  Additional settings
+# =============================================================================
+
+[time]
+disabled    = false
+format      = '[[  $time ](fg:dim bg:line)]($style)'
+style       = "bg:line"
+time_format = "%R"
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+error_symbol = '[❯](bold fg:error)'
+success_symbol = '[❯](bold fg:success)'
+vimcmd_replace_one_symbol = '[❮](bold fg:warning)'
+vimcmd_replace_symbol = '[❮](bold fg:warning)'
+vimcmd_symbol = '[❮](bold fg:info)'
+vimcmd_visual_symbol = '[❮](bold fg:accent)'
+
+[cmd_duration]
+disabled = false
+format = " in $duration "
+min_time_to_notify = 45000
+show_milliseconds = true
+show_notifications = true
+style = "bg:line"
+
+# =============================================================================
+#  Palette: Inglenook Day
+# =============================================================================
+
+[palettes.inglenook-day]
+# The colors the layout above uses.
+oxblood   = "#7e2e39"
+reference = "#017272"
+info      = "#326893"
+ivy       = "#135b42"
+line      = "#cfd2cb"
+dim       = "#49545d"
+on_accent = "#f9fbf8"
+success   = "#407135"
+error     = "#a04037"
+warning   = "#706416"
+accent    = "#9b5a00"
+text      = "#2d373f"
+faint     = "#657178"
+# Starship's color names, as the terminal colors, for modules you add.
+black          = "#2d373f"
+red            = "#a04037"
+green          = "#407135"
+yellow         = "#706416"
+blue           = "#326893"
+purple         = "#844b80"
+cyan           = "#017272"
+white          = "#cfd2cb"
+bright-black   = "#657178"
+bright-red     = "#942a23"
+bright-green   = "#2d6420"
+bright-yellow  = "#615602"
+bright-blue    = "#195a88"
+bright-purple  = "#783a73"
+bright-cyan    = "#056262"
+bright-white   = "#f9fbf8"

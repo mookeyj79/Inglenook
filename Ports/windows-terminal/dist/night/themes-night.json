@@ -1,0 +1,20 @@
+{
+  "themes": [
+    {
+      "name": "Inglenook Night",
+      "window": {
+        "applicationTheme": "dark",
+        "frame": "#f3a958",
+        "unfocusedFrame": "#363331"
+      },
+      "tabRow": {
+        "background": "#12100e",
+        "unfocusedBackground": "#12100e"
+      },
+      "tab": {
+        "background": "#1b1917",
+        "unfocusedBackground": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "version": "5.9-6ubuntu2",
+  "install": [
+    "apt-get install -y --no-install-recommends zsh=$INGLENOOK_VERSION zsh-common=$INGLENOOK_VERSION"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/zsh.zsh\" ~/.config/inglenook/zsh.zsh",
+    "echo 'source ~/.config/inglenook/zsh.zsh' >> ~/.zshrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/zsh/stage.sh\""
+  ]
+}

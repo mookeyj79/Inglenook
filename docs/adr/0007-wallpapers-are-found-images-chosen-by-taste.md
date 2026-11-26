@@ -11,3 +11,4 @@ The briefs: for Day, sunlit cabin interiors, window light on plants, a forest th
 - The theme must look complete without any wallpaper.
 - Each image is marked `day`, `night`, or `both` in `wallpapers/README.md`, and a port may show one only in a variant it is marked for.
 - `check.ps1` confirms every image has a thumbnail, a credit, and a mark, and every pair has one Day and one Night image.
+- Every port screenshot and the preview site sit on one pair, shown as it is: Cabin Seating in Day and Mission Fireplace in Night. Panels, cards, windows and the preview's header bar stay solid, and the preview credits both images.

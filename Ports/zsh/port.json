@@ -1,0 +1,9 @@
+{
+  "name": "Zsh",
+  "category": "shell",
+  "tier": 1,
+  "platforms": [
+    "macos",
+    "linux"
+  ]
+}

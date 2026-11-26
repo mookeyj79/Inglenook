@@ -1,0 +1,10 @@
+{
+  "name": "Git",
+  "category": "cli",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}

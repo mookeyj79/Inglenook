@@ -1,0 +1,95 @@
+# {{variant.name}} for btop++, from {{meta.name}} {{meta.version}}: {{meta.repository}}
+# Save it in btop's themes folder and set color_theme = "{{variant.name|slug}}" in btop.conf.
+
+# Main background. btop leaves it to the terminal when theme_background = false.
+theme[main_bg]="{{base}}"
+
+# Main text
+theme[main_fg]="{{text}}"
+
+# Box titles
+theme[title]="{{text}}"
+
+# Keyboard shortcut letters and box numbers
+theme[hi_fg]="{{info}}"
+
+# The selected row in the process list
+theme[selected_bg]="{{accent|wash}}"
+theme[selected_fg]="{{text}}"
+
+# Inactive and disabled text
+theme[inactive_fg]="{{faint}}"
+
+# Text drawn over graphs: uptime, network scale
+theme[graph_text]="{{dim}}"
+
+# The empty part of the meters
+theme[meter_bg]="{{line}}"
+
+# Process details: the running state, the memory graph
+theme[proc_misc]="{{info}}"
+
+# Box outlines
+theme[cpu_box]="{{line}}"
+theme[mem_box]="{{line}}"
+theme[net_box]="{{line}}"
+theme[proc_box]="{{line}}"
+
+# Dividers inside boxes
+theme[div_line]="{{line}}"
+
+# Each graph and meter is one color: btop blends between its start, mid and end.
+# Temperatures
+theme[temp_start]="{{clay}}"
+theme[temp_mid]="{{clay}}"
+theme[temp_end]="{{clay}}"
+
+# CPU graphs
+theme[cpu_start]="{{info}}"
+theme[cpu_mid]="{{info}}"
+theme[cpu_end]="{{info}}"
+
+# Memory and disks: free
+theme[free_start]="{{heather}}"
+theme[free_mid]="{{heather}}"
+theme[free_end]="{{heather}}"
+
+# Memory and disks: cached
+theme[cached_start]="{{dusk}}"
+theme[cached_mid]="{{dusk}}"
+theme[cached_end]="{{dusk}}"
+
+# Memory and disks: available
+theme[available_start]="{{pine}}"
+theme[available_mid]="{{pine}}"
+theme[available_end]="{{pine}}"
+
+# Memory and disks: used
+theme[used_start]="{{rosewood}}"
+theme[used_mid]="{{rosewood}}"
+theme[used_end]="{{rosewood}}"
+
+# Network: download
+theme[download_start]="{{pine}}"
+theme[download_mid]="{{pine}}"
+theme[download_end]="{{pine}}"
+
+# Network: upload
+theme[upload_start]="{{heather}}"
+theme[upload_mid]="{{heather}}"
+theme[upload_end]="{{heather}}"
+
+# Process list: CPU and memory use
+theme[process_start]="{{info}}"
+theme[process_mid]="{{info}}"
+theme[process_end]="{{info}}"
+
+# The process list banner (btop 1.4 and newer): paused, following, or both
+theme[proc_pause_bg]="{{warning|wash}}"
+theme[proc_follow_bg]="{{info|wash}}"
+theme[proc_banner_bg]="{{keyword|wash}}"
+theme[proc_banner_fg]="{{text}}"
+
+# The followed process (btop 1.4 and newer)
+theme[followed_bg]="{{info|wash}}"
+theme[followed_fg]="{{text}}"

@@ -1,0 +1,8 @@
+{
+  "day": {
+    "ui_theme": "vs"
+  },
+  "night": {
+    "ui_theme": "vs-dark"
+  }
+}

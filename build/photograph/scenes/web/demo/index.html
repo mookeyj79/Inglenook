@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Moss, a shade softer</title>
+<!-- #day or #night picks the variant's set of properties, as a site's own switch would. -->
+<script>document.documentElement.dataset.theme = location.hash === '#night' ? 'night' : 'day';</script>
+<link rel="stylesheet" href="css/inglenook-day.css">
+<link rel="stylesheet" href="css/inglenook-night.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header>
+  <span class="site">Fireside Notes</span>
+  <nav>
+    <a class="current" href="#">Posts</a>
+    <a href="#">Ports</a>
+    <a href="#">Palette</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+<main>
+  <article>
+    <p class="meta">Release notes · 24 November 2026 · 3 min read <span class="badge oxblood">draft</span> <span class="badge ivy">palette series</span></p>
+    <h1>Moss, a shade softer</h1>
+    <p class="lead">Day's moss moved from 0.52 to 0.5 lightness. Every port was rebuilt from the palette, and the checks caught the one that drifted.</p>
+    <ul class="tags"><li>palette</li><li>moss</li><li>build</li></ul>
+    <p>Run <code>pwsh build/check.ps1</code> after any palette change. The <a href="#">drift check</a> compares each port's <code>dist/</code> with a fresh build, so <span id="picked">a port nobody rebuilt fails the check</span> before it reaches <code>main</code>.</p>
+    <pre class="code"><code><span class="c"># Rebuild every port that uses moss</span>
+<span class="g">[CmdletBinding()]</span>
+<span class="k">param</span><span class="p">(</span><span class="t">[string]</span>$Palette <span class="p">=</span> <span class="s">'palette/palette.json'</span><span class="p">)</span>
+<span class="line del"><span class="mark">-</span> $moss<span class="p">.</span><span class="f">l</span> <span class="p">=</span> <span class="n">0.52</span></span>
+<span class="line add"><span class="mark">+</span> $moss<span class="p">.</span><span class="f">l</span> <span class="p">=</span> <span class="n">0.5</span></span>
+<span class="k">if</span> <span class="p">(</span>$moss<span class="p">.</span><span class="f">l</span> <span class="k">-lt</span> <span class="n">0.45</span><span class="p">)</span> <span class="p">{</span> <span class="k">throw</span> <span class="s">'Too dark'</span> <span class="p">}</span>
+<span class="f">Import-Module</span> <span class="r">./build/lib/Build.psm1</span>
+<span class="f">Update-Port</span> <span class="n">-All</span> <span class="n">-Palette</span> $Palette <span class="n">-Force</span>:<span class="k">$true</span></code></pre>
+    <p class="note"><strong>Heads up:</strong> a palette change rebuilds every port, so commit the new <code>dist/</code> files with it.</p>
+  </article>
+  <aside>
+    <h2>Checks</h2>
+    <ul class="checks">
+      <li><span class="dot success"></span>Palette <span class="state success">ok</span></li>
+      <li><span class="dot success"></span>Contrast <span class="state success">ok</span></li>
+      <li><span class="dot error"></span>Drift <span class="state error">fail</span></li>
+      <li><span class="dot warning"></span>Typora <span class="state warning">stale</span></li>
+      <li><span class="dot info"></span>Screenshots <span class="state info">running</span></li>
+    </ul>
+    <p class="aside-note">One port drifted from the palette.</p>
+    <button type="button">Rebuild ports</button>
+  </aside>
+</main>
+<footer>Fireside Notes · Built from the palette, checked on every change</footer>
+<script>
+  // The reader has picked a phrase: a real selection, drawn by the site's ::selection rule.
+  getSelection().selectAllChildren(document.getElementById('picked'));
+</script>
+</body>
+</html>
