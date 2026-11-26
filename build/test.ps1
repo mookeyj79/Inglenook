@@ -469,6 +469,15 @@ Test 'Shell: sourcing must print nothing' {
     Assert-True (($r.Problems -join "`n") -like '*PowerShell*hello*') "no PowerShell problem: $($r.Problems -join '; ')"
 }
 
+Test 'Shell: a script with a shebang is parsed by its shell, never sourced' {
+    # An install script prints and changes settings when it runs, so sourcing it is wrong.
+    $r = Test-ShellFile -Path (New-ShellFile 'install.sh' "#!/usr/bin/env bash`nshopt -s nullglob`necho installed`n")
+    Assert-Equal 0 $r.Problems.Count "problems: $($r.Problems -join '; ')"
+    Assert-Equal 0 $r.Skipped.Count "skipped a shell the shebang does not name: $($r.Skipped -join ', ')"
+    $r = Test-ShellFile -Path (New-ShellFile 'broken.sh' "#!/usr/bin/env bash`nif then`n")
+    if ($HaveBash) { Assert-True (($r.Problems -join "`n") -like 'bash: does not parse*') "bash did not object: $($r.Problems -join '; ')" }
+}
+
 Test 'Shell: a .ps1 that does not parse is a problem' {
     $r = Test-ShellFile -Path (New-ShellFile 'bad.ps1' "`$env:X = 'a`n")
     Assert-True (($r.Problems -join "`n") -like '*does not parse*') "no parse problem: $($r.Problems -join '; ')"

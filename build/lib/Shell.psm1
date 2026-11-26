@@ -60,6 +60,11 @@ function Test-ShellFile {
         sources the file in a fresh session with no startup files: it must
         exit 0 and print nothing. A shell that is not installed is listed in
         Skipped instead. Other extensions return no problems.
+
+        A file that starts with a shebang (#!) is a script to run, such as an
+        install script, not a file to source: only the shell its shebang names
+        parses it (every shell of its extension when the shebang names none of
+        them), and it is never sourced.
     #>
     param([Parameter(Mandatory)][string]$Path)
     $problems = [System.Collections.Generic.List[string]]::new()
@@ -70,11 +75,19 @@ function Test-ShellFile {
         '.ps1' { 'pwsh' }
         default { @() }
     }
+    $script = $false
+    $first = @(Get-Content -LiteralPath $Path -TotalCount 1)
+    if ($shells -and $first.Count -and $first[0].StartsWith('#!')) {
+        $script = $true
+        $named = @($first[0].Substring(2).Trim() -split '\s+' | ForEach-Object { Split-Path -Leaf $_ }) | Where-Object { $_ -in $shells }
+        if ($named) { $shells = @($named)[0] }
+    }
     foreach ($shell in $shells) {
         if ($shell -eq 'pwsh') {
             $tokens = $null; $errors = $null
             $null = [System.Management.Automation.Language.Parser]::ParseFile($Path, [ref]$tokens, [ref]$errors)
             if ($errors) { $problems.Add("PowerShell: does not parse: $($errors[0].Message) (line $($errors[0].Extent.StartLineNumber))."); continue }
+            if ($script) { continue }
             $command = ". '" + ($Path -replace "'", "''") + "'"
             $encoded = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($command))
             $r = Invoke-Shell (Get-Process -Id $PID).Path @('-NoProfile', '-NonInteractive', '-EncodedCommand', $encoded)
@@ -86,6 +99,7 @@ function Test-ShellFile {
         $noRc = if ($shell -eq 'bash') { @('--norc', '--noprofile') } else { @('-f') }
         $r = Invoke-Shell $exe.Source (@($noRc) + @('-n', $Path))
         if ($r.Exit -ne 0 -or $r.Text) { $problems.Add("${shell}: does not parse: $($r.Text)"); continue }
+        if ($script) { continue }
         $r = Invoke-Shell $exe.Source (@($noRc) + @('-c', '. "$1"', $shell, $Path))
         if ($r.Exit -ne 0 -or $r.Text) { $problems.Add("${shell}: sourcing it exits $($r.Exit) and prints: $($r.Text)") }
     }
