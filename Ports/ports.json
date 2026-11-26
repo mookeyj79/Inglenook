@@ -36,17 +36,6 @@
       ]
     },
     {
-      "folder": "carapace",
-      "name": "carapace",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "cinnamon",
       "name": "Cinnamon",
       "category": "system",
@@ -223,44 +212,12 @@
       ]
     },
     {
-      "folder": "less",
-      "name": "less",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "mod-organizer-2",
       "name": "Mod Organizer 2",
       "category": "app",
       "tier": null,
       "platforms": [
         "windows"
-      ]
-    },
-    {
-      "folder": "nano",
-      "name": "nano",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "neovim",
-      "name": "Neovim",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {
@@ -295,28 +252,6 @@
       ]
     },
     {
-      "folder": "powershell",
-      "name": "PowerShell",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "psreadline",
-      "name": "PSReadLine",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "qbittorrent",
       "name": "qBittorrent",
       "category": "app",
@@ -326,7 +261,8 @@
         "macos",
         "linux"
       ]
-    },    {
+    },
+    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
@@ -336,17 +272,6 @@
         "macos",
         "linux",
         "web"
-      ]
-    },
-    {
-      "folder": "starship",
-      "name": "Starship",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {
@@ -429,17 +354,6 @@
       ]
     },
     {
-      "folder": "vscode",
-      "name": "Visual Studio Code",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "windows",
       "name": "Windows",
       "category": "system",
@@ -451,36 +365,6 @@
     {
       "folder": "zsh",
       "name": "Zsh",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-autosuggestions",
-      "name": "zsh-autosuggestions",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-history-substring-search",
-      "name": "zsh-history-substring-search",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "zsh-syntax-highlighting",
-      "name": "zsh-syntax-highlighting",
       "category": "shell",
       "tier": null,
       "platforms": [

@@ -1,0 +1,17 @@
+# The ~/.zshrc of carapace's scene (see stage.sh). It sets up carapace the way its
+# docs say, then, at the first prompt, types a command and lists its completions with
+# Ctrl+D, as a reader would. The list is carapace's own style keys, each drawn in its
+# style with its description, so the shot shows the port's colors in carapace itself.
+bindkey -e
+autoload -U compinit && compinit -u -d ~/.zcompdump
+source <(carapace _carapace zsh)
+cd ~/Inglenook
+PS1='~/Inglenook $ '
+# A taller window, so the whole list fits under the prompt.
+printf '\e[8;35;110t'
+__scene_list() {
+  (( ${+__scene_listed} )) && return
+  __scene_listed=1
+  zle -U $'carapace --style carapace.\x04'
+}
+zle -N zle-line-init __scene_list

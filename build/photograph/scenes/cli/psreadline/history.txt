@@ -1,0 +1,5 @@
+git diff palette/palette.json
+pwsh build/check.ps1
+Get-Content ./palette/palette.json | Select-String moss
+pwsh build/build.ps1 -Port psreadline
+code ./palette/palette.json
