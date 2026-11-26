@@ -100,17 +100,6 @@
       ]
     },
     {
-      "folder": "gh",
-      "name": "GitHub CLI",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "screen",
       "name": "GNU Screen",
       "category": "cli",
