@@ -4,6 +4,10 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Not tested yet
 
+| Inglenook Day | Inglenook Night |
+|---|---|
+| ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
+
 The port has two parts:
 
 - **Color schemes** color the terminal text and background. They install as a [JSON fragment](https://learn.microsoft.com/windows/terminal/json-fragment-extensions), so you copy files instead of pasting JSON.
