@@ -1,0 +1,21 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "install": [
+    "apt-get install -y --no-install-recommends ripgrep gnome-terminal"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/ripgreprc\" ~/.config/inglenook/ripgreprc",
+    "echo 'export RIPGREP_CONFIG_PATH=\"$HOME/.config/inglenook/ripgreprc\"' >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/ripgrep/stage.sh\""
+  ],
+  "launch": [
+    "gnome-terminal -- bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": {
+    "class": "gnome-terminal-server"
+  }
+}
