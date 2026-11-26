@@ -1,0 +1,57 @@
+name: pages
+
+# Publishes the preview page, the ports page (Ports/preview/dist), and each port's
+# install guide (its README.md) to GitHub Pages.
+# The site is assembled by build/site.ps1, which also writes the port list.
+# Turn on once: Settings > Pages > Source: GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Ports/preview/dist/**'
+      - 'Ports/ports.json'
+      - 'Ports/*/port.json'
+      - 'Ports/*/icon.svg'
+      - 'Ports/*/README.md'
+      - 'Ports/*/screenshots/**'
+      - 'Ports/*/dist/**'
+      - 'Ports/*/site.json'
+      - 'build/site.ps1'
+      - 'build/lib/**'
+      - 'wallpapers/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check before publishing
+        shell: pwsh
+        run: ./build/check.ps1
+
+      - name: Assemble site
+        shell: pwsh
+        run: ./build/site.ps1
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

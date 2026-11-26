@@ -1,0 +1,22 @@
+# Inglenook preview site
+
+**Variants:** Inglenook Day, Inglenook Night\
+**Tested with:** Not tested yet
+
+A web page that shows Inglenook before you install anything: a terminal session, a code sample and a small app, in Day and Night side by side, then every color with its value and contrast, the roles, and how code is colored. A second page lists every port with its category, tier and platforms, plus the planned ones, with search and category filters. Each port's install guide is published as a page of its own.
+
+## View it
+
+- Preview: <https://mookeyj79.github.io/Inglenook/>
+- Ports page: <https://mookeyj79.github.io/Inglenook/ports/>
+
+The page frame opens in Day or Night to match your OS setting, and remembers the variant you pick with the switch. Add `?variant=day` or `?variant=night` to a link to open a set variant. From a copy of this repo, open `Ports/preview/dist/day/index.html` in a browser.
+
+## Known limits
+
+- The demos show how Inglenook is meant to look. They are not screenshots of real ports.
+- Offline, the page falls back to system fonts.
+
+## Sources
+
+- [IBM Plex](https://github.com/IBM/plex) Sans, Serif and Mono, loaded from Google Fonts, under the SIL Open Font License 1.1.
