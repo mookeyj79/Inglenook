@@ -1,0 +1,27 @@
+{
+  "schemes": [
+    {
+      "name": "Inglenook Night",
+      "background": "#1b1917",
+      "foreground": "#d1c9bc",
+      "cursorColor": "#f3a958",
+      "selectionBackground": "#463624",
+      "black": "#262321",
+      "red": "#d9897e",
+      "green": "#91bc88",
+      "yellow": "#bdb377",
+      "blue": "#89b3d8",
+      "purple": "#cb9cc6",
+      "cyan": "#72bdbd",
+      "white": "#b1aa9e",
+      "brightBlack": "#8f887f",
+      "brightRed": "#ef958a",
+      "brightGreen": "#9ecd93",
+      "brightYellow": "#cec37f",
+      "brightBlue": "#94c4ed",
+      "brightPurple": "#dfa9d9",
+      "brightCyan": "#7acfce",
+      "brightWhite": "#d1c9bc"
+    }
+  ]
+}

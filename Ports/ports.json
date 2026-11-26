@@ -514,15 +514,6 @@
       ]
     },
     {
-      "folder": "windows-terminal",
-      "name": "Windows Terminal",
-      "category": "terminal",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
       "folder": "zsh",
       "name": "Zsh",
       "category": "shell",

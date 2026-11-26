@@ -1,0 +1,27 @@
+{
+  "schemes": [
+    {
+      "name": "Inglenook Day",
+      "background": "#f1f3ee",
+      "foreground": "#2d373f",
+      "cursorColor": "#9b5a00",
+      "selectionBackground": "#e3dbc8",
+      "black": "#2d373f",
+      "red": "#a04037",
+      "green": "#407135",
+      "yellow": "#706416",
+      "blue": "#326893",
+      "purple": "#844b80",
+      "cyan": "#017272",
+      "white": "#cfd2cb",
+      "brightBlack": "#657178",
+      "brightRed": "#942a23",
+      "brightGreen": "#2d6420",
+      "brightYellow": "#615602",
+      "brightBlue": "#195a88",
+      "brightPurple": "#783a73",
+      "brightCyan": "#056262",
+      "brightWhite": "#f9fbf8"
+    }
+  ]
+}

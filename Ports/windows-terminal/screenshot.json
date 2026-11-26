@@ -1,0 +1,24 @@
+{
+  "kind": "terminal",
+  "platform": "windows",
+  "version": "1.25.3131.0",
+  "install": [
+    "Invoke-WebRequest \"https://github.com/microsoft/terminal/releases/download/v$env:INGLENOOK_VERSION/Microsoft.WindowsTerminal_${env:INGLENOOK_VERSION}_x64.zip\" -OutFile \"$env:TEMP/windows-terminal.zip\"",
+    "if ((Get-FileHash \"$env:TEMP/windows-terminal.zip\" -Algorithm SHA256).Hash -ne '273d6f1502eca1b5bd95c43f5d4d7ec72cc503df340102f8659717e5bead3437') { throw 'The Windows Terminal ZIP does not match its pinned sha256.' }",
+    "Expand-Archive \"$env:TEMP/windows-terminal.zip\" \"$env:LOCALAPPDATA/Programs\" -Force"
+  ],
+  "apply": [
+    "$t = \"$env:LOCALAPPDATA/Microsoft/Windows Terminal\"; if (Test-Path $t) { Remove-Item $t -Recurse -Force }",
+    "$f = \"$env:LOCALAPPDATA/Microsoft/Windows Terminal/Fragments/Inglenook\"; New-Item -ItemType Directory -Force $f | Out-Null; Copy-Item \"$env:INGLENOOK_PORT/dist/day/schemes-day.json\", \"$env:INGLENOOK_PORT/dist/night/schemes-night.json\" $f",
+    "$n = @{}; foreach ($v in 'day', 'night') { $n[$v] = (Get-Content \"$env:INGLENOOK_PORT/dist/$v/themes-$v.json\" -Raw | ConvertFrom-Json).themes[0].name }; $s = [ordered]@{ themes = @(foreach ($v in 'day', 'night') { (Get-Content \"$env:INGLENOOK_PORT/dist/$v/themes-$v.json\" -Raw | ConvertFrom-Json).themes }); theme = [ordered]@{ dark = $n.night; light = $n.day }; profiles = [ordered]@{ defaults = [ordered]@{ colorScheme = [ordered]@{ dark = $n.night; light = $n.day }; intenseTextStyle = 'bold'; font = [ordered]@{ face = 'BlexMono Nerd Font Mono' } } } }; $s | ConvertTo-Json -Depth 8 | Set-Content \"$env:LOCALAPPDATA/Microsoft/Windows Terminal/settings.json\""
+  ],
+  "stage": [
+    "$s = Get-Content \"$env:LOCALAPPDATA/Microsoft/Windows Terminal/settings.json\" -Raw | ConvertFrom-Json -AsHashtable; $s.showAdminShield = $false; $s.initialCols = 110; $s.initialRows = 30; $s | ConvertTo-Json -Depth 8 | Set-Content \"$env:LOCALAPPDATA/Microsoft/Windows Terminal/settings.json\""
+  ],
+  "launch": [
+    "Start-Process \"$env:LOCALAPPDATA/Programs/terminal-$env:INGLENOOK_VERSION/WindowsTerminal.exe\" -ArgumentList 'new-tab', '--title', 'Terminal', '--suppressApplicationTitle', 'pwsh', '-NoLogo', '-NoProfile', '-File', ('\"{0}\"' -f \"$env:INGLENOOK_SCENE/run.ps1\")"
+  ],
+  "window": {
+    "class": "CASCADIA_HOSTING_WINDOW_CLASS"
+  }
+}
