@@ -225,17 +225,6 @@
       ]
     },
     {
-      "folder": "hexyl",
-      "name": "hexyl",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "homepage",
       "name": "Homepage",
       "category": "web",

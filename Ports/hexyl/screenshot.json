@@ -1,0 +1,25 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "version": "0.17.0",
+  "install": [
+    "curl -fsSL -o /tmp/hexyl.deb https://github.com/sharkdp/hexyl/releases/download/v0.17.0/hexyl_0.17.0_amd64.deb",
+    "echo \"af53da40607e9dd96beab8996c3163ed59d4fd768d78881cca8588c199dd9dcf  /tmp/hexyl.deb\" | sha256sum -c -",
+    "apt-get install -y --no-install-recommends /tmp/hexyl.deb gnome-terminal"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/hexyl.sh\" ~/.config/inglenook/hexyl.sh",
+    "echo \"source ~/.config/inglenook/hexyl.sh\" >> ~/.bashrc"
+  ],
+  "stage": [
+    "p=/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}cursor-blink-mode \"'off'\"; dconf write ${p}default-size-columns 80; dconf write ${p}default-size-rows 16; dconf write ${p}scrollbar-policy \"'never'\"",
+    "bash \"$INGLENOOK_SCENE/hexyl/stage.sh\""
+  ],
+  "launch": [
+    "gnome-terminal -- bash -c 'source ~/.config/inglenook/hexyl.sh; exec bash \"$INGLENOOK_SCENE/run.sh\"'"
+  ],
+  "window": {
+    "class": "gnome-terminal-server"
+  }
+}
