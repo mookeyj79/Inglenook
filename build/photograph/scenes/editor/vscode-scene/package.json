@@ -1,0 +1,11 @@
+{
+  "name": "vscode-scene",
+  "displayName": "Inglenook editor scene",
+  "description": "Stages the editor scene for the Photographer: opens the file, selects two lines, marks one error.",
+  "version": "1.0.0",
+  "publisher": "inglenook",
+  "license": "MIT",
+  "engines": { "vscode": "^1.80.0" },
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js"
+}

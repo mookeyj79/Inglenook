@@ -17,25 +17,31 @@
                      exist yet. A port's icon.svg and the "icon" credit in its
                      port.json come together, and the icon is plain shapes in
                      currentColor on a 24 x 24 viewBox (ADR 0008).
-    6. Raw color     No hex, rgb(), or hsl() values in templates or values.json.
+    6. Recipes       Every port has a screenshot.json, or a shots.json instead
+                     (the preview), not both. A recipe has only the recipe
+                     fields, valid steps and window, and a host on the same
+                     platform that is not a guest itself. Every port with a
+                     recipe has screenshots/day.png and night.png, and the
+                     preview every image of its shot list.
+    7. Raw color     No hex, rgb(), or hsl() values in templates or values.json.
                      Add "inglenook-ignore" to a line to skip it (for example a
                      CSS id selector that happens to look like a hex color).
-    7. Placeholders  Every {{placeholder}} in every template resolves in both
+    8. Placeholders  Every {{placeholder}} in every template resolves in both
                      variants, and the table in CONTRIBUTING.md lists exactly
                      the filters the build supports.
-    8. Drift         Committed dist/ matches a fresh build.
-    9. Leftovers     No unresolved {{placeholders}} in dist/.
-   10. Format        Every dist/ file is valid for its format: .json parses,
+    9. Drift         Committed dist/ matches a fresh build.
+   10. Leftovers     No unresolved {{placeholders}} in dist/.
+   11. Format        Every dist/ file is valid for its format: .json parses,
                      .svg and .xml are well formed, .css has balanced
                      braces, comments, and quotes, and shell files parse and
                      source cleanly: .sh in bash and zsh, .zsh in zsh, .ps1 in
                      PowerShell. A shell that is not installed is a warning.
-   11. Wallpapers    Every image in wallpapers/ has a thumbnail and a section in
+   12. Wallpapers    Every image in wallpapers/ has a thumbnail and a section in
                      wallpapers/README.md with its author, source, license, and
                      variant mark. Each pair has one day and one night image,
                      and pairs come before single images. A port's values.json
                      shows a wallpaper only in a variant it is marked for.
-   12. Prose         No em dashes in the repo's Markdown (outside dist/).
+   13. Prose         No em dashes in the repo's Markdown (outside dist/).
                      Add "inglenook-ignore" to a line to skip it.
 
     The rules live in build/lib/: Palette.psm1, Placeholders.psm1,
@@ -111,7 +117,14 @@ Invoke-Section 'Port list' {
     foreach ($e in $catalog.Errors) { Add-Failure $(if ($e -like 'Icon: *') { $e } else { "Port list: $e" }) }
 }
 
-# --- 6. Raw colors in templates -------------------------------------------------
+# --- 6. Recipes ---------------------------------------------------------------
+
+Invoke-Section 'Recipes' {
+    foreach ($e in $catalog.RecipeErrors) { Add-Failure "Recipes: $e" }
+    foreach ($e in Get-ShotProblems $catalog) { Add-Failure "Recipes: $e" }
+}
+
+# --- 7. Raw colors in templates -------------------------------------------------
 
 Invoke-Section 'Raw color' {
     $hexPattern  = '(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b'
@@ -137,7 +150,7 @@ Invoke-Section 'Raw color' {
     }
 }
 
-# --- 7. Placeholders ------------------------------------------------------------
+# --- 8. Placeholders ------------------------------------------------------------
 
 $placeholderOk = $true
 if ($paletteOk) {
@@ -178,7 +191,7 @@ if ($paletteOk) {
 }
 else { Skip-Section 'Placeholders' 'fix the palette first' }
 
-# --- 8. Drift -----------------------------------------------------------------
+# --- 9. Drift -----------------------------------------------------------------
 
 if (-not $paletteOk) { Skip-Section 'Drift' 'fix the palette first' }
 elseif (-not $placeholderOk) { Skip-Section 'Drift' 'fix the placeholders first' }
@@ -199,7 +212,7 @@ else {
     }
 }
 
-# --- 9. Unresolved placeholders in dist -----------------------------------------
+# --- 10. Unresolved placeholders in dist -----------------------------------------
 
 Invoke-Section 'Leftovers' {
     foreach ($port in $catalog.Ports) {
@@ -216,7 +229,7 @@ Invoke-Section 'Leftovers' {
     }
 }
 
-# --- 10. Format of generated files -----------------------------------------------
+# --- 11. Format of generated files -----------------------------------------------
 
 function Test-CssBalance([string]$Text) {
     # Returns $null when balanced, otherwise a short reason.
@@ -289,7 +302,7 @@ Invoke-Section 'Format' {
 
 foreach ($s in $script:MissingShells) { $script:Warnings.Add("Format: $s is not installed, so shell files for it were not checked. CI checks them.") }
 
-# --- 11. Wallpapers -------------------------------------------------------------
+# --- 12. Wallpapers -------------------------------------------------------------
 
 Invoke-Section 'Wallpapers' {
     $wallpaperDir = Join-Path $RepoRoot 'wallpapers'
@@ -304,7 +317,7 @@ Invoke-Section 'Wallpapers' {
     }
 }
 
-# --- 12. Prose ------------------------------------------------------------------
+# --- 13. Prose ------------------------------------------------------------------
 
 Invoke-Section 'Prose' {
     $emDash = [string][char]0x2014

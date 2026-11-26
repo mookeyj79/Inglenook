@@ -17,3 +17,8 @@ For maintainers. The install guide is [README.md](README.md).
 
 - <Other themes' ports studied for this one, and what was learned. Method only.>
 - <Notes on the app's source or format that explain a mapping.>
+
+## Screenshot recipe
+
+- <Whether the app requires a login or a license to reach its themed screen, with links to its docs and terms.>
+- <Recipe steps that stand in for something the reader does by hand: not tested by hand.>
