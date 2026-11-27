@@ -98,17 +98,6 @@
       ]
     },
     {
-      "folder": "ghidra",
-      "name": "Ghidra",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "grub",
       "name": "GRUB",
       "category": "system",

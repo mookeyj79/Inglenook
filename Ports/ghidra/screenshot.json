@@ -1,0 +1,26 @@
+{
+  "kind": "editor",
+  "platform": "linux",
+  "version": "12.2",
+  "install": [
+    "apt-get install -y --no-install-recommends fonts-ibm-plex libxext6 libxrender1 libxtst6 libxi6 libfreetype6",
+    "curl -fsSL --retry 5 --retry-all-errors -o /tmp/jdk.tar.gz 'https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.5.1%2B2/OpenJDK25U-jdk_x64_linux_hotspot_25.0.5.1_2.tar.gz' && echo '760f91b22c3efc9bd1b64ff950598231be82928cc807e30691a0e7a2995a62c0  /tmp/jdk.tar.gz' | sha256sum -c - && mkdir -p /opt/jdk && tar -xzf /tmp/jdk.tar.gz -C /opt/jdk --strip-components=1 --exclude='*/lib/src.zip' && ln -s /opt/jdk/bin/java /usr/local/bin/java && rm /tmp/jdk.tar.gz",
+    "curl -fsSL --retry 5 --retry-all-errors -o /tmp/ghidra.zip \"https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_${INGLENOOK_VERSION}_build/ghidra_${INGLENOOK_VERSION}_PUBLIC_20261016.zip\" && echo '2c2cd776db3c1f6a097ba418922378ac3649cadd5e844a6f5f088ae628a7be67  /tmp/ghidra.zip' | sha256sum -c - && unzip -q /tmp/ghidra.zip -d /opt -x '*/docs/*' '*/Extensions/*' && mv /opt/ghidra_${INGLENOOK_VERSION}_PUBLIC /opt/ghidra && rm /tmp/ghidra.zip"
+  ],
+  "apply": [
+    "d=\"$HOME/.config/ghidra/ghidra_${INGLENOOK_VERSION}_PUBLIC\"; mkdir -p \"$d/themes\" && cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/inglenook-$INGLENOOK_VARIANT.theme\" \"$d/themes/\"",
+    "d=\"$HOME/.config/ghidra/ghidra_${INGLENOOK_VERSION}_PUBLIC\"; printf 'font.monospaced = IBM Plex Mono-PLAIN-14\\n' >> \"$d/themes/inglenook-$INGLENOOK_VARIANT.theme\"",
+    "d=\"$HOME/.config/ghidra/ghidra_${INGLENOOK_VERSION}_PUBLIC\"; printf 'Theme=File:%s\\n' \"$d/themes/inglenook-$INGLENOOK_VARIANT.theme\" >> \"$d/preferences\""
+  ],
+  "stage": [
+    "d=\"$HOME/.config/ghidra/ghidra_${INGLENOOK_VERSION}_PUBLIC\"; printf 'USER_AGREEMENT=ACCEPT\\nSHOW_TIPS=false\\nGhidraShowWhatsNew=false\\n' >> \"$d/preferences\"",
+    "mkdir -p \"$HOME/scene\" && /opt/ghidra/support/analyzeHeadless \"$HOME/scene\" Scene -import /bin/true > /tmp/analyze.log 2>&1"
+  ],
+  "launch": [
+    "/opt/ghidra/ghidraRun \"$HOME/scene/Scene.gpr:/true\"",
+    "for i in $(seq 600); do xdotool search --onlyvisible --name '^CodeBrowser: Scene:/true$' >/dev/null 2>&1 && xdotool search --onlyvisible --name '^Ghidra: Scene$' >/dev/null 2>&1 && break; sleep 0.2; done; for w in $(xdotool search --onlyvisible --name '^Ghidra: Scene$'); do xdotool windowminimize \"$w\"; done"
+  ],
+  "window": {
+    "title": "^CodeBrowser: Scene:/true$"
+  }
+}
