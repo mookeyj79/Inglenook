@@ -150,15 +150,6 @@
       ]
     },
     {
-      "folder": "gtk",
-      "name": "GTK and MATE",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "halloy",
       "name": "Halloy",
       "category": "app",

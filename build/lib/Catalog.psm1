@@ -186,7 +186,7 @@ function Read-SiteSpec([string]$Dir, [string]$Name, $Errors) {
 }
 
 # Recipes (screenshot.json): what the Photographer needs per port, and nothing it fixes itself.
-$SceneKinds = @('terminal', 'prompt', 'cli', 'editor', 'icon-theme', 'document', 'desktop', 'web')
+$SceneKinds = @('terminal', 'prompt', 'cli', 'editor', 'icon-theme', 'document', 'desktop', 'web', 'widgets')
 $RecipePlatforms = @('linux', 'windows', 'macos')
 $RecipeSteps = @('install', 'apply', 'stage', 'launch')
 

@@ -1,0 +1,21 @@
+{
+  "kind": "widgets",
+  "platform": "linux",
+  "install": [
+    "apt-get install -y --no-install-recommends gtk-3-examples marco mate-desktop-common mate-settings-daemon-common"
+  ],
+  "apply": [
+    "mkdir -p ~/.themes && cp -r \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/.\" ~/.themes/",
+    "name=$(ls \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT\") && sed -i \"s/^gtk-theme-name=.*/gtk-theme-name=$name/\" ~/.config/gtk-3.0/settings.ini",
+    "name=$(ls \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT\") && gsettings set org.mate.Marco.general theme \"$name\""
+  ],
+  "stage": [
+    "gsettings set org.mate.Marco.general center-new-windows true",
+    "gsettings set org.mate.Marco.general compositing-manager false",
+    "printf 'gtk-enable-animations=false\\n' >> ~/.config/gtk-3.0/settings.ini"
+  ],
+  "launch": [
+    "marco --replace & until xprop -id \"$(xprop -root _NET_SUPPORTING_WM_CHECK | awk '{print $5}')\" _NET_WM_NAME 2>/dev/null | grep -q Marco; do sleep 0.1; done; env -u GTK_THEME GTK_CSD=0 LD_PRELOAD=/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1 FAKETIME='@2026-06-01 09:41:00' FAKETIME_DONT_FAKE_MONOTONIC=1 gtk3-widget-factory & until w=$(xdotool search --onlyvisible --classname '^gtk3-widget-factory$' 2>/dev/null | tail -1); [ -n \"$w\" ]; do sleep 0.1; done; xprop -id \"$w\" -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '2, 0, 1, 0, 0'; sleep 2; eval \"$(xwininfo -id \"$w\" | sed -n 's/^ *Absolute upper-left X: */ax=/p; s/^ *Absolute upper-left Y: */ay=/p')\"; xdotool mousemove $((ax + 635)) $((ay + 23)) click 1 mousemove 0 0; wait"
+  ],
+  "window": { "class": "gtk3-widget-factory" }
+}
