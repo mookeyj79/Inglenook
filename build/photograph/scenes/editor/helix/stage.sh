@@ -3,7 +3,7 @@
 # port's apply step wrote theme = "..." to ~/.config/helix/config.toml. Appends display
 # options only, never a color, points PowerShell at diagnostic-server.py (a stand-in for a
 # language server that reports one error), and writes the editor command for ../run.sh.
-#   bash "$INGLENOOK_SCENE/helix-scene/stage.sh"
+#   bash "$INGLENOOK_SCENE/helix/stage.sh"
 set -euo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cfg=$HOME/.config/helix

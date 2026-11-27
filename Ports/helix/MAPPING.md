@@ -69,5 +69,5 @@ One template, `template/{{variant.slug}}.toml`, builds `inglenook-day.toml` and 
 
 - Helix is free software (MPL 2.0) and needs no login or license.
 - Helix runs inside the GNOME Terminal port (`host`), so the shots show an Inglenook terminal around it. The release archive is pinned by version and SHA-256.
-- The scene (`build/photograph/scenes/editor/helix-scene/`) adds display options to `config.toml` (bufferline, mode colors, end-of-line diagnostics), opens `Contrast.psm1` on the selection line, and presses `x` twice through a small pseudo-terminal wrapper to select two lines. The diff gutter shows the working file against the scene repo's commit.
+- The scene (`build/photograph/scenes/editor/helix/`) adds display options to `config.toml` (bufferline, mode colors, end-of-line diagnostics), opens `Contrast.psm1` on the selection line, and presses `x` twice through a small pseudo-terminal wrapper to select two lines. The diff gutter shows the working file against the scene repo's commit.
 - `diagnostic-server.py` stands in for the PowerShell language server: it answers the LSP handshake and reports one error under the misspelled call. Not tested by hand.
