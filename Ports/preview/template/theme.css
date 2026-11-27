@@ -1,5 +1,5 @@
 /* {{variant.name}} for the preview site. Generated from palette/palette.json.
-   Any element with data-variant="{{variant.key}}" takes these colors, so a page can show both variants side by side. */
+   Any element with data-variant="{{variant.key}}" takes these colors, so the switch repaints a page in place. */
 [data-variant="{{variant.key}}"] {
   color-scheme: {{variant.mode}};
   --deeper: {{deeper}};

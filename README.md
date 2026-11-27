@@ -12,7 +12,7 @@ A cozy, soothing color theme for the tools you use every day. Technology meets s
 - **Inglenook Day**: a cabin room in natural light, with plants on the sill. A soft neutral background that leans faintly green.
 - **Inglenook Night**: a Victorian library by the fire. A warm smoked-walnut background.
 
-**[Open the live preview](https://mookeyj79.github.io/Inglenook/)** to see both variants side by side, or **[browse the ports](https://mookeyj79.github.io/Inglenook/ports/)**.
+**[Open the live preview](https://mookeyj79.github.io/Inglenook/)** to see Day and Night, or **[browse the ports](https://mookeyj79.github.io/Inglenook/ports/)**.
 
 ## Status
 

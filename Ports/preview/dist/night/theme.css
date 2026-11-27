@@ -1,5 +1,5 @@
 /* Inglenook Night for the preview site. Generated from palette/palette.json.
-   Any element with data-variant="night" takes these colors, so a page can show both variants side by side. */
+   Any element with data-variant="night" takes these colors, so the switch repaints a page in place. */
 [data-variant="night"] {
   color-scheme: dark;
   --deeper: #12100e;

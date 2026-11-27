@@ -3,7 +3,7 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Not tested yet
 
-A web page that shows Inglenook before you install anything: a terminal session, a code sample, a diagram and a small app, in Day and Night side by side, then every color with its value and contrast, the roles, and how code is colored. A second page lists every port with its category, tier and platforms, plus the planned ones, with search and category filters. Each port's install guide is published as a page of its own.
+A web page that shows Inglenook before you install anything: a terminal session, a code sample, a diagram and a small app, in Day or Night, then every color with its value and contrast, the roles, and how code is colored. A second page lists every port with its category, tier and platforms, plus the planned ones, with search and category filters. Each port's install guide is published as a page of its own.
 
 ## View it
 
