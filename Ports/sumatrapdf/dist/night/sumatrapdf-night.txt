@@ -1,0 +1,22 @@
+# Inglenook Night for SumatraPDF 3.6 or later
+# Copy each part over the matching lines in SumatraPDF-settings.txt.
+# https://github.com/mookeyj79/Inglenook
+
+Theme = Inglenook Night
+
+Themes [
+	[
+		Name = Inglenook Night
+		TextColor = #d1c9bc
+		BackgroundColor = #12100e
+		ControlBackgroundColor = #171412
+		LinkColor = #f3a958
+		ColorizeControls = true
+	]
+]
+
+FixedPageUI [
+	TextColor = #d1c9bc
+	BackgroundColor = #1b1917
+	SelectionColor = #f3a958
+]

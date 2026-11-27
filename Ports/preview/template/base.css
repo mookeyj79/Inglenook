@@ -52,6 +52,59 @@ code { font: .88em var(--font-mono); color: var(--literal); }
 .switch a + a { border-left: 1px solid var(--line); }
 .switch a[aria-current="true"] { background: var(--accent); color: var(--on-accent); }
 
+/* Ornaments: single-color shapes from assets/ornaments/, filled through a mask.
+   They carry no meaning, so they are drawn in oxblood, the detail color with no role.
+   The paths are relative to this file, in dist/<variant>/. */
+.ornate, .framed { position: relative; }
+.ornate::before, .framed::before {
+  content: ""; position: absolute; pointer-events: none; background: var(--oxblood);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+/* Four corner brackets just inside a panel. */
+.ornate::before {
+  inset: 7px;
+  -webkit-mask-image: url("../../../../assets/ornaments/bracket-tl.svg"), url("../../../../assets/ornaments/bracket-tr.svg"), url("../../../../assets/ornaments/bracket-bl.svg"), url("../../../../assets/ornaments/bracket-br.svg");
+  mask-image: url("../../../../assets/ornaments/bracket-tl.svg"), url("../../../../assets/ornaments/bracket-tr.svg"), url("../../../../assets/ornaments/bracket-bl.svg"), url("../../../../assets/ornaments/bracket-br.svg");
+  -webkit-mask-position: top left, top right, bottom left, bottom right;
+  mask-position: top left, top right, bottom left, bottom right;
+  -webkit-mask-size: 3.6rem auto; mask-size: 3.6rem auto;
+}
+/* Four botanical corners (oak, acanthus, fern, ivy) that reach just past a panel's edge. */
+.framed::before {
+  inset: -14px;
+  -webkit-mask-image: url("../../../../assets/ornaments/frame-oak.svg"), url("../../../../assets/ornaments/frame-acanthus.svg"), url("../../../../assets/ornaments/frame-fern.svg"), url("../../../../assets/ornaments/frame-ivy.svg");
+  mask-image: url("../../../../assets/ornaments/frame-oak.svg"), url("../../../../assets/ornaments/frame-acanthus.svg"), url("../../../../assets/ornaments/frame-fern.svg"), url("../../../../assets/ornaments/frame-ivy.svg");
+  -webkit-mask-position: top left, top right, bottom left, bottom right;
+  mask-position: top left, top right, bottom left, bottom right;
+  -webkit-mask-size: 6.5rem auto, 6.5rem auto, 6.5rem auto, 6.5rem auto; mask-size: 6.5rem auto;
+}
+/* A fleur-de-lis divider, centered; a horizontal rule in a guide draws one too.
+   Under a page title it sits at the start of the line. */
+.flourish, .guide hr {
+  display: block; height: 1.9rem; width: min(13rem, 70%); margin: 2px auto; background: var(--oxblood);
+  -webkit-mask: url("../../../../assets/ornaments/divider.svg") center / contain no-repeat;
+  mask: url("../../../../assets/ornaments/divider.svg") center / contain no-repeat;
+}
+.guide hr { border: 0; margin: 28px auto; }
+/* A guide's title gets the divider under it, at the start of the line. */
+.guide > h1:first-child::after {
+  content: ""; display: block; width: 10rem; height: 1.5rem; margin-top: 6px; background: var(--oxblood);
+  -webkit-mask: url("../../../../assets/ornaments/divider.svg") left center / contain no-repeat;
+  mask: url("../../../../assets/ornaments/divider.svg") left center / contain no-repeat;
+}
+.intro > .flourish { margin: 0 0 4px; width: 10rem; height: 1.5rem; -webkit-mask-position: left center; mask-position: left center; }
+footer > .flourish { margin-bottom: 8px; }
+/* Diamonds: full, half, empty. Inline, at the size of the text. */
+.gem {
+  display: inline-block; width: .9em; height: .9em; vertical-align: -.1em; background: var(--oxblood);
+  -webkit-mask: url("../../../../assets/ornaments/diamond.svg") center / contain no-repeat;
+  mask: url("../../../../assets/ornaments/diamond.svg") center / contain no-repeat;
+}
+.gem.is-half { -webkit-mask-image: url("../../../../assets/ornaments/diamond-half.svg"); mask-image: url("../../../../assets/ornaments/diamond-half.svg"); }
+.gem.is-empty { -webkit-mask-image: url("../../../../assets/ornaments/diamond-empty.svg"); mask-image: url("../../../../assets/ornaments/diamond-empty.svg"); }
+.gems { display: inline-flex; gap: 1px; margin-right: 6px; }
+.brand .gem { margin-right: 7px; }
+
 @media (max-width: 480px) {
   .topbar { padding: 8px 12px; gap: 8px; }
   .topbar-end { gap: 10px; }

@@ -1,0 +1,22 @@
+{
+  "kind": "app",
+  "platform": "linux",
+  "version": "3.0.12",
+  "install": [
+    "curl -fsSL -o /tmp/dopamine.deb https://github.com/digimezzo/dopamine/releases/download/v$INGLENOOK_VERSION/Dopamine-$INGLENOOK_VERSION.deb && echo '6a8f611edcf691b4ac730d62db8aba68b3194d1fb2af6bc373f8685e0ac1f231  /tmp/dopamine.deb' | sha256sum -c - && apt-get install -y --no-install-recommends /tmp/dopamine.deb ffmpeg sqlite3 jq && rm /tmp/dopamine.deb"
+  ],
+  "apply": [
+    "mkdir -p \"$HOME/.config/Dopamine/Themes\" && cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/\"*.theme \"$HOME/.config/Dopamine/Themes/\"",
+    "jq -n --arg theme \"$(jq -r .name \"$INGLENOOK_PORT\"/dist/$INGLENOOK_VARIANT/*.theme)\" --argjson light \"$([ \"$INGLENOOK_VARIANT\" = day ] && echo true || echo false)\" '{theme: $theme, followSystemTheme: false, useLightBackgroundTheme: $light, followSystemColor: false, followAlbumCoverColor: false}' > \"$HOME/.config/Dopamine/config.json\""
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/dopamine/library.sh\" \"$HOME/Music/Library\"",
+    "c=\"$HOME/.config/Dopamine/config.json\"; jq '. + {showWelcome: false, checkForUpdates: false, downloadMissingAlbumCovers: false, downloadArtistInformationFromLastFm: false, downloadLyricsOnline: false, showIconInNotificationArea: false, showAudioVisualizer: false, fullPlayerPositionSizeMaximized: \"200;120;1200;760;0\", selectedCollectionPage: 0, artistsTabSelectedArtist: \"Wren Calloway\"}' \"$c\" > \"$c.new\" && mv \"$c.new\" \"$c\"",
+    "bash \"$INGLENOOK_SCENE/dopamine/collection.sh\" \"$HOME/Music/Library\"",
+    "c=\"$HOME/.config/Dopamine/config.json\"; jq '. + {refreshCollectionAutomatically: false}' \"$c\" > \"$c.new\" && mv \"$c.new\" \"$c\""
+  ],
+  "launch": [
+    "dopamine --no-sandbox --disable-gpu --password-store=basic"
+  ],
+  "window": { "class": "dopamine" }
+}

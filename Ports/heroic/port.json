@@ -1,0 +1,10 @@
+{
+  "name": "Heroic Games Launcher",
+  "category": "app",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}

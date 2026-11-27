@@ -24,7 +24,11 @@
                      fields, valid steps and window, and a host on the same
                      platform that is not a guest itself. Every port with a
                      recipe has screenshots/day.png and night.png, and the
-                     preview every image of its shot list.
+                     preview every image of its shot list. In a scene folder,
+                     a port's own subfolder is named exactly after the port and
+                     sits in the folder its kind is shot in, no recipe uses
+                     another port's own folder, and no other subfolder is used
+                     by one recipe alone.
     7. Raw color     No hex, rgb(), or hsl() values in templates, values.json,
                      or port READMEs.
                      Add "inglenook-ignore" to a line to skip it (for example a
@@ -57,7 +61,8 @@
     .githooks, or prek install) gets a warning.
 
     The rules live in build/lib/: Palette.psm1, Placeholders.psm1,
-    Shell.psm1, Build.psm1, Catalog.psm1, and Wallpaper.psm1. This script runs them and reports.
+    Shell.psm1, Build.psm1, Catalog.psm1, Wallpaper.psm1, and the scene
+    folder rules in Photographer.psm1. This script runs them and reports.
 
 .EXAMPLE
     pwsh build/check.ps1
@@ -68,7 +73,7 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-foreach ($m in 'Palette', 'Placeholders', 'Shell', 'Build', 'Catalog', 'Wallpaper') {
+foreach ($m in 'Palette', 'Placeholders', 'Shell', 'Build', 'Catalog', 'Wallpaper', 'Photographer') {
     Import-Module (Join-Path $PSScriptRoot 'lib' "$m.psm1") -Force
 }
 
@@ -135,6 +140,7 @@ Invoke-Section 'Port list' {
 Invoke-Section 'Recipes' {
     foreach ($e in $catalog.RecipeErrors) { Add-Failure "Recipes: $e" }
     foreach ($e in Get-ShotProblems $catalog) { Add-Failure "Recipes: $e" }
+    foreach ($e in Get-SceneFolderProblems -RepoRoot $RepoRoot -Ports @($catalog.Ports)) { Add-Failure "Recipes: $e" }
 }
 
 # --- 7. Raw colors in templates and READMEs -------------------------------------
