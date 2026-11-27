@@ -2,7 +2,7 @@
 
 **Tier:** 1 Full\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Obsidian 1.15.1 on Linux Mint 22.3
+**Tested with:** Not tested yet
 
 | Day | Night |
 |---|---|
