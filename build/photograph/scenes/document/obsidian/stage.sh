@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The document scene as an Obsidian vault: bash "$INGLENOOK_SCENE/obsidian.sh" <vault>
+# The document scene as an Obsidian vault: bash "$INGLENOOK_SCENE/obsidian/stage.sh" <vault>
 # Run it in a recipe's stage, after apply has put the theme in <vault>/.obsidian/themes/.
 #
 # It copies the notes into the vault and writes the app's own state so the first launch
@@ -7,9 +7,9 @@
 # about 1200x760 in the middle of the 1600x1000 screen, and "Evening reading" open in
 # reading view (no blinking caret) beside the file explorer. Nothing here sets a color.
 set -euo pipefail
-vault=${1:?usage: obsidian.sh <vault>}
+vault=${1:?usage: obsidian/stage.sh <vault>}
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-bash "$here/stage.sh" "$vault"
+bash "$here/../stage.sh" "$vault"
 id=1a2b3c4d5e6f7081
 
 # The app's list of vaults, with this one open, and no update checks.

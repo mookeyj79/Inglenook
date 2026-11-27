@@ -6,7 +6,7 @@
 # other note ([[Kindling]], so it resolves), a done and an open task, a tag, a note
 # callout, and a Python code block with keywords, a function, types, a number, a
 # string, punctuation and a comment. Fixed content and no colors: the port under
-# test decides every color. Obsidian opens it in a vault (obsidian.sh).
+# test decides every color. Obsidian opens it in a vault (obsidian/stage.sh).
 set -euo pipefail
 dir=${1:?usage: stage.sh <dir>}
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)

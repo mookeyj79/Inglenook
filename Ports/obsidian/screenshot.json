@@ -10,7 +10,7 @@
     "name=$(jq -r .name \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/manifest.json\") && scheme=$([ \"$INGLENOOK_VARIANT\" = day ] && echo moonstone || echo obsidian) && jq -n --arg theme \"$name\" --arg scheme \"$scheme\" '{cssTheme: $theme, theme: $scheme, monospaceFontFamily: \"IBM Plex Mono\", baseFontSize: 16}' > \"$HOME/Fireside/.obsidian/appearance.json\""
   ],
   "stage": [
-    "bash \"$INGLENOOK_SCENE/obsidian.sh\" \"$HOME/Fireside\""
+    "bash \"$INGLENOOK_SCENE/obsidian/stage.sh\" \"$HOME/Fireside\""
   ],
   "launch": [
     "obsidian --no-sandbox --disable-gpu --disable-partial-raster --ui-disable-partial-swap"
