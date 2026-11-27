@@ -35,17 +35,6 @@
       ]
     },
     {
-      "folder": "docker",
-      "name": "Docker build output",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "dopamine",
       "name": "Dopamine",
       "category": "app",
