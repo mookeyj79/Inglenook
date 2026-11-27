@@ -40,7 +40,6 @@ The theme file is plain `set -g` lines the reader loads with `source-file`, so i
 
 - No pane background: setting `window-style` would paint the panes but not the programs in them, which keep the terminal's 16 colors. An Inglenook terminal gives both.
 - Options newer than 3.4 (`pane-scrollbars-style`, the copy mode line number styles) use `set -gq`, so older tmux skips them quietly. tmux 3.8 adds more (`tree-mode-border-style`, `display-panes-border-style`, `tree-mode-preview-style`, the `theme` option and `theme*` colour names); they are left at tmux's defaults until a release ships them.
-- In the shots the left pane starts mid-comment ("ery check."): the script is printed before the split, and tmux reflows it into the narrower pane, pushing the first lines into history. Starting the pane commands after the split (a `sleep 1` before each) fixes it; left for a retake when Docker has room.
 - The screenshots cannot show: `message-style` and `message-command-style` (a message replaces the window list in tmux 3.4), menus and popups, `copy-mode-mark-style`, the bell style, `display-panes` and the clock, the scrollbars and line numbers (tmux 3.4 has neither).
 
 ## Research
@@ -55,4 +54,4 @@ The theme file is plain `set -g` lines the reader loads with `source-file`, so i
 - tmux needs no login or license (ISC: https://github.com/tmux/tmux/blob/master/COPYING).
 - tmux 3.4 comes from the pinned Ubuntu snapshot, so the recipe has no `version`. Host: the GNOME Terminal port, whose `TERM` is `xterm-256color`.
 - The recipe writes `~/.config/tmux/tmux.conf` with the README's steps 5 and 6.
-- The scene (`build/photograph/scenes/cli/tmux/stage.sh`) builds the session with tmux commands in place of the reader's keys: the split, the copy mode selection and search, and a third window with activity monitoring on. Not tested by hand. `status-right` is fixed text instead of tmux's clock.
+- The scene (`build/photograph/scenes/cli/tmux/stage.sh`) builds the session with tmux commands in place of the reader's keys: the split, the copy mode selection and search, and a third window with activity monitoring on. Not tested by hand. `status-right` is fixed text instead of tmux's clock. Each pane's command waits a second before printing, so it prints after the split and tmux does not reflow it into history.

@@ -16,9 +16,9 @@ cd ~/Inglenook
 mkdir -p build
 cp '$here/rebuild.sh' build/rebuild.sh
 cols=\$(tput cols) lines=\$(tput lines)
-tmux new-session -d -s repo -n build -x "\$cols" -y "\$((lines - 1))" 'cat build/rebuild.sh; exec cat'
+tmux new-session -d -s repo -n build -x "\$cols" -y "\$((lines - 1))" 'sleep 1; cat build/rebuild.sh; exec cat'
 tmux set -g status-right '"inglenook" 12:00 24-Nov-26'
-tmux split-window -h -t repo:build 'git -c color.ui=always diff; exec cat'
+tmux split-window -h -t repo:build 'sleep 1; git -c color.ui=always diff; exec cat'
 tmux new-window -d -t repo:1 -n notes 'exec cat'
 tmux new-window -d -t repo:2 -n watch 'sleep 2; echo rebuilt; exec cat'
 tmux set -w -t repo:watch monitor-activity on
