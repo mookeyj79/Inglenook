@@ -1,0 +1,316 @@
+/*
+ * {{variant.name}} for Homepage (gethomepage.dev)
+ * {{meta.name}} {{meta.version}}, {{meta.repository}}
+ *
+ * Save as custom.css in Homepage's config folder.
+ * Set theme: {{variant.mode}} in settings.yaml.
+ */
+
+/* Homepage's palette scale. Every theme-50 to theme-900 class reads these,
+   so widgets this file does not name still draw from the theme. The scale
+   runs from the page to the text in light mode, and back in dark mode. */
+:root.light {
+  --color-50: from {{base}} r g b;
+  --color-100: from {{raised}} r g b;
+  --color-200: from {{hover}} r g b;
+  --color-300: from {{line}} r g b;
+  --color-400: from {{faint}} r g b;
+  --color-500: from {{faint}} r g b;
+  --color-600: from {{dim}} r g b;
+  --color-700: from {{text}} r g b;
+  --color-800: from {{text}} r g b;
+  --color-900: from {{text}} r g b;
+}
+
+:root.dark {
+  --color-50: from {{text}} r g b;
+  --color-100: from {{text}} r g b;
+  --color-200: from {{text}} r g b;
+  --color-300: from {{dim}} r g b;
+  --color-400: from {{faint}} r g b;
+  --color-500: from {{faint}} r g b;
+  --color-600: from {{line}} r g b;
+  --color-700: from {{hover}} r g b;
+  --color-800: from {{base}} r g b;
+  --color-900: from {{deep}} r g b;
+}
+
+:root.light,
+:root.dark {
+  --color-logo-start: from {{faint}} r g b;
+  --color-logo-stop: from {{faint}} r g b;
+  --bg-color: from {{base}} r g b;
+  --scrollbar-thumb: {{line}};
+  --scrollbar-track: {{deep}};
+  color-scheme: {{variant.mode}};
+}
+
+html,
+body,
+#__next {
+  background-color: {{base}};
+  color: {{text}};
+}
+
+::selection {
+  background-color: {{accent|wash}};
+  color: {{text}};
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid {{accent}};
+  outline-offset: 1px;
+}
+
+/* Solid surfaces: Homepage's cards are see-through by default. */
+.backdrop-blur,
+[class*="backdrop-blur-"] {
+  backdrop-filter: none !important;
+}
+
+.shadow-md,
+.shadow-lg {
+  box-shadow: none !important;
+}
+
+/* Service and bookmark cards */
+.service-card,
+li.bookmark > a {
+  background-color: {{raised}} !important;
+  border: 1px solid {{line}};
+  color: {{text}} !important;
+}
+
+.service-card:hover,
+li.bookmark > a:hover {
+  background-color: {{hover}} !important;
+}
+
+.service-name,
+.bookmark-name {
+  color: {{text}};
+}
+
+.service-description,
+.bookmark-description {
+  color: {{dim}} !important;
+}
+
+.service-group-name,
+.bookmark-group-name,
+.services-group > button > svg,
+.bookmarks-group > button > svg {
+  color: {{text}} !important;
+}
+
+.bookmark-icon {
+  background-color: {{deep}} !important;
+  color: {{dim}} !important;
+}
+
+/* Widget blocks inside a service card */
+.service-block {
+  background-color: {{deep}} !important;
+  color: {{text}};
+}
+
+.service-block-label {
+  color: {{dim}};
+}
+
+.service-block[data-highlight-level="good"] {
+  background-color: {{success|wash}} !important;
+}
+
+.service-block[data-highlight-level="warn"] {
+  background-color: {{warning|wash}} !important;
+}
+
+.service-block[data-highlight-level="danger"] {
+  background-color: {{error|wash}} !important;
+}
+
+.service-block[data-highlight-level] .service-block-value,
+.service-block[data-highlight-level] .service-block-label {
+  color: {{text}} !important;
+}
+
+/* Status: ping, site monitor, Docker, Kubernetes and Proxmox */
+.ping-status,
+.site-monitor-status,
+.docker-status,
+.kubernetes-status,
+.proxmox-status {
+  background-color: {{deep}} !important;
+}
+
+.service-tag .text-emerald-500\/80,
+.service-tag .text-emerald-500,
+.service-tag .text-green-500 {
+  color: {{success}} !important;
+}
+
+.service-tag .text-rose-500\/80,
+.service-tag .text-rose-500,
+.service-tag .text-red-500 {
+  color: {{error}} !important;
+}
+
+.service-tag .text-orange-400\/50,
+.service-tag .dark\:text-orange-400\/80 {
+  color: {{warning}} !important;
+}
+
+.service-tag .text-blue-500\/80 {
+  color: {{info}} !important;
+}
+
+.service-tag .text-black\/20,
+.service-tag .dark\:text-white\/40 {
+  color: {{faint}} !important;
+  opacity: 1 !important;
+}
+
+.service-tag .bg-emerald-500,
+.service-tag .bg-green-500 {
+  background-color: {{success}} !important;
+}
+
+.service-tag .bg-rose-500,
+.service-tag .bg-red-500 {
+  background-color: {{error}} !important;
+}
+
+.service-tag .bg-orange-400 {
+  background-color: {{warning}} !important;
+}
+
+.service-tag .bg-blue-500 {
+  background-color: {{info}} !important;
+}
+
+/* Header: information widgets, the search widget and tabs */
+#information-widgets {
+  border-color: {{line}} !important;
+  color: {{text}};
+}
+
+.widget-container,
+.information-widget-form,
+.information-widget-container-button {
+  background-color: {{raised}} !important;
+  border: 1px solid {{line}};
+}
+
+.information-widget-search input {
+  background-color: {{raised}} !important;
+  border-color: {{line}} !important;
+  color: {{text}} !important;
+}
+
+.information-widget-search input::placeholder {
+  color: {{faint}} !important;
+}
+
+.information-widget-search input:focus {
+  border-color: {{accent}} !important;
+  box-shadow: 0 0 0 1px {{accent}} !important;
+}
+
+.information-widget-search button {
+  background-color: {{hover}} !important;
+  color: {{dim}} !important;
+}
+
+.information-widget-search button svg {
+  color: {{dim}} !important;
+}
+
+#myTab {
+  background-color: {{deep}} !important;
+  border: 1px solid {{line}};
+}
+
+#myTab button {
+  color: {{dim}};
+}
+
+#myTab button:hover {
+  background-color: {{hover}} !important;
+}
+
+#myTab button[aria-selected="true"] {
+  background-color: {{raised}} !important;
+  border-bottom: 2px solid {{accent}};
+  color: {{text}} !important;
+}
+
+/* Resource bars */
+.information-widget-resource .rounded-full,
+.service-block .rounded-full {
+  background-color: {{line}} !important;
+}
+
+.information-widget-resource .rounded-full > div,
+.service-block .rounded-full > div {
+  background-color: {{info}} !important;
+}
+
+/* Quick launch */
+.fixed.inset-0.bg-gray-500 {
+  background-color: {{deeper}} !important;
+  opacity: 1 !important;
+}
+
+dialog,
+.fixed .rounded-md.bg-theme-50 {
+  background-color: {{raised}} !important;
+  border: 1px solid {{line}};
+}
+
+.fixed .rounded-md.bg-theme-50 input {
+  background-color: {{raised}} !important;
+  border-color: {{line}} !important;
+  color: {{text}} !important;
+}
+
+.fixed .rounded-md.bg-theme-50 button.bg-theme-300\/50 {
+  background-color: {{accent}} !important;
+  color: {{on_accent}} !important;
+}
+
+.fixed .rounded-md.bg-theme-50 .bg-theme-300\/10 {
+  background-color: {{steel|wash}};
+  color: {{text}};
+}
+
+/* Footer */
+#footer,
+#version,
+#footer svg {
+  color: {{faint}} !important;
+}
+
+#footer a:hover,
+#footer button:hover svg {
+  color: {{accent}} !important;
+}
+
+/* Errors Homepage shows for a broken config */
+.bg-rose-200,
+.dark\:bg-rose-800 {
+  background-color: {{error|wash}} !important;
+  color: {{text}} !important;
+}
+
+.bg-amber-200,
+.dark\:bg-amber-800 {
+  background-color: {{warning|wash}} !important;
+  color: {{text}} !important;
+}
+
+a {
+  text-decoration-color: {{accent}};
+}
