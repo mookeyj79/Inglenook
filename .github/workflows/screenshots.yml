@@ -7,6 +7,8 @@ name: screenshots
 # listed as stamp only, so its port is fresh again.
 # On a pull request: the ports it changed are shot, the images are attached to the
 # run, and the summary says whether they match the ones committed in the pull request.
+# Not on the rolling pull request itself: its images are the ones the run on main just
+# shot, so shooting them again proves nothing.
 # Run workflow: an optional port and "all"; it delivers only from main.
 # Manual recipes are shot by hand: on main, each stale one keeps one
 # "Screenshots for <app>" issue open, and its issue closes once it is fresh.
@@ -69,6 +71,11 @@ concurrency:
 
 jobs:
   plan:
+    # Every later job needs plan, so skipping it skips the run.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.head_ref != 'build/screenshots' ||
+      github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-24.04
     permissions:
       contents: read
