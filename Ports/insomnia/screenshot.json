@@ -1,5 +1,5 @@
 {
-  "kind": "editor",
+  "kind": "app",
   "platform": "linux",
   "version": "13.4.0",
   "install": [
@@ -11,10 +11,10 @@
   ],
   "stage": [
     "sed -i '$ s/}$/,\"fontMonospace\":\"IBM Plex Mono\",\"editorFontSize\":13,\"enableAnalytics\":false,\"disableUpdateNotification\":true,\"updateAutomatically\":false,\"hasSeenSidebarFocusOnboarding\":true,\"autoHideMenuBar\":true}/' \"${XDG_CONFIG_HOME:-$HOME/.config}/Insomnia/insomnia.Settings.db\"",
-    "bash \"$INGLENOOK_SCENE/insomnia-scene/seed.sh\""
+    "bash \"$INGLENOOK_SCENE/insomnia/seed.sh\""
   ],
   "launch": [
-    "bash \"$INGLENOOK_SCENE/insomnia-scene/run.sh\""
+    "bash \"$INGLENOOK_SCENE/insomnia/run.sh\""
   ],
   "window": {
     "title": "^Insomnia 13\\.4\\.0$"

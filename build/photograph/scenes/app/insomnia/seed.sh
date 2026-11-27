@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Insomnia's part of the editor scene: a few saved requests in the local Scratch Pad, one
+# Insomnia's part of the app scene: a few saved requests in the local Scratch Pad, one
 # of them open with a JSON body and a saved JSON response, so the request and response
 # editors, the method labels and the status tag all show. Fixed content, never live: no
 # request is sent, and nothing here sets a color. The port's theme decides every color.
-# The recipe's stage runs it before launch: bash "$INGLENOOK_SCENE/insomnia-scene/seed.sh"
+# The recipe's stage runs it before launch: bash "$INGLENOOK_SCENE/insomnia/seed.sh"
 set -euo pipefail
 cfg=${XDG_CONFIG_HOME:-$HOME/.config}/Insomnia
 mkdir -p "$cfg/responses"
