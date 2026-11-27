@@ -178,17 +178,6 @@
       ]
     },
     {
-      "folder": "qbittorrent",
-      "name": "qBittorrent",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
