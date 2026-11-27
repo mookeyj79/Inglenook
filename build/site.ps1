@@ -112,6 +112,14 @@ function Resolve-RepoPath([string]$FromDir, [string]$Target) {
 function ConvertTo-GuideHtml($Port) {
     $fromDir = "Ports/$($Port.Name)"
     $html = (ConvertFrom-Markdown -Path (Join-Path $Port.Dir 'README.md')).Html
+    # The Day and Night screenshot table becomes one shot per variant: the page shows
+    # only the one that matches its Day or Night switch.
+    $html = [regex]::Replace($html, '<table>(?:(?!</table>).)*?screenshots/day\.png(?:(?!</table>).)*?</table>', {
+        param($m)
+        $imgs = [regex]::Matches($m.Value, '<img src="(?<src>[^"]*screenshots/(?<v>day|night)\.png)"(?<rest>[^>]*)>') |
+            ForEach-Object { "<img data-shot=`"$($_.Groups['v'].Value)`" src=`"$($_.Groups['src'].Value)`"$($_.Groups['rest'].Value)>" }
+        "<p class=`"shots`">$($imgs -join '')</p>"
+    }, 'Singleline')
     # Heading ids as GitHub makes them, so a #link works the same on both.
     $seen = @{}
     $html = [regex]::Replace($html, '<h(?<n>[1-6]) id="[^"]*">(?<text>.*?)</h\k<n>>', {

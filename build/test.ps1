@@ -2090,6 +2090,9 @@ Test 'Entry: site.ps1 assembles the site with the ports page and the planned por
     Assert-True (Test-Path (Join-Path $out 'ports' 'index.html')) 'no ports page'
     $js = Get-Content -Raw (Join-Path $out 'ports.js')
     Assert-True ($js -like '*window.THEME_PORTS*"planned":*') "no port list in ports.js"
+    $g = Get-Content -Raw (Join-Path $out 'Ports' 'bat' 'index.html')
+    Assert-True ($g -like '*<p class="shots"><img data-shot="day" src="*screenshots/day.png*<img data-shot="night" src="*screenshots/night.png*</p>*') "guide shots: one per variant"
+    Assert-True ($g -notlike '*<th>Day</th>*') 'guide still has the Day and Night table'
 }
 
 Test 'Entry: photograph.ps1 -Port on a manual recipe stamps the hand-taken shots and adds the table' {
