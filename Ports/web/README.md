@@ -4,7 +4,7 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Not tested yet
 
-| Inglenook Day | Inglenook Night |
+| Day | Night |
 |---|---|
 | ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
 

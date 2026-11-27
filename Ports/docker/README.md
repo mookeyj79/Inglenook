@@ -4,7 +4,7 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Docker 29.10.1 (buildx 0.39.1) on Linux
 
-| Inglenook Day | Inglenook Night |
+| Day | Night |
 |---|---|
 | ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
 

@@ -4,7 +4,7 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** btop 1.3.0 on Linux Mint 22.3, in GNOME Terminal 3.52.0
 
-| Inglenook Day | Inglenook Night |
+| Day | Night |
 |---|---|
 | ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
 
