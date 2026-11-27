@@ -315,15 +315,6 @@
       ]
     },
     {
-      "folder": "sumatrapdf",
-      "name": "SumatraPDF",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
       "folder": "telegram",
       "name": "Telegram Desktop",
       "category": "app",
