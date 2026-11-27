@@ -1,5 +1,5 @@
 {
-  "kind": "widgets",
+  "kind": "app",
   "platform": "linux",
   "install": [
     "apt-get install -y --no-install-recommends gtk-3-examples marco mate-desktop-common mate-settings-daemon-common"

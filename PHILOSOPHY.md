@@ -192,7 +192,7 @@ See [ADR 0007](docs/adr/0007-wallpapers-are-found-images-chosen-by-taste.md).
 - **No inventing colors in a port.** If a port truly needs a new one, it goes into the palette and becomes available to every port.
 - **No single-variant ports.** Ship Day and Night together. If an app only supports one mode, say so in the README.
 - **No pure black and no pure white.** Nothing here should glare.
-- **No decoration.** No text glow, no gradients on text.
+- **No decoration in a hand-installed theme.** No text glow and no gradients on text, anywhere. Ornaments go only where the build packages and installs the theme whole (a VS Code extension, say) and on the preview site. A theme the user copies into place by hand gets none. See [ADR 0010](docs/adr/0010-ornaments-only-in-packaged-themes.md).
 - **No color as the only signal** where the app gives you a second one (icon, label, shape).
 
 ## Learn from other themes
@@ -239,3 +239,4 @@ Every palette change rebuilds every port. CI fails if any committed output does 
 - **Wallpapers.** Found images, chosen by taste. See [ADR 0007](docs/adr/0007-wallpapers-are-found-images-chosen-by-taste.md).
 - **Port icons.** Single-color, colored by the page. See [ADR 0008](docs/adr/0008-port-icons-are-single-color.md).
 - **Search matches.** A steel wash for every match, firelight for the one at the cursor. See [ADR 0009](docs/adr/0009-matches-are-steel-the-current-match-is-firelight.md).
+- **Ornaments.** Only in packaged themes and on the preview site, never in a hand-installed one. See [ADR 0010](docs/adr/0010-ornaments-only-in-packaged-themes.md).

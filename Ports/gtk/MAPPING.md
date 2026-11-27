@@ -60,7 +60,7 @@ Each stylesheet names every palette color once, in `@define-color` lines at the 
 
 ## Screenshot recipe
 
-- The scene kind is `widgets`: the toolkit's own widget gallery (`gtk3-widget-factory`), which brings its content, so the scene folder is empty. The kind was added for this port.
+- The scene kind is `app`: the toolkit's own widget gallery (`gtk3-widget-factory`) brings its content, so the port has no scene folder.
 - No login or license: the widget factory ships with GTK (`gtk-3-examples`, LGPL).
 - The recipe stands in for the README's MATE steps: it writes `gtk-theme-name` to `~/.config/gtk-3.0/settings.ini` (the README's "any other desktop" step) and sets Marco's theme with `gsettings set org.mate.Marco.general theme`, which is what the **Window Border** tab writes. Not tested by hand.
 - `marco --replace` takes over from the Photographer's Metacity, so the border is drawn by MATE's own window manager. Marco's compositor is off, because the Photographer runs picom.

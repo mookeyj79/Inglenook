@@ -1,0 +1,22 @@
+{
+  "kind": "document",
+  "platform": "windows",
+  "version": "3.6.1",
+  "install": [
+    "Invoke-WebRequest \"https://www.sumatrapdfreader.org/dl/rel/$env:INGLENOOK_VERSION/SumatraPDF-${env:INGLENOOK_VERSION}-64.zip\" -OutFile \"$env:TEMP/sumatrapdf.zip\"",
+    "if ((Get-FileHash \"$env:TEMP/sumatrapdf.zip\" -Algorithm SHA256).Hash -ne '98b33a518d42986856d225064b0cd2d3643ecf78cbf84ab873d26cc51877a544') { throw 'The SumatraPDF ZIP does not match its pinned sha256.' }",
+    "Expand-Archive \"$env:TEMP/sumatrapdf.zip\" \"$env:LOCALAPPDATA/Programs/SumatraPDF\" -Force"
+  ],
+  "apply": [
+    "Get-Content \"$env:INGLENOOK_PORT/dist/$env:INGLENOOK_VARIANT/sumatrapdf-$env:INGLENOOK_VARIANT.txt\" | Set-Content \"$env:LOCALAPPDATA/Programs/SumatraPDF/SumatraPDF-settings.txt\""
+  ],
+  "stage": [
+    "Add-Content \"$env:LOCALAPPDATA/Programs/SumatraPDF/SumatraPDF-settings.txt\" 'CheckForUpdates = false', 'RememberOpenedFiles = false', 'RestoreSession = false', 'DefaultDisplayMode = single page', 'DefaultZoom = fit page', 'ShowToc = true', 'SidebarDx = 220', 'WindowState = 1', 'WindowPos = 0 0 1200 760'"
+  ],
+  "launch": [
+    "Start-Process \"$env:LOCALAPPDATA/Programs/SumatraPDF/SumatraPDF-$env:INGLENOOK_VERSION-64.exe\" -ArgumentList '-search', 'kindling', ('\"{0}\"' -f \"$env:INGLENOOK_SCENE/fire.pdf\")"
+  ],
+  "window": {
+    "class": "SUMATRA_PDF_FRAME"
+  }
+}

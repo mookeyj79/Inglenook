@@ -1,0 +1,24 @@
+{
+  "kind": "app",
+  "platform": "linux",
+  "version": "5.3.1",
+  "install": [
+    "curl -fsSL --retry 5 --retry-all-errors -o /tmp/qbittorrent.AppImage \"https://github.com/qbittorrent/qBittorrent/releases/download/release-$INGLENOOK_VERSION/qbittorrent-${INGLENOOK_VERSION}_x86_64.AppImage\"",
+    "echo '4e1e70359f24b4accfba91dbd0d2bc5e5ce957d4ecb8fee8249adf942b436eda  /tmp/qbittorrent.AppImage' | sha256sum -c -",
+    "chmod 755 /tmp/qbittorrent.AppImage && cd /opt && /tmp/qbittorrent.AppImage --appimage-extract >/dev/null && mv squashfs-root qbittorrent && chmod -R a+rX qbittorrent && printf '#!/bin/sh\\nexec /opt/qbittorrent/AppRun \"$@\"\\n' > /usr/local/bin/qbittorrent && chmod 755 /usr/local/bin/qbittorrent && rm /tmp/qbittorrent.AppImage"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/qBittorrent/themes",
+    "cp -r \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT\" ~/.config/qBittorrent/themes/inglenook-$INGLENOOK_VARIANT",
+    "printf '[Preferences]\\nGeneral\\\\UseCustomUITheme=true\\nGeneral\\\\CustomUIThemePath=%s\\n\\n[Appearance]\\nStyle=Fusion\\n' \"$HOME/.config/qBittorrent/themes/inglenook-$INGLENOOK_VARIANT/config.json\" > ~/.config/qBittorrent/qBittorrent.conf"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/qbittorrent/stage.sh\""
+  ],
+  "launch": [
+    "bash \"$INGLENOOK_SCENE/qbittorrent/run.sh\""
+  ],
+  "window": {
+    "class": "qBittorrent"
+  }
+}

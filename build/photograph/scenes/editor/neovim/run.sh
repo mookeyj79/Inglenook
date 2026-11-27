@@ -5,7 +5,7 @@
 # error and the selection in place. Fixed content, never live, and no colors: the port's
 # colorscheme, loaded from ~/.config/nvim/init.lua, decides every color.
 # The recipe's stage writes it as the editor command:
-#   printf 'bash %q\n' "$INGLENOOK_SCENE/neovim-scene/run.sh" > ~/.inglenook-editor
+#   printf 'bash %q\n' "$INGLENOOK_SCENE/neovim/run.sh" > ~/.inglenook-editor
 set -euo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd ~/Inglenook
