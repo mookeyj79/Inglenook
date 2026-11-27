@@ -16,8 +16,7 @@
 set -euo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 profile=org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d "'")/
-gsettings set "$profile" use-system-font false
-gsettings set "$profile" font 'BlexMono Nerd Font Mono 11'
+bash "$here/../font.sh"
 gsettings set "$profile" cursor-blink-mode off
 gsettings set "$profile" default-size-columns 110
 gsettings set "$profile" default-size-rows 30
