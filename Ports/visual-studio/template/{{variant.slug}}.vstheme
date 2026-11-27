@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- {{variant.name}} for Visual Studio, palette {{meta.version}}. {{meta.repository}} -->
+<!-- The list of themed colors is adapted from Catppuccin for Visual Studio (https://github.com/catppuccin/visual-studio), MIT License, Copyright (c) 2021 Catppuccin. See LICENSE-catppuccin. -->
 <Themes>
   <Theme Name="{{variant.name}}" GUID="{{port.theme_guid}}" BaseGUID="{{port.base_guid}}" FallbackId="{{port.base_guid}}">
     <Category Name="ACDCOverview" GUID="{c8887ac6-3c60-4209-9d69-8f4c12a60044}">

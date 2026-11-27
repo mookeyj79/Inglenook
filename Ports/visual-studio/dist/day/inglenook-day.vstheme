@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Inglenook Day for Visual Studio, palette 0.1.0. https://github.com/mookeyj79/Inglenook -->
+<!-- The list of themed colors is adapted from Catppuccin for Visual Studio (https://github.com/catppuccin/visual-studio), MIT License, Copyright (c) 2021 Catppuccin. See LICENSE-catppuccin. -->
 <Themes>
   <Theme Name="Inglenook Day" GUID="{4d39e768-9a42-4f07-9fb9-a0fdbd8a3ef1}" BaseGUID="{de3dbbcd-f642-433c-8353-8f1df4370aba}" FallbackId="{de3dbbcd-f642-433c-8353-8f1df4370aba}">
     <Category Name="ACDCOverview" GUID="{c8887ac6-3c60-4209-9d69-8f4c12a60044}">

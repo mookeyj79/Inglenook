@@ -37,8 +37,8 @@ msbuild -restore -p:Configuration=Release inglenook-day.csproj
 
 Files to use:
 
-- Inglenook Day: `dist/day/` (`inglenook-day.vstheme`, `inglenook-day.csproj`, `source.extension.vsixmanifest`, `Properties/AssemblyInfo.cs`, `LICENSE`)
-- Inglenook Night: `dist/night/` (`inglenook-night.vstheme`, `inglenook-night.csproj`, `source.extension.vsixmanifest`, `Properties/AssemblyInfo.cs`, `LICENSE`)
+- Inglenook Day: `dist/day/` (`inglenook-day.vstheme`, `inglenook-day.csproj`, `source.extension.vsixmanifest`, `Properties/AssemblyInfo.cs`, `LICENSE`, `LICENSE-catppuccin`)
+- Inglenook Night: `dist/night/` (`inglenook-night.vstheme`, `inglenook-night.csproj`, `source.extension.vsixmanifest`, `Properties/AssemblyInfo.cs`, `LICENSE`, `LICENSE-catppuccin`)
 
 ## Set the font
 
@@ -82,4 +82,4 @@ The title bar, menus, and tool windows turn to the theme's warm neutrals, and in
 - [Modernize Visual Studio theme colors](https://learn.microsoft.com/visualstudio/extensibility/migration/modernize-theme-colors): the Visual Studio 2026 color set and fallback themes
 - [Customize your Visual Studio IDE settings](https://learn.microsoft.com/visualstudio/ide/personalizing-the-visual-studio-ide): choosing a theme and the font
 - [Find and manage extension packages](https://learn.microsoft.com/visualstudio/ide/finding-and-using-visual-studio-extensions): installing a `.vsix` and uninstalling it
-- The extension project and the list of themed colors are adapted from [Catppuccin for Visual Studio](https://github.com/catppuccin/visual-studio), MIT License, Copyright (c) 2021 Catppuccin. Every color is Inglenook's own.
+- The extension project and the list of themed colors are adapted from [Catppuccin for Visual Studio](https://github.com/catppuccin/visual-studio), [MIT License](https://github.com/catppuccin/visual-studio/blob/main/LICENSE), Copyright (c) 2021 Catppuccin. Every color is Inglenook's own. Its license notice ships in each extension as `LICENSE-catppuccin`.
