@@ -124,10 +124,10 @@ If you used the folder install, close VS Code and delete the two `inglenook.ingl
 
 ## Known limits
 
-- **Selected text keeps its syntax colors.** The selection is a soft amber tint, not a solid block with plain text.
+- **Selected text keeps its syntax colors.** The selection is a soft tint, not a solid block with plain text.
 - **Overlapping highlights hide each other.** Where a search match, a highlighted word, or the current line meets the selection, the one on top covers the one below instead of blending with it.
-- **Changed characters inside a diff line** get a thin green or red outline, not a stronger highlight.
-- **Rainbow brackets are off.** All brackets are the same soft gray. To turn bracket colors off entirely, set `"editor.bracketPairColorization.enabled": false`.
+- **Changed characters inside a diff line** get a thin outline, not a stronger highlight.
+- **Rainbow brackets are off.** All brackets are the same quiet color. To turn bracket colors off entirely, set `"editor.bracketPairColorization.enabled": false`.
 - **Buttons do not change color on hover.**
 - **Shadows** under popups and menus are VS Code's default shadow.
 - **Some newer or rarely seen parts**, such as the notebook editor, chat, and the welcome page, use VS Code's own Light Modern or Dark Modern colors.

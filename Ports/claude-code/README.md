@@ -82,7 +82,7 @@ Claude Code cannot follow your OS light or dark setting with a custom theme. Its
 ## Known limits
 
 - **Code colors are not themeable.** Code blocks, diffs, and file previews use Claude Code's built-in highlighter, which custom themes cannot reach. To drop its colors, set `"syntaxHighlightingDisabled": true` in `~/.claude/settings.json`.
-- **Inline code keeps Claude Code's own color**, a lavender in Night and a blue-violet in Day.
+- **Inline code keeps Claude Code's own color.**
 - **Diff and message backgrounds need an Inglenook terminal.** On another background they look off.
 - **No word-level diff emphasis.** The changed words in a line are tinted the same as the rest of the line.
 - **No shimmer and no rainbow.** Spinner shimmers and the `ultrathink` rainbow are one color each.

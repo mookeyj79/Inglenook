@@ -43,16 +43,7 @@ hexyl reads its colors from environment variables. The theme is a file that sets
 
 **Nowhere users**: put the same line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads those last.
 
-**Setting the variables another way**: these are the values for Inglenook Day. The Night values are in [`dist/night/hexyl.sh`](dist/night/hexyl.sh).
-
-```sh
-HEXYL_COLOR_OFFSET='#657178'
-HEXYL_COLOR_NULL='#657178'
-HEXYL_COLOR_ASCII_PRINTABLE='#407135'
-HEXYL_COLOR_ASCII_WHITESPACE='#49545d'
-HEXYL_COLOR_ASCII_OTHER='#915023'
-HEXYL_COLOR_NONASCII='#844b80'
-```
+**Setting the variables another way**: copy the `HEXYL_COLOR_*` lines from [`dist/day/hexyl.sh`](dist/day/hexyl.sh) for Inglenook Day or [`dist/night/hexyl.sh`](dist/night/hexyl.sh) for Inglenook Night.
 
 ## Set the font
 

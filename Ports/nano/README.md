@@ -61,7 +61,7 @@ nano cannot follow the system's light or dark setting.
 - nano shows only the terminal's 16 colors, so its colors are approximate: they match Inglenook only in a terminal set to Inglenook.
 - nano cannot set the background. It is the terminal's.
 - Syntax highlighting keeps nano's own color choices for each language, drawn in your terminal's colors.
-- Selected text is a solid block, not a soft tint: the terminal has no amber color. Search matches are a solid blue block.
+- Selected text and search matches are solid blocks, not soft tints.
 - The Windows build of nano that winget installs is too old for these settings.
 
 ## Sources

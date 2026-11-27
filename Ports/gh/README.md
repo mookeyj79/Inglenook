@@ -90,7 +90,7 @@ gh cannot follow the system light or dark setting while `GLAMOUR_STYLE` is set.
 - Only Markdown is themed. gh's own lines around it (titles, issue states, the "View this on GitHub" line, tables from `gh issue list`) take the terminal's colors.
 - Label colors in `gh issue view` and `gh pr view` come from the labels on GitHub.
 - List bullets, numbers, check boxes and table borders take the color of the text around them.
-- Code blocks that name a language keep their syntax colors, but gh draws them with the nearest of 256 terminal colors, not the exact theme colors, and a theme cannot change that. Most tokens stay close; strings in Day come out gray rather than green.
+- Code blocks that name a language keep their syntax colors, but gh draws them with the nearest of 256 terminal colors, not the exact theme colors, and a theme cannot change that. Most tokens stay close, but strings in Day come out noticeably off.
 - Code blocks have no background of their own: they sit on the terminal's background.
 - The setting is shared: other tools that read `GLAMOUR_STYLE` use the same style.
 
