@@ -77,7 +77,7 @@ In Dark Mode, Notepad++ draws its menu bar, toolbar, and panels in its own dark 
 ## Known limits
 
 - **The menu bar, toolbar, status bar, and dialogs** keep the Windows look in Light Mode, and the Notepad++ dark tone in Dark Mode. A theme cannot color them.
-- **Search marks** are drawn see-through over the text by Notepad++, so they look a little lighter than the color the theme gives them.
+- **The selection and search marks** are drawn see-through over the text by Notepad++, so they look softer than the colors the theme gives them.
 - **Some languages** have no syntax colors of their own: assembly, Fortran, LaTeX, Perl, R, and other less common ones show in the plain text color. The themes cover C, C++, C#, Java, JavaScript, TypeScript, Go, Rust, Python, Ruby, PHP, Lua, PowerShell, Bash, batch files, SQL, HTML, XML, CSS, JSON, YAML, TOML, INI and properties files, makefiles, diffs, and the search results panel.
 - **Selected text** keeps its syntax colors. Notepad++ ignores a theme's color for selected text unless you turn that on yourself.
 - **Your own language definitions** (User Defined Languages) keep their own colors.
