@@ -221,17 +221,6 @@
       ]
     },
     {
-      "folder": "k9s",
-      "name": "K9s",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "kicad",
       "name": "KiCad",
       "category": "app",

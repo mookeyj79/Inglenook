@@ -1,0 +1,5 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "manual": "K9s shows its themed views only while connected to a running Kubernetes cluster, which the Photographer's unprivileged container cannot host."
+}
