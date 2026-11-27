@@ -1,0 +1,25 @@
+{
+  "kind": "chat",
+  "platform": "linux",
+  "version": "2026.9",
+  "install": [
+    "curl -fsSL -o /tmp/halloy.tar.gz \"https://github.com/squidowl/halloy/releases/download/$INGLENOOK_VERSION/halloy-$INGLENOOK_VERSION-x86_64-linux.tar.gz\" && echo '28e61165110adb566d7143419954227ec07f9e0295ee675e17f59dea97faadad  /tmp/halloy.tar.gz' | sha256sum -c - && tar -xzf /tmp/halloy.tar.gz -C /usr/local ./bin/halloy && chmod 755 /usr/local/bin/halloy && rm /tmp/halloy.tar.gz",
+    "apt-get install -y --no-install-recommends python3 fonts-ibm-plex libvulkan1 mesa-vulkan-drivers libegl1 libgl1-mesa-dri libxkbcommon-x11-0 libasound2t64"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/halloy/themes",
+    "cp \"$INGLENOOK_PORT/dist/day/inglenook-day.toml\" \"$INGLENOOK_PORT/dist/night/inglenook-night.toml\" ~/.config/halloy/themes/",
+    "printf 'theme = \"inglenook-%s\"\\n\\n' \"$INGLENOOK_VARIANT\" > ~/.config/halloy/config.toml",
+    "cat \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/nicknames.toml\" >> ~/.config/halloy/config.toml"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/halloy/stage.sh\""
+  ],
+  "launch": [
+    "bash \"$INGLENOOK_SCENE/halloy/launch.sh\"",
+    "bash \"$INGLENOOK_SCENE/halloy/open.sh\""
+  ],
+  "window": {
+    "class": "halloy"
+  }
+}

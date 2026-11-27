@@ -127,17 +127,6 @@
       ]
     },
     {
-      "folder": "halloy",
-      "name": "Halloy",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "heroic",
       "name": "Heroic Games Launcher",
       "category": "app",
