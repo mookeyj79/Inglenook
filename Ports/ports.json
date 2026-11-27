@@ -261,17 +261,6 @@
       ]
     },
     {
-      "folder": "obs-studio",
-      "name": "OBS Studio",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "obsidian",
       "name": "Obsidian",
       "category": "writing",

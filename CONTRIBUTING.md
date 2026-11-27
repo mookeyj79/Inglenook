@@ -134,7 +134,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    }
    ```
 
-   - `kind` is the scene kind: `terminal`, `prompt`, `cli`, `editor`, `icon-theme`, `document`, `desktop`, or `web`. Its staged content is in `build/photograph/scenes/<kind>/`. If none fits, open an issue before adding one.
+   - `kind` is the scene kind: `terminal`, `prompt`, `cli`, `editor`, `icon-theme`, `document`, `desktop`, `web`, or `app` (a desktop app window). Its staged content is in `build/photograph/scenes/<kind>/`. If none fits, open an issue before adding one.
    - `platform` is `linux` if the app runs there, else `windows`, else `macos`. A Windows recipe's steps are PowerShell lines.
    - `install` runs as root when the image is built; `apply`, `stage`, and `launch` run for each variant as an ordinary user, from the repo root. Steps see `INGLENOOK_VARIANT` (`day` or `night`), `INGLENOOK_PORT` (the port's folder), `INGLENOOK_SCENE` (the scene's folder), and `INGLENOOK_VERSION`.
    - `apply` is your README's install steps. `stage` never changes a color, and turns off self-update and first-run dialogs.
