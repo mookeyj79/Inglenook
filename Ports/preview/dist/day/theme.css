@@ -1,5 +1,5 @@
 /* Inglenook Day for the preview site. Generated from palette/palette.json.
-   Any element with data-variant="day" takes these colors, so a page can show both variants side by side. */
+   Any element with data-variant="day" takes these colors, so the switch repaints a page in place. */
 [data-variant="day"] {
   color-scheme: light;
   --deeper: #e0e2dc;

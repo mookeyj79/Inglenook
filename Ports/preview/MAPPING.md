@@ -6,7 +6,7 @@ The preview is not an app port. It is unlisted in `Ports/ports.json`, so it has 
 
 ## How both variants share a page
 
-`template/theme.css` sets every palette color as a CSS variable on `[data-variant="<key>"]`. Every page loads both variants' `theme.css`, so any element with `data-variant` takes that variant's colors. The demos on the index page carry their own `data-variant`, so they always show Day and Night side by side. The page frame follows the switch (`variant.js`).
+`template/theme.css` sets every palette color as a CSS variable on `[data-variant="<key>"]`. Every page loads both variants' `theme.css`, so any element with `data-variant` takes that variant's colors. The demos on the index page carry their own `data-variant`, and the page hides the ones that don't match the chosen variant, so the switch (`variant.js`) swaps the whole page.
 
 ## Color mapping
 

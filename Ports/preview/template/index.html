@@ -23,7 +23,8 @@ h2 { font: 600 1.4rem/1.2 var(--font-display); margin: 0; }
 h3 { font: 600 1.1rem var(--font-display); margin: 0 0 6px; }
 h4 { font: 500 .75rem var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 14px 0 6px; }
 
-/* Both variants side by side. Each side carries its own data-variant. */
+/* Each demo carries its own data-variant; only the chosen variant's shows. */
+html[data-variant="day"] body [data-variant="night"], html[data-variant="night"] body [data-variant="day"] { display: none; }
 .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 16px; }
 @media (max-width: 540px) { .pair { grid-template-columns: 1fr; } }
 .side { background: var(--base); color: var(--text); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
@@ -121,7 +122,7 @@ footer p + p { margin-top: 4px; }
   <section class="panel intro" aria-labelledby="title">
     <h1 id="title">{{meta.name}}</h1>
     <p>A cozy, soothing color theme: technology meets simple life charm. Two equal variants. Day is a cabin room in natural light, with plants on the sill. Night is a Victorian library by the fire. Both are easy on the eyes, with calm, evenly matched colors and one warm accent, firelight, that marks where you are.</p>
-    <p>Everything below is live HTML in both variants, colored from the same palette as every port. The switch at the top changes this page's frame; the demos always show Day and Night side by side.</p>
+    <p>Everything below is live HTML, colored from the same palette as every port. The switch at the top changes the whole page between Day and Night.</p>
     <p class="links"><a href="ports.html">Browse the ports</a> <a href="{{meta.repository}}">Source on GitHub</a> <a href="{{meta.repository}}/blob/main/PHILOSOPHY.md">Design rules</a></p>
   </section>
 
@@ -315,7 +316,7 @@ footer p + p { margin-top: 4px; }
     <h2 id="roles-title">Roles</h2>
     <p>Ports pick a role or a named color, never a value. Each role has one meaning in every app. Oxblood and ivy are detail colors for badges and small accents, with no role.</p>
     <div class="scroll"><table>
-      <thead><tr><th>Role</th><th>Means</th><th>Day</th><th>Night</th></tr></thead>
+      <thead><tr><th>Role</th><th>Means</th><th data-variant="day">Day</th><th data-variant="night">Night</th></tr></thead>
       <tbody>
           <tr><th scope="row"><code>accent</code></th><td>You are here: focus, cursor, selection, links, primary buttons</td><td data-variant="day" class="cell" style="color: var(--accent)"><span class="to" style="--t: var(--to-accent)"></span></td><td data-variant="night" class="cell" style="color: var(--accent)"><span class="to" style="--t: var(--to-accent)"></span></td></tr>
           <tr><th scope="row"><code>error</code></th><td>Failure, removal</td><td data-variant="day" class="cell" style="color: var(--error)"><span class="to" style="--t: var(--to-error)"></span></td><td data-variant="night" class="cell" style="color: var(--error)"><span class="to" style="--t: var(--to-error)"></span></td></tr>
@@ -336,7 +337,7 @@ footer p + p { margin-top: 4px; }
     <h2 id="syntax-title">Syntax</h2>
     <p>Every editor and highlighter port colors code the same way. A token that does not fit takes the closest row.</p>
     <div class="scroll"><table>
-      <thead><tr><th>Token</th><th>Color</th><th>Day</th><th>Night</th></tr></thead>
+      <thead><tr><th>Token</th><th>Color</th><th data-variant="day">Day</th><th data-variant="night">Night</th></tr></thead>
       <tbody>
           <tr><th scope="row">Keys, properties, functions</th><td><code>info</code></td><td data-variant="day" class="cell" style=""><code class="f">steep()</code></td><td data-variant="night" class="cell" style=""><code class="f">steep()</code></td></tr>
           <tr><th scope="row">Strings</th><td><code>success</code></td><td data-variant="day" class="cell" style=""><code class="s">"copper"</code></td><td data-variant="night" class="cell" style=""><code class="s">"copper"</code></td></tr>
