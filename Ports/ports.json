@@ -89,17 +89,6 @@
   ],
   "planned": [
     {
-      "folder": "bash",
-      "name": "Bash",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "cinnamon",
       "name": "Cinnamon",
       "category": "system",
