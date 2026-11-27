@@ -109,17 +109,6 @@
       ]
     },
     {
-      "folder": "dopamine",
-      "name": "Dopamine",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
