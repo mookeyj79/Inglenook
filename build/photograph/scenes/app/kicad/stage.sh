@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KiCad's part of the document scene, run from its recipe's stage steps. It copies
+# KiCad's part of the app scene, run from its recipe's stage steps. It copies
 # the pic_programmer demo board that the kicad-demos package ships (GPL-2+, from
 # the KiCad developers) to a folder the user can write to, answers KiCad's
 # first-run questions with files, and gives the PCB Editor a fixed window size.

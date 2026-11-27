@@ -1,5 +1,5 @@
 {
-  "kind": "document",
+  "kind": "app",
   "platform": "linux",
   "version": "7.0.11+dfsg-1build4",
   "install": [
