@@ -1,0 +1,23 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "version": "29.10.1",
+  "install": [
+    "apt-get install -y --no-install-recommends gnome-terminal"
+  ],
+  "apply": [
+    "bash \"$INGLENOOK_PORT/../gnome-terminal/dist/$INGLENOOK_VARIANT/install.sh\" --default",
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/docker.sh\" ~/.config/inglenook/docker.sh",
+    "echo \"source ~/.config/inglenook/docker.sh\" >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/docker/stage.sh\""
+  ],
+  "launch": [
+    "gnome-terminal -- bash \"$INGLENOOK_SCENE/run.sh\""
+  ],
+  "window": {
+    "class": "gnome-terminal-server"
+  }
+}

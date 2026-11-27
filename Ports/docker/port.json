@@ -1,0 +1,10 @@
+{
+  "name": "Docker build output",
+  "category": "cli",
+  "tier": 3,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}
