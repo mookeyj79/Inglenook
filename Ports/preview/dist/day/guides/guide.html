@@ -57,6 +57,8 @@ main {
 .guide th { font-weight: 500; background: var(--deep); }
 .guide img { max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); }
 .guide img.zoomable { cursor: zoom-in; }
+/* The screenshot of the variant the page shows; the other one is hidden. */
+[data-variant="day"] .guide img[data-shot="night"], [data-variant="night"] .guide img[data-shot="day"] { display: none; }
 .guide img.zoomable:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* A screenshot at full size: the whole window, solid, the image at its own pixels.
