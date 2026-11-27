@@ -70,7 +70,7 @@ Tier 2. Most of the palette, with gaps the app imposes.
 Tier 3. Background, accent, and status colors only.
 
 **Port icon**:
-The single-color mark on a port's card on the ports page, colored by the page. A brand mark or a glyph. The monogram stands in when there is none.
+The single-color mark on a port's card on the ports page, colored by the page. A brand mark or a glyph. A port without one shows its category's icon, a glyph; the monogram stands in only when an icon fails to load.
 _Avoid_: Logo, favicon
 
 **Preview site**:

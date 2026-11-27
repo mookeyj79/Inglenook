@@ -10,6 +10,80 @@
     "system": "Operating systems",
     "other": "Other"
   },
+  "categoryIcons": {
+    "terminal": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "terminal",
+      "author": "Cole Bemis (Feather), Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/terminal",
+      "license": "MIT"
+    },
+    "shell": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "dollar-sign",
+      "author": "Cole Bemis (Feather), Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/dollar-sign",
+      "license": "MIT"
+    },
+    "cli": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "wrench",
+      "author": "Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/wrench",
+      "license": "ISC"
+    },
+    "editor": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "file-code",
+      "author": "Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/file-code",
+      "license": "ISC"
+    },
+    "writing": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "notebook-pen",
+      "author": "Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/notebook-pen",
+      "license": "ISC"
+    },
+    "app": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "app-window",
+      "author": "Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/app-window",
+      "license": "ISC"
+    },
+    "web": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "globe",
+      "author": "Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/globe",
+      "license": "ISC"
+    },
+    "system": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "monitor",
+      "author": "Cole Bemis (Feather), Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/monitor",
+      "license": "MIT"
+    },
+    "other": {
+      "kind": "glyph",
+      "set": "Lucide 1.72.0",
+      "name": "shapes",
+      "author": "Lucide Icons and Contributors",
+      "source": "https://lucide.dev/icons/shapes",
+      "license": "ISC"
+    }
+  },
   "unlisted": [
     "preview"
   ],

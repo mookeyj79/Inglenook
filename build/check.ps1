@@ -16,7 +16,9 @@
                      unlisted), and planned ports in Ports/ports.json do not
                      exist yet. A port's icon.svg and the "icon" credit in its
                      port.json come together, and the icon is plain shapes in
-                     currentColor on a 24 x 24 viewBox (ADR 0008).
+                     currentColor on a 24 x 24 viewBox (ADR 0008). Every
+                     category has a glyph in Ports/categories/<id>.svg,
+                     credited under "categoryIcons" in Ports/ports.json.
     6. Recipes       Every port has a screenshot.json, or a shots.json instead
                      (the preview), not both. A recipe has only the recipe
                      fields, valid steps and window, and a host on the same
@@ -124,6 +126,7 @@ Invoke-Section 'Structure' { foreach ($e in $catalog.StructureErrors) { Add-Fail
 
 Invoke-Section 'Port list' {
     foreach ($e in $catalog.Errors) { Add-Failure $(if ($e -like 'Icon: *') { $e } else { "Port list: $e" }) }
+    foreach ($e in $catalog.CategoryIconErrors) { Add-Failure $e }
 }
 
 # --- 6. Recipes ---------------------------------------------------------------

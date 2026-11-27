@@ -199,15 +199,18 @@ footer p + p { margin-top: 4px; }
     const words = p.name.split(/[\s-]+/).filter(Boolean);
     return (words.length > 1 ? words[0][0] + words[1][0] : p.name.slice(0, 2)).toUpperCase();
   }
+  // A port without an icon of its own shows its category's icon.
+  function iconOf(p) { return p.icon || (data.categoryIcons || {})[p.category] || null; }
   // The monogram shows until the icon loads, and stays if it does not.
   function badge(p) {
     const b = el("div", "mono", monogram(p));
     b.setAttribute("aria-hidden", "true");
-    if (p.icon) {
-      const url = app.dataset.root + p.icon.path;
+    const icon = iconOf(p);
+    if (icon) {
+      const url = app.dataset.root + icon.path;
       const probe = new Image();
       probe.onload = function () {
-        const i = el("span", "icon" + (p.icon.kind === "brand" ? " is-brand" : ""));
+        const i = el("span", "icon" + (icon.kind === "brand" ? " is-brand" : ""));
         i.style.setProperty("--icon", 'url("' + url + '")');
         b.replaceChildren(i);
       };
@@ -217,13 +220,14 @@ footer p + p { margin-top: 4px; }
   }
   function iconCredits() {
     const seen = {};
-    data.ports.forEach(function (p) {
-      if (p.icon) seen[p.icon.set + " by " + p.icon.author + " (" + p.icon.license + ")"] = true;
+    data.ports.concat(data.planned).forEach(function (p) {
+      const icon = iconOf(p);
+      if (icon) seen[icon.set + " by " + icon.author + " (" + icon.license + ")"] = true;
     });
     const list = Object.keys(seen).sort();
     if (!list.length) return;
     const node = document.getElementById("icon-credits");
-    node.textContent = "Icons: " + list.join(", ") + ". Brand marks belong to their owners. Each port's port.json records its icon's source.";
+    node.textContent = "Icons: " + list.join(", ") + ". Brand marks belong to their owners. Each port's port.json, and Ports/ports.json for the category icons, records the source.";
     node.hidden = false;
   }
   function categoryName(id) { return data.categories[id] || id; }

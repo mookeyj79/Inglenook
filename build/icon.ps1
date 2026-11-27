@@ -34,6 +34,11 @@
 .PARAMETER Glyph
     A Lucide icon name, from -Search.
 
+.PARAMETER Category
+    A category id from Ports/ports.json. With -Glyph, writes that category's
+    icon, Ports/categories/<Category>.svg, which the cards of ports without an
+    icon of their own show. Category icons are glyphs only.
+
 .EXAMPLE
     pwsh build/icon.ps1 -Search starship
 
@@ -42,6 +47,9 @@
 
 .EXAMPLE
     pwsh build/icon.ps1 -Port windows-terminal -Glyph square-terminal
+
+.EXAMPLE
+    pwsh build/icon.ps1 -Category editor -Glyph file-code
 #>
 [CmdletBinding(DefaultParameterSetName = 'Search')]
 param(
@@ -59,7 +67,11 @@ param(
     [string]$Mark,
 
     [Parameter(Mandatory, ParameterSetName = 'Glyph')]
-    [string]$Glyph
+    [Parameter(Mandatory, ParameterSetName = 'Category')]
+    [string]$Glyph,
+
+    [Parameter(Mandatory, ParameterSetName = 'Category')]
+    [string]$Category
 )
 
 Set-StrictMode -Version Latest
@@ -161,8 +173,20 @@ if ($PSCmdlet.ParameterSetName -eq 'Search') {
 
 # --- Fetch ----------------------------------------------------------------------
 
-$portDir = Join-Path $RepoRoot 'Ports' $Port
-if (-not (Test-Path (Join-Path $portDir 'port.json'))) { throw "Ports/$Port/port.json does not exist." }
+if ($PSCmdlet.ParameterSetName -eq 'Category') {
+    $index = Get-Content -Raw (Join-Path $RepoRoot 'Ports' 'ports.json') | ConvertFrom-Json -AsHashtable
+    if (-not $index['categories'].Contains($Category)) { throw "'$Category' is not a category in Ports/ports.json: $(@($index['categories'].Keys) -join ', ')." }
+    $outDir = Join-Path $RepoRoot 'Ports' 'categories'
+    if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir | Out-Null }
+    $outFile = Join-Path $outDir "$Category.svg"
+    $outRel = "Ports/categories/$Category.svg"
+}
+else {
+    $portDir = Join-Path $RepoRoot 'Ports' $Port
+    if (-not (Test-Path (Join-Path $portDir 'port.json'))) { throw "Ports/$Port/port.json does not exist." }
+    $outFile = Join-Path $portDir 'icon.svg'
+    $outRel = "Ports/$Port/icon.svg"
+}
 
 if ($PSCmdlet.ParameterSetName -eq 'Brand') {
     if ($Mark -notmatch '^https://\S+$') { throw '-Mark must be an https URL.' }
@@ -232,10 +256,16 @@ function Add-Shape([System.Xml.XmlNode]$Node, [int]$Depth) {
 foreach ($child in $src.ChildNodes) { Add-Shape $child 1 }
 [void]$sb.AppendLine('</svg>')
 
-$out = Join-Path $portDir 'icon.svg'
-[System.IO.File]::WriteAllText($out, $sb.ToString(), [System.Text.UTF8Encoding]::new($false))
-Write-Host "Wrote Ports/$Port/icon.svg"
+[System.IO.File]::WriteAllText($outFile, $sb.ToString(), [System.Text.UTF8Encoding]::new($false))
+Write-Host "Wrote $outRel"
 Write-Host ''
-Write-Host "Add this to Ports/$Port/port.json, then run pwsh build/check.ps1:"
-Write-Host ''
-Write-Host ('"icon": ' + (ConvertTo-Json -InputObject $credit -Depth 3))
+if ($PSCmdlet.ParameterSetName -eq 'Category') {
+    Write-Host "Add this under ""categoryIcons"" in Ports/ports.json, then run pwsh build/check.ps1:"
+    Write-Host ''
+    Write-Host ("""$Category"": " + (ConvertTo-Json -InputObject $credit -Depth 3))
+}
+else {
+    Write-Host "Add this to Ports/$Port/port.json, then run pwsh build/check.ps1:"
+    Write-Host ''
+    Write-Host ('"icon": ' + (ConvertTo-Json -InputObject $credit -Depth 3))
+}

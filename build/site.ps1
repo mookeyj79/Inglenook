@@ -9,7 +9,8 @@
 
         what each port's site.json lists under "copy" (the preview port's
         dist/), at its repo path
-        each port's icon.svg, and the wallpapers
+        each port's icon.svg, the category icons (Ports/categories/), and
+        the wallpapers
         each page once, at a short address: a site.json "entries" item
         (/, /ports/) or a guide (/Ports/<port>/). The page picks its variant:
         ?variant=, then the visitor's last choice, then the OS. The old
@@ -59,7 +60,7 @@ $name = [string]$palette.Meta['name']
 $variants = @(Get-VariantKeys)
 
 $catalog = Get-PortCatalog -PortsRoot $PortsRoot -VariantKeys $variants
-$problems = @($catalog.Errors) + @($catalog.StructureErrors)
+$problems = @($catalog.Errors) + @($catalog.StructureErrors) + @($catalog.CategoryIconErrors)
 if ($problems.Count -gt 0) { throw "The port list has problems. Run build/check.ps1.`n" + ($problems -join "`n") }
 $sites = @($catalog.Ports | Where-Object Site)
 if ($sites.Count -ne 1) { throw "Exactly one port needs a site.json; found $($sites.Count)." }
@@ -77,6 +78,9 @@ foreach ($p in $catalog.Ports | Where-Object Icon) {
     New-Item -ItemType Directory -Path $iconOut -Force | Out-Null
     Copy-Item -Path (Join-Path $p.Dir 'icon.svg') -Destination $iconOut
 }
+$categoryOut = Join-Path $Out 'Ports' 'categories'
+New-Item -ItemType Directory -Path $categoryOut -Force | Out-Null
+foreach ($id in $catalog.CategoryIcons.Keys) { Copy-Item -Path (Join-Path $PortsRoot 'categories' "$id.svg") -Destination $categoryOut }
 
 # --- Port list ----------------------------------------------------------------
 

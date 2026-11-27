@@ -617,6 +617,34 @@ Test 'Catalog: icons and site.json' {
     Assert-True ($site -like "*copies 'nothere'*" -and $site -like "*opens 'missing.html'*" -and $site -like "*guide 'guides/missing.html'*") "site.json errors: $site"
 }
 
+Test 'Catalog: every category has a glyph, and the port list carries it' {
+    $glyph = @{ kind = 'glyph'; set = 'Lucide'; name = 'x'; author = 'A'; source = 'https://example.invalid/x'; license = 'ISC' }
+    $root = New-TestPorts @{ categories = [ordered]@{ editor = 'Editors'; cli = 'Tools' }; categoryIcons = @{ editor = $glyph; cli = $glyph }; planned = @() } @{ good = $GoodMeta }
+    $dir = Join-Path $root 'categories'
+    New-Item -ItemType Directory -Path $dir | Out-Null
+    $shape = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v16H4z"/></svg>'
+    foreach ($id in 'editor', 'cli') { Set-Content (Join-Path $dir "$id.svg") $shape }
+    $c = Get-PortCatalog -PortsRoot $root
+    Assert-Equal 0 ($c.Errors.Count + $c.StructureErrors.Count + $c.CategoryIconErrors.Count) "errors: $($c.Errors + $c.StructureErrors + $c.CategoryIconErrors -join '; ')"
+    Assert-Equal @('good') @($c.Ports | ForEach-Object Name) 'Ports/categories/ is not a port'
+    $data = ConvertTo-PortsData $c
+    Assert-Equal 'Ports/categories/editor.svg' $data.categoryIcons['editor'].path 'category icon path'
+    Assert-Equal $null $data.ports[0].icon 'the port has no icon of its own'
+
+    $brand = $glyph.Clone(); $brand.kind = 'brand'; $brand.mark = 'https://example.invalid/m'
+    $index = @{ categories = [ordered]@{ editor = 'Editors'; cli = 'Tools'; web = 'Web' }; categoryIcons = @{ editor = $brand; cli = $glyph; ghost = $glyph }; planned = @() }
+    ConvertTo-Json -InputObject $index -Depth 6 | Set-Content (Join-Path $root 'ports.json')
+    Set-Content (Join-Path $dir 'stray.svg') $shape
+    Remove-Item (Join-Path $dir 'cli.svg')
+    $c = Get-PortCatalog -PortsRoot $root
+    $all = $c.CategoryIconErrors -join "`n"
+    foreach ($want in "category 'editor' needs a glyph", "credits an icon for category 'cli', but there is no Ports/categories/cli.svg",
+                      "category 'web' has no icon", "has 'ghost', which is not a category", 'Ports/categories/stray.svg is not the icon of a category') {
+        Assert-True ($all -like "*$want*") "expected an error like '$want' in:`n$all"
+    }
+    Assert-Equal 0 $c.CategoryIcons.Count 'invalid category icons dropped'
+}
+
 function Set-Recipe([string]$Root, [string]$Name, $Recipe) {
     ConvertTo-Json -InputObject $Recipe -Depth 6 | Set-Content (Join-Path $Root $Name 'screenshot.json')
 }
@@ -950,12 +978,12 @@ Test 'Photographer: the README gets a Day and Night table under its header lines
     $readme = "# Test for App`n`n**Tier:** 2 Flat\`n**Tested with:** Not tested yet`n`nIntro.`n`n## Install`n"
     $out = Add-ShotTable -Readme $readme -DayName 'Test Day' -NightName 'Test Night'
     $want = "# Test for App`n`n**Tier:** 2 Flat\`n**Tested with:** Not tested yet`n`n" +
-        "| Test Day | Test Night |`n|---|---|`n| ![Test Day](screenshots/day.png) | ![Test Night](screenshots/night.png) |`n`n" +
+        "| Day | Night |`n|---|---|`n| ![Test Day](screenshots/day.png) | ![Test Night](screenshots/night.png) |`n`n" +
         "Intro.`n`n## Install`n"
     Assert-Equal $want $out 'table added'
     Assert-Equal $want (Add-ShotTable -Readme $out -DayName 'Test Day' -NightName 'Test Night') 'added once'
     $crlf = $readme -replace "`n", "`r`n"
-    Assert-True ((Add-ShotTable -Readme $crlf -DayName 'D' -NightName 'L') -like "*Not tested yet`r`n`r`n| D | L |`r`n|---|---|`r`n*") 'keeps CRLF'
+    Assert-True ((Add-ShotTable -Readme $crlf -DayName 'D' -NightName 'L') -like "*Not tested yet`r`n`r`n| Day | Night |`r`n|---|---|`r`n*") 'keeps CRLF'
 }
 
 Test 'Photographer: pins become the base image''s build arguments, and loose pins are refused' {
@@ -2090,7 +2118,7 @@ Test 'Entry: photograph.ps1 -Port on a manual recipe stamps the hand-taken shots
     Assert-True (Compare-ShotPixels -Path (Join-Path $dir 'night.png') -Other (New-TestPng (Join-Path $Tmp 'b.png') 2 $ShotB)).Same 'pixels kept'
     $readme = Get-Content -Raw (Join-Path $root 'Ports/paid/README.md')
     $v = (Read-Palette -Path (Join-Path $root 'palette/palette.json')).Variants
-    Assert-True ($readme.Contains("| $($v['day'].Name) | $($v['night'].Name) |") -and $readme.Contains("![$($v['day'].Name)](screenshots/day.png)")) "table:`n$readme"
+    Assert-True ($readme.Contains("| Day | Night |") -and $readme.Contains("![$($v['day'].Name)](screenshots/day.png)")) "table:`n$readme"
     $r = & $run
     Assert-True ($r.Exit -eq 0 -and $r.Text -like '*already stamped*') "again: $($r.Exit)`n$($r.Text)"
     Assert-Equal $readme (Get-Content -Raw (Join-Path $root 'Ports/paid/README.md')) 'table added once'
