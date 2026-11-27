@@ -12,3 +12,11 @@ prototypes/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Python caches from the Photographer's scene scripts
+__pycache__/
+
+# Merge and editor leftovers
+*.orig
+*.rej
+*.swp
