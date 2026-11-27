@@ -1,0 +1,10 @@
+{
+  "name": "Typora",
+  "category": "writing",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}

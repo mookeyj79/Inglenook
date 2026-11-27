@@ -354,17 +354,6 @@
       ]
     },
     {
-      "folder": "typora",
-      "name": "Typora",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "vim",
       "name": "Vim",
       "category": "editor",
