@@ -88,7 +88,7 @@ less cannot follow the system's light or dark setting.
 
 - less shows only the terminal's 16 colors, so its colors are approximate: they match Inglenook only in a terminal set to Inglenook.
 - less cannot set the background. It is the terminal's.
-- Search matches are a solid blue block, not a soft tint, and the match you jumped to looks the same as the others.
+- Search matches are a solid block, not a soft tint, and the match you jumped to looks the same as the others.
 - On Windows, the bold and underline colors also apply to bold and underlined text from other programs, such as `git diff`.
 - Text that a program already colored, such as `git log` output, keeps its own colors.
 

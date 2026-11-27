@@ -25,7 +25,8 @@
                      platform that is not a guest itself. Every port with a
                      recipe has screenshots/day.png and night.png, and the
                      preview every image of its shot list.
-    7. Raw color     No hex, rgb(), or hsl() values in templates or values.json.
+    7. Raw color     No hex, rgb(), or hsl() values in templates, values.json,
+                     or port READMEs.
                      Add "inglenook-ignore" to a line to skip it (for example a
                      CSS id selector that happens to look like a hex color).
     8. Placeholders  Every {{placeholder}} in every template resolves in both
@@ -136,7 +137,7 @@ Invoke-Section 'Recipes' {
     foreach ($e in Get-ShotProblems $catalog) { Add-Failure "Recipes: $e" }
 }
 
-# --- 7. Raw colors in templates -------------------------------------------------
+# --- 7. Raw colors in templates and READMEs -------------------------------------
 
 Invoke-Section 'Raw color' {
     $hexPattern  = '(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b'
@@ -145,6 +146,8 @@ Invoke-Section 'Raw color' {
         $scan = @(Get-ChildItem -Path (Join-Path $port.Dir 'template') -Recurse -File -Force)
         $valuesPath = Join-Path $port.Dir 'values.json'
         if (Test-Path $valuesPath) { $scan += Get-Item -Path $valuesPath }
+        $readmePath = Join-Path $port.Dir 'README.md'
+        if (Test-Path $readmePath) { $scan += Get-Item -Path $readmePath }
         foreach ($file in $scan) {
             $tpl = Read-TemplateFile -Path $file.FullName
             if ($tpl.Binary) { continue }
@@ -155,7 +158,10 @@ Invoke-Section 'Raw color' {
                 if ($line -match 'inglenook-ignore') { continue }
                 foreach ($pattern in $hexPattern, $funcPattern) {
                     $m = [regex]::Match($line, $pattern)
-                    if ($m.Success) { Add-Failure "Raw color: ${rel}:$lineNo contains '$($m.Value)'. Use a palette placeholder, such as {{text}} or {{accent}}." }
+                    if ($m.Success) {
+                        $fix = if ($file.Name -eq 'README.md') { 'Point at the dist/ file instead.' } else { 'Use a palette placeholder, such as {{text}} or {{accent}}.' }
+                        Add-Failure "Raw color: ${rel}:$lineNo contains '$($m.Value)'. $fix"
+                    }
                 }
             }
         }

@@ -64,7 +64,7 @@ zsh-syntax-highlighting has no light or dark setting of its own, so it cannot fo
 ## Known limits
 
 - Bash is not supported: zsh-syntax-highlighting is a Zsh plugin, and Bash has no way to color the command line as you type.
-- The brackets highlighter is off unless you turn it on. When it is on, its five nesting levels each get their own color, and the bracket matching the cursor gets a soft amber background.
+- The brackets highlighter is off unless you turn it on. When it is on, its five nesting levels each get their own color, and the bracket matching the cursor gets a soft highlight.
 - Version 0.7 leaves file descriptor numbers, such as the `1` in `2>&1`, uncolored.
 - Patterns you add yourself with the `pattern` or `regexp` highlighter keep the colors you give them. The `cursor`, `line` and `root` highlighters keep the plugin's own look.
 - The background, the prompt and command output come from your terminal and other tools, not from this theme.
