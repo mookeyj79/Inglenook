@@ -252,17 +252,6 @@
       ]
     },
     {
-      "folder": "obsidian",
-      "name": "Obsidian",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "qbittorrent",
       "name": "qBittorrent",
       "category": "app",

@@ -1,0 +1,21 @@
+{
+  "kind": "document",
+  "platform": "linux",
+  "version": "1.15.1",
+  "install": [
+    "curl -fsSL -o /tmp/obsidian.deb https://github.com/obsidianmd/obsidian-releases/releases/download/v$INGLENOOK_VERSION/obsidian_${INGLENOOK_VERSION}_amd64.deb && echo 'f77b6dfc8c040214f2febad2b1b9b051b6a838a47b0f4fb90a31cfcb79b8fcec  /tmp/obsidian.deb' | sha256sum -c - && apt-get install -y --no-install-recommends /tmp/obsidian.deb jq fonts-ibm-plex && rm /tmp/obsidian.deb"
+  ],
+  "apply": [
+    "name=$(jq -r .name \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/manifest.json\") && mkdir -p \"$HOME/Fireside/.obsidian/themes/$name\" && cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/manifest.json\" \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/theme.css\" \"$HOME/Fireside/.obsidian/themes/$name/\"",
+    "name=$(jq -r .name \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/manifest.json\") && scheme=$([ \"$INGLENOOK_VARIANT\" = day ] && echo moonstone || echo obsidian) && jq -n --arg theme \"$name\" --arg scheme \"$scheme\" '{cssTheme: $theme, theme: $scheme, monospaceFontFamily: \"IBM Plex Mono\", baseFontSize: 16}' > \"$HOME/Fireside/.obsidian/appearance.json\""
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/obsidian.sh\" \"$HOME/Fireside\""
+  ],
+  "launch": [
+    "obsidian --no-sandbox --disable-gpu --disable-partial-raster --ui-disable-partial-swap"
+  ],
+  "window": {
+    "title": "^Evening reading - Fireside - Obsidian"
+  }
+}
