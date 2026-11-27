@@ -1,0 +1,7 @@
+{
+  "name": "{{variant.name}}",
+  "version": "{{meta.version}}",
+  "minAppVersion": "1.0.0",
+  "author": "{{meta.name}}",
+  "authorUrl": "{{meta.repository}}"
+}

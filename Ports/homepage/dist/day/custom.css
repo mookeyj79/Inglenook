@@ -1,0 +1,316 @@
+/*
+ * Inglenook Day for Homepage (gethomepage.dev)
+ * Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook
+ *
+ * Save as custom.css in Homepage's config folder.
+ * Set theme: light in settings.yaml.
+ */
+
+/* Homepage's palette scale. Every theme-50 to theme-900 class reads these,
+   so widgets this file does not name still draw from the theme. The scale
+   runs from the page to the text in light mode, and back in dark mode. */
+:root.light {
+  --color-50: from #f1f3ee r g b;
+  --color-100: from #f9fbf8 r g b;
+  --color-200: from #dbded6 r g b;
+  --color-300: from #cfd2cb r g b;
+  --color-400: from #657178 r g b;
+  --color-500: from #657178 r g b;
+  --color-600: from #49545d r g b;
+  --color-700: from #2d373f r g b;
+  --color-800: from #2d373f r g b;
+  --color-900: from #2d373f r g b;
+}
+
+:root.dark {
+  --color-50: from #2d373f r g b;
+  --color-100: from #2d373f r g b;
+  --color-200: from #2d373f r g b;
+  --color-300: from #49545d r g b;
+  --color-400: from #657178 r g b;
+  --color-500: from #657178 r g b;
+  --color-600: from #cfd2cb r g b;
+  --color-700: from #dbded6 r g b;
+  --color-800: from #f1f3ee r g b;
+  --color-900: from #e9ebe5 r g b;
+}
+
+:root.light,
+:root.dark {
+  --color-logo-start: from #657178 r g b;
+  --color-logo-stop: from #657178 r g b;
+  --bg-color: from #f1f3ee r g b;
+  --scrollbar-thumb: #cfd2cb;
+  --scrollbar-track: #e9ebe5;
+  color-scheme: light;
+}
+
+html,
+body,
+#__next {
+  background-color: #f1f3ee;
+  color: #2d373f;
+}
+
+::selection {
+  background-color: #e3dbc8;
+  color: #2d373f;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #9b5a00;
+  outline-offset: 1px;
+}
+
+/* Solid surfaces: Homepage's cards are see-through by default. */
+.backdrop-blur,
+[class*="backdrop-blur-"] {
+  backdrop-filter: none !important;
+}
+
+.shadow-md,
+.shadow-lg {
+  box-shadow: none !important;
+}
+
+/* Service and bookmark cards */
+.service-card,
+li.bookmark > a {
+  background-color: #f9fbf8 !important;
+  border: 1px solid #cfd2cb;
+  color: #2d373f !important;
+}
+
+.service-card:hover,
+li.bookmark > a:hover {
+  background-color: #dbded6 !important;
+}
+
+.service-name,
+.bookmark-name {
+  color: #2d373f;
+}
+
+.service-description,
+.bookmark-description {
+  color: #49545d !important;
+}
+
+.service-group-name,
+.bookmark-group-name,
+.services-group > button > svg,
+.bookmarks-group > button > svg {
+  color: #2d373f !important;
+}
+
+.bookmark-icon {
+  background-color: #e9ebe5 !important;
+  color: #49545d !important;
+}
+
+/* Widget blocks inside a service card */
+.service-block {
+  background-color: #e9ebe5 !important;
+  color: #2d373f;
+}
+
+.service-block-label {
+  color: #49545d;
+}
+
+.service-block[data-highlight-level="good"] {
+  background-color: #d5ded0 !important;
+}
+
+.service-block[data-highlight-level="warn"] {
+  background-color: #dcdccb !important;
+}
+
+.service-block[data-highlight-level="danger"] {
+  background-color: #e4d6d1 !important;
+}
+
+.service-block[data-highlight-level] .service-block-value,
+.service-block[data-highlight-level] .service-block-label {
+  color: #2d373f !important;
+}
+
+/* Status: ping, site monitor, Docker, Kubernetes and Proxmox */
+.ping-status,
+.site-monitor-status,
+.docker-status,
+.kubernetes-status,
+.proxmox-status {
+  background-color: #e9ebe5 !important;
+}
+
+.service-tag .text-emerald-500\/80,
+.service-tag .text-emerald-500,
+.service-tag .text-green-500 {
+  color: #407135 !important;
+}
+
+.service-tag .text-rose-500\/80,
+.service-tag .text-rose-500,
+.service-tag .text-red-500 {
+  color: #a04037 !important;
+}
+
+.service-tag .text-orange-400\/50,
+.service-tag .dark\:text-orange-400\/80 {
+  color: #706416 !important;
+}
+
+.service-tag .text-blue-500\/80 {
+  color: #326893 !important;
+}
+
+.service-tag .text-black\/20,
+.service-tag .dark\:text-white\/40 {
+  color: #657178 !important;
+  opacity: 1 !important;
+}
+
+.service-tag .bg-emerald-500,
+.service-tag .bg-green-500 {
+  background-color: #407135 !important;
+}
+
+.service-tag .bg-rose-500,
+.service-tag .bg-red-500 {
+  background-color: #a04037 !important;
+}
+
+.service-tag .bg-orange-400 {
+  background-color: #706416 !important;
+}
+
+.service-tag .bg-blue-500 {
+  background-color: #326893 !important;
+}
+
+/* Header: information widgets, the search widget and tabs */
+#information-widgets {
+  border-color: #cfd2cb !important;
+  color: #2d373f;
+}
+
+.widget-container,
+.information-widget-form,
+.information-widget-container-button {
+  background-color: #f9fbf8 !important;
+  border: 1px solid #cfd2cb;
+}
+
+.information-widget-search input {
+  background-color: #f9fbf8 !important;
+  border-color: #cfd2cb !important;
+  color: #2d373f !important;
+}
+
+.information-widget-search input::placeholder {
+  color: #657178 !important;
+}
+
+.information-widget-search input:focus {
+  border-color: #9b5a00 !important;
+  box-shadow: 0 0 0 1px #9b5a00 !important;
+}
+
+.information-widget-search button {
+  background-color: #dbded6 !important;
+  color: #49545d !important;
+}
+
+.information-widget-search button svg {
+  color: #49545d !important;
+}
+
+#myTab {
+  background-color: #e9ebe5 !important;
+  border: 1px solid #cfd2cb;
+}
+
+#myTab button {
+  color: #49545d;
+}
+
+#myTab button:hover {
+  background-color: #dbded6 !important;
+}
+
+#myTab button[aria-selected="true"] {
+  background-color: #f9fbf8 !important;
+  border-bottom: 2px solid #9b5a00;
+  color: #2d373f !important;
+}
+
+/* Resource bars */
+.information-widget-resource .rounded-full,
+.service-block .rounded-full {
+  background-color: #cfd2cb !important;
+}
+
+.information-widget-resource .rounded-full > div,
+.service-block .rounded-full > div {
+  background-color: #326893 !important;
+}
+
+/* Quick launch */
+.fixed.inset-0.bg-gray-500 {
+  background-color: #e0e2dc !important;
+  opacity: 1 !important;
+}
+
+dialog,
+.fixed .rounded-md.bg-theme-50 {
+  background-color: #f9fbf8 !important;
+  border: 1px solid #cfd2cb;
+}
+
+.fixed .rounded-md.bg-theme-50 input {
+  background-color: #f9fbf8 !important;
+  border-color: #cfd2cb !important;
+  color: #2d373f !important;
+}
+
+.fixed .rounded-md.bg-theme-50 button.bg-theme-300\/50 {
+  background-color: #9b5a00 !important;
+  color: #f9fbf8 !important;
+}
+
+.fixed .rounded-md.bg-theme-50 .bg-theme-300\/10 {
+  background-color: #d2dddf;
+  color: #2d373f;
+}
+
+/* Footer */
+#footer,
+#version,
+#footer svg {
+  color: #657178 !important;
+}
+
+#footer a:hover,
+#footer button:hover svg {
+  color: #9b5a00 !important;
+}
+
+/* Errors Homepage shows for a broken config */
+.bg-rose-200,
+.dark\:bg-rose-800 {
+  background-color: #e4d6d1 !important;
+  color: #2d373f !important;
+}
+
+.bg-amber-200,
+.dark\:bg-amber-800 {
+  background-color: #dcdccb !important;
+  color: #2d373f !important;
+}
+
+a {
+  text-decoration-color: #9b5a00;
+}

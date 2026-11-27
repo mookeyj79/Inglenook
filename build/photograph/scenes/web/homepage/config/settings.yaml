@@ -1,0 +1,24 @@
+title: Hearth
+headerStyle: boxedWidgets
+hideVersion: true
+disableUpdateCheck: true
+statusStyle: dot
+font: plex
+quicklaunch:
+  hideInternetSearch: true
+  hideVisitURL: true
+layout:
+  Library:
+    tab: Indoors
+    style: row
+    columns: 3
+  Workshop:
+    tab: Indoors
+    style: row
+    columns: 3
+  Reading:
+    tab: Indoors
+  Making:
+    tab: Indoors
+  Garden:
+    tab: Outdoors

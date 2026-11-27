@@ -1,0 +1,85 @@
+# {{variant.name}} for Halloy
+# {{meta.name}} {{meta.version}}, {{meta.repository}}
+
+[general]
+background = "{{deep}}"
+border = "{{line}}"
+horizontal_rule = "{{line}}"
+horizontal_rule_text = "{{faint}}"
+scrollbar = "{{line}}"
+unread_indicator = "{{info}}"
+highlight_indicator = "{{warning}}"
+
+[text]
+primary = "{{text}}"
+secondary = "{{dim}}"
+tertiary = "{{faint}}"
+success = "{{success}}"
+error = "{{error}}"
+warning = "{{warning}}"
+info = "{{info}}"
+debug = "{{dim}}"
+trace = "{{faint}}"
+
+[buttons.primary]
+background = "{{deep}}"
+background_hover = "{{hover}}"
+background_selected = "{{accent|wash}}"
+background_selected_hover = "{{accent|wash}}"
+border_active = "{{accent}}"
+
+[buttons.secondary]
+background = "{{raised}}"
+background_hover = "{{hover}}"
+background_selected = "{{accent|wash}}"
+background_selected_hover = "{{accent|wash}}"
+border_active = "{{accent}}"
+
+[buffer]
+action = { color = "{{dim}}", font_style = "italic" }
+background = "{{base}}"
+background_text_input = "{{raised}}"
+background_title_bar = "{{deeper}}"
+border = "{{line}}"
+border_selected = "{{accent}}"
+code = "{{literal}}"
+focus_border = "{{accent}}"
+focus_background = "{{raised}}"
+highlight = "{{accent|wash}}"
+nickname = "{{dusk}}"
+nickname_offline = "{{faint}}"
+selection = "{{accent|wash}}"
+timestamp = "{{faint}}"
+topic = "{{dim}}"
+url = "{{accent}}"
+backlog_rule = "{{accent}}"
+backlog_rule_text = "{{accent}}"
+date_rule = "{{line}}"
+date_rule_text = "{{faint}}"
+
+[buffer.server_messages]
+default = "{{faint}}"
+join = "{{success}}"
+monitored_online = "{{success}}"
+kick = "{{error}}"
+standard_reply_fail = "{{error}}"
+standard_reply_warn = "{{warning}}"
+standard_reply_note = "{{info}}"
+
+[formatting]
+white = "{{ansi.bright_white}}"
+black = "{{ansi.black}}"
+blue = "{{steel}}"
+green = "{{moss}}"
+red = "{{ember}}"
+brown = "{{oxblood}}"
+magenta = "{{heather}}"
+orange = "{{clay}}"
+yellow = "{{brass}}"
+lightgreen = "{{ansi.bright_green}}"
+cyan = "{{pine}}"
+lightcyan = "{{ansi.bright_cyan}}"
+lightblue = "{{ansi.bright_blue}}"
+pink = "{{rosewood}}"
+grey = "{{ansi.bright_black}}"
+lightgrey = "{{ansi.white}}"

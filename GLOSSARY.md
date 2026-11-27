@@ -91,7 +91,7 @@ What a port's screenshot shows: the staged content, window size, font, frame and
 _Avoid_: Demo, sample
 
 **Scene kind**:
-The group a port belongs to for its scene: terminal, prompt, CLI/TUI, editor, icon theme, document, desktop or web.
+The group a port belongs to for its scene: terminal, prompt, CLI/TUI, editor, icon theme, document, desktop, web or app (any other desktop app with its own window). Its folder, `build/photograph/scenes/<kind>/`, holds the shared content, and one subfolder per port that stages content of its own, named exactly after the port.
 
 **Backdrop**:
 What is behind every shot of a variant: that variant's wallpaper, shown as it is: Cabin Seating in Day and Mission Fireplace in Night. The preview site shows the same pair behind its page.

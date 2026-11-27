@@ -1146,6 +1146,60 @@ Test 'Photographer: changing one input makes exactly the ports that use it stale
     }
 }
 
+Test 'Photographer: a subfolder named after a port is its own scene, and the rest of the scene folder is shared' {
+    $cases = [ordered]@{
+        'build/photograph/scenes/editor/editor/run.sh'   = @('editor')
+        'build/photograph/scenes/editor/icons/open.sh'   = @('icons')
+        'build/photograph/scenes/editor/content/a.txt'   = @('editor', 'icons')
+        'build/photograph/scenes/editor/term/run.sh'     = @()
+        'build/photograph/scenes/terminal/term/run.sh'   = @('term')
+        'build/photograph/scenes/terminal/prompt/run.sh' = @()
+    }
+    # A folder named after any port is never shared, even in the wrong scene folder (the check fails on that).
+    foreach ($path in $cases.Keys) {
+        $root = New-ShotRepo
+        $file = Join-Path $root $path
+        New-Item -ItemType Directory -Path (Split-Path $file) -Force | Out-Null
+        Add-Content -Path $file -Value 'changed'
+        Assert-Equal $cases[$path] (Get-StaleNames $root) "after adding $path"
+    }
+    $root = New-ShotRepo
+    $in = Get-SceneInput -RepoRoot $root -Port 'icons' -Kind 'icon-theme'
+    Assert-Equal 'build/photograph/scenes/editor' $in.Folder 'an icon theme is shot in the editor folder'
+    Assert-Equal @() @($in.Exclude) 'no own folders yet'
+    New-Item -ItemType Directory -Path (Join-Path $root 'build/photograph/scenes/editor/editor') | Out-Null
+    New-Item -ItemType Directory -Path (Join-Path $root 'build/photograph/scenes/editor/icons') | Out-Null
+    Assert-Equal @('build/photograph/scenes/editor/editor') @((Get-SceneInput -RepoRoot $root -Port 'icons' -Kind 'icon-theme').Exclude) 'the other port''s own folder is left out'
+}
+
+Test 'Photographer: the scene folder check fails on an own folder that would be read as shared, or the other way round' {
+    $root = New-ShotRepo
+    $ports = { @(foreach ($n in 'editor', 'icons', 'prompt', 'term') { @{ Name = $n; Recipe = (Get-Content -Raw (Join-Path $root 'Ports' $n 'screenshot.json') | ConvertFrom-Json -AsHashtable) } }) }
+    $write = { param($p, $text) $f = Join-Path $root $p; New-Item -ItemType Directory -Path (Split-Path $f) -Force | Out-Null; Set-Content -Path $f -Value $text }
+    $setStage = { param($n, [string[]]$steps) $f = Join-Path $root 'Ports' $n 'screenshot.json'; $r = Get-Content -Raw $f | ConvertFrom-Json -AsHashtable; $r['stage'] = $steps; Set-Content $f (ConvertTo-Json $r -Depth 5) }
+    Assert-Equal @() @(Get-SceneFolderProblems -RepoRoot $root -Ports (& $ports)) 'a fresh repo'
+
+    & $write 'build/photograph/scenes/editor/editor-scene/run.sh' 'run'
+    & $setStage 'editor' @('bash "$INGLENOOK_SCENE/editor-scene/run.sh"')
+    $all = @(Get-SceneFolderProblems -RepoRoot $root -Ports (& $ports)) -join "`n"
+    Assert-True ($all -like "*scenes/editor/editor-scene/ is used only by editor's recipe*rename it to build/photograph/scenes/editor/editor/*") "one recipe's folder under another name: $all"
+
+    & $write 'build/photograph/scenes/editor/prepare.sh' 'cp -r "$here/editor-scene/." ~/x'
+    Assert-Equal @() @(Get-SceneFolderProblems -RepoRoot $root -Ports (& $ports)) 'a shared file uses it, so it is shared'
+
+    & $write 'build/photograph/scenes/editor/editor/run.sh' 'run'
+    & $setStage 'icons' @('bash "${INGLENOOK_SCENE}/editor/run.sh"')
+    $all = @(Get-SceneFolderProblems -RepoRoot $root -Ports (& $ports)) -join "`n"
+    Assert-True ($all -like "*Ports/icons/screenshot.json uses build/photograph/scenes/editor/editor/, the own folder of editor*") "a recipe in another port's folder: $all"
+
+    $root = New-ShotRepo
+    & $write 'build/photograph/scenes/editor/term/run.sh' 'run'
+    $all = @(Get-SceneFolderProblems -RepoRoot $root -Ports (& $ports)) -join "`n"
+    Assert-True ($all -like '*scenes/editor/term/ is named after the port term, which is shot in the terminal scene. Move it to build/photograph/scenes/terminal/term/*') "an own folder in the wrong kind: $all"
+    & $write 'build/photograph/scenes/editor/icons/run.sh' 'run'
+    Assert-True (-not ((@(Get-SceneFolderProblems -RepoRoot $root -Ports (& $ports)) -join "`n") -like '*editor/icons/*')) 'an icon theme''s own folder is in the editor folder'
+}
+
 Test 'Photographer: a backdrop wallpaper makes every port stale, and palette colors and other wallpapers none' {
     $root = New-ShotRepo
     Set-Content (Join-Path $root 'palette/palette.json') (New-ShotPalette -Change { param($d) $d.variants.night.neutrals.deeper.l = 0.15; $d.variants.day.neutrals.text.l = 0.25 }) -NoNewline

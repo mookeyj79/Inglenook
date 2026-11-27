@@ -1,0 +1,5 @@
+# Inglenook Night nickname colors for Halloy
+# Paste into config.toml. Use it only with Inglenook Night.
+
+[buffer.nickname]
+color = { palette = ["#da9f7c", "#72bdbd", "#a5a5d9", "#cb9cc6", "#d4a2aa", "#b66f75", "#5c947c"] }

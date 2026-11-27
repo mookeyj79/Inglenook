@@ -1,0 +1,35 @@
+/* {{variant.name}} for qBittorrent. {{meta.repository}}
+   qBittorrent applies config.json to the focused window only; these rules keep
+   text and selections the same when the window is in the background. */
+
+QWidget {
+  color: {{text}};
+  selection-background-color: {{accent|wash}};
+  selection-color: {{text}};
+}
+
+QWidget:disabled {
+  color: {{faint}};
+}
+
+QAbstractItemView {
+  background-color: {{base}};
+  alternate-background-color: {{raised}};
+}
+
+QProgressBar {
+  background-color: {{base}};
+  border: 1px solid {{line}};
+  color: {{text}};
+  text-align: center;
+}
+
+QProgressBar::chunk {
+  background-color: {{info|wash}};
+}
+
+QToolTip {
+  background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+}

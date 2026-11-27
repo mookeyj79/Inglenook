@@ -89,44 +89,12 @@
   ],
   "planned": [
     {
-      "folder": "bash",
-      "name": "Bash",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "dopamine",
-      "name": "Dopamine",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
       "tier": null,
       "platforms": [
         "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "screen",
-      "name": "GNU Screen",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
         "macos",
         "linux"
       ]
@@ -147,48 +115,6 @@
       "tier": null,
       "platforms": [
         "linux"
-      ]
-    },
-    {
-      "folder": "halloy",
-      "name": "Halloy",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "helix",
-      "name": "Helix",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "heroic",
-      "name": "Heroic Games Launcher",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "homepage",
-      "name": "Homepage",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
       ]
     },
     {
@@ -223,65 +149,12 @@
       ]
     },
     {
-      "folder": "kicad",
-      "name": "KiCad",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "mod-organizer-2",
       "name": "Mod Organizer 2",
       "category": "app",
       "tier": null,
       "platforms": [
         "windows"
-      ]
-    },
-    {
-      "folder": "notepad-plus-plus",
-      "name": "Notepad++",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
-      "folder": "obs-studio",
-      "name": "OBS Studio",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "obsidian",
-      "name": "Obsidian",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "qbittorrent",
-      "name": "qBittorrent",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
       ]
     },
     {
@@ -300,15 +173,6 @@
       "folder": "startallback",
       "name": "StartAllBack",
       "category": "system",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
-      "folder": "sumatrapdf",
-      "name": "SumatraPDF",
-      "category": "writing",
       "tier": null,
       "platforms": [
         "windows"
@@ -335,30 +199,9 @@
       ]
     },
     {
-      "folder": "tmux",
-      "name": "tmux",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "typora",
       "name": "Typora",
       "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "vim",
-      "name": "Vim",
-      "category": "editor",
       "tier": null,
       "platforms": [
         "windows",
