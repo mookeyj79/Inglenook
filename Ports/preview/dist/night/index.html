@@ -43,6 +43,11 @@ pre { margin: 0; padding: 14px; overflow-x: auto; font: .8rem/1.65 var(--font-mo
 .problems { margin: 0; padding: 7px 14px; border-top: 1px solid var(--line); background: var(--deep); font: .78rem var(--font-mono); color: var(--text); }
 .problems .err { color: var(--error); font-weight: 500; margin-right: 8px; }
 
+/* Mermaid diagram. Without the script (offline), its source shows instead. */
+.diagram { padding: 14px; overflow-x: auto; background: var(--base); }
+.diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+.diagram pre { padding: 0; color: var(--dim); }
+
 /* The small app */
 .app-body { display: grid; grid-template-columns: 150px 1fr; min-height: 260px; }
 .side-nav { background: var(--deep); border-right: 1px solid var(--line); padding: 10px 8px; display: flex; flex-direction: column; gap: 2px; font-size: .88rem; }
@@ -158,6 +163,20 @@ footer p + p { margin-top: 4px; }
 <span class="f">steep</span><span class="p">(</span><span class="e">kettel</span><span class="p">)</span></pre>
         <p class="problems"><span class="err">1 error</span> line 17: name 'kettel' is not defined</p>
       </div>
+      <div class="win">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>brew.md</span></div>
+        <div class="diagram">
+<pre class="mermaid-src">flowchart LR
+  accTitle: Brewing a pot of tea
+  subgraph kitchen [Kitchen]
+    fill[Kettle on] --> boil{Boiled?}
+  end
+  boil -- no --> stove[Stove: warning]:::warn
+  boil -- yes --> steep[Steeping: running]:::active
+  steep -- 4 min --> pour[Poured: done]:::ok
+  steep -. 7 min .-> bitter[Too strong: failed]:::fail</pre>
+        </div>
+      </div>
       <div class="win app">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Reading list</span></div>
         <div class="app-body">
@@ -222,6 +241,20 @@ footer p + p { margin-top: 4px; }
 <span class="f">print</span><span class="p">(</span><span class="f">steep</span><span class="p">(</span><span class="t">Kettle</span><span class="p">(</span><span class="s">"copper"</span><span class="p">),</span> <span class="n">3</span><span class="p">))</span>  <span class="c"># copper: 3 min</span>
 <span class="f">steep</span><span class="p">(</span><span class="e">kettel</span><span class="p">)</span></pre>
         <p class="problems"><span class="err">1 error</span> line 17: name 'kettel' is not defined</p>
+      </div>
+      <div class="win">
+        <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>brew.md</span></div>
+        <div class="diagram">
+<pre class="mermaid-src">flowchart LR
+  accTitle: Brewing a pot of tea
+  subgraph kitchen [Kitchen]
+    fill[Kettle on] --> boil{Boiled?}
+  end
+  boil -- no --> stove[Stove: warning]:::warn
+  boil -- yes --> steep[Steeping: running]:::active
+  steep -- 4 min --> pour[Poured: done]:::ok
+  steep -. 7 min .-> bitter[Too strong: failed]:::fail</pre>
+        </div>
       </div>
       <div class="win app">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Reading list</span></div>
@@ -349,6 +382,74 @@ footer p + p { margin-top: 4px; }
       li.querySelector(".ratio").textContent = (surfaces.indexOf(n) >= 0 ? "text " : "") + r.toFixed(2) + ":1";
     });
   });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.min.js"></script>
+<script>
+// The Mermaid diagram in each variant. Mermaid takes color values, not CSS
+// variables, so every one is read from that side's palette variables.
+(function () {
+  if (!window.mermaid) return; // offline: the diagram source stays visible
+  // Status nodes: the role's wash as the fill, the role as the border, text on top.
+  // Every label also says its status in words.
+  const statuses = { ok: "success", fail: "error", warn: "warning", active: "info" };
+
+  function colors(side) {
+    const style = getComputedStyle(side);
+    const c = function (n) { return style.getPropertyValue("--" + n).trim(); };
+    const theme = {
+      darkMode: style.colorScheme === "dark",
+      fontFamily: c("font-body"),
+      fontSize: "14px",
+      background: c("base"),
+      // Nodes
+      primaryColor: c("raised"), primaryTextColor: c("text"), primaryBorderColor: c("faint"),
+      secondaryColor: c("raised"), secondaryTextColor: c("text"), secondaryBorderColor: c("faint"),
+      tertiaryColor: c("deep"), tertiaryTextColor: c("text"), tertiaryBorderColor: c("line"),
+      mainBkg: c("raised"), nodeBorder: c("faint"), nodeTextColor: c("text"),
+      textColor: c("text"), titleColor: c("dim"),
+      // Edges
+      lineColor: c("dim"), arrowheadColor: c("dim"), edgeLabelBackground: c("base"),
+      // Subgraphs
+      clusterBkg: c("deep"), clusterBorder: c("line"),
+      // Notes are annotations: tag
+      noteBkgColor: c("raised"), noteTextColor: c("text"), noteBorderColor: c("tag"),
+      // Sequence diagrams
+      actorBkg: c("raised"), actorBorder: c("faint"), actorTextColor: c("text"), actorLineColor: c("line"),
+      signalColor: c("dim"), signalTextColor: c("text"),
+      labelBoxBkgColor: c("raised"), labelBoxBorderColor: c("faint"), labelTextColor: c("text"),
+      loopTextColor: c("dim"), activationBkgColor: c("raised"), activationBorderColor: c("info"),
+      // Parse errors
+      errorBkgColor: c("base"), errorTextColor: c("error")
+    };
+    const classes = Object.keys(statuses).map(function (k) {
+      const role = statuses[k];
+      const named = c("to-" + role).replace(/"/g, "");
+      return "  classDef " + k + " fill:" + c("wash-" + named) + ",stroke:" + c(role) +
+        ",stroke-width:2px,color:" + c("text");
+    }).join("\n");
+    return { theme: theme, classes: classes };
+  }
+
+  async function draw() {
+    if (document.fonts) await document.fonts.ready; // label sizes need the real font
+    let n = 0;
+    for (const side of document.querySelectorAll(".side")) {
+      const pal = colors(side);
+      window.mermaid.initialize({ startOnLoad: false, securityLevel: "strict", theme: "base", themeVariables: pal.theme,
+        flowchart: { nodeSpacing: 24, rankSpacing: 36, padding: 10 } });
+      for (const box of side.querySelectorAll(".diagram")) {
+        const src = box.querySelector(".mermaid-src").textContent + "\n" + pal.classes;
+        try {
+          const out = await window.mermaid.render("diagram-" + (++n), src);
+          box.innerHTML = out.svg;
+        } catch (err) {
+          box.textContent = "Diagram failed to render: " + err.message;
+        }
+      }
+    }
+  }
+  draw();
 })();
 </script>
 </body>

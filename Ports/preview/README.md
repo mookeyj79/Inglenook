@@ -3,7 +3,7 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Not tested yet
 
-A web page that shows Inglenook before you install anything: a terminal session, a code sample and a small app, in Day and Night side by side, then every color with its value and contrast, the roles, and how code is colored. A second page lists every port with its category, tier and platforms, plus the planned ones, with search and category filters. Each port's install guide is published as a page of its own.
+A web page that shows Inglenook before you install anything: a terminal session, a code sample, a diagram and a small app, in Day and Night side by side, then every color with its value and contrast, the roles, and how code is colored. A second page lists every port with its category, tier and platforms, plus the planned ones, with search and category filters. Each port's install guide is published as a page of its own.
 
 ## View it
 
@@ -15,9 +15,10 @@ The page frame opens in Day or Night to match your OS setting, and remembers the
 ## Known limits
 
 - The demos show how Inglenook is meant to look. They are not screenshots of real ports.
-- Offline, the page falls back to system fonts.
+- Offline, the page falls back to system fonts, and the diagram shows as plain text.
 
 ## Sources
 
 - [IBM Plex](https://github.com/IBM/plex) Sans, Serif and Mono, loaded from Google Fonts, under the SIL Open Font License 1.1.
+- [Mermaid](https://github.com/mermaid-js/mermaid), which draws the diagram, loaded from jsDelivr, under the MIT License.
 - The wallpapers behind the page, resized for the web: [Cabin Seating](../../wallpapers/README.md#cabin-seating) by Shixart1985 under CC BY 2.0 in Day, and [Mission Fireplace](../../wallpapers/README.md#mission-fireplace) by Richard N Horne under CC BY-SA 4.0 in Night.
