@@ -1,6 +1,6 @@
 # Inglenook
 
-![Inglenook: a sunlit cabin room on the left and a firelit library on the right, with a cat asleep on the desk between them](assets/splash.png)
+![Inglenook: a sunlit cabin room on the left and a firelit library on the right, with a cat asleep on the desk between them](assets/splash.jpg)
 
 [![check](https://github.com/mookeyj79/Inglenook/actions/workflows/check.yml/badge.svg)](https://github.com/mookeyj79/Inglenook/actions/workflows/check.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
