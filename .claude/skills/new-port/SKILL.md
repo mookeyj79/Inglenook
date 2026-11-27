@@ -128,7 +128,7 @@ A port ships only with real screenshots of both variants, taken by the Photograp
 - **platform**: `linux` if the app runs there, else `windows`, else `macos`.
 - The backdrop is not the recipe's: every shot sits on the variant's wallpaper (Cabin Seating in Day and Mission Fireplace in Night), set by the Photographer.
 - **host**: for an app that lives inside another port (a prompt in a terminal, an icon theme in VS Code). The host launches it, so give only `install`, `apply`, and `stage`.
-- **apply**: the README's install steps, verbatim, with `$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/` for the files. **stage** never changes a color, and turns off self-update and first-run dialogs.
+- **apply**: the README's install steps, verbatim, with `$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/` for the files. **stage** never changes a color, and turns off self-update and first-run dialogs. A `cli` recipe that opens its own terminal (no host) runs `bash "$INGLENOOK_SCENE/font.sh"` first, so every CLI shot has the same font.
 - **version**: the exact app version, required unless the Ubuntu package date in `build/photograph/pins.json` pins the app. This is the port's first pin. Moving a pin in `pins.json` is its own PR; see "Move a pin" in CONTRIBUTING.md.
 - Does the app **require** a login or a license to reach its themed screen, or only recommend one? Look it up in its docs and license terms, and write the answer with links under **Screenshot recipe** in `MAPPING.md`. Required means a manual recipe.
 - A step that stands in for something the reader does by hand (a dialog answered by a config file) gets a line in `MAPPING.md` under **Screenshot recipe**: not tested by hand.

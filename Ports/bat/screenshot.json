@@ -14,7 +14,8 @@
     "printf '%s\\n' '--theme-light=\"Inglenook Day\"' '--theme-dark=\"Inglenook Night\"' >> \"$(bat --config-file)\""
   ],
   "stage": [
-    "p=/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}cursor-blink-mode \"'off'\"; dconf write ${p}default-size-columns 90; dconf write ${p}default-size-rows 30; dconf write ${p}scrollbar-policy \"'never'\"",
+    "bash \"$INGLENOOK_SCENE/font.sh\"",
+    "p=/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/; dconf write ${p}cursor-blink-mode \"'off'\"; dconf write ${p}default-size-columns 90; dconf write ${p}default-size-rows 30; dconf write ${p}scrollbar-policy \"'never'\"",
     "bash \"$INGLENOOK_SCENE/bat/stage.sh\""
   ],
   "launch": [

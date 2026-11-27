@@ -8,7 +8,6 @@
 # selects the top process.
 set -euo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-gsettings set org.gnome.desktop.interface monospace-font-name 'BlexMono Nerd Font Mono 12'
 mkdir -p ~/.config/btop
 cat >> ~/.config/btop/btop.conf <<'CONF'
 update_ms = 150
