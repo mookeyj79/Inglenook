@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Ghidra 12.2 on Linux Mint 22.3
+**Tested with:** Not tested yet
 
 | Day | Night |
 |---|---|
