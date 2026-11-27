@@ -1,0 +1,12 @@
+# The Screen scene's session. The reader's own ~/.screenrc (with the theme) first,
+# then a fixed layout: three windows, split, the shell on top and the diff below,
+# with the top region focused for drive.py's keys.
+source $HOME/.screenrc
+startup_message off
+screen -t palette 0 bash --norc -c 'git --no-pager -c color.ui=always diff; exec bash --norc'
+screen -t notes 1 bash --norc
+screen -t shell 2 bash --norc -c 'git --no-pager status --short; exec bash --norc'
+split
+focus down
+select 0
+focus up
