@@ -1,0 +1,8 @@
+{
+  "name": "Jellyfin",
+  "category": "web",
+  "tier": 2,
+  "platforms": [
+    "web"
+  ]
+}

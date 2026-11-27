@@ -1,0 +1,386 @@
+/*
+ * Inglenook: Inglenook Day for Jellyfin
+ * https://github.com/mookeyj79/Inglenook
+ *
+ * Paste into Settings > Display > Custom CSS code (one user), or
+ * Dashboard > Branding > Custom CSS (every user of the server).
+ * Layout and selectors follow Catppuccin for Jellyfin (MIT).
+ */
+
+/* Jellyfin's own themes read these variables. Setting them here colors
+   every Jellyfin theme the same, so the theme picker no longer matters. */
+:root[data-theme] {
+  --jf-palette-background-default: #f1f3ee;
+  --jf-palette-background-paper: #f9fbf8;
+  --jf-palette-background-defaultImage: none;
+  --jf-palette-text-primary: #2d373f;
+  --jf-palette-text-secondary: #49545d;
+  --jf-palette-text-disabled: #657178;
+  --jf-palette-divider: #cfd2cb;
+  --jf-palette-common-white: #2d373f;
+
+  --jf-palette-primary-main: #9b5a00;
+  --jf-palette-primary-light: #9b5a00;
+  --jf-palette-primary-dark: #9b5a00;
+  --jf-palette-primary-contrastText: #f9fbf8;
+  --jf-palette-secondary-main: #9b5a00;
+  --jf-palette-secondary-light: #9b5a00;
+  --jf-palette-secondary-dark: #9b5a00;
+  --jf-palette-secondary-contrastText: #f9fbf8;
+
+  --jf-palette-error-main: #a04037;
+  --jf-palette-error-light: #a04037;
+  --jf-palette-error-dark: #a04037;
+  --jf-palette-error-contrastText: #f9fbf8;
+  --jf-palette-warning-main: #706416;
+  --jf-palette-warning-light: #706416;
+  --jf-palette-warning-dark: #706416;
+  --jf-palette-warning-contrastText: #f9fbf8;
+  --jf-palette-success-main: #407135;
+  --jf-palette-success-light: #407135;
+  --jf-palette-success-dark: #407135;
+  --jf-palette-success-contrastText: #f9fbf8;
+  --jf-palette-info-main: #326893;
+  --jf-palette-info-light: #326893;
+  --jf-palette-info-dark: #326893;
+  --jf-palette-info-contrastText: #f9fbf8;
+
+  --jf-palette-action-active: #49545d;
+  --jf-palette-action-hover: #dbded6;
+  --jf-palette-action-focus: #dbded6;
+  --jf-palette-action-selected: #e3dbc8;
+  --jf-palette-action-disabled: #657178;
+  --jf-palette-action-disabledBackground: #e9ebe5;
+
+  --jf-palette-AppBar-defaultBg: #e0e2dc;
+  --jf-palette-AppBar-transparentBg: #e0e2dc;
+  --jf-palette-AppBar-gradient: none;
+  --jf-palette-Button-inheritContainedBg: #f9fbf8;
+  --jf-palette-Button-inheritContainedHoverBg: #dbded6;
+  --jf-palette-FilledInput-bg: #f9fbf8;
+  --jf-palette-FilledInput-hoverBg: #dbded6;
+  --jf-palette-FilledInput-disabledBg: #e9ebe5;
+  --jf-palette-FilledInput-borderColor: #cfd2cb;
+  --jf-palette-SnackbarContent-bg: #f9fbf8;
+  --jf-palette-SnackbarContent-color: #2d373f;
+  --jf-palette-Alert-infoFilledBg: #d2dddf;
+  --jf-palette-Alert-infoFilledColor: #2d373f;
+  --jf-palette-Alert-errorFilledBg: #e4d6d1;
+  --jf-palette-Alert-errorFilledColor: #2d373f;
+  --jf-palette-Alert-warningFilledBg: #dcdccb;
+  --jf-palette-Alert-warningFilledColor: #2d373f;
+  --jf-palette-Alert-successFilledBg: #d5ded0;
+  --jf-palette-Alert-successFilledColor: #2d373f;
+}
+
+/* Scroll bars */
+* {
+  scrollbar-color: #cfd2cb #e9ebe5;
+}
+::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #e9ebe5;
+}
+::-webkit-scrollbar-thumb:horizontal,
+::-webkit-scrollbar-thumb:vertical {
+  background-color: #cfd2cb;
+}
+
+/* Selected text */
+::selection {
+  color: #2d373f;
+  background-color: #e3dbc8;
+}
+
+/* Surfaces Jellyfin colors without a variable */
+html,
+.backgroundContainer,
+.mainDrawer,
+.drawer-open {
+  color: #2d373f;
+}
+.dialog,
+.paperList,
+.visualCardBox,
+.collapseContent,
+.emby-select-withcolor,
+.emby-select-withcolor > option,
+.actionSheet {
+  background-color: #f9fbf8;
+}
+.formDialogHeader:not(.formDialogHeader-clear),
+.formDialogFooter:not(.formDialogFooter-clear),
+.detailRibbon,
+.noBackdropTransparency .detailPagePrimaryContainer,
+.playlistSectionButton,
+.appfooter,
+.nowPlayingBar,
+.cardBox:not(.visualCardBox) .cardPadder,
+.cardContent.defaultCardBackground,
+.cardContent .defaultCardBackground,
+.defaultCardBackground1,
+.defaultCardBackground2,
+.defaultCardBackground3,
+.defaultCardBackground4,
+.defaultCardBackground5 {
+  background-color: #e9ebe5;
+}
+.layout-tv .detailRibbon,
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+  background: none;
+}
+.cardPadder .cardImageIcon,
+.cardImageIcon {
+  color: #657178;
+}
+.skinHeader,
+.skinHeader-withBackground {
+  color: #2d373f;
+}
+
+/* Text */
+.sectionTitle,
+.pageTitle,
+.itemName,
+.cardText,
+.listItemBodyText,
+.navMenuOption,
+.checkboxLabel,
+legend {
+  color: #2d373f;
+}
+.cardText-secondary,
+.fieldDescription,
+.secondaryText,
+.listItem .secondary,
+.nowPlayingBarSecondaryText,
+.inputLabel,
+.inputLabelUnfocused,
+.selectLabel,
+.textareaLabelUnfocused,
+.checkboxListLabel,
+.paperListLabel {
+  color: #49545d;
+}
+
+/* Hover: a solid row, not a tint */
+.listItem:hover,
+.navMenuOption:hover,
+.paper-icon-button-light:hover:not(:disabled),
+.paper-icon-button-light:active:not(:disabled),
+.listItemImageButton:hover {
+  background-color: #dbded6;
+}
+.paper-icon-button-light:hover:not(:disabled),
+.paper-icon-button-light:active:not(:disabled),
+.listItemImageButton:hover {
+  color: #9b5a00;
+}
+.listItem:focus {
+  background-color: #dbded6;
+}
+
+/* You are here: focus, links, primary buttons, progress */
+.button-link,
+.button-flat:hover,
+.inputLabelFocused,
+.selectLabelFocused,
+.textareaLabelFocused,
+.emby-tab-button.show-focus:focus,
+.emby-tab-button:hover,
+.upNextDialog-countdownText,
+.metadataSidebarIcon,
+.mdl-slider,
+#dialogToc .toc li a:hover,
+#dialogToc .toc li a:active,
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__outer-circle,
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__inner-circle {
+  color: #9b5a00;
+}
+.emby-tab-button {
+  color: #49545d;
+}
+.emby-tab-button-active,
+.emby-tab-button-active > .emby-button-foreground {
+  color: #9b5a00;
+}
+.buttonActive {
+  color: #9b5a00 !important;
+}
+.emby-input:focus,
+.emby-textarea:focus,
+.emby-select-withcolor:focus,
+.emby-checkbox:focus + span + .checkboxOutline,
+.emby-checkbox:focus:not(:checked) + span + .checkboxOutline,
+.itemSelectionPanel,
+.progressring-spiner,
+.mdl-spinner__layer-1,
+.mdl-spinner__layer-2,
+.mdl-spinner__layer-3,
+.mdl-spinner__layer-4 {
+  border-color: #9b5a00 !important;
+}
+.mdl-slider-background-lower,
+.sliderMarker.watched,
+.iconOsdProgressInner,
+.itemProgressBarForeground,
+.itemProgressBar.playbackProgress .itemProgressBarForeground,
+.mdl-switch__input:checked + .mdl-switch__label + .mdl-switch__trackContainer > .mdl-switch__thumb,
+.jstree-default .jstree-wholerow-clicked {
+  background-color: #9b5a00 !important;
+}
+.mdl-slider::-webkit-slider-thumb {
+  background: #9b5a00;
+}
+.mdl-slider::-moz-range-thumb {
+  background: #9b5a00;
+}
+progress::-webkit-progress-value {
+  background-color: #9b5a00;
+}
+progress::-moz-progress-bar {
+  background-color: #9b5a00;
+}
+.mdl-slider-background-flex,
+.iconOsdProgressOuter,
+.itemProgressBar.backgroundProgress .itemProgressBarForeground {
+  background-color: #cfd2cb !important;
+}
+.mdl-slider-background-upper {
+  background-color: #657178;
+}
+.mdl-radio__focus-circle {
+  background: #e3dbc8;
+  opacity: 1;
+}
+.button-submit,
+.button-submit:focus,
+.button-submit:hover,
+.selectionCommandsPanel,
+.navMenuOption-selected,
+.emby-button.show-focus:focus,
+.layout-tv .emby-button:not(.emby-tab-button).show-focus:focus,
+.programCell:focus,
+.guide-channelHeaderCell:focus,
+.subtitleFeaturePillow,
+.lyricsFeaturePillow,
+.listItemIcon:not(.listItemIcon-transparent) {
+  color: #f9fbf8 !important;
+  background-color: #9b5a00 !important;
+}
+.emby-checkbox:checked + span + .checkboxOutline {
+  background-color: #9b5a00;
+  border-color: #9b5a00;
+}
+.checkboxOutline .checkboxIcon-checked {
+  color: #f9fbf8;
+}
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+  border-color: #9b5a00 !important;
+}
+
+/* Raised buttons */
+.raised,
+.fab,
+a[data-role="button"],
+div[data-role="controlgroup"] .emby-button {
+  color: #2d373f;
+  background-color: #f9fbf8;
+}
+.raised:hover,
+.fab:hover,
+a[data-role="button"]:hover {
+  background-color: #dbded6;
+}
+.raised:focus,
+.fab:focus,
+a[data-role="button"]:focus {
+  color: #f9fbf8;
+  background-color: #9b5a00;
+}
+
+/* State */
+.button-delete,
+#btnShutdown,
+#deviceDeleteAll,
+.btnDeleteImage {
+  color: #f9fbf8 !important;
+  background-color: #a04037 !important;
+}
+.itemProgressBarForeground-recording {
+  background-color: #a04037 !important;
+}
+.notification_important {
+  color: #a04037 !important;
+}
+.infoBanner {
+  color: #2d373f;
+  background-color: #d2dddf;
+}
+.toast {
+  color: #2d373f;
+  background-color: #f9fbf8;
+}
+
+/* Badges: played, counts, favorites, ratings */
+.countIndicator,
+.fullSyncIndicator,
+.mediaSourceIndicator,
+.playedIndicator {
+  color: #f9fbf8;
+  background-color: #9b5a00;
+}
+.countIndicator > svg,
+.fullSyncIndicator > svg,
+.mediaSourceIndicator > svg,
+.playedIndicator > svg {
+  fill: #f9fbf8;
+}
+.playstatebutton-icon-played,
+.ratingbutton-icon-withrating {
+  color: #7e2e39;
+}
+.starIcon {
+  color: #706416;
+}
+.mediaInfoText {
+  color: #49545d;
+  background-color: #f9fbf8;
+}
+
+/* Live TV guide: one wash per category */
+.channelPrograms,
+.guide-channelHeaderCell,
+.programCell {
+  border-color: #cfd2cb;
+}
+.programCell-sports {
+  background-color: #d9dbe1 !important;
+}
+.programCell-movie {
+  background-color: #e0d8dc !important;
+}
+.programCell-kids {
+  background-color: #cbdeda !important;
+}
+.programCell-news {
+  background-color: #cddbd2 !important;
+}
+.programCell-active {
+  background-color: #dbded6 !important;
+}
+.guide-programTextIcon {
+  color: #2d373f;
+  background-color: #dbded6;
+}
+
+/* Readers */
+#bookPlayer,
+#comicsPlayer,
+#pdfPlayer,
+#dialogToc {
+  background-color: #f1f3ee;
+}
