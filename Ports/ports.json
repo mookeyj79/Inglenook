@@ -149,15 +149,6 @@
       ]
     },
     {
-      "folder": "homepage",
-      "name": "Homepage",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
-      ]
-    },
-    {
       "folder": "insomnia",
       "name": "Insomnia",
       "category": "app",
