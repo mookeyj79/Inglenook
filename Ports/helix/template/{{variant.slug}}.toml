@@ -1,0 +1,169 @@
+# {{variant.name}} for Helix, from {{meta.name}} {{meta.version}}: {{meta.repository}}
+# Save it in Helix's themes folder and set theme = "{{variant.slug}}" in config.toml.
+
+# Syntax
+"attribute" = "tag"
+
+"type" = "type"
+"type.builtin" = "type"
+"type.parameter" = "type"
+"type.enum.variant" = "keyword"
+"constructor" = "type"
+
+"constant" = "keyword"
+"constant.builtin" = "keyword"
+"constant.character" = "success"
+"constant.character.escape" = "literal"
+"constant.numeric" = "literal"
+
+"string" = "success"
+"string.regexp" = "literal"
+"string.special" = "literal"
+"string.special.path" = "reference"
+"string.special.url" = "reference"
+"string.special.symbol" = "literal"
+
+"comment" = { fg = "faint", modifiers = ["italic"] }
+"comment.unused" = "faint"
+
+"variable" = "text"
+"variable.builtin" = "keyword"
+"variable.parameter" = "text"
+"variable.other.member" = "info"
+
+"label" = "reference"
+"namespace" = "reference"
+
+"punctuation" = "dim"
+"operator" = "dim"
+
+"keyword" = "keyword"
+
+"function" = "info"
+"function.builtin" = "info"
+"function.macro" = "tag"
+"function.special" = "tag"
+
+"tag" = "tag"
+"tag.builtin" = "tag"
+
+# Matched characters in pickers and completion menus
+"special" = { fg = "steel", modifiers = ["bold"] }
+
+# Markup
+"markup.heading" = { fg = "info", modifiers = ["bold"] }
+"markup.heading.marker" = "dim"
+"markup.list" = "dim"
+"markup.list.checked" = "success"
+"markup.list.unchecked" = "faint"
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link" = "reference"
+"markup.link.url" = { fg = "reference", underline = { style = "line" } }
+"markup.quote" = { fg = "dim", modifiers = ["italic"] }
+"markup.raw" = "literal"
+
+# Version control
+"diff.plus" = "success"
+"diff.minus" = "error"
+"diff.delta" = "warning"
+"diff.delta.conflict" = "error"
+
+# Editor surfaces and text
+"ui.background" = { fg = "text", bg = "base" }
+"ui.background.separator" = "line"
+"ui.text" = "text"
+"ui.text.focus" = { fg = "text", bg = "hover", modifiers = ["bold"] }
+"ui.text.inactive" = "faint"
+"ui.text.info" = "text"
+"ui.text.directory" = "reference"
+"ui.window" = "line"
+"ui.help" = { fg = "text", bg = "raised" }
+
+"ui.linenr" = "faint"
+"ui.linenr.selected" = { fg = "accent", modifiers = ["bold"] }
+
+"ui.cursor" = { fg = "base", bg = "dim" }
+"ui.cursor.primary" = { fg = "on_accent", bg = "accent" }
+"ui.cursor.match" = { fg = "accent", modifiers = ["bold"] }
+"ui.selection" = { bg = "accent_wash" }
+"ui.selection.primary" = { bg = "accent_wash" }
+"ui.cursorline.primary" = { bg = "raised" }
+"ui.cursorline.secondary" = { bg = "raised" }
+"ui.cursorcolumn.primary" = { bg = "raised" }
+"ui.cursorcolumn.secondary" = { bg = "raised" }
+"ui.highlight" = { bg = "accent_wash" }
+"ui.highlight.frameline" = { bg = "accent_wash" }
+
+"ui.virtual" = "faint"
+"ui.virtual.ruler" = { bg = "deep" }
+"ui.virtual.whitespace" = "line"
+"ui.virtual.indent-guide" = "line"
+"ui.virtual.wrap" = "line"
+"ui.virtual.inlay-hint" = "faint"
+"ui.virtual.jump-label" = { fg = "reference", modifiers = ["bold"] }
+
+# Bars
+"ui.statusline" = { fg = "text", bg = "deeper" }
+"ui.statusline.inactive" = { fg = "faint", bg = "deeper" }
+"ui.statusline.separator" = { fg = "line", bg = "deeper" }
+"ui.statusline.normal" = { fg = "dim", bg = "hover", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "text", bg = "hover", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "text", bg = "accent_wash", modifiers = ["bold"] }
+"ui.bufferline" = { fg = "dim", bg = "deeper" }
+"ui.bufferline.active" = { fg = "accent", bg = "base", modifiers = ["bold"] }
+"ui.bufferline.background" = { bg = "deeper" }
+
+# Popups, menus and pickers
+"ui.popup" = { fg = "text", bg = "raised" }
+"ui.popup.info" = { fg = "text", bg = "raised" }
+"ui.menu" = { fg = "text", bg = "raised" }
+"ui.menu.selected" = { fg = "text", bg = "hover", modifiers = ["bold"] }
+"ui.menu.scroll" = { fg = "line", bg = "raised" }
+"ui.picker.header" = { fg = "dim", bg = "raised", modifiers = ["bold"] }
+"ui.picker.header.column" = "dim"
+"ui.picker.header.column.active" = { fg = "accent", modifiers = ["bold"] }
+
+# Debugging
+"ui.debug.breakpoint" = "error"
+"ui.debug.active" = "accent"
+
+# Diagnostics
+"error" = "error"
+"warning" = "warning"
+"info" = "info"
+"hint" = "dim"
+"diagnostic.error" = { underline = { color = "error", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "warning", style = "curl" } }
+"diagnostic.info" = { underline = { color = "info", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "dim", style = "curl" } }
+"diagnostic.unnecessary" = "faint"
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+# Snippets
+"tabstop" = { bg = "accent_wash" }
+
+[palette]
+deeper = "{{deeper}}"
+deep = "{{deep}}"
+base = "{{base}}"
+raised = "{{raised}}"
+hover = "{{hover}}"
+line = "{{line}}"
+faint = "{{faint}}"
+dim = "{{dim}}"
+text = "{{text}}"
+steel = "{{steel}}"
+accent = "{{accent}}"
+on_accent = "{{on_accent}}"
+accent_wash = "{{accent|wash}}"
+error = "{{error}}"
+warning = "{{warning}}"
+success = "{{success}}"
+info = "{{info}}"
+keyword = "{{keyword}}"
+reference = "{{reference}}"
+literal = "{{literal}}"
+type = "{{type}}"
+tag = "{{tag}}"

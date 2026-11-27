@@ -1,0 +1,20 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "version": "5.2.21-2ubuntu4",
+  "install": [
+    "apt-get install -y --no-install-recommends bash=$INGLENOOK_VERSION"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/bash.inputrc\" ~/.config/inglenook/bash.inputrc",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/bash.sh\" ~/.config/inglenook/bash.sh",
+    "[ -f ~/.inputrc ] || echo '$include /etc/inputrc' > ~/.inputrc",
+    "echo '$include ~/.config/inglenook/bash.inputrc' >> ~/.inputrc",
+    "echo 'source ~/.config/inglenook/bash.sh' >> ~/.bashrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/bash/stage.sh\""
+  ]
+}
