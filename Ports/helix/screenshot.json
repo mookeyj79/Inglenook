@@ -1,0 +1,22 @@
+{
+  "kind": "editor",
+  "platform": "linux",
+  "version": "25.07.1",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends xz-utils",
+    "curl -fsSL --retry 5 --retry-all-errors -o /tmp/helix.tar.xz \"https://github.com/helix-editor/helix/releases/download/$INGLENOOK_VERSION/helix-$INGLENOOK_VERSION-x86_64-linux.tar.xz\"",
+    "echo '3f08e63ecd388fff657ad39722f88bb03dcf326f1f2da2700d99e1dc40ab2e8b  /tmp/helix.tar.xz' | sha256sum -c -",
+    "tar -xJf /tmp/helix.tar.xz -C /opt && ln -s \"/opt/helix-$INGLENOOK_VERSION-x86_64-linux/hx\" /usr/local/bin/hx && rm /tmp/helix.tar.xz"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/helix/themes",
+    "cp \"$INGLENOOK_PORT/dist/day/inglenook-day.toml\" \"$INGLENOOK_PORT/dist/night/inglenook-night.toml\" ~/.config/helix/themes/",
+    "printf 'theme = \"inglenook-%s\"\\n' \"$INGLENOOK_VARIANT\" > ~/.config/helix/config.toml"
+  ],
+  "stage": [
+    "p=/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\")/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}scrollbar-policy \"'never'\"",
+    "bash \"$INGLENOOK_SCENE/repo.sh\"",
+    "bash \"$INGLENOOK_SCENE/helix-scene/stage.sh\""
+  ]
+}
