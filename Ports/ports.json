@@ -335,15 +335,6 @@
       ]
     },
     {
-      "folder": "theme-park",
-      "name": "theme.park",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
-      ]
-    },
-    {
       "folder": "tmux",
       "name": "tmux",
       "category": "cli",
