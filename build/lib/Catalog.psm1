@@ -38,6 +38,22 @@ function Read-JsonFile {
     }
 }
 
+function Get-JsonFileProblem {
+    <#
+    .SYNOPSIS
+        What is wrong with a JSON file the repo keeps by hand: it must parse
+        and end with a newline. Returns the problems, without the file name.
+    #>
+    param([Parameter(Mandatory)][string]$Path)
+    $text = [System.IO.File]::ReadAllText($Path)
+    $problems = @()
+    try { $null = $text | ConvertFrom-Json -AsHashtable }
+    catch { $problems += "is not valid JSON: $($_.Exception.Message)" }
+    if ($text.Length -and -not $text.EndsWith("`n")) { $problems += 'does not end with a newline' }
+    if (-not $text.Length) { $problems += 'is empty' }
+    return $problems
+}
+
 function Test-PortMeta($Meta, [string]$Where, [bool]$Planned, $Categories, $Errors) {
     if ($Meta -isnot [System.Collections.IDictionary]) { $Errors.Add("$Where must be a JSON object."); return }
     $known = @('name', 'category', 'tier', 'platforms', 'monogram') + $(if ($Planned) { 'folder' } else { 'icon' })
@@ -441,4 +457,4 @@ function ConvertTo-PortsData {
     }
 }
 
-Export-ModuleMember -Function Get-PortCatalog, ConvertTo-PortsData, Get-IconRules, Read-JsonFile, Get-ShotProblems
+Export-ModuleMember -Function Get-JsonFileProblem, Get-PortCatalog, ConvertTo-PortsData, Get-IconRules, Read-JsonFile, Get-ShotProblems

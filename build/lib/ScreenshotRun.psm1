@@ -248,7 +248,7 @@ function Copy-ShotDelivery {
     .SYNOPSIS
         Puts a run's changed images into a checkout of main and adds every
         missing README Day and Night table (the preview lays out its own).
-        Returns @{ Images; Restamped; Tables; Results }.
+        Returns @{ Images; Restamped; Tables; Results; PullRequest }.
     .DESCRIPTION
         Results is the folder of photograph.ps1 -Report outputs, one folder per
         port with result.json and the last take of each image (a port's day
@@ -259,6 +259,9 @@ function Copy-ShotDelivery {
         if the fingerprint moved, so it is not stale forever. Images are the repo
         paths whose pixels changed, Restamped those whose stamp alone did,
         Tables the ports whose README gained a table, Results every port's result.
+        PullRequest is whether the rolling pull request should open or update:
+        only when a pixel changed or a table was added. New stamps alone (the
+        Restamped images) ride along with the next real change.
     #>
     param([Parameter(Mandatory)][string]$RepoRoot, [Parameter(Mandatory)][string]$Results,
         [Parameter(Mandatory)][string]$DayName, [Parameter(Mandatory)][string]$NightName)
@@ -292,7 +295,8 @@ function Copy-ShotDelivery {
         $updated = Add-ShotTable -Readme $text -DayName $DayName -NightName $NightName
         if ($updated -cne $text) { [System.IO.File]::WriteAllText($readme, $updated); $tables.Add($dir.Name) }
     }
-    return [pscustomobject]@{ Images = $images.ToArray(); Restamped = $restamped.ToArray(); Tables = $tables.ToArray(); Results = $all }
+    return [pscustomobject]@{ Images = $images.ToArray(); Restamped = $restamped.ToArray(); Tables = $tables.ToArray(); Results = $all
+        PullRequest = ($images.Count + $tables.Count) -gt 0 }
 }
 
 function Format-Failure($Result) {
@@ -336,7 +340,7 @@ function New-DeliveryBody {
     }
     if ($Restamped.Count) {
         $lines.Add('## Stamp only'); $lines.Add('')
-        $lines.Add('A retake matched these images exactly, so no pixel changed. Each gets the new fingerprint in its stamp, so it is no longer retaken every run.'); $lines.Add('')
+        $lines.Add('A retake matched these images exactly, so no pixel changed. Each gets the new fingerprint in its stamp, so it is no longer retaken every run. New stamps alone never open this pull request: they wait for a real change.'); $lines.Add('')
         foreach ($i in $Restamped) { $lines.Add("- ``$i``") }
         $lines.Add('')
     }

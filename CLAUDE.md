@@ -24,6 +24,8 @@ wallpapers/                 optional found images, thumbnails, web copies for th
                             and credits (README.md)
 Ports/ports.json            category names, planned ports, and unlisted folders for the ports page
 Ports/preview/              the preview site: landing page with live demos, ports page, install-guide shell
+  template/guides/guide.html the ports page's per-port pages: site.ps1 fills this one shell with each
+                            port's README.md and publishes it at /Ports/<app_name>/
 Ports/<app_name>/
   port.json                 name, category, tier, platforms, icon credit (feeds the ports page)
   icon.svg                  optional single-color card icon (ADR 0008)
@@ -63,8 +65,11 @@ build/photograph.ps1        takes a port's Day and Night screenshots (the Photog
 build/photograph/           pins.json, the Linux base image and take script, the Windows desktop
                             and take scripts, scenes/<kind>/ content
 build/screenshots.ps1       the screenshot workflow's steps that are not a shot (plan, summary, delivery)
-.github/workflows/screenshots.yml  retakes stale ports after a merge; delivers one rolling PR from build/screenshots
+.github/workflows/screenshots.yml  retakes stale ports after a merge; delivers one rolling PR from build/screenshots,
+                            so new shots arrive on origin/build/screenshots, not main. Its deliver step needs the
+                            repo setting "Allow GitHub Actions to create and approve pull requests"
 .githooks/pre-commit        runs test.ps1 and check.ps1 before a commit (git config core.hooksPath .githooks)
+.pre-commit-config.yaml     the same checks for prek (prek install, prek run --all-files)
 .claude/skills/new-port/    the new-port skill and the port README and MAPPING templates
 .claude/skills/port-icon/   the port-icon skill
 .claude/skills/wallpaper/   the wallpaper skill
@@ -94,7 +99,8 @@ Studying how Catppuccin, Nord, Dracula, and other themes ported to the same app 
 2. Bump `meta.version` per "Changing the palette" in PHILOSOPHY.md.
 3. Run the build, then the checks. Read the contrast table and any gamut warnings the check prints.
 4. Summarize which ports changed, from the build's per-port line (`changed`, `version stamp only`, `unchanged`).
-5. If the change adds a role, run `pwsh build/roles.ps1 -Role <role>` and list the ports that don't use it.
+5. `git grep` the old value (OKLCH and hex) across `Ports/` and `docs/`, and fix what MAPPING.md files and docs still say. No check catches a stale value in prose.
+6. If the change adds a role, run `pwsh build/roles.ps1 -Role <role>` and list the ports that don't use it.
 
 If a check fails after a change the user asked for, report it. Do not adjust other values to make it pass without asking.
 
@@ -114,7 +120,7 @@ pwsh build/photograph.ps1 -Port <app>    # take a Linux port's screenshots in Do
 pwsh build/photograph.ps1                # retake every stale Linux port (-All: every Linux port)
 ```
 
-Run build and check before every commit that touches `palette/` or `Ports/`. Run the tests too when `build/` changes.
+Run build and check before every commit that touches `palette/` or `Ports/`. Run the tests too when `build/` changes. In a new clone, turn the hook on once: `git config core.hooksPath .githooks` (or `prek install`).
 
 ## Template placeholders
 
@@ -125,7 +131,8 @@ The placeholder table (`{{<neutral>}}`, `{{<color>}}`, `{{<role>}}`, `{{color|wa
 - Work on a branch named `port/<app_name>`, `palette/<change>`, or `build/<change>` for tooling and docs. Do not commit to `main` directly.
 - Do not install a theme on the user's machine or change system settings unless asked. Building files in the repo is the job.
 - For your own look at a render, capture at 1280x800 or crop to the area in question before reading the image.
-- Port screenshots come from the Photographer (`pwsh build/photograph.ps1 -Port <app_name>`), never from a mock, and so do the preview shots (`-Port preview`). Ask the user for shots only when the port has a manual recipe. Show the user every new or changed shot (the rolling PR counts).
+- To render a page headless (a prototype, `_site/`), use Playwright from one venv under `$HOME`, never the scratchpad: create it once with `uv venv ~/.venvs/playwright && uv pip install -p ~/.venvs/playwright playwright`, and launch the installed Chromium (`executable_path="/usr/bin/chromium"`) instead of `playwright install`.
+- Port screenshots come from the Photographer (`pwsh build/photograph.ps1 -Port <app_name>`), never from a mock, and so do the preview shots (`-Port preview`). Ask the user for shots only when the port has a manual recipe. Show the user every new or changed shot (the rolling PR counts). When the user asks to merge or land, merge the rolling screenshot PR too once its run delivers, then show its shots.
 - Before asking the user to lock a palette candidate, list every check it fails and every gamut warning.
 - Run `node --check` on a prototype page's script before rendering it: a syntax error leaves the page blank with no message.
 - READMEs are for their readers: a port README for the person installing it, the root README for a visitor. No measurements, role names, palette versions, ADR links, research notes, or notes to an agent in them.

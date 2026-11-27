@@ -19,6 +19,7 @@ A port is done when it builds from the palette, passes the checks, has real scre
 
 - Pick the folder name (`<app_name>`): lowercase, hyphenated, the app's common name (`windows-terminal`, `typora`, `vscode`).
 - If `Ports/<app_name>/` exists, this is an update, not a new port. Say so and continue as an update.
+- If the app is one the Photographer cannot shoot in the sandbox (see "What the Photographer cannot shoot" in step 9), say so now and flag it on the port's issue at triage, so the screenshot path is planned before the port is built.
 - If the request is ambiguous, ask one question before going further. "Windows theme" is the classic case: it could mean the OS theme, Windows Terminal, or both. An OS theme usually controls far less than people expect, so say what it can and cannot change.
 
 ## 3. Research how the app is themed
@@ -131,6 +132,14 @@ A port ships only with real screenshots of both variants, taken by the Photograp
 - **version**: the exact app version, required unless the Ubuntu package date in `build/photograph/pins.json` pins the app. This is the port's first pin. Moving a pin in `pins.json` is its own PR; see "Move a pin" in CONTRIBUTING.md.
 - Does the app **require** a login or a license to reach its themed screen, or only recommend one? Look it up in its docs and license terms, and write the answer with links under **Screenshot recipe** in `MAPPING.md`. Required means a manual recipe.
 - A step that stands in for something the reader does by hand (a dialog answered by a config file) gets a line in `MAPPING.md` under **Screenshot recipe**: not tested by hand.
+
+- **Live tools** (btop and other dashboards, anything that redraws on a timer or shows a clock): freeze them through the tool's own config: a long refresh interval, a fixed or hidden clock, static sample data the tool can read. No elaborate rigs around the tool. If the shots will not settle after about 15 minutes of trying, stop and report the blocker to the user with options (a recorded replay, a manual recipe, or leaving the live part out of the scene).
+
+What the Photographer cannot shoot in the sandbox:
+
+- **Apps that need a privileged daemon**, such as Docker BuildKit (a real `docker build`): the Photographer's container has no mount or namespace privileges. The workaround is a recorded replay, as the docker and claude-code scenes do.
+- **Windows-only apps**: only the hosted Windows runner in the `screenshots` workflow shoots them, on the pull request.
+- **macOS apps**: no runner is pinned, so the user takes the shots.
 
 Then follow the one path that fits:
 

@@ -1,0 +1,19 @@
+# The checks of .githooks/pre-commit, for prek (or pre-commit):
+#   prek install            run them before each commit
+#   prek run --all-files    run them now
+# Use this or git config core.hooksPath .githooks, not both.
+repos:
+  - repo: local
+    hooks:
+      - id: test
+        name: build/test.ps1
+        entry: pwsh -NoProfile -File build/test.ps1
+        language: system
+        files: ^build/
+        pass_filenames: false
+      - id: check
+        name: build/check.ps1
+        entry: pwsh -NoProfile -File build/check.ps1
+        language: system
+        files: ^(palette|Ports|build|wallpapers)/|\.md$
+        pass_filenames: false

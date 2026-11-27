@@ -32,11 +32,10 @@ $LicensePatterns = @(
 )
 
 # Polite downloads from Wikimedia Commons. Requests are spaced at least
-# MinGapSeconds apart, across every running copy of the finder. A 429 or 503
-# is retried up to Attempts times, waiting as long as the server asks
-# (Retry-After) or, when it does not say, BaseSeconds doubling each attempt,
-# up to MaxSeconds. A server that asks for longer than MaxSeconds is never
-# retried early: the finder stops and says when to try again.
+# MinGapSeconds apart, across every running copy of the finder. On a 429 or
+# 503 the finder does not retry: it says how long to wait, as long as the
+# server asks (Retry-After) or, when it does not say, BaseSeconds, and stops.
+# Attempts and MaxSeconds bound the delay a caller that does retry would use.
 $Polite = @{ MinGapSeconds = 1; Attempts = 5; BaseSeconds = 5; MaxSeconds = 120; RetryStatus = @(429, 503) }
 
 # One sRGB channel (0 to 255, not rounded) to linear light, as a lookup.
@@ -68,6 +67,39 @@ function Get-WallpaperRetryDelay {
         $wait = [math]::Ceiling(($date - $Now).TotalSeconds)
     }
     return [int][math]::Max($wait, $Polite.MinGapSeconds)
+}
+
+function Get-WallpaperCredit {
+    # A Commons candidate's credit as wallpapers/README.md shows it: Author,
+    # Date, Source, and License, in Markdown, linked where Commons gives a link.
+    param([Parameter(Mandatory)]$Candidate)
+    $c = $Candidate
+    $author = if ($c.AuthorUrl) { "[$($c.Author)]($($c.AuthorUrl))" } elseif ($c.Author) { $c.Author } else { 'Unknown' }
+    $license = if ($c.LicenseUrl) { "[$($c.License)]($($c.LicenseUrl))" } else { $c.License }
+    return [ordered]@{
+        Author  = $author
+        Date    = $(if ($c.Date) { $c.Date } else { 'Unknown' })
+        Source  = "[Wikimedia Commons]($($c.Page))"
+        License = $license
+    }
+}
+
+function New-WallpaperSection {
+    # The wallpapers/README.md section for a wallpaper added as $Name.
+    param([Parameter(Mandatory)]$Candidate, [Parameter(Mandatory)][string]$Name, [Parameter(Mandatory)][string]$Variant)
+    $text = (Get-Culture).TextInfo
+    $title = $text.ToTitleCase(($Name -replace '-', ' '))
+    $lines = @(
+        "## $title", '',
+        "[![$title](thumbs/$Name.jpg)]($Name.jpg)", '',
+        '| | |', '|---|---|',
+        "| File | [``$Name.jpg``]($Name.jpg), $($Candidate.Width) $([char]0xD7) $($Candidate.Height), unmodified original |",
+        "| Variant | $($text.ToTitleCase($Variant)) |",
+        "| Subject | $($Candidate.Description) |"
+    )
+    $credit = Get-WallpaperCredit -Candidate $Candidate
+    foreach ($k in $credit.Keys) { $lines += "| $k | $($credit[$k]) |" }
+    return $lines -join "`n"
 }
 
 function Get-WallpaperRules {
@@ -252,4 +284,4 @@ function Test-WallpaperFolder {
     return $problems
 }
 
-Export-ModuleMember -Function Get-WallpaperRetryDelay, Test-WallpaperFolder, Test-WallpaperUse, Get-WallpaperRules, Get-WallpaperVariant, Select-WallpaperCandidate, Test-WallpaperLicense, Test-WallpaperFormat, Measure-WallpaperFit
+Export-ModuleMember -Function Get-WallpaperCredit, New-WallpaperSection, Get-WallpaperRetryDelay, Test-WallpaperFolder, Test-WallpaperUse, Get-WallpaperRules, Get-WallpaperVariant, Select-WallpaperCandidate, Test-WallpaperLicense, Test-WallpaperFormat, Measure-WallpaperFit

@@ -3,8 +3,9 @@ name: screenshots
 # Retakes port screenshots, and the preview shots, with the Photographer (build/photograph.ps1).
 # On main: every stale port is shot, and images whose exact pixels changed arrive
 # in one rolling pull request from build/screenshots, rebuilt from main each run.
-# An image a retake matched exactly arrives there too, with only its stamp new,
-# listed as stamp only, so its port is fresh again.
+# An image a retake matched exactly gets only a new stamp, listed as stamp only, so
+# its port is fresh again. Stamps ride along with a real change: on their own (no
+# pixel changed, no README table added) they never open or update the pull request.
 # On a pull request: the ports it changed are shot, the images are attached to the
 # run, and the summary says whether they match the ones committed in the pull request.
 # Not on the rolling pull request itself: its images are the ones the run on main just
@@ -15,7 +16,8 @@ name: screenshots
 #
 # The jobs that run recipe steps (shoot) get a read-only token. Only deliver,
 # which runs no recipe step, can write. It needs the repo setting
-# "Allow GitHub Actions to create and approve pull requests".
+# "Allow GitHub Actions to create and approve pull requests" (Settings, Actions,
+# General); without it the deliver job fails and says so.
 # The rules are in build/lib/Photographer.psm1 (with Png.psm1) and build/lib/ScreenshotRun.psm1.
 
 on:
@@ -230,6 +232,12 @@ jobs:
             exit 0
           fi
 
+          # New stamps alone (no pixel changed): they wait for the next real change.
+          if [ "$(jq -r '.pull_request' "$RUNNER_TEMP/delivery.json")" != true ]; then
+            echo "Only stamps changed, no pixel: the rolling pull request is left alone." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git switch -c "$BRANCH"
@@ -247,10 +255,21 @@ jobs:
           pwsh -NoProfile -File build/screenshots.ps1 body "${args[@]}" -Delivery "$RUNNER_TEMP/delivery.json" \
             -Repo "$GITHUB_REPOSITORY" -Base "$base" -Commit "$(git rev-parse HEAD)" > "$RUNNER_TEMP/body.md"
           if [ -n "$open" ]; then
-            gh pr edit "$open" --body-file "$RUNNER_TEMP/body.md"
+            cmd=(gh pr edit "$open" --body-file "$RUNNER_TEMP/body.md")
           else
-            gh pr create --base main --head "$BRANCH" --title 'Retake screenshots' --body-file "$RUNNER_TEMP/body.md"
+            cmd=(gh pr create --base main --head "$BRANCH" --title 'Retake screenshots' --body-file "$RUNNER_TEMP/body.md")
           fi
+          if ! out=$("${cmd[@]}" 2>&1); then
+            echo "$out"
+            msg="Could not open or update the rolling pull request; the images are on $BRANCH only."
+            if grep -qi 'not permitted to create or approve pull requests' <<<"$out"; then
+              msg="$msg Turn on Settings > Actions > General > \"Allow GitHub Actions to create and approve pull requests\", then re-run this job."
+            fi
+            echo "::error::$msg"
+            echo "$msg" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "$out"
           cat "$RUNNER_TEMP/body.md" >> "$GITHUB_STEP_SUMMARY"
 
       # One "Screenshots for <app>" issue open per stale manual port, with one comment
