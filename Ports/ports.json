@@ -167,17 +167,6 @@
       ]
     },
     {
-      "folder": "obs-studio",
-      "name": "OBS Studio",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
