@@ -17,7 +17,7 @@ The design rules are in PHILOSOPHY.md. They are binding, not background reading.
 PHILOSOPHY.md               design rules (source of truth for decisions)
 GLOSSARY.md                 project terms
 assets/splash.jpg           the splash image at the top of the root README
-assets/ornaments/           filigree SVGs (brackets, frame corners, divider, diamonds, backdrops), currentColor only
+assets/ornaments/           filigree SVGs, currentColor only; packaged themes and the preview only (ADR 0010)
 docs/adr/                   recorded decisions and why
 docs/research/              research notes behind the palette
 prototypes/                 throwaway prototype pages, gitignored
