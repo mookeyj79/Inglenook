@@ -315,16 +315,6 @@
       ]
     },
     {
-      "folder": "tmux",
-      "name": "tmux",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "typora",
       "name": "Typora",
       "category": "writing",
