@@ -4,6 +4,10 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Not tested yet
 
+| Day | Night |
+|---|---|
+| ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
+
 The theme colors SumatraPDF's window (toolbar, tabs, menus, bookmarks) and the pages of PDF, XPS, DjVu and PostScript documents. It is a few lines you copy into SumatraPDF's settings file.
 
 ## Before you start

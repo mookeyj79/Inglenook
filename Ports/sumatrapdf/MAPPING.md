@@ -36,7 +36,8 @@ Not set: `ForwardSearch.HighlightColor` (LaTeX forward search), `Annotations.*` 
 - **Selection and found text share `SelectionColor`.** SumatraPDF marks only the current match, so firelight for it follows ADR 0009 (the match at the cursor). There is no "every match" mark to color steel.
 - **Comic books and images** are always drawn on black (`DrawDocument`, `isImage`). Not themable.
 - **Title bar.** Colored by Windows' dark or light mode, which SumatraPDF picks from whether `ControlBackgroundColor` is dark.
-- **Colors the scene cannot show:** `LinkColor` (no UI link on a document window; it may show as the progress bar of the find notice), hover, and disabled text.
+- **Find match outline.** SumatraPDF outlines the found text with a thin black pen at the same alpha (the `margin` path in `PaintTransparentRectangles`). Not a setting; it shows as a darker edge on the firelight wash, most visibly in Day.
+- **Checked in the first run's shots (3.6.1, windows-2025):** text on the page, the bookmarks and toolbar; base as the page; deeper around the page (the find notice's own background is derived from it); deep as the toolbar, tab bar and bookmarks; the accent as the find match wash and as the find notice's progress bar (`LinkColor`). Not shown: hover, disabled text, menus.
 
 ## Research
 
