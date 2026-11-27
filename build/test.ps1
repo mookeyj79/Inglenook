@@ -241,13 +241,13 @@ function Assert-NoFailure($Contrast, [string]$Like) {
 Test 'Contrast: a good palette passes, and every measurement is listed' {
     $c = Test-PaletteContrast (Get-TestPalette (New-PaletteData))
     Assert-Equal 0 $c.Failures.Count "failures ($($c.Failures -join '; '))"
-    # Per variant: 3 text rows, 12 colors on 3 surfaces, on_accent, 12 washes.
-    Assert-Equal (2 * (3 + 36 + 1 + 12)) $c.Measurements.Count 'measurements'
+    # Per variant: text on base, dim and faint on 3 surfaces, 12 colors on 3 surfaces, on_accent, 12 washes.
+    Assert-Equal (2 * (1 + 6 + 36 + 1 + 12)) $c.Measurements.Count 'measurements'
     $m = @($c.Measurements | Where-Object { $_.Variant -eq 'day' -and $_.Role -eq 'text' -and $_.Surface -eq 'base' })
     Assert-Equal 7.0 $m[0].Floor 'text floor'
 }
 
-Test 'Contrast: text needs 7, dim 4.5, faint 3 on base' {
+Test 'Contrast: text needs 7 on base, dim 4.5 and faint 3 on base, raised and deep' {
     $d = New-PaletteData
     $d.variants.day.neutrals.text.l = 0.5
     $d.variants.day.neutrals.dim.l = 0.65
@@ -256,6 +256,11 @@ Test 'Contrast: text needs 7, dim 4.5, faint 3 on base' {
     Assert-Failure $c '*day.text on base is*needs 7:1*'
     Assert-Failure $c '*day.dim on base is*needs 4.5:1*'
     Assert-Failure $c '*day.faint on base is*needs 3:1*'
+    foreach ($s in 'raised', 'deep') {
+        Assert-Failure $c "*day.dim on $s is*needs 4.5:1*"
+        Assert-Failure $c "*day.faint on $s is*needs 3:1*"
+    }
+    Assert-NoFailure $c '*day.text on raised*'
     Assert-NoFailure $c '*night.*'
 }
 
@@ -293,6 +298,7 @@ Test 'Contrast: the table shows every row and marks failures' {
     $p = Get-TestPalette (New-PaletteData)
     $lines = @(Format-ContrastTable $p 'day' (Test-PaletteContrast $p).Measurements)
     Assert-Equal 'Test Day' $lines[0] 'title'
+    Assert-Equal 1 @($lines | Where-Object { $_ -match '^\s+faint\s+\d+\.\d\d\s+\d+\.\d\d\s+\d+\.\d\d\s*$' }).Count "faint row:`n$($lines -join "`n")"
     Assert-Equal 1 @($lines | Where-Object { $_ -match '^\s+rosewood\s+\d+\.\d\d\s+\d+\.\d\d\s+\d+\.\d\d\s+\d+\.\d\d$' }).Count "rosewood row:`n$($lines -join "`n")"
     $d = New-PaletteData
     $d.variants.day.neutrals.text.l = 0.5

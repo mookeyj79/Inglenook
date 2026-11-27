@@ -148,8 +148,8 @@ Every surface is solid and is measured as drawn.
 | What | On | Floor |
 |---|---|---|
 | text | base | 7 (the target is about 10) |
-| dim | base | 4.5 |
-| faint | base | 3 |
+| dim | base, raised and deep | 4.5 |
+| faint | base, raised and deep | 3 |
 | every named color | base | 4.5 |
 | every named color | raised and deep | 3, short labels only |
 | on_accent | firelight | 4.5 |
