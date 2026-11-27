@@ -243,15 +243,6 @@
       ]
     },
     {
-      "folder": "mod-organizer-2",
-      "name": "Mod Organizer 2",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
       "folder": "notepad-plus-plus",
       "name": "Notepad++",
       "category": "editor",
