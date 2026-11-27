@@ -36,6 +36,8 @@
                      braces, comments, and quotes, and shell files parse and
                      source cleanly: .sh in bash and zsh, .zsh in zsh, .ps1 in
                      PowerShell. A shell that is not installed is a warning.
+                     Every tracked .json outside dist/ (ports.json, port.json,
+                     the palette, templates) parses and ends with a newline.
    12. Wallpapers    Every image in wallpapers/ has a thumbnail and a section in
                      wallpapers/README.md with its author, source, license, and
                      variant mark. Each pair has one day and one night image,
@@ -47,6 +49,9 @@
                      < > : " | ? * or control character, and no file or
                      folder name that ends in a space or a dot. In a file
                      name, write {{variant.slug}}, not {{variant.name|slug}}.
+
+    Outside CI, a clone with no pre-commit hook turned on (core.hooksPath
+    .githooks, or prek install) gets a warning.
 
     The rules live in build/lib/: Palette.psm1, Placeholders.psm1,
     Shell.psm1, Build.psm1, Catalog.psm1, and Wallpaper.psm1. This script runs them and reports.
@@ -302,6 +307,22 @@ Invoke-Section 'Format' {
             }
         }
     }
+    $jsonFiles = @()
+    Push-Location $RepoRoot
+    try { $jsonFiles = @(git ls-files -- '*.json' 2>$null) }
+    finally { Pop-Location }
+    if ($LASTEXITCODE -ne 0 -or $jsonFiles.Count -eq 0) {
+        # Not a git checkout: fall back to the file system, skipping local folders.
+        $jsonFiles = @(Get-ChildItem -Path $RepoRoot -Recurse -File -Filter '*.json' -Force |
+            ForEach-Object { Get-RepoPath $_.FullName } |
+            Where-Object { $_ -notmatch '^(\.git|_site|prototypes|\.claude/worktrees)/' })
+    }
+    foreach ($rel in $jsonFiles) {
+        if ($rel -match '(^|/)dist/') { continue }   # the Format section checks dist/
+        $path = Join-Path $RepoRoot $rel
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { continue }
+        foreach ($p in Get-JsonFileProblem -Path $path) { Add-Failure "Format: $rel $p." }
+    }
 }
 
 foreach ($s in $script:MissingShells) { $script:Warnings.Add("Format: $s is not installed, so shell files for it were not checked. CI checks them.") }
@@ -364,6 +385,27 @@ Invoke-Section 'Paths' {
             Where-Object { $_ -notmatch '^(\.git|_site|prototypes|\.claude/worktrees)/' })
     }
     foreach ($e in Find-WindowsPathError -Path $paths) { Add-Failure "Paths: $e" }
+}
+
+# --- Hook ---------------------------------------------------------------------
+
+# A reminder for a local clone, never in CI: the pre-commit hook runs these
+# checks before each commit. Either .githooks or a prek/pre-commit hook counts.
+if (-not ($env:CI -or $env:GITHUB_ACTIONS)) {
+    Push-Location $RepoRoot
+    try {
+        $hooksPath = git config core.hooksPath 2>$null
+        $hookFile = git rev-parse --path-format=absolute --git-path hooks/pre-commit 2>$null
+        $inGit = $LASTEXITCODE -eq 0
+    }
+    finally { Pop-Location }
+    if ($inGit) {
+        $hookOn = ([string]$hooksPath -replace '\\', '/' -replace '/+$', '') -match '(^|/)\.githooks$'
+        if (-not $hookOn -and $hookFile -and (Test-Path -LiteralPath $hookFile -PathType Leaf)) {
+            $hookOn = (Get-Content -Raw -LiteralPath $hookFile) -match 'prek|pre-commit'
+        }
+        if (-not $hookOn) { $script:Warnings.Add('Hook: no pre-commit hook is on, so these checks do not run before a commit. Turn it on once per clone: git config core.hooksPath .githooks (or prek install).') }
+    }
 }
 
 # --- Summary ------------------------------------------------------------------

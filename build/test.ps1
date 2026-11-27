@@ -561,6 +561,17 @@ function New-TestPorts([hashtable]$Index, [hashtable]$Ports) {
 }
 $GoodMeta = @{ name = 'Good'; category = 'editor'; tier = 2; platforms = @('linux', 'web') }
 
+Test 'Catalog: a hand-kept JSON file parses and ends with a newline' {
+    $dir = Join-Path $Tmp ('json-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $dir | Out-Null
+    $write = { param($n, $t) $p = Join-Path $dir $n; [System.IO.File]::WriteAllText($p, $t); $p }
+    Assert-Equal 0 @(Get-JsonFileProblem -Path (& $write 'good.json' "{ `"a`": 1 }`n")).Count 'valid with a newline'
+    Assert-Equal @('does not end with a newline') @(Get-JsonFileProblem -Path (& $write 'nonl.json' '{ "a": 1 }')) 'no final newline'
+    $bad = @(Get-JsonFileProblem -Path (& $write 'bad.json' "{ `"a`": }`n"))
+    Assert-True ($bad.Count -eq 1 -and $bad[0] -like 'is not valid JSON:*') "invalid: $bad"
+    Assert-Equal @('is empty') @(Get-JsonFileProblem -Path (& $write 'empty.json' '')) 'empty'
+}
+
 Test 'Catalog: a valid catalog' {
     $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; unlisted = @('preview'); planned = @(@{ folder = 'later'; name = 'Later'; category = 'editor'; tier = $null; platforms = @('linux') }) } `
         @{ good = $GoodMeta; preview = $null }
@@ -1523,6 +1534,19 @@ Test 'Run: delivery copies only changed images, and adds missing README tables' 
     Assert-True (-not (@($d.Restamped) -like 'Ports/prompt/*')) 'a failed port is not restamped'
     Assert-True ((Get-Content -Raw (Join-Path $root 'Ports/prompt/README.md')) -like '*| Day | Night |*') 'table under the header'
     Assert-Equal @('editor', 'prompt', 'term') @($d.Results | ForEach-Object port) 'results read'
+    Assert-True $d.PullRequest 'a changed image opens the pull request'
+}
+
+Test 'Run: new stamps alone do not open or update the rolling pull request' {
+    $root = New-ShotRepo
+    $results = Join-Path $Tmp ('results-' + [guid]::NewGuid().ToString('N'))
+    New-TestResult $results 'editor' 'unchanged' @{ day = 'unchanged'; night = 'unchanged' }
+    Set-Content (Join-Path $root 'Ports/term/README.md') "# Term`n`n| Day | Night |`n|---|---|`n| ![Day](screenshots/day.png) | ![Night](screenshots/night.png) |"
+    $d = Copy-ShotDelivery -RepoRoot $root -Results $results -DayName 'Day' -NightName 'Night'
+    Assert-Equal @('Ports/editor/screenshots/day.png', 'Ports/editor/screenshots/night.png') @($d.Restamped) 'restamped'
+    Assert-Equal 0 @($d.Images).Count 'no image changed'
+    Assert-Equal 0 @($d.Tables).Count 'no table added'
+    Assert-True (-not $d.PullRequest) 'stamps alone leave the pull request alone'
 }
 
 Test 'Run: delivery and the run summary cover every image of a shot list' {
@@ -1820,6 +1844,25 @@ Test 'Wallpaper: retry delays for a rate-limited download' {
     Assert-Equal 5 (Get-WallpaperRetryDelay -Status 429 -Attempt 1 -RetryAfter 'soon') 'unreadable Retry-After falls back'
     Assert-Equal -1 (Get-WallpaperRetryDelay -Status 404 -Attempt 1) '404 is not retried'
     Assert-Equal -1 (Get-WallpaperRetryDelay -Status 429 -Attempt 5) 'attempts spent'
+}
+
+Test 'Wallpaper: credit and README section of a Commons file' {
+    $c = [pscustomobject]@{ Title = 'File:Room.jpg'; Width = 4000; Height = 3000; Page = 'https://commons.wikimedia.org/wiki/File:Room.jpg'
+        License = 'CC BY-SA 4.0'; LicenseUrl = 'https://creativecommons.org/licenses/by-sa/4.0'; Author = 'Ann'; AuthorUrl = 'https://example.org/ann'
+        Date = '2020-01-02'; Description = 'A room' }
+    $credit = Get-WallpaperCredit -Candidate $c
+    Assert-Equal @('Author', 'Date', 'Source', 'License') @($credit.Keys) 'credit rows'
+    Assert-Equal '[Ann](https://example.org/ann)' $credit['Author'] 'linked author'
+    Assert-Equal '[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)' $credit['License'] 'linked license'
+    $c.AuthorUrl = $null; $c.Author = ''; $c.Date = ''
+    $credit = Get-WallpaperCredit -Candidate $c
+    Assert-Equal 'Unknown' $credit['Author'] 'no author'
+    Assert-Equal 'Unknown' $credit['Date'] 'no date'
+    $s = New-WallpaperSection -Candidate $c -Name 'reading-room' -Variant 'night'
+    foreach ($want in '## Reading Room', '[![Reading Room](thumbs/reading-room.jpg)](reading-room.jpg)', '| Variant | Night |', '| License | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |',
+        ('| File | [{0}reading-room.jpg{0}](reading-room.jpg), 4000 {1} 3000, unmodified original |' -f [char]96, [char]0xD7)) {
+        Assert-True $s.Contains($want) "no '$want' in:`n$s"
+    }
 }
 
 Test 'Wallpaper: candidates filtered and ranked by variant' {

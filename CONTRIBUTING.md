@@ -199,7 +199,7 @@ Wallpapers come from [Wikimedia Commons](https://commons.wikimedia.org/), where 
 ```sh
 pwsh build/wallpaper.ps1 -Search "cabin window plants"                    # grade Commons candidates from previews
 pwsh build/wallpaper.ps1 -Search "library fireplace" -Variant night       # only images that suit Night
-pwsh build/wallpaper.ps1 -Check "File:Example.jpg"                        # grade one from a large copy
+pwsh build/wallpaper.ps1 -Check "File:One.jpg|File:Two.jpg"              # grade originals, print their credits
 pwsh build/wallpaper.ps1 -Add "File:Example.jpg" -Name example -Variant night  # save it, its thumbnail, and its credit
 pwsh build/wallpaper.ps1 -Web example                                     # a smaller copy for the preview site
 ```
@@ -218,7 +218,7 @@ The preview site shows a web copy, not the original: `-Web` writes a 2400 px cop
 ## Branches and pull requests
 
 - Branch names: `port/<app_name>` for ports, `palette/<change>` for palette changes, `build/<change>` for tooling and docs. Never commit to `main` directly.
-- Run `pwsh build/build.ps1` and `pwsh build/check.ps1` before every commit that touches `palette/` or `Ports/`. CI runs the same checks on every pull request. To run them automatically before each commit, turn on the repo's hook once per clone: `git config core.hooksPath .githooks`.
+- Run `pwsh build/build.ps1` and `pwsh build/check.ps1` before every commit that touches `palette/` or `Ports/`. CI runs the same checks on every pull request. To run them automatically before each commit, turn on the repo's hook once per clone: `git config core.hooksPath .githooks`, or `prek install`, which runs the same checks from `.pre-commit-config.yaml`. `check.ps1` warns while neither is on.
 - Changing the build itself: the rules live in `build/lib/`, and the scripts in `build/` only run them. Run `pwsh build/test.ps1` too, and add a test there for a new rule.
 - Show both variants in the pull request.
 

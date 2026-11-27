@@ -40,19 +40,21 @@ Grades up to 50 Commons results from previews (about a minute), calmest first. `
 
 To find the other half of a pair, search for the same kind of subject with the other variant, for example `-Search "library fireplace" -Variant night` for a sunlit reading room.
 
-## 2. Check from a large copy
+## 2. Check the originals, all in one run
 
 ```
-pwsh build/wallpaper.ps1 -Check "File:<title>.jpg"
+pwsh build/wallpaper.ps1 -Check "File:<one>.jpg|File:<two>.jpg|File:<three>.jpg"
 ```
 
-Previews can be off by a little. `-Check` grades the 1920 px copy, and those grades count. It exits 1 only on a failed gate.
+Put every candidate in one `-Check`, separated by `|`; never one run per file. Previews can be off by a little. `-Check` grades each original, and those grades count. It prints each file's credit (author, date, source, license, with links), so do not query the Commons API or download the files yourself: the script has it all. It exits 1 if any file fails a gate.
 
-The script paces its requests to Commons and waits out a busy server on its own, even across parallel runs. If Commons asks for a long pause, the script stops and says how long. Wait that long; retrying sooner extends the block.
+Each original and its Commons details are cached outside the repo, so a later `-Add` of the same file downloads nothing.
+
+The script paces its requests to Commons, even across parallel runs. If Commons says it is busy, the script prints how long to wait and exits 3. Wait that long, then run the same command once; retrying sooner extends the block. Do not loop it.
 
 ## 3. Read the Commons page yourself
 
-Open the candidate's Commons page. The script reads the license field, but confirm:
+Open the candidate's Commons page (the Source link `-Check` printed). The script reads the license field, but confirm:
 
 - The license on the page matches, and there is no extra restriction (personality rights, trademarks, a "do not use" note).
 - The author is the real author. For "Public domain", the reason it is public domain applies worldwide, not just in one country.
@@ -67,9 +69,10 @@ List the candidates with their Commons links, grades, and suggested variant, and
 
 ```
 pwsh build/wallpaper.ps1 -Add "File:<title>.jpg" -Name <short-name> -Variant <day|night|both>
+pwsh build/wallpaper.ps1 -Add "File:<one>.jpg|File:<two>.jpg" -Name <one-name>,<two-name> -Variant day,night
 ```
 
-`-Variant` is required; the script shows the suggestion beside it. It saves the original byte for byte to `wallpapers/<short-name>.jpg`, writes the 640 px thumbnail, and prints a credit section with the mark.
+Add every picked image in one run: titles separated by `|`, one name each, and one mark for all or one each, separated by commas. `-Variant` is required; the script shows the suggestion beside it. For each image it saves the original byte for byte to `wallpapers/<short-name>.jpg` (from the cache `-Check` filled), writes the 640 px thumbnail, and prints a credit section with the mark.
 
 Paste it into `wallpapers/README.md`:
 

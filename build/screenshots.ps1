@@ -18,8 +18,9 @@
              with -Whole, each port's merged result, with the take verdict.
     deliver  In a checkout of main: copies the changed images from -Results,
              restamps the unchanged ones whose fingerprint moved (pixels kept),
-             and adds missing README tables. Writes { images, restamped, tables }
-             to -Out.
+             and adds missing README tables. Writes { images, restamped, tables,
+             pull_request } to -Out; pull_request is false when only stamps
+             changed, and then the rolling pull request is left alone.
     body     Prints the rolling pull request's body, from -Results, -Plan and
              -Delivery, with old images from -Base and new ones from -Commit.
     note     Prints the comment that closes the rolling pull request when a run
@@ -99,10 +100,11 @@ switch ($Step) {
     'deliver' {
         $palette = Read-Palette -Path (Join-Path $RepoRoot 'palette' 'palette.json')
         $d = Copy-ShotDelivery -RepoRoot $RepoRoot -Results $Results -DayName $palette.Variants['day'].Name -NightName $palette.Variants['night'].Name
-        Set-Content -Path $Out -Value (ConvertTo-Json -InputObject ([ordered]@{ images = @($d.Images); restamped = @($d.Restamped); tables = @($d.Tables) }) -Compress)
+        Set-Content -Path $Out -Value (ConvertTo-Json -InputObject ([ordered]@{ images = @($d.Images); restamped = @($d.Restamped); tables = @($d.Tables); pull_request = $d.PullRequest }) -Compress)
         foreach ($i in $d.Images) { Write-Host "Changed: $i" }
         foreach ($i in $d.Restamped) { Write-Host "Stamp only: $i" }
         foreach ($t in $d.Tables) { Write-Host "README table added: Ports/$t/README.md" }
+        if (-not $d.PullRequest -and $d.Restamped.Count) { Write-Host 'Only stamps changed, no pixel: the rolling pull request is left alone.' }
     }
     'body' {
         $p = Read-JsonFile $Plan

@@ -16,17 +16,29 @@
     or below, both in between. They never refuse an image.
 
     -Search lists Commons candidates and grades each from a small preview.
-    -Check grades one image from its 1920 px Commons thumbnail (or a local
-    file) instead of a preview.
-    -Add downloads a Commons file into wallpapers/, unmodified, writes the
-    640 px thumbnail, and prints the credit section for wallpapers/README.md,
-    with the variant mark given. It refuses an image that fails a gate.
+    -Check grades images from their full Commons originals (or local files)
+    instead of a preview, and prints each one's credit: author, date,
+    source, and license.
+    -Add copies Commons files into wallpapers/, unmodified, writes the 640 px
+    thumbnails, and prints the credit section for wallpapers/README.md, with
+    the variant mark given. It refuses an image that fails a gate.
+
+    -Check and -Add take several files at once: separate titles with | (which
+    no Commons title contains), names and variants with commas. Their Commons
+    details come in one request, and each original and its details are cached,
+    so -Add after -Check downloads nothing again.
+
+    Commons limits how fast one machine may ask. Requests are spaced out, even
+    across parallel runs. If Commons still says it is busy (429 or 503), the
+    script prints how long to wait and exits 3: wait that long, then run the
+    same command again. Retrying sooner extends the block.
     -Web writes wallpapers/web/<name>.jpg, a 2400 px copy of a wallpaper for
     the preview site, so its page stays light.
 
     Images are read with SixLabors.ImageSharp (Apache 2.0 for open source
     projects), downloaded once from NuGet, checked against a pinned hash, and
-    cached with every download in a temp folder.
+    cached with every download and Commons detail in a temp folder outside
+    the repo (inglenook-wallpapers).
 
 .PARAMETER Search
     Words to look for on Commons, such as "cabin interior", "reading room", or
@@ -40,17 +52,18 @@
 
 .PARAMETER Variant
     For -Search: keep images suggested for this variant (day, night, or
-    both), exact suggestions first. For -Add: the variant mark, required.
+    both), exact suggestions first. For -Add: the variant mark, required:
+    one for every file, or one per file, in the order of -Add.
 
 .PARAMETER Check
-    A local image path, or a Commons title such as "File:Example.jpg".
+    Local image paths, or Commons titles such as "File:Example.jpg".
 
 .PARAMETER Add
-    A Commons title such as "File:Example.jpg". Needs -Name.
+    Commons titles such as "File:Example.jpg". Needs -Name.
 
 .PARAMETER Name
-    For -Add: the short name, such as "cabin-window-plants". Lowercase words
-    joined by hyphens.
+    For -Add: one short name per file, such as "cabin-window-plants".
+    Lowercase words joined by hyphens.
 
 .EXAMPLE
     pwsh build/wallpaper.ps1 -Search "cabin interior window"
@@ -61,11 +74,17 @@
 .EXAMPLE
     pwsh build/wallpaper.ps1 -Check wallpapers/cabin-window-plants.jpg
 
+.EXAMPLE
+    pwsh build/wallpaper.ps1 -Check "File:One.jpg|File:Two.jpg|File:Three.jpg"
+
 .PARAMETER Web
     The short name of a wallpaper in wallpapers/, such as "cabin-seating".
 
 .EXAMPLE
     pwsh build/wallpaper.ps1 -Add "File:Example.jpg" -Name cabin-window-plants -Variant day
+
+.EXAMPLE
+    pwsh build/wallpaper.ps1 -Add "File:One.jpg|File:Two.jpg" -Name reading-room,library-fire -Variant day,night
 
 .EXAMPLE
     pwsh build/wallpaper.ps1 -Web cabin-seating
@@ -84,17 +103,16 @@ param(
 
     [Parameter(ParameterSetName = 'Search')]
     [Parameter(Mandatory, ParameterSetName = 'Add')]
-    [ValidateSet('day', 'night', 'both')]
-    [string]$Variant,
+    [string[]]$Variant,
 
     [Parameter(Mandatory, ParameterSetName = 'Check')]
-    [string]$Check,
+    [string[]]$Check,
 
     [Parameter(Mandatory, ParameterSetName = 'Add')]
-    [string]$Add,
+    [string[]]$Add,
 
     [Parameter(Mandatory, ParameterSetName = 'Add')]
-    [string]$Name,
+    [string[]]$Name,
 
     [Parameter(Mandatory, ParameterSetName = 'Web')]
     [string]$Web
@@ -120,6 +138,14 @@ $FitWidth  = 480
 $CheckWidth = 1920   # a standard Commons thumbnail size; grades are taken from a 480 px copy anyway
 $ThumbWidth = 640
 $WebWidth = 2400     # the preview site's copy: sharp enough behind the page, a few hundred KB
+$RateLimitExit = 3
+
+function Split-List([string[]]$Values, [string]$Separator) {
+    # From pwsh -File every list arrives as one string, so split it here.
+    return @($Values | ForEach-Object { $_ -split $Separator } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+}
+$Variants = @(Split-List $Variant ',')
+foreach ($v in $Variants) { if ($v -notin 'day', 'night', 'both') { throw "-Variant '$v' is not day, night, or both." } }
 
 # --- Downloads and ImageSharp -------------------------------------------------
 
@@ -154,24 +180,22 @@ function Wait-RequestSlot {
 }
 
 function Invoke-Polite([scriptblock]$Request) {
-    # Runs a web request in its turn, and retries it when the server says it
-    # is busy (429 or 503), waiting as long as it asks.
-    for ($attempt = 1; ; $attempt++) {
-        Wait-RequestSlot
-        try { return & $Request }
-        catch {
-            $resp = $_.Exception.PSObject.Properties['Response']?.Value
-            if (-not $resp -or -not $resp.PSObject.Properties['StatusCode']) { throw }
-            $after = if ($resp.Headers.RetryAfter) { $resp.Headers.RetryAfter.ToString() } else { $null }
-            $polite = (Get-WallpaperRules).Polite
-            $wait = Get-WallpaperRetryDelay -Status ([int]$resp.StatusCode) -Attempt $attempt -RetryAfter $after
-            if ($wait -lt 0) { throw }
-            if ($wait -gt $polite.MaxSeconds) {
-                throw "Commons is rate limiting this machine ($([int]$resp.StatusCode)) and asks for a pause of $([math]::Ceiling($wait / 60)) min. Try again after that; retrying sooner extends the block."
-            }
-            Write-Host "Commons is busy ($([int]$resp.StatusCode)). Waiting $wait s, then trying again ($($attempt + 1) of $($polite.Attempts))..."
-            Start-Sleep -Seconds $wait
-        }
+    # Runs a web request in its turn. When the server says it is busy (429 or
+    # 503), says how long it asks to wait and exits: no retry loop, which
+    # would only extend the block. Finished downloads stay cached.
+    Wait-RequestSlot
+    try { return & $Request }
+    catch {
+        $resp = $_.Exception.PSObject.Properties['Response']?.Value
+        if (-not $resp -or -not $resp.PSObject.Properties['StatusCode']) { throw }
+        $status = [int]$resp.StatusCode
+        $after = if ($resp.Headers.RetryAfter) { $resp.Headers.RetryAfter.ToString() } else { $null }
+        $wait = Get-WallpaperRetryDelay -Status $status -Attempt 1 -RetryAfter $after
+        if ($wait -lt 0) { throw }
+        $words = if ($wait -ge 120) { "$([math]::Ceiling($wait / 60)) min" } else { "$wait s" }
+        Write-Host "Commons is rate limiting this machine ($status). Wait $words, then run the same command again."
+        Write-Host 'What is already downloaded is cached and is not fetched again. Retrying sooner extends the block.'
+        exit $RateLimitExit
     }
 }
 
@@ -335,20 +359,54 @@ function Get-RuleProblems($Candidate) {
     return , $p
 }
 
-function Get-Candidate([string]$Title, [int]$PreviewWidth = $FitWidth) {
-    if ($Title -notmatch '^File:') { $Title = "File:$Title" }
-    $q = @{ titles = $Title } + $InfoProps
-    $q['iiurlwidth'] = $PreviewWidth
-    $page = (Invoke-Commons $q).query.pages[0]
-    if ($page.PSObject.Properties['missing'] -or -not $page.PSObject.Properties['imageinfo']) { throw "Commons has no file '$Title'." }
-    return ConvertTo-Candidate $page
+function Get-SafeFileName([string]$Title) { return ($Title -replace '[^A-Za-z0-9._-]', '_') }
+
+function Get-Candidates([string[]]$Titles) {
+    # Each title's candidate, or the reason there is none, as a hashtable by
+    # title. Details are cached; the rest come in one request per 50 titles.
+    $out = @{}
+    $ask = [System.Collections.Generic.List[string]]::new()
+    foreach ($t in $Titles) {
+        $title = if ($t -match '^File:') { $t } else { "File:$t" }
+        $meta = Get-CachePath ('meta-' + (Get-SafeFileName $title) + '.json')
+        if (Test-Path $meta) { $out[$t] = Get-Content -Raw $meta | ConvertFrom-Json }
+        else { $ask.Add($t) }
+    }
+    for ($i = 0; $i -lt $ask.Count; $i += 50) {
+        $chunk = @($ask[$i..([math]::Min($i + 49, $ask.Count - 1))])
+        $full = @($chunk | ForEach-Object { if ($_ -match '^File:') { $_ } else { "File:$_" } })
+        $res = Invoke-Commons (@{ titles = ($full -join '|') } + $InfoProps)
+        $renamed = @{}
+        if ($res.query.PSObject.Properties['normalized']) { foreach ($n in $res.query.normalized) { $renamed[$n.from] = $n.to } }
+        for ($j = 0; $j -lt $chunk.Count; $j++) {
+            $title = if ($renamed.ContainsKey($full[$j])) { $renamed[$full[$j]] } else { $full[$j] }
+            $page = @($res.query.pages | Where-Object { $_.title -eq $title })[0]
+            if (-not $page -or $page.PSObject.Properties['missing'] -or -not $page.PSObject.Properties['imageinfo']) { $out[$chunk[$j]] = "Commons has no file '$($full[$j])'."; continue }
+            $c = ConvertTo-Candidate $page
+            $json = ConvertTo-Json -InputObject $c
+            Set-Content -Path (Get-CachePath ('meta-' + (Get-SafeFileName $full[$j]) + '.json')) -Value $json
+            $out[$chunk[$j]] = $c
+        }
+    }
+    return $out
 }
 
-function Get-SafeFileName([string]$Title) { return ($Title -replace '[^A-Za-z0-9._-]', '_') }
+function Save-Original($Candidate) {
+    # The original, byte for byte, downloaded once and cached for -Check and -Add.
+    return Save-Url $Candidate.Url (Get-CachePath ('full-' + (Get-SafeFileName $Candidate.Title)))
+}
+
+function Write-Credit($Candidate) {
+    Write-Host 'Credit'
+    $credit = Get-WallpaperCredit -Candidate $Candidate
+    foreach ($k in $credit.Keys) { Write-Host ('  {0,-11} {1}' -f $k, $credit[$k]) }
+}
 
 # --- Search -------------------------------------------------------------------
 
 if ($PSCmdlet.ParameterSetName -eq 'Search') {
+    if ($Variants.Count -gt 1) { throw '-Search takes one -Variant.' }
+    $Variant = if ($Variants.Count) { $Variants[0] } else { $null }
     $q = @{
         generator = 'search'; gsrnamespace = '6'; gsrlimit = '50'
         gsrsearch = "$Search filetype:bitmap filemime:image/jpeg filew:>$($MinWidth - 1)"
@@ -408,30 +466,40 @@ if ($PSCmdlet.ParameterSetName -eq 'Search') {
 # --- Check ----------------------------------------------------------------------
 
 if ($PSCmdlet.ParameterSetName -eq 'Check') {
-    $candidate = $null
-    if (Test-Path -LiteralPath $Check -PathType Leaf) { $path = (Resolve-Path -LiteralPath $Check).Path }
-    else {
-        # The 1920 px standard thumbnail, not the original: it grades the same
-        # and spares Commons a download of many megabytes.
-        $candidate = Get-Candidate $Check $CheckWidth
-        $path = Save-Url $candidate.ThumbUrl (Get-CachePath ("check$CheckWidth-" + (Get-SafeFileName $candidate.Title)))
+    $items = @(Split-List $Check '\|')
+    $titles = @($items | Where-Object { -not (Test-Path -LiteralPath $_ -PathType Leaf) })
+    $found = if ($titles) { Get-Candidates $titles } else { @{} }
+    $failed = 0
+    foreach ($item in $items) {
+        if ($items.Count -gt 1) { Write-Host ''; Write-Host "--- $item" }
+        $candidate = $null
+        if (Test-Path -LiteralPath $item -PathType Leaf) { $path = (Resolve-Path -LiteralPath $item).Path }
+        else {
+            $candidate = $found[$item]
+            if ($candidate -is [string]) { Write-Host $candidate; $failed++; continue }
+            # The original, which -Add copies: one download, cached, serves both.
+            $path = Save-Original $candidate
+        }
+        $img = Read-Image $path
+        $size = if ($candidate) { "$($candidate.Width) x $($candidate.Height)" } else { "$($img.Width) x $($img.Height)" }
+        Write-Host "$item ($size)"
+        if ($candidate) { Write-Host "$($candidate.License), by $($candidate.Author). $($candidate.Page)" }
+        Write-Host ''
+        # Get-RuleProblems returns its list whole; looping over the call would add
+        # that list as one blank problem.
+        # Both kinds go through it, so the local-file smoke test in test.ps1
+        # covers the same path as a Commons title.
+        $gated = if ($candidate) { $candidate } else { [pscustomobject]@{ Width = $img.Width; Height = $img.Height } }
+        $problems = Get-RuleProblems $gated
+        $fit = Measure-Image $img
+        $img.Dispose()
+        $gates = if ($candidate) { 'the format and license gates' } else { 'the format gate (license is checked for Commons titles)' }
+        Write-Report $fit $problems $gates
+        if ($candidate) { Write-Host ''; Write-Credit $candidate }
+        if ($problems.Count) { $failed++ }
     }
-    $img = Read-Image $path
-    $size = if ($candidate) { "$($candidate.Width) x $($candidate.Height)" } else { "$($img.Width) x $($img.Height)" }
-    Write-Host "$Check ($size)"
-    if ($candidate) { Write-Host "$($candidate.License), by $($candidate.Author). $($candidate.Page)" }
-    Write-Host ''
-    # Get-RuleProblems returns its list whole; looping over the call would add
-    # that list as one blank problem.
-    # Both kinds go through it, so the local-file smoke test in test.ps1
-    # covers the same path as a Commons title.
-    $gated = if ($candidate) { $candidate } else { [pscustomobject]@{ Width = $img.Width; Height = $img.Height } }
-    $problems = Get-RuleProblems $gated
-    $fit = Measure-Image $img
-    $img.Dispose()
-    $gates = if ($candidate) { 'the format and license gates' } else { 'the format gate (license is checked for Commons titles)' }
-    Write-Report $fit $problems $gates
-    if ($problems.Count) { exit 1 }
+    if ($items.Count -gt 1) { Write-Host ''; Write-Host "$($items.Count - $failed) of $($items.Count) pass." }
+    if ($failed) { exit 1 }
     return
 }
 
@@ -457,63 +525,63 @@ if ($PSCmdlet.ParameterSetName -eq 'Web') {
 
 # --- Add ------------------------------------------------------------------------
 
-if ($Name -notmatch '^[a-z0-9]+(-[a-z0-9]+)*$') { throw "-Name must be lowercase words joined by hyphens, such as 'cabin-window-plants'." }
-$target = Join-Path $WallpaperDir "$Name.jpg"
-$thumb  = Join-Path $WallpaperDir 'thumbs' "$Name.jpg"
-if ((Test-Path $target) -or (Test-Path $thumb)) { throw "wallpapers/$Name.jpg or its thumbnail already exists." }
-
-$c = Get-Candidate $Add
-$problems = Get-RuleProblems $c
-if ($problems.Count) { throw "Not adding $($c.Title): $($problems -join ' ')" }
-
-$cached = Save-Url $c.Url (Get-CachePath ('full-' + (Get-SafeFileName $c.Title)))
-$img = Read-Image $cached
-$fit = Measure-Image $img
-Write-Report $fit @()
-Write-Host ''
-$agree = if ($fit.Variant -eq $Variant) { 'agrees' } else { 'differs, your call stands' }
-Write-Host "Marked $Variant; lightness suggests $($fit.Variant) ($agree)."
-
-# The original goes in byte for byte. Only the thumbnail is re-encoded.
-# Both files or neither.
-try {
-    New-Item -ItemType Directory -Path (Split-Path $thumb) -Force | Out-Null
-    $small = Copy-Image $img $ThumbWidth
-    $enc = [SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder]::new()
-    $enc.Quality = 85
-    [SixLabors.ImageSharp.ImageExtensions]::Save($small, $thumb, $enc)
-    $small.Dispose()
-    Copy-Item -LiteralPath $cached -Destination $target
+$adds = @(Split-List $Add '\|')
+$names = @(Split-List $Name '[,|]')
+if ($names.Count -ne $adds.Count) { throw "-Add has $($adds.Count) file(s) and -Name $($names.Count) name(s). Give one name per file." }
+if ($Variants.Count -notin 1, $adds.Count) { throw "-Variant needs one mark for every file, or one per file ($($adds.Count))." }
+foreach ($n in $names) {
+    if ($n -notmatch '^[a-z0-9]+(-[a-z0-9]+)*$') { throw "-Name '$n' must be lowercase words joined by hyphens, such as 'cabin-window-plants'." }
+    if ((Test-Path (Join-Path $WallpaperDir "$n.jpg")) -or (Test-Path (Join-Path $WallpaperDir 'thumbs' "$n.jpg"))) { throw "wallpapers/$n.jpg or its thumbnail already exists." }
 }
-catch {
-    Remove-Item -LiteralPath $thumb, $target -ErrorAction SilentlyContinue
-    throw
+if (@($names | Sort-Object -Unique).Count -ne $names.Count) { throw '-Name has the same name twice.' }
+
+$found = Get-Candidates $adds
+$failed = 0
+$sections = [System.Collections.Generic.List[string]]::new()
+for ($i = 0; $i -lt $adds.Count; $i++) {
+    $c = $found[$adds[$i]]
+    $short = $names[$i]
+    $mark = if ($Variants.Count -eq 1) { $Variants[0] } else { $Variants[$i] }
+    if ($adds.Count -gt 1) { Write-Host ''; Write-Host "--- $($adds[$i]) as $short ($mark)" }
+    if ($c -is [string]) { Write-Host "Not adding: $c"; $failed++; continue }
+    $problems = Get-RuleProblems $c
+    if ($problems.Count) { Write-Host "Not adding $($c.Title): $($problems -join ' ')"; $failed++; continue }
+
+    $target = Join-Path $WallpaperDir "$short.jpg"
+    $thumb  = Join-Path $WallpaperDir 'thumbs' "$short.jpg"
+    $cached = Save-Original $c
+    $img = Read-Image $cached
+    $fit = Measure-Image $img
+    Write-Report $fit @()
+    Write-Host ''
+    $agree = if ($fit.Variant -eq $mark) { 'agrees' } else { 'differs, your call stands' }
+    Write-Host "Marked $mark; lightness suggests $($fit.Variant) ($agree)."
+
+    # The original goes in byte for byte. Only the thumbnail is re-encoded.
+    # Both files or neither.
+    try {
+        New-Item -ItemType Directory -Path (Split-Path $thumb) -Force | Out-Null
+        $small = Copy-Image $img $ThumbWidth
+        $enc = [SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder]::new()
+        $enc.Quality = 85
+        [SixLabors.ImageSharp.ImageExtensions]::Save($small, $thumb, $enc)
+        $small.Dispose()
+        Copy-Item -LiteralPath $cached -Destination $target
+    }
+    catch {
+        Remove-Item -LiteralPath $thumb, $target -ErrorAction SilentlyContinue
+        throw
+    }
+    finally { $img.Dispose() }
+    Write-Host "Wrote wallpapers/$short.jpg and wallpapers/thumbs/$short.jpg."
+    $sections.Add((New-WallpaperSection -Candidate $c -Name $short -Variant $mark))
 }
-finally { $img.Dispose() }
 
-$title = (Get-Culture).TextInfo.ToTitleCase(($Name -replace '-', ' '))
-$author = if ($c.AuthorUrl) { "[$($c.Author)]($($c.AuthorUrl))" } elseif ($c.Author) { $c.Author } else { 'Unknown' }
-$license = if ($c.LicenseUrl) { "[$($c.License)]($($c.LicenseUrl))" } else { $c.License }
-$section = @"
-## $title
-
-[![$title](thumbs/$Name.jpg)]($Name.jpg)
-
-| | |
-|---|---|
-| File | [``$Name.jpg``]($Name.jpg), $($c.Width) × $($c.Height), unmodified original |
-| Variant | $((Get-Culture).TextInfo.ToTitleCase($Variant)) |
-| Subject | $($c.Description) |
-| Author | $author |
-| Date | $(if ($c.Date) { $c.Date } else { 'Unknown' }) |
-| Source | [Wikimedia Commons]($($c.Page)) |
-| License | $license |
-"@
-
-Write-Host ''
-Write-Host "Wrote wallpapers/$Name.jpg and wallpapers/thumbs/$Name.jpg."
-Write-Host 'Add this to wallpapers/README.md, after the last section. For a pair, make it'
-Write-Host 'a ### subsection of the pair section instead. Rewrite the Subject in one plain'
-Write-Host 'line, and check the author and license against the Commons page:'
-Write-Host ''
-Write-Host $section
+if ($sections.Count) {
+    Write-Host ''
+    Write-Host 'Add each section to wallpapers/README.md, after the last section. For a pair, make'
+    Write-Host 'it a ### subsection of the pair section instead. Rewrite the Subject in one plain'
+    Write-Host 'line, and check the author and license against the Commons page:'
+    foreach ($s in $sections) { Write-Host ''; Write-Host $s }
+}
+if ($failed) { exit 1 }
