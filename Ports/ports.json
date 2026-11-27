@@ -190,15 +190,6 @@
       ]
     },
     {
-      "folder": "theme-park",
-      "name": "theme.park",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
-      ]
-    },
-    {
       "folder": "typora",
       "name": "Typora",
       "category": "writing",
