@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The music scene in Dopamine: the library from library.sh as Dopamine's collection,
+# Dopamine's part of the app scene: the library from library.sh as its collection,
 # with one track paused part way through, as if the reader had added the folder and
 # played a song. Run it in the recipe's stage, after config.json is written.
 # Usage: collection.sh <music dir>. Needs dopamine and sqlite3.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The music scene: a small library of silent tracks, for a music player to show.
+# Dopamine's part of the app scene: a small library of silent tracks, for a music player to show.
 # Usage: library.sh <dir>. Needs ffmpeg (the recipe installs it).
 #
 # Every track is generated silence in FLAC with plain tags: made up artists, albums
