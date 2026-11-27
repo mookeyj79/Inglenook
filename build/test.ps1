@@ -354,6 +354,17 @@ Test 'Placeholders: comma gives r,g,b with no spaces, as ripgrep --colors takes 
     Assert-Equal 'match:fg:0,0,0 match:bg:255,255,255' $out 'comma'
 }
 
+Test 'Placeholders: argb gives FFRRGGBB in upper case, as Visual Studio themes take it' {
+    $d = New-PaletteData
+    $d.variants.day.neutrals.base = [ordered]@{ l = 1; c = 0; h = 0 }
+    $d.variants.day.colors.steel = [ordered]@{ l = 0; c = 0; h = 0 }
+    $d.variants.day.wash = 0.5
+    $p = Get-TestPalette $d
+    $v = $p.Variants['day']
+    Assert-Equal 'Source="FFFFFFFF"' (Expand-Template -Text 'Source="{{base|argb}}"' -Palette $p -Variant $v -PortValues $null -Source 'test') 'opaque, upper case'
+    Assert-Equal 'FF808080' (Expand-Template -Text '{{info|wash|argb}}' -Palette $p -Variant $v -PortValues $null -Source 'test') 'a wash, through a role'
+}
+
 Test 'Placeholders: wash takes one format filter after it, as ripgrep needs a wash as r,g,b' {
     $d = New-PaletteData
     $d.variants.day.neutrals.base = [ordered]@{ l = 1; c = 0; h = 0 }
