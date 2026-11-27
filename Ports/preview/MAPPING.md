@@ -31,6 +31,8 @@ The preview is not an app port. It is unlisted in `Ports/ports.json`, so it has 
 | Diagram status nodes | the role's wash, its border in the role | Each label also says its status in words |
 | Diagram notes | `raised`, `tag` border | Notes are annotations |
 | Back button on guides | `raised`, `line` border, `hover` | |
+| Ornaments: corner brackets, frame corners, divider, diamonds | `oxblood` | A detail color with no role, so decoration never reads as state |
+| Favicon | `firelight` | The site's mark, one per variant; `variant.js` swaps it with the switch |
 | Code | the syntax mapping in PHILOSOPHY.md | |
 
 ## Gaps and trade-offs

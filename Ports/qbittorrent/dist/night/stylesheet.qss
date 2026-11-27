@@ -1,0 +1,35 @@
+/* Inglenook Night for qBittorrent. https://github.com/mookeyj79/Inglenook
+   qBittorrent applies config.json to the focused window only; these rules keep
+   text and selections the same when the window is in the background. */
+
+QWidget {
+  color: #d1c9bc;
+  selection-background-color: #463624;
+  selection-color: #d1c9bc;
+}
+
+QWidget:disabled {
+  color: #8f887f;
+}
+
+QAbstractItemView {
+  background-color: #1b1917;
+  alternate-background-color: #262321;
+}
+
+QProgressBar {
+  background-color: #1b1917;
+  border: 1px solid #363331;
+  color: #d1c9bc;
+  text-align: center;
+}
+
+QProgressBar::chunk {
+  background-color: #31383e;
+}
+
+QToolTip {
+  background-color: #262321;
+  color: #d1c9bc;
+  border: 1px solid #363331;
+}

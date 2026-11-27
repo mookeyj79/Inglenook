@@ -1,0 +1,14 @@
+# Inglenook Night for GNU Screen 4, from Inglenook 0.1.0.
+# Save as ~/.config/inglenook/screenrc and add this line to ~/.screenrc:
+#   source ~/.config/inglenook/screenrc
+# The color letters are terminal colors: set your terminal to Inglenook Night too.
+# Screen 5 spells colors differently and does not read this file's colors.
+
+# The status line at the bottom: every window, the current one as a solid block.
+hardstatus alwayslastline "%{= kW} %-w%{+b Wk} %n %t %{-}%+w %=%{= kK} %S "
+
+# The caption over each region of a split screen: the focused one as a solid block.
+caption string "%?%F%{= Wk}%:%{= kK}%? %n %t %="
+
+# Messages, prompts, the window list's cursor line and copy-mode marks.
+sorendition "=" "Wk"

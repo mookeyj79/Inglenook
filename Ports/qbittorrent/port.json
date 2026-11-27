@@ -1,0 +1,19 @@
+{
+  "name": "qBittorrent",
+  "category": "app",
+  "tier": 2,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "brand",
+    "set": "Simple Icons 16.37.0",
+    "name": "qbittorrent",
+    "author": "Simple Icons contributors",
+    "source": "https://simpleicons.org/?q=qbittorrent",
+    "license": "CC0-1.0",
+    "mark": "https://github.com/qbittorrent/qBittorrent/blob/master/src/icons/qbittorrent-tray.svg"
+  }
+}
