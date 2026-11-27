@@ -89,15 +89,6 @@
   ],
   "planned": [
     {
-      "folder": "cinnamon",
-      "name": "Cinnamon",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "ghidra",
       "name": "Ghidra",
       "category": "app",
