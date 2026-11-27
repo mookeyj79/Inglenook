@@ -53,8 +53,8 @@ $AnsiSlots = @($AnsiSlots) + @($AnsiSlots | ForEach-Object { "bright_$_" })
 $Floor = [ordered]@{
     TextOnBase     = 7.0
     TextTarget     = 10.0
-    DimOnBase      = 4.5
-    FaintOnBase    = 3.0
+    Dim            = 4.5    # on base, raised and deep
+    Faint          = 3.0    # on base, raised and deep
     ColorOnBase    = 4.5
     ColorOnSurface = 3.0    # on raised and on deep: short labels
     OnAccent       = 4.5
@@ -393,9 +393,9 @@ function Test-PaletteContrast {
         Measurements as every ratio taken, passing or not, each
         @{ Variant; Role; Surface; Ratio; Floor; Pass }.
     .DESCRIPTION
-        Every surface is solid and measured as drawn. On base: text, dim,
-        faint, and every named color. On raised and on deep: every named
-        color (short labels). on_accent on the accent. Text on a wash of
+        Every surface is solid and measured as drawn. On base: text and
+        every named color. On base, raised and deep: dim and faint. On
+        raised and on deep: every named color (short labels). on_accent on the accent. Text on a wash of
         every named color over base.
     #>
     param($Palette)
@@ -411,8 +411,10 @@ function Test-PaletteContrast {
         }
         $n = { param($x) $v.Neutrals[$x].Hex }
         & $measure 'text' (& $n 'text') 'base' (& $n 'base') $Floor.TextOnBase
-        & $measure 'dim' (& $n 'dim') 'base' (& $n 'base') $Floor.DimOnBase
-        & $measure 'faint' (& $n 'faint') 'base' (& $n 'base') $Floor.FaintOnBase
+        foreach ($s in 'base', 'raised', 'deep') {
+            & $measure 'dim' (& $n 'dim') $s (& $n $s) $Floor.Dim
+            & $measure 'faint' (& $n 'faint') $s (& $n $s) $Floor.Faint
+        }
         foreach ($c in $v.Colors.Values) {
             & $measure $c.Name $c.Hex 'base' (& $n 'base') $Floor.ColorOnBase
             & $measure $c.Name $c.Hex 'raised' (& $n 'raised') $Floor.ColorOnSurface
@@ -445,13 +447,14 @@ function Format-ContrastTable {
     $lines.Add("$($v.Name)")
     $lines.Add(($fmt -f '', 'base', 'raised', 'deep', 'text on'))
     $lines.Add(($fmt -f '', '', '', '', 'its wash'))
-    foreach ($r in 'text', 'dim', 'faint') { $lines.Add(($fmt -f $r, (& $cell (& $get $r 'base')), '', '', '')) }
+    $lines.Add(($fmt -f 'text', (& $cell (& $get 'text' 'base')), '', '', ''))
+    foreach ($r in 'dim', 'faint') { $lines.Add(($fmt -f $r, (& $cell (& $get $r 'base')), (& $cell (& $get $r 'raised')), (& $cell (& $get $r 'deep')), '')) }
     foreach ($c in $v.Colors.Keys) {
         $lines.Add(($fmt -f $c, (& $cell (& $get $c 'base')), (& $cell (& $get $c 'raised')), (& $cell (& $get $c 'deep')), (& $cell (& $get 'text' "$c wash"))))
     }
     $lines.Add(('  {0,-11} {1,7}   on {2}' -f 'on_accent', (& $cell (& $get 'on_accent' 'accent')), $v.Roles['accent']))
-    $lines.Add(('  Floors: text {0} (target about {1}), dim {2}, faint {3}, named colors {4} on base and {5} on raised and deep, text on a wash {6}, on_accent {7}. ! is under the floor.' -f
-        $f.TextOnBase, $f.TextTarget, $f.DimOnBase, $f.FaintOnBase, $f.ColorOnBase, $f.ColorOnSurface, $f.TextOnWash, $f.OnAccent))
+    $lines.Add(('  Floors: text {0} (target about {1}), dim {2} and faint {3} on every surface, named colors {4} on base and {5} on raised and deep, text on a wash {6}, on_accent {7}. ! is under the floor.' -f
+        $f.TextOnBase, $f.TextTarget, $f.Dim, $f.Faint, $f.ColorOnBase, $f.ColorOnSurface, $f.TextOnWash, $f.OnAccent))
     return $lines.ToArray()
 }
 
