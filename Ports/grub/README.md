@@ -113,5 +113,5 @@ GRUB shows one theme and cannot follow a light or dark setting.
 - [GRUB manual: Theme file format](https://www.gnu.org/software/grub/manual/grub/html_node/Theme-file-format.html)
 - [GRUB manual: Simple configuration (`GRUB_THEME`, `GRUB_TERMINAL_OUTPUT`)](https://www.gnu.org/software/grub/manual/grub/html_node/Simple-configuration.html)
 - [grub-mkfont manual page](https://manpages.debian.org/trixie/grub-common/grub-mkfont.1.en.html)
-- Layout adapted from [Catppuccin for GRUB](https://github.com/catppuccin/grub) (MIT License, Copyright 2021 Catppuccin)
+- Layout adapted from [Catppuccin for GRUB](https://github.com/catppuccin/grub) ([MIT License](https://github.com/catppuccin/grub/blob/main/LICENSE), Copyright (c) 2021 Catppuccin). Its license notice is at the top of `theme.txt`.
 - [IBM Plex Mono](https://github.com/IBM/plex), SIL Open Font License 1.1
