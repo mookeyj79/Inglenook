@@ -87,4 +87,4 @@ Turn on **Backdrops** under **Settings** > **Display**. Jellyfin then shows a ti
 
 - [Jellyfin docs: CSS Customization](https://jellyfin.org/docs/general/clients/css-customization/)
 - [Jellyfin 12.0 release notes](https://jellyfin.org/posts/jellyfin-release-12.0/)
-- The list of page parts this theme colors is adapted from [Catppuccin for Jellyfin](https://github.com/catppuccin/jellyfin), MIT License, Copyright (c) 2021 Catppuccin.
+- The list of page parts this theme colors is adapted from [Catppuccin for Jellyfin](https://github.com/catppuccin/jellyfin), [MIT License](https://github.com/catppuccin/jellyfin/blob/main/LICENSE), Copyright (c) 2021 Catppuccin. Its license notice is at the top of each CSS file.
