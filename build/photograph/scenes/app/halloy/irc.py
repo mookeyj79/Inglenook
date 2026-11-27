@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The chat scene's IRC server: a scripted stand-in on 127.0.0.1:6667.
+"""Halloy's IRC server in the app scene: a scripted stand-in on 127.0.0.1:6667.
 
 It speaks just enough IRC for one client to connect as "reader", join the
 channels in CHANNELS, and receive a fixed conversation with fixed server-time

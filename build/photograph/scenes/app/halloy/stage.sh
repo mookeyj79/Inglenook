@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Halloy's part of the chat scene, run from its recipe's stage steps after apply.
+# Halloy's part of the app scene, run from its recipe's stage steps after apply.
 # Puts the update check first (a TOML root key comes before any section), keeps
 # what apply wrote, then adds the font and the scene's server. No colors here.
 set -euo pipefail

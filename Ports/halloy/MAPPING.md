@@ -86,9 +86,9 @@ Nickname list (`nicknames.toml`, a `[buffer.nickname]` snippet for `config.toml`
 
 ## Screenshot recipe
 
-- Halloy is free software (GPL-3.0) and needs no login or license. The themed window needs a connection to show chat, so the scene runs `build/photograph/scenes/chat/irc.py`, a scripted local IRC server with a fixed conversation and fixed server-time stamps. No real network.
+- Halloy is free software (GPL-3.0) and needs no login or license. The themed window needs a connection to show chat, so the scene runs `build/photograph/scenes/app/halloy/irc.py`, a scripted local IRC server with a fixed conversation and fixed server-time stamps. No real network.
 - The recipe pins 2026.9: the 2026.10 Linux build needs glibc 2.43, newer than the base image's Ubuntu 24.04. The theme keys are the same in both.
 - Halloy renders with wgpu; in the container it draws through Mesa's software renderer (llvmpipe), installed by the recipe.
 - The stage steps write the server, the font and `check_for_update_on_launch = false` into `config.toml`; a reader adds their own servers by hand. Not tested by hand.
-- Halloy has no setting to open a channel at launch, so `scenes/chat/halloy/open.sh` clicks `#inglenook` in the sidebar, as a reader would, and moves the pointer back to the corner.
-- The message box cursor blinks, so the screen would never settle. `scenes/chat/halloy/launch.sh` loads libfaketime into Halloy with the clock running; `open.sh` stops that clock just before the click, so the cursor shows and stays. Only Halloy's clock is affected; the messages carry fixed server-time stamps.
+- Halloy has no setting to open a channel at launch, so `scenes/app/halloy/open.sh` clicks `#inglenook` in the sidebar, as a reader would, and moves the pointer back to the corner.
+- The message box cursor blinks, so the screen would never settle. `scenes/app/halloy/launch.sh` loads libfaketime into Halloy with the clock running; `open.sh` stops that clock just before the click, so the cursor shows and stays. Only Halloy's clock is affected; the messages carry fixed server-time stamps.

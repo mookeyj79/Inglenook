@@ -1,5 +1,5 @@
 {
-  "kind": "chat",
+  "kind": "app",
   "platform": "linux",
   "version": "2026.9",
   "install": [
