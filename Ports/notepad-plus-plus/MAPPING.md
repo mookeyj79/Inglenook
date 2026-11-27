@@ -68,7 +68,7 @@ Search results panel:
 - **Selected text color.** Notepad++ ignores the selection's fgColor unless the user adds `enableSelectFgColor.xml`, so the selection keeps syntax colors on its firelight wash.
 - **Languages left out.** The theme has no `modelDate`, so Notepad++ (8.8.9 and later) merges every language and style the file lacks from `stylers.model.xml` the first time it loads the theme, and saves them into the theme file. From 8.9 the added styles take the Default Style colors (`text` on `base`). This keeps the template to the common languages without leaving any language in another theme's colors.
 - **User Defined Languages** keep their own colors; a theme cannot change them.
-- **What the shots show.** The editor scene opens `Contrast.psm1` in PowerShell, with "Hex" selected so Smart Highlighting marks the other occurrences. They show `keyword`, `info` (cmdlets, functions), `type`, `literal`, `success`, `faint`, `dim`, `text`, the selection, the current line, line numbers, the caret, the tabs, and the steel match wash if Smart Highlighting fires on the restored selection. They cannot show `reference`, `tag`, `error`, the Change History marks, brace highlighting, the Mark styles, or the search results panel.
+- **What the shots show.** The editor scene opens `Contrast.psm1` in PowerShell, with "Hex" selected so Smart Highlighting marks the other occurrences. They show `keyword`, `info` (cmdlets, functions), `type`, `literal`, `success`, `faint`, `dim`, `text`, the selection, the current line, line numbers, the caret, the tabs, and the steel wash of Smart Highlighting on the other "Hex"es. They cannot show `reference`, `tag`, `error`, the Change History marks, brace highlighting, the Mark styles, or the search results panel.
 
 ## Research
 
