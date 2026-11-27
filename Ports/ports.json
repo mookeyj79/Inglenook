@@ -252,15 +252,6 @@
       ]
     },
     {
-      "folder": "notepad-plus-plus",
-      "name": "Notepad++",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
       "folder": "obs-studio",
       "name": "OBS Studio",
       "category": "app",
