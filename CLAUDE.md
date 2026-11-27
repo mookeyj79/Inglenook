@@ -23,7 +23,8 @@ prototypes/                 throwaway prototype pages, gitignored
 palette/palette.json        every color as OKLCH, for both variants, and the roles (source of truth for values)
 wallpapers/                 optional found images, thumbnails, web copies for the preview site (web/),
                             and credits (README.md)
-Ports/ports.json            category names, planned ports, and unlisted folders for the ports page
+Ports/ports.json            category names and icon credits, planned ports, and unlisted folders for the ports page
+Ports/categories/           one icon per category (<category>.svg), shown on cards with no icon of their own; not a port
 Ports/preview/              the preview site: landing page with live demos, ports page, install-guide shell
   template/guides/guide.html the ports page's per-port pages: site.ps1 fills this one shell with each
                             port's README.md and publishes it at /Ports/<app_name>/

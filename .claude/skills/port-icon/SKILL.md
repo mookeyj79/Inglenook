@@ -1,6 +1,6 @@
 ---
 name: port-icon
-description: Find and add the card icon for a port on the ports page. Use when asked to "add an icon for X", "find an icon for the X port", "replace the monogram", or as the last step of a new port.
+description: Find and add the card icon for a port on the ports page. Use when asked to "add an icon for X", "find an icon for the X port", "replace the category icon", or as the last step of a new port.
 argument-hint: [app_name]
 ---
 
@@ -8,7 +8,7 @@ argument-hint: [app_name]
 
 Give the port in `Ports/$ARGUMENTS/` an icon for its card on the ports page.
 
-Read [ADR 0008](../../../docs/adr/0008-port-icons-are-single-color.md) first. In short: an icon is a single-color SVG that takes its color from the page, so it follows the palette rule. Full-color logos are never used. Without an icon, the card shows the monogram, and that is fine.
+Read [ADR 0008](../../../docs/adr/0008-port-icons-are-single-color.md) first. In short: an icon is a single-color SVG that takes its color from the page, so it follows the palette rule. Full-color logos are never used. Without an icon, the card shows its category's icon (`Ports/categories/<category>.svg`), and that is fine.
 
 ## 1. Search both sets
 
@@ -47,7 +47,9 @@ Pick the glyph someone would connect with that kind of app at a glance. Avoid a 
 pwsh build/icon.ps1 -Port <app_name> -Glyph <name>
 ```
 
-If nothing fits, stop. Keep the monogram and tell the user. Do not draw an icon by hand, and do not take one from anywhere else without asking.
+A new category in `Ports/ports.json` needs its icon the same way, always a glyph: `pwsh build/icon.ps1 -Category <id> -Glyph <name>`, then paste the printed credit under `categoryIcons`.
+
+If nothing fits, stop. Keep the category icon and tell the user. Do not draw an icon by hand, and do not take one from anywhere else without asking.
 
 ## 4. Record the credit
 

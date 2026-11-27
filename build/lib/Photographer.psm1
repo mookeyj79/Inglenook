@@ -304,8 +304,10 @@ function Add-ShotTable {
     <#
     .SYNOPSIS
         A port README with the Day and Night screenshot table under its header
-        lines (the bold Tier, Variants and Tested with lines). Returns the text
-        unchanged if it already shows screenshots/day.png.
+        lines (the bold Tier, Variants and Tested with lines), headed Day and
+        Night as in the new-port README template; the image alt text carries
+        the full variant names. Returns the text unchanged if it already shows
+        screenshots/day.png.
     #>
     param([Parameter(Mandatory)][string]$Readme, [Parameter(Mandatory)][string]$DayName, [Parameter(Mandatory)][string]$NightName)
     if ($Readme -match '\(screenshots/day\.png\)') { return $Readme }
@@ -315,7 +317,7 @@ function Add-ShotTable {
     while ($i -lt $lines.Count -and ($lines[$i] -like '# *' -or $lines[$i] -eq '')) { $i++ }
     while ($i -lt $lines.Count -and $lines[$i] -like '`**') { $i++ }
     $table = @(
-        "| $DayName | $NightName |"
+        '| Day | Night |'
         '|---|---|'
         "| ![$DayName](screenshots/day.png) | ![$NightName](screenshots/night.png) |"
     )

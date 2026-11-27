@@ -16,6 +16,9 @@ $IconShapeAttrs = @('d', 'cx', 'cy', 'r', 'rx', 'ry', 'x', 'y', 'x1', 'y1', 'x2'
 $IconPaintAttrs = @('fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'fill-rule', 'clip-rule')
 $IconMaxBytes = 8KB
 
+# Ports/categories/ holds the category icons (<id>.svg). It is not a port.
+$CategoryIconDir = 'categories'
+
 function Get-IconRules {
     # What an icon.svg may contain. RootAttrs excludes xmlns and viewBox,
     # which every icon has.
@@ -88,10 +91,15 @@ function Test-PortIcon([string]$Dir, $Meta, [string]$Name, $Errors) {
     if (-not $hasSvg -and -not $hasCredit) { return $false }
     if (-not $hasCredit) { $Errors.Add("Icon: Ports/$Name/icon.svg has no 'icon' credit in port.json. build/icon.ps1 prints it."); return $false }
     if (-not $hasSvg) { $Errors.Add("Icon: Ports/$Name/port.json has an 'icon' credit but there is no icon.svg."); return $false }
-    $before = $Errors.Count
+    return Test-IconPair -SvgPath $svgPath -Credit $Meta['icon'] -Where "Ports/$Name/port.json icon" -Rel "Ports/$Name/icon.svg" -Errors $Errors
+}
 
-    $c = $Meta['icon']
-    $where = "Ports/$Name/port.json icon"
+function Test-IconPair([string]$SvgPath, $Credit, [string]$Where, [string]$Rel, $Errors) {
+    # Returns $true when an icon's credit and its SVG are both valid.
+    $before = $Errors.Count
+    $c = $Credit
+    $where = $Where
+    $svgPath = $SvgPath
     if ($c -isnot [System.Collections.IDictionary]) { $Errors.Add("Icon: $where must be an object."); return $false }
     foreach ($k in $c.Keys) { if ($k -notin 'kind', 'set', 'name', 'author', 'source', 'license', 'mark') { $Errors.Add("Icon: $where has an unknown field '$k'.") } }
     foreach ($k in 'set', 'name', 'author', 'license') {
@@ -106,7 +114,7 @@ function Test-PortIcon([string]$Dir, $Meta, [string]$Name, $Errors) {
     elseif ($c['kind'] -eq 'glyph') { if ($c.Contains('mark')) { $Errors.Add("Icon: $where is a glyph, so it takes no 'mark'.") } }
     else { $Errors.Add("Icon: $where needs 'kind': brand or glyph.") }
 
-    $rel = "Ports/$Name/icon.svg"
+    $rel = $Rel
     if ((Get-Item $svgPath).Length -gt $IconMaxBytes) { $Errors.Add("Icon: $rel is over $($IconMaxBytes / 1KB) KB. Icons are simple shapes."); return $false }
     $xml = [System.Xml.XmlDocument]::new()
     $xml.XmlResolver = $null
@@ -331,11 +339,47 @@ function Get-ShotProblems($Catalog) {
     return $problems.ToArray()
 }
 
+function Test-CategoryIcons([string]$PortsRoot, $Index, $Catalog) {
+    # Every category has an icon: Ports/categories/<id>.svg, credited under
+    # 'categoryIcons' in Ports/ports.json. A card without an icon of its own
+    # shows its category's icon (ADR 0008).
+    $errors = $Catalog.CategoryIconErrors
+    $credits = $null
+    if ($Index -is [System.Collections.IDictionary] -and $Index.Contains('categoryIcons')) {
+        $credits = $Index['categoryIcons']
+        if ($credits -isnot [System.Collections.IDictionary]) { $errors.Add("Icon: 'categoryIcons' in Ports/ports.json must be an object of category id to icon credit."); return }
+    }
+    else { $credits = @{} }
+    $dir = Join-Path $PortsRoot $CategoryIconDir
+    foreach ($id in $Catalog.Categories.Keys) {
+        $svg = Join-Path $dir "$id.svg"
+        $rel = "Ports/$CategoryIconDir/$id.svg"
+        $hasSvg = Test-Path $svg
+        if (-not $credits.Contains($id)) {
+            $errors.Add("Icon: category '$id' has no icon. Add $rel and its credit under 'categoryIcons' in Ports/ports.json (build/icon.ps1 -Category $id -Glyph <name>).")
+            continue
+        }
+        if (-not $hasSvg) { $errors.Add("Icon: Ports/ports.json credits an icon for category '$id', but there is no $rel."); continue }
+        if (Test-IconPair -SvgPath $svg -Credit $credits[$id] -Where "Ports/ports.json categoryIcons.$id" -Rel $rel -Errors $errors) {
+            if ($credits[$id]['kind'] -ne 'glyph') { $errors.Add("Icon: category '$id' needs a glyph: a category icon stands for a kind of app, not one app.") }
+            else { $Catalog.CategoryIcons[$id] = $credits[$id] }
+        }
+    }
+    foreach ($id in $credits.Keys) { if (-not $Catalog.Categories.Contains($id)) { $errors.Add("Icon: 'categoryIcons' in Ports/ports.json has '$id', which is not a category.") } }
+    if (Test-Path $dir) {
+        foreach ($f in Get-ChildItem -Path $dir -File) {
+            if ($f.Extension -ne '.svg' -or -not $Catalog.Categories.Contains($f.BaseName)) { $errors.Add("Icon: Ports/$CategoryIconDir/$($f.Name) is not the icon of a category.") }
+        }
+    }
+}
+
 function Get-PortCatalog {
     <#
     .SYNOPSIS
         Every folder under Ports/, validated. Returns
-        @{ Ports; Categories; Planned; StructureErrors; Errors; RecipeErrors }.
+        @{ Ports; Categories; CategoryIcons; Planned; StructureErrors; Errors;
+        RecipeErrors; CategoryIconErrors }. Ports/categories/ is not a port: it
+        holds the category icons. CategoryIcons is the valid credits by category.
     .DESCRIPTION
         Each port is @{ Name; Dir; Listed; HasTemplate; HasReadme; Meta;
         Variants; Icon; Site }. Listed is $false for folders in 'unlisted'
@@ -351,8 +395,9 @@ function Get-PortCatalog {
     $errors = [System.Collections.Generic.List[string]]::new()
     $structure = [System.Collections.Generic.List[string]]::new()
     $recipeErrors = [System.Collections.Generic.List[string]]::new()
-    $catalog = @{ RecipeErrors = $recipeErrors; Ports = [System.Collections.Generic.List[object]]::new(); Categories = [ordered]@{}; Planned = @(); StructureErrors = $structure; Errors = $errors }
-    $dirs = if (Test-Path $PortsRoot) { @(Get-ChildItem -Path $PortsRoot -Directory | Sort-Object Name) } else { @() }
+    $iconErrors = [System.Collections.Generic.List[string]]::new()
+    $catalog = @{ CategoryIcons = [ordered]@{}; CategoryIconErrors = $iconErrors; RecipeErrors = $recipeErrors; Ports = [System.Collections.Generic.List[object]]::new(); Categories = [ordered]@{}; Planned = @(); StructureErrors = $structure; Errors = $errors }
+    $dirs = if (Test-Path $PortsRoot) { @(Get-ChildItem -Path $PortsRoot -Directory | Where-Object Name -ne $CategoryIconDir | Sort-Object Name) } else { @() }
 
     $index = $null
     $indexPath = Join-Path $PortsRoot 'ports.json'
@@ -420,6 +465,7 @@ function Get-PortCatalog {
         }
     }
 
+    Test-CategoryIcons $PortsRoot $index $catalog
     Test-RecipeHosts $catalog.Ports $recipeErrors
     return $catalog
 }
@@ -448,8 +494,15 @@ function ConvertTo-PortsData {
         $c['variants'] = @($p.Variants)
         $c
     })
+    $categoryIcons = [ordered]@{}
+    foreach ($id in $Catalog.CategoryIcons.Keys) {
+        $i = $Catalog.CategoryIcons[$id]
+        $categoryIcons[$id] = [ordered]@{ path = "Ports/$CategoryIconDir/$id.svg"; kind = $i['kind']; set = $i['set']
+                                          author = $i['author']; license = $i['license']; source = $i['source'] }
+    }
     return [ordered]@{
         categories = $Catalog.Categories
+        categoryIcons = $categoryIcons
         tiers      = $Tiers
         platforms  = $Platforms
         ports      = $ports

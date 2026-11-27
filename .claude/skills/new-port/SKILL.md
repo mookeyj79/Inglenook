@@ -152,7 +152,7 @@ Then follow the one path that fits:
 ## 10. Finish
 
 - Write `Ports/<app_name>/port.json` so the port shows on the ports page: `name`, `category` (an id from `Ports/ports.json`), `tier` (1 to 3), and `platforms` (`windows`, `macos`, `linux`, `web`). If the app is in `planned` in `Ports/ports.json`, remove it from there. If no category fits, ask the user before adding one.
-- Give the card an icon with the `port-icon` skill (`/port-icon <app_name>`). If no icon fits, the monogram stays.
+- Give the card an icon with the `port-icon` skill (`/port-icon <app_name>`). If no icon fits, the card keeps its category's icon.
 - Commit on a branch named `port/<app_name>`.
 - Show the user both screenshots and ask for approval. The port is not done without it.
 - Report back in a few lines: tier, what is covered, what is not, which screenshot path the port took, and what the user needs to do.

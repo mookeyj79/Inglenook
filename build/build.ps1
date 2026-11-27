@@ -49,7 +49,8 @@ if ($palette.Errors.Count -gt 0) {
     throw "palette/palette.json has problems. Run build/check.ps1 for the full list.`n" + ($palette.Errors -join "`n")
 }
 
-$portDirs = if (Test-Path $PortsRoot) { @(Get-ChildItem -Path $PortsRoot -Directory | Sort-Object Name) } else { @() }
+# Ports/categories/ holds the category icons, not a port.
+$portDirs = if (Test-Path $PortsRoot) { @(Get-ChildItem -Path $PortsRoot -Directory | Where-Object Name -ne 'categories' | Sort-Object Name) } else { @() }
 if ($Port) {
     $portDirs = @($portDirs | Where-Object { $_.Name -eq $Port })
     if ($portDirs.Count -eq 0) { throw "Port not found: Ports/$Port" }

@@ -167,7 +167,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    }
    ```
 
-   `category` is one of the ids in [`Ports/ports.json`](Ports/ports.json). `platforms` takes `windows`, `macos`, `linux`, and `web`. An optional `monogram` (1 to 3 characters) replaces the initials on the card. If the app was in `planned` in `Ports/ports.json`, remove it from there. `check.ps1` enforces all of this.
+   `category` is one of the ids in [`Ports/ports.json`](Ports/ports.json). `platforms` takes `windows`, `macos`, `linux`, and `web`. An optional `monogram` (1 to 3 characters) replaces the initials the card shows while its icon loads. If the app was in `planned` in `Ports/ports.json`, remove it from there. `check.ps1` enforces all of this.
 9. **Add a card icon** (optional). Icons are single-color SVGs that take their color from the page ([ADR 0008](docs/adr/0008-port-icons-are-single-color.md)):
 
    ```sh
