@@ -100,15 +100,6 @@
       ]
     },
     {
-      "folder": "cinnamon",
-      "name": "Cinnamon",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "dopamine",
       "name": "Dopamine",
       "category": "app",
