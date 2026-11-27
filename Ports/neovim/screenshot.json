@@ -16,6 +16,6 @@
   "stage": [
     "p=/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\")/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}scrollbar-policy \"'never'\"",
     "bash \"$INGLENOOK_SCENE/repo.sh\"",
-    "printf 'bash %q\\n' \"$INGLENOOK_SCENE/neovim-scene/run.sh\" > ~/.inglenook-editor"
+    "printf 'bash %q\\n' \"$INGLENOOK_SCENE/neovim/run.sh\" > ~/.inglenook-editor"
   ]
 }

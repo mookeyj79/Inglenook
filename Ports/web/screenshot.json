@@ -10,7 +10,7 @@
     "cp \"$INGLENOOK_PORT/dist/night/theme.css\" ~/site/css/inglenook-night.css"
   ],
   "stage": [
-    "bash \"$INGLENOOK_SCENE/demo/stage.sh\" ~/site"
+    "bash \"$INGLENOOK_SCENE/web/stage.sh\" ~/site"
   ],
   "launch": [
     "bash \"$INGLENOOK_SCENE/browser.sh\" \"file://$HOME/site/index.html#$INGLENOOK_VARIANT\""
