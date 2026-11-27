@@ -25,9 +25,16 @@ The preview is not an app port. It is unlisted in `Ports/ports.json`, so it has 
 | Chips | the color's wash, its border in the color | Text on a wash is checked at 4.5 |
 | Warning notice | `brass` wash, `warning` border | |
 | Terminal | `ansi.*` | |
+| Diagram nodes | `raised`, `faint` border | |
+| Diagram groups | `deep`, `line` border | |
+| Diagram lines and edge labels | `dim` lines, `text` labels on `base` | |
+| Diagram status nodes | the role's wash, its border in the role | Each label also says its status in words |
+| Diagram notes | `raised`, `tag` border | Notes are annotations |
+| Back button on guides | `raised`, `line` border, `hover` | |
 | Code | the syntax mapping in PHILOSOPHY.md | |
 
 ## Gaps and trade-offs
 
 - Swatch values and contrast on the index page are read from the page's own colors by a short script, so they always match the build. Without JavaScript the swatches show only the color.
+- Mermaid takes color values, not CSS variables, so a short script reads each variant's palette variables and passes them to Mermaid's `base` theme. Offline or without JavaScript, the diagram shows its source.
 - The role table shows each role's color by name through CSS `content`, from the `|name` filter in `theme.css`.

@@ -26,6 +26,12 @@ main {
 }
 .crumbs { padding: 10px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; font-size: .9rem; }
 .crumbs p { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.back {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 500 .85rem var(--font-body); color: var(--text); text-decoration: none;
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--raised);
+}
+.back:hover { background: var(--hover); }
 
 /* The guide: README.md rendered to HTML. */
 .guide { padding: 8px 28px 28px; overflow-wrap: break-word; }
@@ -101,7 +107,7 @@ footer p + p { margin-top: 4px; }
 
 <main>
   <nav class="panel crumbs" aria-label="Guide">
-    <p><a href="../ports.html">All ports</a></p>
+    <p><a class="back" href="../ports.html"><span aria-hidden="true">←</span> All ports</a></p>
     <p><a href="<!-- guide:files -->">Theme files</a> <a href="<!-- guide:source -->">This guide on GitHub</a></p>
   </nav>
 
@@ -123,6 +129,22 @@ footer p + p { margin-top: 4px; }
   <div class="zoom-view" id="zoom-view"><img id="zoom-img" alt=""></div>
 </dialog>
 <script>
+// Back to the port list. Coming from it, go back in history, so the visitor's
+// search, filter and place on the page come back too.
+(function () {
+  const back = document.querySelector(".back");
+  back.addEventListener("click", function (e) {
+    if (!document.referrer || history.length < 2) return;
+    let from;
+    try { from = new URL(document.referrer); } catch (err) { return; }
+    const list = new URL(back.href);
+    if (from.origin === location.origin && from.pathname === list.pathname) {
+      e.preventDefault();
+      history.back();
+    }
+  });
+})();
+
 // Click a screenshot in the guide to see it at full size. Esc, Close, or a click closes it.
 (function () {
   const dialog = document.getElementById("zoom");
