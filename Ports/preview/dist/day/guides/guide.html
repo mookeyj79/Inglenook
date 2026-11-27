@@ -50,6 +50,31 @@ main {
 .guide th, .guide td { padding: 6px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
 .guide th { font-weight: 500; background: var(--deep); }
 .guide img { max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); }
+.guide img.zoomable { cursor: zoom-in; }
+.guide img.zoomable:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* A screenshot at full size: the whole window, solid, the image at its own pixels.
+   Larger than the window, it scrolls. */
+.zoom {
+  width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: none;
+  background: var(--deeper); color: var(--text);
+}
+.zoom[open] { display: flex; flex-direction: column; }
+html:has(.zoom[open]) { overflow: hidden; }
+.zoom-bar {
+  flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 16px; border-bottom: 1px solid var(--line); font-size: .9rem;
+}
+.zoom-bar p { margin: 0; color: var(--dim); }
+.zoom-bar b { color: var(--text); font-weight: 500; }
+.zoom-close {
+  font: 500 .85rem var(--font-body); color: var(--text); cursor: pointer;
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--raised);
+}
+.zoom-close:hover { background: var(--hover); }
+.zoom-view { flex: 1; overflow: auto; display: flex; cursor: zoom-out; }
+.zoom-view img { display: block; margin: auto; max-width: none; padding: 16px; box-sizing: content-box; }
 .guide blockquote { padding: 2px 14px; border-left: 3px solid var(--line); color: var(--dim); }
 .guide hr { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
 footer { padding: 14px 16px; color: var(--dim); font-size: .8rem; }
@@ -89,6 +114,41 @@ footer p + p { margin-top: 4px; }
     <p class="credit">Wallpapers: <a href="https://commons.wikimedia.org/wiki/File:Cozy_interior_of_a_wooden_cabin_with_a_seating_area.jpg">Cabin Seating</a> (Day) by Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>. <a href="https://commons.wikimedia.org/wiki/File:The_fireplace_in_the_dining_room_of_the_mission_house_at_the_The_Elms_-_Formerly_the_Te_Papa_Mission_Station.jpg">Mission Fireplace</a> (Night) by Richard N Horne, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>.</p>
   </footer>
 </main>
+
+<dialog class="zoom" id="zoom" aria-label="Screenshot at full size">
+  <div class="zoom-bar">
+    <p><b id="zoom-title"></b> at full size</p>
+    <button type="button" class="zoom-close" id="zoom-close">Close</button>
+  </div>
+  <div class="zoom-view" id="zoom-view"><img id="zoom-img" alt=""></div>
+</dialog>
+<script>
+// Click a screenshot in the guide to see it at full size. Esc, Close, or a click closes it.
+(function () {
+  const dialog = document.getElementById("zoom");
+  const big = document.getElementById("zoom-img");
+  const view = document.getElementById("zoom-view");
+  function open(img) {
+    big.src = img.currentSrc || img.src;
+    big.alt = img.alt;
+    document.getElementById("zoom-title").textContent = img.alt || "Screenshot";
+    dialog.showModal();
+    view.scrollTo(0, 0);
+  }
+  document.querySelectorAll(".guide img").forEach(function (img) {
+    img.classList.add("zoomable");
+    img.tabIndex = 0;
+    img.setAttribute("role", "button");
+    img.setAttribute("aria-label", (img.alt || "Screenshot") + ", open at full size");
+    img.addEventListener("click", function () { open(img); });
+    img.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(img); }
+    });
+  });
+  view.addEventListener("click", function () { dialog.close(); });
+  document.getElementById("zoom-close").addEventListener("click", function () { dialog.close(); });
+})();
+</script>
 
 </body>
 </html>
