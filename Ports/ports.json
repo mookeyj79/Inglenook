@@ -294,18 +294,6 @@
       ]
     },
     {
-      "folder": "slack",
-      "name": "Slack",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux",
-        "web"
-      ]
-    },
-    {
       "folder": "startallback",
       "name": "StartAllBack",
       "category": "system",
