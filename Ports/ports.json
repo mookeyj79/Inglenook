@@ -131,16 +131,6 @@
       ]
     },
     {
-      "folder": "screen",
-      "name": "GNU Screen",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "grub",
       "name": "GRUB",
       "category": "system",
