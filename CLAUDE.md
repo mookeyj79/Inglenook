@@ -16,6 +16,7 @@ The design rules are in PHILOSOPHY.md. They are binding, not background reading.
 ```
 PHILOSOPHY.md               design rules (source of truth for decisions)
 GLOSSARY.md                 project terms
+assets/splash.png           the splash image at the top of the root README
 docs/adr/                   recorded decisions and why
 docs/research/              research notes behind the palette
 prototypes/                 throwaway prototype pages, gitignored
