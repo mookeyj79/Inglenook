@@ -127,17 +127,6 @@
       ]
     },
     {
-      "folder": "heroic",
-      "name": "Heroic Games Launcher",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "insomnia",
       "name": "Insomnia",
       "category": "app",

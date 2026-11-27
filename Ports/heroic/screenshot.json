@@ -1,0 +1,24 @@
+{
+  "kind": "web",
+  "platform": "linux",
+  "version": "2.22.4",
+  "install": [
+    "curl -fsSL -o /tmp/heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v$INGLENOOK_VERSION/Heroic-$INGLENOOK_VERSION-linux-amd64.deb && echo '46aa36778f16d98a86823fc42fcb7ef47efab346ff19380165201aa373ebf70a  /tmp/heroic.deb' | sha256sum -c - && apt-get install -y --no-install-recommends /tmp/heroic.deb fonts-ibm-plex jq && rm /tmp/heroic.deb"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook/heroic && cp \"$INGLENOOK_PORT\"/dist/$INGLENOOK_VARIANT/*.css ~/.config/inglenook/heroic/",
+    "mkdir -p ~/.config/heroic/store && printf '{\"version\":\"v0\",\"defaultSettings\":{\"customThemesPath\":\"%s\"}}\\n' \"$HOME/.config/inglenook/heroic\" > ~/.config/heroic/config.json",
+    "printf '{\"theme\":\"inglenook-%s.css\",\"contentFontFamily\":\"IBM Plex Mono\",\"actionsFontFamily\":\"IBM Plex Mono\"}\\n' \"$INGLENOOK_VARIANT\" > ~/.config/heroic/store/config.json"
+  ],
+  "stage": [
+    "c=~/.config/heroic/config.json; jq '.defaultSettings += {\"checkForUpdatesOnStartup\": false, \"enableUpdates\": false, \"analyticsOptIn\": false}' \"$c\" > \"$c.new\" && mv \"$c.new\" \"$c\"",
+    "s=~/.config/heroic/store/config.json; jq '.settings += {\"hideChangelogsOnStartup\": true}' \"$s\" > \"$s.new\" && mv \"$s.new\" \"$s\"",
+    "CI=e2e timeout 20 heroic --no-sandbox --disable-gpu --password-store=basic >/dev/null 2>&1 || true"
+  ],
+  "launch": [
+    "heroic --no-sandbox --disable-gpu --password-store=basic --force-device-scale-factor=1"
+  ],
+  "window": {
+    "title": "^Heroic Games Launcher$"
+  }
+}
