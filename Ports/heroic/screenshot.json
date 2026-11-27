@@ -1,5 +1,5 @@
 {
-  "kind": "web",
+  "kind": "app",
   "platform": "linux",
   "version": "2.22.4",
   "install": [
