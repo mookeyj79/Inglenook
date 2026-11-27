@@ -170,17 +170,6 @@
       ]
     },
     {
-      "folder": "helix",
-      "name": "Helix",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "heroic",
       "name": "Heroic Games Launcher",
       "category": "app",
