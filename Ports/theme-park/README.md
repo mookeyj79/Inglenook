@@ -118,4 +118,4 @@ theme.park cannot follow the OS light or dark setting.
 - [theme.park: setup (Docker mod, Nginx, SWAG, Stylus, self-hosting)](https://docs.theme-park.dev/setup/)
 - [theme.park: custom themes](https://docs.theme-park.dev/custom/)
 - [theme.park source: theme options](https://github.com/themepark-dev/theme.park/tree/master/css/theme-options)
-- Based on [Catppuccin for theme.park](https://github.com/catppuccin/theme.park) (MIT License): its list of theme variables, with every color replaced.
+- Based on [Catppuccin for theme.park](https://github.com/catppuccin/theme.park) ([MIT License](https://github.com/catppuccin/theme.park/blob/main/LICENSE), Copyright (c) 2021 Catppuccin): its list of theme variables, with every color replaced. Its license notice is at the top of each CSS file.
