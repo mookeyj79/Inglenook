@@ -90,4 +90,4 @@ The theme draws its own background. To let your terminal's background show throu
 - [K9s Skins](https://k9scli.io/topics/skins/)
 - [K9s README: Configuration and Skins](https://github.com/derailed/k9s#k9s-configuration)
 - [K9s skin keys (internal/config/styles.go)](https://github.com/derailed/k9s/blob/v0.51.0/internal/config/styles.go)
-- The file layout follows [Catppuccin for k9s](https://github.com/catppuccin/k9s) (MIT License, Copyright (c) 2021 Catppuccin).
+- The file layout follows [Catppuccin for k9s](https://github.com/catppuccin/k9s) ([MIT License](https://github.com/catppuccin/k9s/blob/main/LICENSE), Copyright (c) 2021 Catppuccin). Its license notice is at the top of each skin file.
