@@ -469,6 +469,24 @@ Test 'Build: a .env line that is not NAME=value, or a value with a quote, does n
     Assert-Throws { Update-Port -Palette $p -PortDir $quote } '*envquote/template/tool.env:1*single quote*'
 }
 
+Test 'Build: a .png.fill template becomes a solid PNG of its color' {
+    $port = New-TestPort 'fillport' @{ 'box_c.png.fill' = "{{accent|wash}} 3x2`n"; 'dot.png.fill' = '{{base}}' }
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 4 $r.Written 'files written'
+    $path = Join-Path $port 'dist' 'night' 'box_c.png'
+    Assert-True (-not (Test-Path (Join-Path $port 'dist' 'night' 'box_c.png.fill'))) 'the .fill itself is not shipped'
+    Assert-True (Compare-ShotPixels -Path $path -Other $path).Same 'decodes as a PNG'
+    $bytes = [System.IO.File]::ReadAllBytes($path)
+    Assert-Equal '3x2' "$($bytes[19])x$($bytes[23])" 'size'
+    $hex = '#' + (@(49..51 | ForEach-Object { '{0:x2}' -f $bytes[$_] }) -join '')
+    Assert-Equal (Expand-Template -Text '{{accent|wash}}' -Palette $p -Variant $p.Variants['night'] -Source 'test') $hex 'color'
+    Assert-True (Test-Path (Join-Path $port 'dist' 'day' 'dot.png')) 'default size'
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'rebuild'
+    $bad = New-TestPort 'fillbad' @{ 'x.png.fill' = '{{base}} big' }
+    Assert-Throws { Update-Port -Palette $p -PortDir $bad } '*fillbad/template/x.png.fill*one color placeholder*'
+}
+
 Test 'Build: CRLF in dist is not drift' {
     $port = New-TestPort 'crlf' @{ 'a.txt' = "one`ntwo" }
     $p = Get-TestPalette (New-PaletteData)

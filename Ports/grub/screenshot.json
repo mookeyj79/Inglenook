@@ -1,0 +1,5 @@
+{
+  "kind": "desktop",
+  "platform": "linux",
+  "manual": "GRUB draws its menu before any operating system starts, so it cannot run inside the Photographer's desktop container; take the shots in a virtual machine at boot."
+}

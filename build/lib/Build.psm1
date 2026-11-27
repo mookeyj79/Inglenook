@@ -14,6 +14,49 @@ function Read-PortValues([string]$PortDir) {
     return $null
 }
 
+# A solid image: one opaque color as an 8-bit RGB PNG, for apps whose themes
+# take images (GRUB). The data is stored, not compressed, so a color and size
+# always give the same bytes on every machine.
+$PngCrcTable = [uint32[]]::new(256)
+for ($n = 0; $n -lt 256; $n++) {
+    $c = [uint32]$n
+    for ($k = 0; $k -lt 8; $k++) { $c = if ($c -band 1) { [uint32]3988292384 -bxor ($c -shr 1) } else { $c -shr 1 } }
+    $PngCrcTable[$n] = $c
+}
+function ConvertTo-PngUInt32([uint32]$Value) { $b = [BitConverter]::GetBytes($Value); [Array]::Reverse($b); return $b }
+
+function New-SolidPng {
+    param([Parameter(Mandatory)][string]$Hex, [int]$Width = 1, [int]$Height = 1)
+    if ($Hex -notmatch '^#[0-9a-fA-F]{6}$') { throw "A solid image takes one #rrggbb color, not '$Hex'." }
+    if ($Width -lt 1 -or $Height -lt 1 -or $Width -gt 256 -or $Height -gt 256) { throw "A solid image is 1 to 256 pixels on each side, not ${Width}x${Height}." }
+    $rgb = [byte[]](0..2 | ForEach-Object { [Convert]::ToByte($Hex.Substring(1 + 2 * $_, 2), 16) })
+    $raw = [System.IO.MemoryStream]::new()
+    for ($y = 0; $y -lt $Height; $y++) {
+        $raw.WriteByte(0)
+        for ($x = 0; $x -lt $Width; $x++) { $raw.Write($rgb, 0, 3) }
+    }
+    $data = $raw.ToArray()
+    $len = $data.Length
+    $z = [System.IO.MemoryStream]::new()
+    foreach ($v in 0x78, 0x01, 0x01, ($len -band 0xFF), (($len -shr 8) -band 0xFF), ((-bnot $len) -band 0xFF), (((-bnot $len) -shr 8) -band 0xFF)) { $z.WriteByte([byte]$v) }
+    $z.Write($data, 0, $len)
+    $a = 1; $b = 0
+    foreach ($v in $data) { $a = ($a + $v) % 65521; $b = ($b + $a) % 65521 }
+    $z.Write((ConvertTo-PngUInt32 ([uint32](([int64]$b -shl 16) -bor $a))), 0, 4)
+    $ihdr = [byte[]](@(ConvertTo-PngUInt32 ([uint32]$Width)) + @(ConvertTo-PngUInt32 ([uint32]$Height)) + @(8, 2, 0, 0, 0))
+    $out = [System.IO.MemoryStream]::new()
+    $out.Write([byte[]](137, 80, 78, 71, 13, 10, 26, 10), 0, 8)
+    foreach ($chunk in @(@('IHDR', $ihdr), @('IDAT', $z.ToArray()), @('IEND', [byte[]]@()))) {
+        $body = [byte[]](@([System.Text.Encoding]::ASCII.GetBytes($chunk[0])) + @($chunk[1]))
+        $crc = [uint32]::MaxValue
+        foreach ($v in $body) { $crc = $PngCrcTable[($crc -bxor $v) -band 0xFF] -bxor ($crc -shr 8) }
+        $out.Write((ConvertTo-PngUInt32 ([uint32]($body.Length - 4))), 0, 4)
+        $out.Write($body, 0, $body.Length)
+        $out.Write((ConvertTo-PngUInt32 ($crc -bxor [uint32]::MaxValue)), 0, 4)
+    }
+    return $out.ToArray()
+}
+
 function Write-PortFiles {
     # Renders the port into $OutRoot/<variant>/, replacing what is there.
     # Returns the number of files written. Throws on a bad placeholder.
@@ -37,6 +80,17 @@ function Write-PortFiles {
             $tpl = Read-TemplateFile -Path $file.FullName
             if ($tpl.Binary) { [System.IO.File]::WriteAllBytes($target, $tpl.Bytes); $count++; continue }
             $text = Expand-Template -Text $tpl.Text -Palette $Palette -Variant $variant -PortValues $values -Source $source
+            if ($target -like '*.png.fill') {
+                # A solid image: one color placeholder and an optional size, such as
+                # '{{accent|wash}} 8x8', becomes <name>.png of that color.
+                $m = [regex]::Match($text.Trim(), '^(#[0-9a-fA-F]{6})(?:\s+(\d+)x(\d+))?$')
+                if (-not $m.Success) { throw "${source}: a .png.fill holds one color placeholder and an optional size, such as '{{accent|wash}} 8x8'." }
+                $size = if ($m.Groups[2].Success) { @([int]$m.Groups[2].Value, [int]$m.Groups[3].Value) } else { @(1, 1) }
+                $png = New-SolidPng -Hex $m.Groups[1].Value -Width $size[0] -Height $size[1]
+                [System.IO.File]::WriteAllBytes($target.Substring(0, $target.Length - 5), $png)
+                $count++
+                continue
+            }
             $outputs = [ordered]@{ $target = $text }
             if ($target -like '*.env') {
                 # A shell-variable tool: one .env becomes a .sh and a .ps1.

@@ -141,15 +141,6 @@
       ]
     },
     {
-      "folder": "grub",
-      "name": "GRUB",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "gtk",
       "name": "GTK and MATE",
       "category": "system",

@@ -1,0 +1,59 @@
+# {{meta.name}} for GRUB: {{variant.name}}, palette {{meta.version}}.
+# {{meta.repository}}
+# Format: GRUB manual, "Theme file format".
+
+# Global properties
+title-text: ""
+desktop-color: "{{base}}"
+terminal-font: "IBM Plex Mono Regular 20"
+terminal-left: "0"
+terminal-top: "0"
+terminal-width: "100%"
+terminal-height: "100%"
+terminal-border: "0"
+
+# The boot menu
++ boot_menu {
+  left = 50%-320
+  top = 30%
+  width = 640
+  height = 45%
+  item_font = "IBM Plex Mono Regular 20"
+  item_color = "{{text}}"
+  selected_item_color = "{{text}}"
+  icon_width = 0
+  icon_height = 0
+  item_icon_space = 0
+  item_height = 40
+  item_padding = 12
+  item_spacing = 6
+  selected_item_pixmap_style = "select_*.png"
+  scrollbar = true
+  scrollbar_width = 6
+  scrollbar_slice = "center"
+  scrollbar_frame = "scrollbar_frame_*.png"
+  scrollbar_thumb = "scrollbar_thumb_*.png"
+}
+
+# The countdown before the default entry boots
++ label {
+  top = 80%
+  left = 25%
+  width = 50%
+  align = "center"
+  id = "__timeout__"
+  text = "Booting in %d seconds"
+  font = "IBM Plex Mono Regular 20"
+  color = "{{dim}}"
+}
+
+# Key help
++ label {
+  top = 100%-50
+  left = 0
+  width = 100%
+  align = "center"
+  text = "@KEYMAP_MIDDLE@"
+  font = "IBM Plex Mono Regular 20"
+  color = "{{faint}}"
+}
