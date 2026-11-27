@@ -76,4 +76,4 @@ With no amber slot and no washes: `Visual` and `Cursor` are reverse video, `Sear
 - Vim is charityware under the Vim license and needs no login or license (https://www.vim.org/about.php).
 - Vim runs inside the GNOME Terminal port (`host`), so the shots show an Inglenook terminal around it.
 - The recipe writes `~/.vimrc` with the README's lines and `set background` per variant, as the README's "always start in one variant" step does. Not tested by hand.
-- The scene (`build/photograph/scenes/editor/vim-scene/`) opens the working file against its committed copy in diff mode, highlights every match of `Get-Luminance` as after a search, and selects two lines, like the Neovim scene.
+- The scene (`build/photograph/scenes/editor/vim/`) opens the working file against its committed copy in diff mode, highlights every match of `Get-Luminance` as after a search, and selects two lines, like the Neovim scene.
