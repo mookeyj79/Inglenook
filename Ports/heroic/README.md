@@ -68,3 +68,4 @@ Heroic does not follow the OS light or dark setting, so you switch by hand.
 
 - [Custom Themes](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/Custom-Themes), Heroic wiki
 - [Heroic's built-in themes](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/blob/v2.22.4/src/frontend/themes.scss), the CSS variables a theme sets
+- The list of themed variables started from [Catppuccin for Heroic](https://github.com/catppuccin/heroic), [MIT License](https://github.com/catppuccin/heroic/blob/main/LICENSE), Copyright (c) 2021 Catppuccin. Its license notice is at the top of each CSS file.
