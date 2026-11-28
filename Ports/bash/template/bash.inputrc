@@ -1,0 +1,18 @@
+# {{meta.name}} for the Bash line editor (Readline) and its completion list: {{variant.name}}.
+# Include this from ~/.inputrc: $include ~/.config/inglenook/bash.inputrc
+# Palette {{meta.version}}, {{meta.repository}}
+
+# The completion list you see when you press Tab twice: file kinds in the colors of
+# LS_COLORS, and the part every match shares in its own color (bash.sh sets it).
+# Readline reads LS_COLORS once, when it starts, so these two belong here and not in a
+# bind command.
+set colored-stats on
+set colored-completion-prefix on
+
+# The active region: text selected between the mark and the cursor, text just pasted,
+# and the match while searching history with Ctrl+R or Ctrl+S. One background for all
+# three. It needs Readline 8.2 (Bash 5.2) and a terminal with 24-bit color.
+$if version >= 8.2
+set active-region-start-color "\e[48;2;{{accent|wash|sgr}}m"
+set active-region-end-color "\e[0m"
+$endif

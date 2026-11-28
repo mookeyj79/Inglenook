@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../day/favicon.svg">
 <link rel="stylesheet" href="../day/theme.css">
 <link rel="stylesheet" href="../night/theme.css">
 <link rel="stylesheet" href="base.css">
@@ -107,7 +108,7 @@ footer p + p { margin-top: 4px; }
 </head>
 <body>
 <div class="topbar">
-  <span class="brand">{{meta.name}}<small>v{{meta.version}}</small></span>
+  <span class="brand"><span class="gem" aria-hidden="true"></span>{{meta.name}}<small>v{{meta.version}}</small></span>
   <div class="topbar-end">
     <a class="repo" href="ports.html">Ports</a>
     <a class="repo" href="{{meta.repository}}">GitHub</a>
@@ -119,8 +120,9 @@ footer p + p { margin-top: 4px; }
 </div>
 
 <main>
-  <section class="panel intro" aria-labelledby="title">
+  <section class="panel intro framed" aria-labelledby="title">
     <h1 id="title">{{meta.name}}</h1>
+    <span class="flourish" aria-hidden="true"></span>
     <p>A cozy, soothing color theme: technology meets simple life charm. Two equal variants. Day is a cabin room in natural light, with plants on the sill. Night is a Victorian library by the fire. Both are easy on the eyes, with calm, evenly matched colors and one warm accent, firelight, that marks where you are.</p>
     <p>Everything below is live HTML, colored from the same palette as every port. The switch at the top changes the whole page between Day and Night.</p>
     <p class="links"><a href="ports.html">Browse the ports</a> <a href="{{meta.repository}}">Source on GitHub</a> <a href="{{meta.repository}}/blob/main/PHILOSOPHY.md">Design rules</a></p>
@@ -128,7 +130,7 @@ footer p + p { margin-top: 4px; }
 
   <div class="pair">
     <section class="side" data-variant="day" aria-labelledby="day-title">
-      <h2 id="day-title">{{meta.name}} Day</h2>
+      <h2 id="day-title"><span class="gem" aria-hidden="true"></span> {{meta.name}} Day</h2>
       <p class="lede">A soft neutral background leaning faintly green, dark slate text, earthy colors.</p>
       <div class="win">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
@@ -207,7 +209,7 @@ footer p + p { margin-top: 4px; }
       </div>
     </section>
     <section class="side" data-variant="night" aria-labelledby="night-title">
-      <h2 id="night-title">{{meta.name}} Night</h2>
+      <h2 id="night-title"><span class="gem" aria-hidden="true"></span> {{meta.name}} Night</h2>
       <p class="lede">A warm smoked-walnut background, parchment text, colors like lamplight on old bindings.</p>
       <div class="win">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>

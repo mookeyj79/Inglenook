@@ -1,0 +1,10 @@
+{
+  "name": "KiCad",
+  "category": "app",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}

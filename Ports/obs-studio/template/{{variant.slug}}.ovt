@@ -1,0 +1,380 @@
+/* {{variant.name}} for OBS Studio 30.2 and later. {{meta.repository}}
+ * A style of the Yami theme: Settings > Appearance > Theme: Yami, Style: {{variant.name}}. */
+
+@OBSThemeMeta {
+    name: '{{variant.name}}';
+    id: 'com.{{meta.slug}}.{{variant.key}}';
+    extends: '{{port.extends}}';
+    author: '{{meta.name}}';
+    dark: '{{port.dark}}';
+}
+
+@OBSThemeVars {
+    /* Yami's color scales, so nothing that names a scale step keeps a stock color. */
+    --grey1: {{line}};
+    --grey2: {{raised}};
+    --grey3: {{hover}};
+    --grey4: {{raised}};
+    --grey5: {{raised}};
+    --grey6: {{base}};
+    --grey7: {{deep}};
+    --grey8: {{deeper}};
+
+    --white1: {{text}};
+    --white2: {{text}};
+    --white3: {{dim}};
+    --white4: {{dim}};
+    --white5: {{faint}};
+
+    --black1: {{text}};
+    --black2: {{text}};
+    --black3: {{dim}};
+    --black4: {{faint}};
+    --black5: {{faint}};
+
+    --blue1: {{info}};
+    --blue2: {{info}};
+    --blue3: {{info}};
+    --blue4: {{info|wash}};
+    --blue5: {{info|wash}};
+    --blue6: {{info|wash}};
+
+    --red1: {{error}};
+    --red2: {{error}};
+    --red3: {{error}};
+    --red4: {{error|wash}};
+    --red5: {{error|wash}};
+    --red6: {{error|wash}};
+
+    --yellow1: {{warning}};
+    --yellow2: {{warning}};
+    --yellow3: {{warning}};
+    --yellow4: {{warning|wash}};
+    --yellow5: {{warning|wash}};
+    --yellow6: {{warning|wash}};
+
+    --green1: {{success}};
+    --green2: {{success}};
+    --green3: {{success}};
+    --green4: {{success|wash}};
+    --green5: {{success|wash}};
+    --green6: {{success|wash}};
+
+    --purple1: {{heather}};
+    --purple2: {{heather}};
+    --purple3: {{heather}};
+    --purple4: {{heather|wash}};
+    --purple5: {{heather|wash}};
+    --purple6: {{heather|wash}};
+
+    --teal1: {{pine}};
+    --teal2: {{pine}};
+    --teal3: {{pine}};
+    --teal4: {{pine|wash}};
+    --teal5: {{pine|wash}};
+    --teal6: {{pine|wash}};
+
+    --pink1: {{rosewood}};
+    --pink2: {{rosewood}};
+    --pink3: {{rosewood}};
+    --pink4: {{rosewood|wash}};
+    --pink5: {{rosewood|wash}};
+    --pink6: {{rosewood|wash}};
+
+    /* Surfaces */
+    --bg_window: {{deep}};
+    --bg_base: {{base}};
+    --bg_preview: {{deeper}};
+
+    /* The accent. Yami fills selected and checked things with its primary color
+     * and keeps the text color on them, so those fills are the accent wash. */
+    --primary: {{accent|wash}};
+    --primary_light: {{accent|wash}};
+    --primary_lighter: {{accent}};
+    --primary_dark: {{accent|wash}};
+    --primary_darker: {{accent|wash}};
+
+    --warning: {{warning}};
+    --danger: {{error}};
+
+    --text: {{text}};
+    --text_light: {{text}};
+    --text_muted: {{dim}};
+    --text_disabled: {{faint}};
+    --text_inactive: {{text}};
+
+    --highlight_color: {{accent}};
+
+    --scrollbar_handle: {{line}};
+    --scrollbar_bg: {{base}};
+    --scrollbar_hover: {{faint}};
+    --scrollbar_down: {{faint}};
+    --scrollbar_border: {{line}};
+
+    /* Inputs and controls */
+    --border_color: {{line}};
+
+    --input_bg: {{raised}};
+    --input_bg_hover: {{raised}};
+    --input_bg_focus: {{raised}};
+
+    --list_item_bg_selected: {{accent|wash}};
+    --list_item_bg_hover: {{hover}};
+
+    --input_border: {{line}};
+    --input_border_hover: {{faint}};
+    --input_border_focus: {{accent}};
+
+    --button_bg: {{raised}};
+    --button_bg_hover: {{hover}};
+    --button_bg_down: {{hover}};
+    --button_bg_disabled: {{deep}};
+
+    --button_border: {{line}};
+    --button_border_hover: {{faint}};
+    --button_border_focus: {{accent}};
+
+    --tab_bg: {{deep}};
+    --tab_bg_hover: {{hover}};
+    --tab_bg_down: {{accent|wash}};
+    --tab_bg_disabled: {{deep}};
+
+    --tab_border: {{line}};
+    --tab_border_hover: {{faint}};
+    --tab_border_focus: {{accent}};
+    --tab_border_selected: {{accent}};
+
+    --separator_hover: {{accent}};
+
+    /* Qt palette */
+    --palette_window: {{deep}};
+    --palette_windowText: {{text}};
+    --palette_base: {{base}};
+
+    --palette_light: {{raised}};
+    --palette_mid: {{deep}};
+    --palette_dark: {{base}};
+
+    --palette_highlight: {{accent|wash}};
+    --palette_highlightedText: {{text}};
+
+    --palette_text: {{text}};
+    --palette_link: {{accent}};
+    --palette_linkVisited: {{accent}};
+
+    --palette_button: {{raised}};
+    --palette_buttonText: {{text}};
+
+    --palette_text_active: {{text}};
+    --palette_text_disabled: {{faint}};
+    --palette_text_inactive: {{text}};
+}
+
+/* Rules below replace the ones in Yami and Yami Light that name a color
+ * directly, so Day and Night draw the same parts the same way. */
+
+.text-bright {
+    color: {{accent}};
+}
+
+.text-success {
+    color: {{success}};
+}
+
+/* Primary buttons: an accent fill. */
+.button-primary,
+.button-primary:hover,
+.button-primary:focus {
+    background-color: {{accent}};
+    border-color: {{accent}};
+    color: {{on_accent}};
+}
+
+/* Keyboard focus */
+QMenu::item:focus,
+QListView::item:focus,
+QListWidget::item:focus,
+QMenu::item:selected:focus,
+QListView::item:selected:focus,
+QListWidget::item:selected:focus,
+SourceSelectButton:focus,
+SourceSelectButton:checked:focus,
+SourceSelectButton QPushButton:focus,
+SourceSelectButton QPushButton:checked:focus,
+AlignmentSelector:focus {
+    border-color: {{accent}};
+}
+
+AlignmentSelector:hover {
+    border-color: {{faint}};
+}
+
+QListView QLineEdit,
+QListWidget QLineEdit {
+    border-color: {{accent}};
+}
+
+/* Hovered rows */
+QMenu::item:hover,
+QListView::item:hover,
+QListWidget::item:hover {
+    background: {{hover}};
+    border-color: {{hover}};
+}
+
+/* In progress */
+QProgressBar::chunk {
+    background: {{info}};
+    border-top-color: {{info}};
+    border-bottom-color: {{info}};
+}
+
+/* Sliders: the filled part is the value you set. */
+QSlider::sub-page:horizontal,
+QSlider::add-page:vertical,
+.slider-tbar::sub-page:horizontal {
+    background-color: {{accent}};
+}
+
+QSlider::handle {
+    background-color: {{dim}};
+}
+
+QSlider::handle:hover {
+    background-color: {{text}};
+}
+
+QSlider::handle:pressed {
+    background-color: {{accent}};
+}
+
+QSlider::handle:disabled {
+    background-color: {{line}};
+}
+
+/* Mute: audio cut from the output. Unassigned: muted because no track takes it. */
+.btn-mute.checked {
+    color: {{error}};
+}
+
+.btn-mute.checked.hover {
+    color: {{error}};
+    background: {{deeper}};
+    border-color: {{error}};
+}
+
+.btn-mute.checked:focus {
+    border-color: {{accent}};
+}
+
+.btn-mute.mute-warning {
+    color: {{text}};
+    background: {{warning|wash}};
+}
+
+.btn-mute.mute-warning.hover,
+.btn-mute.mute-warning:focus {
+    border-color: {{warning}};
+}
+
+/* Monitor and hide toggles: checked buttons, like every other checked button. */
+.btn-monitor:focus {
+    border-color: {{accent}};
+}
+
+.btn-monitor.checked,
+.btn-monitor.checked:hover,
+.toggle-hidden:checked {
+    background: {{accent|wash}};
+    border-color: {{accent}};
+    color: {{text}};
+}
+
+.btn-monitor.checked:focus,
+.btn-monitor:checked:focus {
+    border-color: {{accent}};
+    color: {{text}};
+}
+
+/* Audio meters: green, yellow and red zones, with the track of each zone a wash. */
+VolumeMeter {
+    color: {{dim}};
+    qproperty-backgroundNominalColor: {{success|wash}};
+    qproperty-backgroundWarningColor: {{warning|wash}};
+    qproperty-backgroundErrorColor: {{error|wash}};
+    qproperty-foregroundNominalColor: {{success}};
+    qproperty-foregroundWarningColor: {{warning}};
+    qproperty-foregroundErrorColor: {{error}};
+    qproperty-magnitudeColor: {{text}};
+    qproperty-majorTickColor: {{dim}};
+    qproperty-minorTickColor: {{faint}};
+
+    qproperty-backgroundNominalColorDisabled: {{hover}};
+    qproperty-backgroundWarningColorDisabled: {{hover}};
+    qproperty-backgroundErrorColorDisabled: {{hover}};
+    qproperty-foregroundNominalColorDisabled: {{faint}};
+    qproperty-foregroundWarningColorDisabled: {{faint}};
+    qproperty-foregroundErrorColorDisabled: {{faint}};
+}
+
+VolumeControl.volume-inactive,
+VolumeControl.volume-inactive VolumeMeter {
+    background: {{deep}};
+}
+
+/* Mixer group headers */
+VolumeControl .mixer-category,
+VolumeControl.volume-pinned .mixer-category,
+VolumeControl.volume-preview .mixer-category {
+    background: {{info|wash}};
+    color: {{text}};
+}
+
+VolumeControl.volume-hidden .mixer-category,
+VolumeControl.volume-inactive .mixer-category {
+    background: {{deeper}};
+    color: {{dim}};
+}
+
+VolumeControl.volume-unassigned .mixer-category {
+    background: {{warning|wash}};
+    color: {{text}};
+}
+
+#stackedMixerArea VolumeControl.volume-hidden QSlider::groove,
+#stackedMixerArea VolumeControl.volume-inactive QSlider::groove {
+    background: {{deeper}};
+}
+
+/* Switches */
+idian--ToggleSwitch {
+    qproperty-background: {{hover}};
+    qproperty-background_hover: {{line}};
+    qproperty-background_checked: {{accent|wash}};
+    qproperty-background_checked_hover: {{accent|wash}};
+    qproperty-handleColor: {{text}};
+}
+
+idian--ToggleSwitch.hover,
+idian--Row idian--ToggleSwitch.hover,
+idian--Row.hover > idian--ToggleSwitch.row-buddy {
+    border-color: {{faint}};
+}
+
+idian--ToggleSwitch.checked.hover,
+idian--Row idian--ToggleSwitch.hover.checked,
+idian--Row.hover > idian--ToggleSwitch.checked.row-buddy {
+    border-color: {{accent}};
+}
+
+/* Add Source dialog */
+SourceSelectButton,
+SourceSelectButton QPushButton,
+SourceSelectButton #thumbnail {
+    border-color: {{line}};
+}
+
+SourceSelectButton QPushButton:checked {
+    background: {{accent|wash}};
+    border-color: {{accent}};
+}

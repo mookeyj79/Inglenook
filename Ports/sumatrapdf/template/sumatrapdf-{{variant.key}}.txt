@@ -1,0 +1,22 @@
+# {{variant.name}} for SumatraPDF 3.6 or later
+# Copy each part over the matching lines in SumatraPDF-settings.txt.
+# {{meta.repository}}
+
+Theme = {{variant.name}}
+
+Themes [
+	[
+		Name = {{variant.name}}
+		TextColor = {{text}}
+		BackgroundColor = {{deeper}}
+		ControlBackgroundColor = {{deep}}
+		LinkColor = {{accent}}
+		ColorizeControls = true
+	]
+]
+
+FixedPageUI [
+	TextColor = {{text}}
+	BackgroundColor = {{base}}
+	SelectionColor = {{accent}}
+]

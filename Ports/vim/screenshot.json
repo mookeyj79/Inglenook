@@ -1,0 +1,19 @@
+{
+  "kind": "editor",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends vim"
+  ],
+  "apply": [
+    "mkdir -p ~/.vim/colors ~/.vim/autoload/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/day/colors/inglenook.vim\" ~/.vim/colors/",
+    "cp \"$INGLENOOK_PORT/dist/day/autoload/inglenook/day.vim\" \"$INGLENOOK_PORT/dist/night/autoload/inglenook/night.vim\" ~/.vim/autoload/inglenook/",
+    "if [ \"$INGLENOOK_VARIANT\" = day ]; then bg=light; else bg=dark; fi; printf 'syntax on\\nfiletype on\\nset termguicolors\\nset background=%s\\ncolorscheme inglenook\\n' \"$bg\" > ~/.vimrc"
+  ],
+  "stage": [
+    "p=/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\")/; dconf write ${p}use-system-font false; dconf write ${p}font \"'BlexMono Nerd Font Mono 13'\"; dconf write ${p}scrollbar-policy \"'never'\"",
+    "bash \"$INGLENOOK_SCENE/repo.sh\"",
+    "printf 'bash %q\\n' \"$INGLENOOK_SCENE/vim/run.sh\" > ~/.inglenook-editor"
+  ]
+}
