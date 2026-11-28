@@ -2,5 +2,8 @@
   "name": "GRUB",
   "category": "system",
   "tier": 2,
-  "platforms": ["linux"]
+  "platforms": [
+    "linux"
+  ],
+  "screenshots": "pending"
 }

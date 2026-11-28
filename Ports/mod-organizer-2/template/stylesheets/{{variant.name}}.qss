@@ -1,0 +1,506 @@
+/* mo2-base-style: Fusion */
+/* {{variant.name}} for Mod Organizer 2. {{meta.name}} {{meta.version}}, {{meta.repository}} */
+
+/* Base: every widget is solid, with the theme font. */
+QWidget {
+  background-color: {{deep}};
+  color: {{text}};
+  font-family: "IBM Plex Mono";
+  selection-background-color: {{accent|wash}};
+  selection-color: {{text}};
+}
+
+QWidget:disabled {
+  color: {{faint}};
+}
+
+QMainWindow,
+QDialog {
+  background-color: {{deep}};
+}
+
+QMainWindow::separator,
+QSplitter::handle {
+  background-color: {{deep}};
+}
+
+QMainWindow::separator:hover,
+QSplitter::handle:hover {
+  background-color: {{accent}};
+}
+
+/* Menu bar, tool bar, status bar: the frame. */
+QMenuBar {
+  background-color: {{deeper}};
+  color: {{text}};
+}
+
+QMenuBar::item {
+  background-color: {{deeper}};
+  padding: 4px 10px;
+}
+
+QMenuBar::item:selected,
+QMenuBar::item:pressed {
+  background-color: {{hover}};
+}
+
+QToolBar {
+  background-color: {{deeper}};
+  border: none;
+  spacing: 2px;
+}
+
+QToolBar::separator {
+  background-color: {{line}};
+  width: 1px;
+  height: 1px;
+  margin: 4px;
+}
+
+QToolBar QToolButton {
+  background-color: {{deeper}};
+  border: 1px solid {{deeper}};
+  padding: 4px;
+  margin: 2px;
+}
+
+QToolBar QToolButton:hover,
+QToolBar QToolButton:pressed {
+  background-color: {{hover}};
+  border-color: {{hover}};
+}
+
+QToolBar QToolButton:focus {
+  border-color: {{accent}};
+}
+
+QStatusBar {
+  background-color: {{deeper}};
+  color: {{dim}};
+}
+
+QStatusBar::item {
+  border: none;
+}
+
+QStatusBar QLabel {
+  background-color: {{deeper}};
+  color: {{dim}};
+}
+
+/* Menus, tooltips, and popups: raised. */
+QMenu {
+  background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+  padding: 2px;
+}
+
+QMenu::item {
+  background-color: {{raised}};
+  padding: 4px 24px 4px 20px;
+}
+
+QMenu::item:selected {
+  background-color: {{hover}};
+  color: {{text}};
+}
+
+QMenu::item:disabled {
+  color: {{faint}};
+}
+
+QMenu::separator {
+  height: 1px;
+  background-color: {{line}};
+  margin: 3px 8px;
+}
+
+QMenu QCheckBox,
+QMenu QRadioButton,
+QMenu QPushButton,
+QMenu QLabel {
+  background-color: {{raised}};
+  color: {{text}};
+}
+
+QMenu QCheckBox:hover,
+QMenu QRadioButton:hover,
+QMenu QPushButton:hover {
+  background-color: {{hover}};
+}
+
+QToolTip,
+SaveGameInfoWidget {
+  background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+  padding: 3px;
+}
+
+SaveGameInfoWidget QLabel {
+  background-color: {{raised}};
+}
+
+/* Lists, trees, and tables: content on base. Only hover and selection set
+   an item background, so MO2's mod list highlight colors and separator
+   colors still show on every other row. */
+QAbstractItemView {
+  background-color: {{base}};
+  alternate-background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+  selection-background-color: {{accent|wash}};
+  selection-color: {{text}};
+}
+
+QAbstractItemView:focus {
+  border-color: {{accent}};
+}
+
+QAbstractItemView::item:hover {
+  background-color: {{hover}};
+  color: {{text}};
+}
+
+QAbstractItemView::item:selected,
+QAbstractItemView::item:selected:hover,
+QAbstractItemView::item:selected:!active {
+  background-color: {{accent|wash}};
+  color: {{text}};
+}
+
+QAbstractItemView::item:disabled {
+  color: {{faint}};
+}
+
+/* MO2 sets "filtered" on a list while its filter box has text. */
+QAbstractItemView[filtered=true] {
+  border: 2px solid {{warning}};
+}
+
+QAbstractScrollArea::corner,
+QTableView QTableCornerButton::section {
+  background-color: {{deep}};
+  border: none;
+}
+
+QHeaderView {
+  background-color: {{deep}};
+  border: none;
+}
+
+QHeaderView::section {
+  background-color: {{deep}};
+  color: {{dim}};
+  border: none;
+  border-right: 1px solid {{line}};
+  border-bottom: 1px solid {{line}};
+  padding: 3px 6px;
+}
+
+QHeaderView::section:hover {
+  background-color: {{hover}};
+  color: {{text}};
+}
+
+QHeaderView::section:checked {
+  color: {{text}};
+}
+
+/* Check boxes, in dialogs and in the mod, plugin, and archive lists. */
+QCheckBox,
+QRadioButton {
+  background-color: {{deep}};
+  spacing: 6px;
+}
+
+QCheckBox::indicator,
+QAbstractItemView::indicator,
+QGroupBox::indicator {
+  width: 12px;
+  height: 12px;
+  background-color: {{raised}};
+  border: 1px solid {{dim}};
+}
+
+QRadioButton::indicator {
+  width: 12px;
+  height: 12px;
+  background-color: {{raised}};
+  border: 1px solid {{dim}};
+  border-radius: 7px;
+}
+
+QCheckBox::indicator:hover,
+QRadioButton::indicator:hover,
+QAbstractItemView::indicator:hover,
+QGroupBox::indicator:hover {
+  border-color: {{accent}};
+}
+
+QCheckBox::indicator:checked,
+QAbstractItemView::indicator:checked,
+QGroupBox::indicator:checked {
+  background-color: {{accent}};
+  border-color: {{accent}};
+  image: url(./{{variant.slug}}/check.svg);
+}
+
+QCheckBox::indicator:indeterminate,
+QAbstractItemView::indicator:indeterminate {
+  background-color: {{accent|wash}};
+  border-color: {{accent}};
+}
+
+QRadioButton::indicator:checked {
+  background-color: {{accent}};
+  border-color: {{accent}};
+}
+
+QCheckBox::indicator:disabled,
+QRadioButton::indicator:disabled,
+QAbstractItemView::indicator:disabled {
+  background-color: {{deep}};
+  border-color: {{line}};
+}
+
+/* Tabs: the open tab has a firelight underline. */
+QTabWidget::pane {
+  background-color: {{deep}};
+  border: 1px solid {{line}};
+  top: -1px;
+}
+
+QTabBar {
+  background-color: {{deep}};
+}
+
+QTabBar::tab {
+  background-color: {{deeper}};
+  color: {{dim}};
+  border: 1px solid {{line}};
+  border-bottom: 2px solid {{deeper}};
+  padding: 4px 12px;
+  margin-right: -1px;
+}
+
+QTabBar::tab:hover {
+  background-color: {{hover}};
+  color: {{text}};
+}
+
+QTabBar::tab:selected {
+  background-color: {{deep}};
+  color: {{text}};
+  border-bottom: 2px solid {{accent}};
+}
+
+QTabBar::tab:disabled {
+  color: {{faint}};
+}
+
+QTabBar QToolButton {
+  background-color: {{deeper}};
+  border: 1px solid {{line}};
+}
+
+/* Buttons. The default button in a dialog and the Run button are firelight. */
+QPushButton {
+  background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+  padding: 4px 12px;
+  min-height: 18px;
+}
+
+QPushButton:hover,
+QPushButton:pressed,
+QPushButton:checked {
+  background-color: {{hover}};
+}
+
+QPushButton:focus {
+  border-color: {{accent}};
+}
+
+QPushButton:default,
+QPushButton#startButton {
+  background-color: {{accent}};
+  color: {{on_accent}};
+  border-color: {{accent}};
+}
+
+QPushButton:default:hover,
+QPushButton#startButton:hover {
+  background-color: {{accent}};
+  border-color: {{text}};
+}
+
+QPushButton:disabled,
+QPushButton:default:disabled {
+  background-color: {{deep}};
+  color: {{faint}};
+  border-color: {{line}};
+}
+
+QToolButton {
+  background-color: {{deep}};
+  color: {{text}};
+  border: 1px solid {{deep}};
+  padding: 3px;
+}
+
+QToolButton:hover,
+QToolButton:pressed,
+QToolButton:checked {
+  background-color: {{hover}};
+  border-color: {{hover}};
+}
+
+QToolButton:focus {
+  border-color: {{accent}};
+}
+
+/* Inputs: raised. */
+QLineEdit,
+QComboBox,
+QAbstractSpinBox,
+QTextEdit,
+QPlainTextEdit {
+  background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+  selection-background-color: {{accent|wash}};
+  selection-color: {{text}};
+}
+
+QLineEdit,
+QComboBox,
+QAbstractSpinBox {
+  padding: 2px 4px;
+  min-height: 18px;
+}
+
+QLineEdit:focus,
+QComboBox:focus,
+QAbstractSpinBox:focus,
+QTextEdit:focus,
+QPlainTextEdit:focus {
+  border-color: {{accent}};
+}
+
+QLineEdit:disabled,
+QComboBox:disabled,
+QAbstractSpinBox:disabled {
+  background-color: {{deep}};
+  color: {{faint}};
+}
+
+QLineEdit QToolButton {
+  background-color: {{raised}};
+  border: none;
+}
+
+/* MO2 sets "valid-filter" to false when a filter cannot be read. */
+QLineEdit[valid-filter=false] {
+  background-color: {{error|wash}};
+  border-color: {{error}};
+}
+
+QComboBox:hover {
+  border-color: {{dim}};
+}
+
+QComboBox QAbstractItemView {
+  background-color: {{raised}};
+  border: 1px solid {{line}};
+}
+
+QTextBrowser {
+  background-color: {{base}};
+}
+
+LinkLabel {
+  qproperty-linkColor: {{accent}};
+}
+
+/* Group boxes. */
+QGroupBox {
+  border: 1px solid {{line}};
+  margin-top: 12px;
+  padding-top: 6px;
+}
+
+QGroupBox::title {
+  subcontrol-origin: margin;
+  left: 8px;
+  padding: 0 4px;
+  color: {{dim}};
+}
+
+/* Scroll bars: no arrow buttons. */
+QScrollBar:vertical {
+  background-color: {{deep}};
+  width: 12px;
+  margin: 0;
+}
+
+QScrollBar:horizontal {
+  background-color: {{deep}};
+  height: 12px;
+  margin: 0;
+}
+
+QScrollBar::handle {
+  background-color: {{line}};
+  border: 2px solid {{deep}};
+}
+
+QScrollBar::handle:vertical {
+  min-height: 24px;
+}
+
+QScrollBar::handle:horizontal {
+  min-width: 24px;
+}
+
+QScrollBar::handle:hover {
+  background-color: {{faint}};
+}
+
+QScrollBar::handle:pressed {
+  background-color: {{accent}};
+}
+
+QScrollBar::add-line,
+QScrollBar::sub-line {
+  width: 0;
+  height: 0;
+  border: none;
+}
+
+QScrollBar::add-page,
+QScrollBar::sub-page {
+  background-color: {{deep}};
+}
+
+/* Progress bars, such as downloads. */
+QProgressBar {
+  background-color: {{raised}};
+  color: {{text}};
+  border: 1px solid {{line}};
+  text-align: center;
+}
+
+QProgressBar::chunk {
+  background-color: {{accent|wash}};
+  border-right: 2px solid {{accent}};
+}
+
+/* The log at the bottom of the main window. */
+QDockWidget::title {
+  background-color: {{deeper}};
+  padding: 4px;
+}

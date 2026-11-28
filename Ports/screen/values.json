@@ -1,0 +1,12 @@
+{
+  "day": {
+    "text": "k",
+    "raised": "W",
+    "faint": "K"
+  },
+  "night": {
+    "text": "W",
+    "raised": "k",
+    "faint": "K"
+  }
+}

@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+{{variant.name}} for Notepad++, a Style Configurator theme.
+Generated from the {{meta.name}} palette {{meta.version}}: {{meta.repository}}
+No modelDate on purpose: Notepad++ adds every language this file leaves out,
+in the Default Style colors, the first time it loads the theme.
+-->
+<NotepadPlus>
+    <LexerStyles>
+        <LexerType name="bash" desc="bash" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ERROR" styleID="1" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="4" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="NUMBER" styleID="3" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="5" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="7" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="8" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SCALAR" styleID="9" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PARAM" styleID="10" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BACKTICKS" styleID="11" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="HERE DELIM" styleID="12" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="HERE Q" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER SCALAR 1" styleID="132" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER SCALAR 2" styleID="133" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER SCALAR 3" styleID="134" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER SCALAR 4" styleID="135" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="batch" desc="Batch" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEYWORDS" styleID="2" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="LABEL" styleID="3" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="HIDE SYMBOL" styleID="4" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMAND" styleID="5" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VARIABLE" styleID="6" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="7" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="AFTER LABEL" styleID="8" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="c" desc="C" ext="">
+            <WordsStyle name="PREPROCESSOR" styleID="9" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT" styleID="23" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT DOC" styleID="24" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="cpp" desc="C++" ext="">
+            <WordsStyle name="PREPROCESSOR" styleID="9" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRINGRAW" styleID="20" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT" styleID="23" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT DOC" styleID="24" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="cs" desc="C#" ext="">
+            <WordsStyle name="PREPROCESSOR" styleID="9" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT" styleID="23" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT DOC" styleID="24" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="css" desc="CSS" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TAG" styleID="1" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CLASS" styleID="2" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PSEUDOCLASS" styleID="3" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="UNKNOWN PSEUDOCLASS" styleID="4" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="5" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="6" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="UNKNOWN IDENTIFIER" styleID="7" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VALUE" styleID="8" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="9" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ID" styleID="10" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IMPORTANT" styleID="11" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DIRECTIVE" styleID="12" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DOUBLE STRING" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SINGLE STRING" styleID="14" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ATTRIBUTE" styleID="16" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PSEUDOELEMENT" styleID="18" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type3" />
+            <WordsStyle name="LEGACY PSEUDOELEMENT" styleID="20" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type5" />
+            <WordsStyle name="MEDIA" styleID="22" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VARIABLE" styleID="23" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="diff" desc="DIFF" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMAND" styleID="2" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="HEADER" styleID="3" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="POSITION" styleID="4" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DELETED" styleID="5" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ADDED" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="go" desc="Go" ext="">
+            <WordsStyle name="PREPROCESSOR" styleID="9" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="PREDECLARED IDENTIFIERS" styleID="19" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING RAW" styleID="20" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT" styleID="23" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR COMMENT DOC" styleID="24" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="html" desc="HTML" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="9" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="5" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DOUBLE STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SINGLE STRING" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TAG" styleID="1" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TAG END" styleID="11" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TAG UNKNOWN" styleID="2" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ATTRIBUTE" styleID="3" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ATTRIBUTE UNKNOWN" styleID="4" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML DEFAULT" styleID="21" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML COMMAND" styleID="22" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="SGML 1ST PARAM" styleID="23" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML DOUBLESTRING" styleID="24" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML SIMPLESTRING" styleID="25" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML BLOCK DEFAULT" styleID="31" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CDATA" styleID="17" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VALUE" styleID="19" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ENTITY" styleID="10" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER TAGS 1" styleID="192" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER TAGS 2" styleID="193" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER TAGS 3" styleID="194" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER TAGS 4" styleID="195" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER ATTRIBUTES 1" styleID="196" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER ATTRIBUTES 2" styleID="197" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER ATTRIBUTES 3" styleID="198" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER ATTRIBUTES 4" styleID="199" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="ini" desc="ini file" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SECTION" styleID="2" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ASSIGNMENT" styleID="3" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFVAL" styleID="4" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEY" styleID="5" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="java" desc="Java" ext="">
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="javascript" desc="JavaScript (embedded)" ext="">
+            <WordsStyle name="DEFAULT" styleID="41" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="45" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="WORD" styleID="46" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEYWORD" styleID="47" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="DOUBLE STRING" styleID="48" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SINGLE STRING" styleID="49" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TEMPLATE LIT. (CLIENT)" styleID="53" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TEMPLATE LIT. (SERVER)" styleID="68" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SYMBOLS" styleID="50" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="52" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="42" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="43" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="44" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="200" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="201" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="202" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="203" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="204" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="205" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="206" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="207" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="javascript.js" desc="JavaScript" ext="">
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="WINDOW INSTRUCTION" styleID="19" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING RAW" styleID="20" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="json" desc="JSON" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="1" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="2" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING EOL" styleID="3" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PROPERTY NAME" styleID="4" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ESCAPE SEQUENCE" styleID="5" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LINE COMMENT" styleID="6" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BLOCK COMMENT" styleID="7" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="8" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="URI" styleID="9" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMPACT IRI" styleID="10" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEYWORD" styleID="11" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="LD KEYWORD" styleID="12" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="ERROR" styleID="13" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="lua" desc="Lua" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LITERALSTRING" styleID="8" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR" styleID="9" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="FUNC1" styleID="13" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="FUNC2" styleID="14" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="FUNC3" styleID="15" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type2" />
+            <WordsStyle name="USER KEYWORD 1" styleID="16" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type3" />
+            <WordsStyle name="USER KEYWORD 2" styleID="17" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type4" />
+            <WordsStyle name="USER KEYWORD 3" styleID="18" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type5" />
+            <WordsStyle name="USER KEYWORD 4" styleID="19" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type6" />
+            <WordsStyle name="IDENTIFIER" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LABEL" styleID="20" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+        </LexerType>
+        <LexerType name="makefile" desc="Makefile" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREPROCESSOR" styleID="2" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="3" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="4" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TARGET" styleID="5" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDEOL" styleID="9" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="php" desc="php" ext="">
+            <WordsStyle name="QUESTION MARK" styleID="18" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFAULT" styleID="118" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="119" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING VARIABLE" styleID="126" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMPLEX VARIABLE" styleID="104" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SIMPLE STRING" styleID="120" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="WORD" styleID="121" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="NUMBER" styleID="122" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VARIABLE" styleID="123" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="124" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="125" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="127" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="PREDEFINED" styleID="213" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="FUNCS AND METHODS 1" styleID="214" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="FUNCS AND METHODS 2" styleID="215" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="208" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="209" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="210" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="211" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="212" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+        </LexerType>
+        <LexerType name="powershell" desc="PowerShell" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="2" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="3" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VARIABLE" styleID="5" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="6" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="7" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="8" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="CMDLET" styleID="9" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="ALIAS" styleID="10" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="FUNCTION" styleID="11" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type2" />
+            <WordsStyle name="USER KEYWORDS" styleID="12" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type3" />
+            <WordsStyle name="COMMENT STREAM" styleID="13" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="HERE STRING" styleID="14" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="HERE CHARACTER" styleID="15" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="16" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type4" />
+        </LexerType>
+        <LexerType name="props" desc="Properties file" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ASSIGNMENT" styleID="3" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFVAL" styleID="4" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SECTION" styleID="2" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEY" styleID="5" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="python" desc="Python" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="2" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="3" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="4" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEYWORDS" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TRIPLE" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TRIPLE DOUBLE" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CLASS NAME" styleID="8" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEF NAME" styleID="9" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT BLOCK" styleID="12" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BUILTINS" styleID="14" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="DECORATOR" styleID="15" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ATTRIBUTE" styleID="20" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="F STRING" styleID="16" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="F CHARACTER" styleID="17" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="F TRIPLE" styleID="18" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="F TRIPLEDOUBLE" styleID="19" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="ruby" desc="Ruby" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ERROR" styleID="1" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="POD" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CLASS NAME" styleID="8" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEF NAME" styleID="9" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="12" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="GLOBAL" styleID="13" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SYMBOL" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="MODULE NAME" styleID="15" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTANCE VAR" styleID="16" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CLASS VAR" styleID="17" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BACKTICKS" styleID="18" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DATA SECTION" styleID="19" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING Q" styleID="24" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="rust" desc="Rust" ext="">
+            <WordsStyle name="DEFAULT" styleID="32" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="WHITESPACE" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BLOCK COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LINE COMMENT" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BLOCK DOC COMMENT" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LINE DOC COMMENT" styleID="4" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="5" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEYWORDS 1" styleID="6" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="KEYWORDS 2" styleID="7" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="KEYWORDS 3" styleID="8" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="KEYWORDS 4" styleID="9" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type2" />
+            <WordsStyle name="KEYWORDS 5" styleID="10" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type3" />
+            <WordsStyle name="KEYWORDS 6" styleID="11" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type4" />
+            <WordsStyle name="KEYWORDS 7" styleID="12" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type5" />
+            <WordsStyle name="REGULAR STRING" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="RAW STRING" styleID="14" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="15" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="16" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="17" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LIFETIME" styleID="18" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="MACRO" styleID="19" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="LEXICAL ERROR" styleID="20" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BYTE STRING" styleID="21" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="RAW BYTE STRING" styleID="22" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="BYTE CHARACTER" styleID="23" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="C STRING" styleID="24" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="RAW C STRING" styleID="25" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="sql" desc="SQL" ext="">
+            <WordsStyle name="KEYWORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="USER1" styleID="16" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre2" />
+            <WordsStyle name="KEYWORD2" styleID="19" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type3" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING2" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="Q OPERATOR" styleID="24" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="toml" desc="TOML" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="2" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEYWORD" styleID="3" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TABLE" styleID="5" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="KEY" styleID="6" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ERROR" styleID="7" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="8" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING SQ" styleID="9" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING DQ" styleID="10" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TRIPLE STRING SQ" styleID="11" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TRIPLE STRING DQ" styleID="12" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ESCAPE CHAR" styleID="13" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DATETIME" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="typescript" desc="TypeScript" ext="">
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="5" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="TYPE WORD" styleID="16" fgColor="{{type|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="type1" />
+            <WordsStyle name="WINDOW INSTRUCTION" styleID="19" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="STRING RAW" styleID="20" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CHARACTER" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="VERBATIM" styleID="13" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REGEX" styleID="14" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT LINE DOC" styleID="15" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD" styleID="17" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT DOC KEYWORD ERROR" styleID="18" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER KEYWORDS 1" styleID="128" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER KEYWORDS 2" styleID="129" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER KEYWORDS 3" styleID="130" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER KEYWORDS 4" styleID="131" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER KEYWORDS 5" styleID="132" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER KEYWORDS 6" styleID="133" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER KEYWORDS 7" styleID="134" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER KEYWORDS 8" styleID="135" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="xml" desc="XML" ext="">
+            <WordsStyle name="XMLSTART" styleID="12" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="XMLEND" styleID="13" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="9" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="NUMBER" styleID="5" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DOUBLE STRING" styleID="6" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SINGLE STRING" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TAG" styleID="1" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TAG END" styleID="11" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TAG UNKNOWN" styleID="2" fgColor="{{tag|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ATTRIBUTE" styleID="3" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ATTRIBUTE UNKNOWN" styleID="4" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML DEFAULT" styleID="21" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML COMMAND" styleID="22" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="SGML 1ST PARAM" styleID="23" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML DOUBLESTRING" styleID="24" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML SIMPLESTRING" styleID="25" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="SGML BLOCK DEFAULT" styleID="31" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="CDATA" styleID="17" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ENTITY" styleID="10" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="USER ATTRIBUTES 1" styleID="192" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle1" />
+            <WordsStyle name="USER ATTRIBUTES 2" styleID="193" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle2" />
+            <WordsStyle name="USER ATTRIBUTES 3" styleID="194" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle3" />
+            <WordsStyle name="USER ATTRIBUTES 4" styleID="195" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle4" />
+            <WordsStyle name="USER ATTRIBUTES 5" styleID="196" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle5" />
+            <WordsStyle name="USER ATTRIBUTES 6" styleID="197" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle6" />
+            <WordsStyle name="USER ATTRIBUTES 7" styleID="198" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle7" />
+            <WordsStyle name="USER ATTRIBUTES 8" styleID="199" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="substyle8" />
+        </LexerType>
+        <LexerType name="yaml" desc="YAML" ext="">
+            <WordsStyle name="DEFAULT" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="IDENTIFIER" styleID="2" fgColor="{{info|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="INSTRUCTION WORD" styleID="3" fgColor="{{keyword|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" keywordClass="instre1" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="{{literal|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="REFERENCE" styleID="5" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="DOCUMENT" styleID="6" fgColor="{{dim|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="TEXT" styleID="7" fgColor="{{success|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="ERROR" styleID="8" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        </LexerType>
+        <LexerType name="searchResult" desc="Search result" ext="">
+            <WordsStyle name="Search Header" styleID="1" fgColor="{{text|nohash}}" bgColor="{{deep|nohash}}" fontName="" fontStyle="1" fontSize="" />
+            <WordsStyle name="File Header" styleID="2" fgColor="{{reference|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="Line Number" styleID="3" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="Hit Word" styleID="4" fgColor="{{text|nohash}}" bgColor="{{steel|wash|nohash}}" fontName="" fontStyle="0" fontSize="" />
+            <WordsStyle name="Current line background colour" styleID="6" bgColor="{{raised|nohash}}" />
+        </LexerType>
+    </LexerStyles>
+    <GlobalStyles>
+        <!-- Attention : Don't modify the name of styleID="0" -->
+        <WidgetStyle name="Default Style" styleID="32" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="IBM Plex Mono" fontStyle="0" fontSize="10" />
+        <WidgetStyle name="Indent guideline style" styleID="37" fgColor="{{line|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        <WidgetStyle name="Brace highlight style" styleID="34" fgColor="{{text|nohash}}" bgColor="{{accent|wash|nohash}}" fontName="" fontStyle="1" fontSize="" />
+        <WidgetStyle name="Bad brace colour" styleID="35" fgColor="{{error|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="1" fontSize="" />
+        <WidgetStyle name="Current line background colour" styleID="0" bgColor="{{raised|nohash}}" />
+        <WidgetStyle name="Selected text colour" styleID="0" bgColor="{{accent|wash|nohash}}" fgColor="{{text|nohash}}" />
+        <WidgetStyle name="Multi-selected text color" styleID="0" bgColor="{{accent|wash|nohash}}" />
+        <WidgetStyle name="Caret colour" styleID="2069" fgColor="{{accent|nohash}}" />
+        <WidgetStyle name="Multi-edit carets color" styleID="0" fgColor="{{accent|nohash}}" />
+        <WidgetStyle name="Edge colour" styleID="0" fgColor="{{line|nohash}}" />
+        <WidgetStyle name="Line number margin" styleID="33" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+        <WidgetStyle name="Bookmark margin" styleID="0" bgColor="{{base|nohash}}" />
+        <WidgetStyle name="Change History margin" styleID="0" bgColor="{{base|nohash}}" />
+        <WidgetStyle name="Change History modified" styleID="0" fgColor="{{warning|nohash}}" bgColor="{{warning|nohash}}" />
+        <WidgetStyle name="Change History revert modified" styleID="0" fgColor="{{info|nohash}}" bgColor="{{info|nohash}}" />
+        <WidgetStyle name="Change History revert origin" styleID="0" fgColor="{{info|nohash}}" bgColor="{{info|nohash}}" />
+        <WidgetStyle name="Change History saved" styleID="0" fgColor="{{success|nohash}}" bgColor="{{success|nohash}}" />
+        <WidgetStyle name="Fold" styleID="0" fgColor="{{faint|nohash}}" bgColor="{{base|nohash}}" />
+        <WidgetStyle name="Fold active" styleID="0" fgColor="{{accent|nohash}}" />
+        <WidgetStyle name="Fold margin" styleID="0" fgColor="{{base|nohash}}" bgColor="{{base|nohash}}" />
+        <WidgetStyle name="White space symbol" styleID="0" fgColor="{{line|nohash}}" />
+        <WidgetStyle name="Smart Highlighting" styleID="29" bgColor="{{steel|wash|nohash}}" />
+        <WidgetStyle name="Find Mark Style" styleID="31" bgColor="{{steel|wash|nohash}}" />
+        <WidgetStyle name="Find status: Not found" styleID="0" fgColor="{{error|nohash}}" />
+        <WidgetStyle name="Find status: Message" styleID="0" fgColor="{{info|nohash}}" />
+        <WidgetStyle name="Find status: Search end reached" styleID="0" fgColor="{{warning|nohash}}" />
+        <WidgetStyle name="Mark Style 1" styleID="25" bgColor="{{ivy|wash|nohash}}" />
+        <WidgetStyle name="Mark Style 2" styleID="24" bgColor="{{pine|wash|nohash}}" />
+        <WidgetStyle name="Mark Style 3" styleID="23" bgColor="{{dusk|wash|nohash}}" />
+        <WidgetStyle name="Mark Style 4" styleID="22" bgColor="{{heather|wash|nohash}}" />
+        <WidgetStyle name="Mark Style 5" styleID="21" bgColor="{{oxblood|wash|nohash}}" />
+        <WidgetStyle name="Find matches highlight all" styleID="28" bgColor="{{steel|wash|nohash}}" />
+        <WidgetStyle name="Tags match highlighting" styleID="27" bgColor="{{accent|wash|nohash}}" />
+        <WidgetStyle name="Tags attribute" styleID="26" bgColor="{{hover|nohash}}" />
+        <WidgetStyle name="Active tab focused indicator" styleID="0" fgColor="{{accent|nohash}}" />
+        <WidgetStyle name="Active tab unfocused indicator" styleID="0" fgColor="{{faint|nohash}}" />
+        <WidgetStyle name="Active tab text" styleID="0" fgColor="{{text|nohash}}" />
+        <WidgetStyle name="Inactive tabs" styleID="0" fgColor="{{dim|nohash}}" bgColor="{{deeper|nohash}}" />
+        <WidgetStyle name="Tab color 1" styleID="0" bgColor="{{ivy|wash|nohash}}" />
+        <WidgetStyle name="Tab color 2" styleID="0" bgColor="{{pine|wash|nohash}}" />
+        <WidgetStyle name="Tab color 3" styleID="0" bgColor="{{dusk|wash|nohash}}" />
+        <WidgetStyle name="Tab color 4" styleID="0" bgColor="{{heather|wash|nohash}}" />
+        <WidgetStyle name="Tab color 5" styleID="0" bgColor="{{oxblood|wash|nohash}}" />
+        <WidgetStyle name="Tab color dark mode 1" styleID="0" bgColor="{{ivy|wash|nohash}}" />
+        <WidgetStyle name="Tab color dark mode 2" styleID="0" bgColor="{{pine|wash|nohash}}" />
+        <WidgetStyle name="Tab color dark mode 3" styleID="0" bgColor="{{dusk|wash|nohash}}" />
+        <WidgetStyle name="Tab color dark mode 4" styleID="0" bgColor="{{heather|wash|nohash}}" />
+        <WidgetStyle name="Tab color dark mode 5" styleID="0" bgColor="{{oxblood|wash|nohash}}" />
+        <WidgetStyle name="URL hovered" styleID="0" fgColor="{{accent|nohash}}" />
+        <WidgetStyle name="Document map" styleID="0" fgColor="{{accent|nohash}}" bgColor="{{base|nohash}}" />
+        <WidgetStyle name="EOL custom color" styleID="0" fgColor="{{line|nohash}}" />
+        <WidgetStyle name="Non-printing characters custom color" styleID="0" fgColor="{{line|nohash}}" />
+        <WidgetStyle name="Global override" styleID="0" fgColor="{{text|nohash}}" bgColor="{{base|nohash}}" fontName="" fontStyle="0" fontSize="" />
+    </GlobalStyles>
+</NotepadPlus>

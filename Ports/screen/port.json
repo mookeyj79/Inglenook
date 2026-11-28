@@ -1,0 +1,9 @@
+{
+  "name": "GNU Screen",
+  "category": "cli",
+  "tier": 2,
+  "platforms": [
+    "macos",
+    "linux"
+  ]
+}

@@ -1,0 +1,25 @@
+; {{variant.name}} for Windows 10 and 11, from the {{meta.name}} palette {{meta.version}}.
+; {{meta.repository}}
+
+[Theme]
+DisplayName={{variant.name}}
+
+[Control Panel\Desktop]
+Wallpaper=%LOCALAPPDATA%\Microsoft\Windows\Themes\{{meta.name}}\{{port.wallpaper}}
+TileWallpaper=0
+WallpaperStyle=10
+Pattern=
+
+[VisualStyles]
+Path=%SystemRoot%\resources\themes\Aero\Aero.msstyles
+ColorStyle=NormalColor
+Size=NormalSize
+AutoColorization=0
+ColorizationColor=0XFF{{accent|nohash}}
+Transparency=0
+SystemMode={{port.mode}}
+AppMode={{port.mode}}
+VisualStyleVersion=10
+
+[MasterThemeSelector]
+MTSM=DABJDKT

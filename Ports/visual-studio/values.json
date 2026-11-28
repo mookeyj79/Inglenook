@@ -1,0 +1,14 @@
+{
+  "day": {
+    "theme_guid": "{4d39e768-9a42-4f07-9fb9-a0fdbd8a3ef1}",
+    "base_guid": "{de3dbbcd-f642-433c-8353-8f1df4370aba}",
+    "project_guid": "{6c5c0224-c9be-46ba-9d1b-caf9b3de46c0}",
+    "vsix_guid": "de55f7c0-4435-4d9f-8b8a-42d154f86d37"
+  },
+  "night": {
+    "theme_guid": "{093a1e64-4c0b-4fbb-bfec-f5e0d68247b9}",
+    "base_guid": "{1ded0138-47ce-435e-84ef-9ec1f439b749}",
+    "project_guid": "{e9bae069-4742-4b3c-91f8-5797bd5bb328}",
+    "vsix_guid": "c2a40388-209d-4608-84fa-9a3de28d739e"
+  }
+}

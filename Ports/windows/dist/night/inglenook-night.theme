@@ -1,0 +1,25 @@
+; Inglenook Night for Windows 10 and 11, from the Inglenook palette 0.1.0.
+; https://github.com/mookeyj79/Inglenook
+
+[Theme]
+DisplayName=Inglenook Night
+
+[Control Panel\Desktop]
+Wallpaper=%LOCALAPPDATA%\Microsoft\Windows\Themes\Inglenook\mission-fireplace.jpg
+TileWallpaper=0
+WallpaperStyle=10
+Pattern=
+
+[VisualStyles]
+Path=%SystemRoot%\resources\themes\Aero\Aero.msstyles
+ColorStyle=NormalColor
+Size=NormalSize
+AutoColorization=0
+ColorizationColor=0XFFf3a958
+Transparency=0
+SystemMode=Dark
+AppMode=Dark
+VisualStyleVersion=10
+
+[MasterThemeSelector]
+MTSM=DABJDKT

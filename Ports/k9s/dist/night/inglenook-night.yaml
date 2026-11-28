@@ -1,0 +1,156 @@
+# Inglenook Night for K9s, from Inglenook 0.1.0: https://github.com/mookeyj79/Inglenook
+# Save it in K9s's skins folder and set k9s.ui.skin: inglenook-night in config.yaml.
+#
+# The layout and keys of this file are adapted from Catppuccin for k9s
+# (https://github.com/catppuccin/k9s), under its license:
+#
+# MIT License
+#
+# Copyright (c) 2021 Catppuccin
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+k9s:
+  # The main background and text, and the logo at the top right
+  body:
+    fgColor: '#d1c9bc'
+    bgColor: '#1b1917'
+    logoColor: '#b1aa9e'
+    # Messages shown in place of the logo
+    logoColorMsg: '#d1c9bc'
+    logoColorInfo: '#89b3d8'
+    logoColorWarn: '#bdb377'
+    logoColorError: '#d9897e'
+  # The command (:) and filter (/) prompt
+  prompt:
+    fgColor: '#d1c9bc'
+    bgColor: '#262321'
+    suggestColor: '#8f887f'
+    border:
+      command: '#f3a958'
+      default: '#89b3d8'
+  # The help screen (?)
+  help:
+    fgColor: '#d1c9bc'
+    bgColor: '#1b1917'
+    sectionColor: '#b1aa9e'
+    keyColor: '#89b3d8'
+    numKeyColor: '#da9f7c'
+  frame:
+    # The view's title: Pods(all)[12]
+    title:
+      fgColor: '#d1c9bc'
+      bgColor: '#1b1917'
+      highlightColor: '#72bdbd'
+      counterColor: '#da9f7c'
+      filterColor: '#89b3d8'
+    border:
+      fgColor: '#363331'
+      focusColor: '#f3a958'
+    # The shortcut menu at the top
+    menu:
+      fgColor: '#b1aa9e'
+      keyColor: '#89b3d8'
+      numKeyColor: '#da9f7c'
+    # The breadcrumbs at the bottom; the current view is the last one
+    crumbs:
+      fgColor: '#d1c9bc'
+      bgColor: '#262321'
+      activeColor: '#463624'
+    # Row colors by state
+    status:
+      newColor: '#d1c9bc'
+      modifyColor: '#bdb377'
+      addColor: '#91bc88'
+      pendingColor: '#bdb377'
+      errorColor: '#d9897e'
+      highlightColor: '#89b3d8'
+      killColor: '#d9897e'
+      completedColor: '#8f887f'
+  # The cluster summary at the top left
+  info:
+    fgColor: '#d1c9bc'
+    sectionColor: '#b1aa9e'
+    cpuColor: '#d1c9bc'
+    memColor: '#d1c9bc'
+    k9sRevColor: '#d1c9bc'
+  views:
+    table:
+      fgColor: '#d1c9bc'
+      bgColor: '#1b1917'
+      cursorFgColor: '#d1c9bc'
+      cursorBgColor: '#463624'
+      markColor: '#f3a958'
+      header:
+        fgColor: '#b1aa9e'
+        bgColor: '#1b1917'
+        sorterColor: '#89b3d8'
+        selectedSortColumnColor: '#d1c9bc'
+    xray:
+      fgColor: '#d1c9bc'
+      bgColor: '#1b1917'
+      cursorColor: '#463624'
+      cursorTextColor: '#d1c9bc'
+      graphicColor: '#b1aa9e'
+    # The pulses view
+    charts:
+      bgColor: '#1b1917'
+      chartBgColor: '#1b1917'
+      dialBgColor: '#1b1917'
+      focusFgColor: '#12100e'
+      focusBgColor: '#f3a958'
+      defaultDialColors:
+        - '#91bc88'
+        - '#d9897e'
+      defaultChartColors:
+        - '#91bc88'
+        - '#d9897e'
+      resourceColors:
+        cpu:
+          - '#89b3d8'
+          - '#cb9cc6'
+        mem:
+          - '#72bdbd'
+          - '#5c947c'
+    yaml:
+      keyColor: '#89b3d8'
+      valueColor: '#d1c9bc'
+      colonColor: '#b1aa9e'
+    # Pickers such as the container list
+    picker:
+      mainColor: '#d1c9bc'
+      focusColor: '#f3a958'
+      shortcutColor: '#89b3d8'
+    logs:
+      fgColor: '#d1c9bc'
+      bgColor: '#1b1917'
+      indicator:
+        fgColor: '#b1aa9e'
+        bgColor: '#1b1917'
+        toggleOnColor: '#91bc88'
+        toggleOffColor: '#8f887f'
+  # Confirm and delete dialogs
+  dialog:
+    fgColor: '#d1c9bc'
+    bgColor: '#262321'
+    buttonFgColor: '#d1c9bc'
+    buttonBgColor: '#312e2c'
+    buttonFocusFgColor: '#12100e'
+    buttonFocusBgColor: '#f3a958'
+    labelFgColor: '#b1aa9e'
+    fieldFgColor: '#d1c9bc'

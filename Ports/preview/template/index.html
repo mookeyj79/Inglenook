@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../day/favicon.svg">
 <link rel="stylesheet" href="../day/theme.css">
 <link rel="stylesheet" href="../night/theme.css">
 <link rel="stylesheet" href="base.css">
@@ -76,7 +77,7 @@ pre { margin: 0; padding: 14px; overflow-x: auto; font: .8rem/1.65 var(--font-mo
 
 /* Swatches */
 .block { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-.block > p { margin: 0; color: var(--dim); max-width: 75ch; }
+.block.ornate { padding: 26px 34px 46px; }.block > p { margin: 0; color: var(--dim); max-width: 75ch; }
 .swatches { background: var(--base); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
 .swatches ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .sw { display: grid; grid-template-columns: 28px 1fr auto auto; align-items: center; gap: 10px; font-size: .88rem; }
@@ -107,7 +108,7 @@ footer p + p { margin-top: 4px; }
 </head>
 <body>
 <div class="topbar">
-  <span class="brand">{{meta.name}}<small>v{{meta.version}}</small></span>
+  <span class="brand"><span class="gem" aria-hidden="true"></span>{{meta.name}}<small>v{{meta.version}}</small></span>
   <div class="topbar-end">
     <a class="repo" href="ports.html">Ports</a>
     <a class="repo" href="{{meta.repository}}">GitHub</a>
@@ -119,8 +120,9 @@ footer p + p { margin-top: 4px; }
 </div>
 
 <main>
-  <section class="panel intro" aria-labelledby="title">
+  <section class="panel intro framed" aria-labelledby="title">
     <h1 id="title">{{meta.name}}</h1>
+    <span class="flourish" aria-hidden="true"></span>
     <p>A cozy, soothing color theme: technology meets simple life charm. Two equal variants. Day is a cabin room in natural light, with plants on the sill. Night is a Victorian library by the fire. Both are easy on the eyes, with calm, evenly matched colors and one warm accent, firelight, that marks where you are.</p>
     <p>Everything below is live HTML, colored from the same palette as every port. The switch at the top changes the whole page between Day and Night.</p>
     <p class="links"><a href="ports.html">Browse the ports</a> <a href="{{meta.repository}}">Source on GitHub</a> <a href="{{meta.repository}}/blob/main/PHILOSOPHY.md">Design rules</a></p>
@@ -128,7 +130,7 @@ footer p + p { margin-top: 4px; }
 
   <div class="pair">
     <section class="side" data-variant="day" aria-labelledby="day-title">
-      <h2 id="day-title">{{meta.name}} Day</h2>
+      <h2 id="day-title"><span class="gem" aria-hidden="true"></span> {{meta.name}} Day</h2>
       <p class="lede">A soft neutral background leaning faintly green, dark slate text, earthy colors.</p>
       <div class="win">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
@@ -207,7 +209,7 @@ footer p + p { margin-top: 4px; }
       </div>
     </section>
     <section class="side" data-variant="night" aria-labelledby="night-title">
-      <h2 id="night-title">{{meta.name}} Night</h2>
+      <h2 id="night-title"><span class="gem" aria-hidden="true"></span> {{meta.name}} Night</h2>
       <p class="lede">A warm smoked-walnut background, parchment text, colors like lamplight on old bindings.</p>
       <div class="win">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
@@ -287,8 +289,8 @@ footer p + p { margin-top: 4px; }
     </section>
   </div>
 
-  <section class="panel block" aria-labelledby="swatches-title">
-    <h2 id="swatches-title">Every color</h2>
+  <section class="panel block ornate" aria-labelledby="swatches-title">
+    <h2 id="swatches-title"><span class="gem" aria-hidden="true"></span> Every color</h2>
     <p>Nine plain neutrals and twelve named colors per variant. The ratio is the contrast with <code>base</code>; for the surfaces it is the contrast of <code>text</code> on them. Terminal colors run normal then bright, black to white.</p>
     <div class="pair">
       <div class="swatches" data-variant="day">
@@ -312,8 +314,8 @@ footer p + p { margin-top: 4px; }
     </div>
   </section>
 
-  <section class="panel block" aria-labelledby="roles-title">
-    <h2 id="roles-title">Roles</h2>
+  <section class="panel block ornate" aria-labelledby="roles-title">
+    <h2 id="roles-title"><span class="gem" aria-hidden="true"></span> Roles</h2>
     <p>Ports pick a role or a named color, never a value. Each role has one meaning in every app. Oxblood and ivy are detail colors for badges and small accents, with no role.</p>
     <div class="scroll"><table>
       <thead><tr><th>Role</th><th>Means</th><th data-variant="day">Day</th><th data-variant="night">Night</th></tr></thead>
@@ -333,8 +335,8 @@ footer p + p { margin-top: 4px; }
     </table></div>
   </section>
 
-  <section class="panel block" aria-labelledby="syntax-title">
-    <h2 id="syntax-title">Syntax</h2>
+  <section class="panel block ornate" aria-labelledby="syntax-title">
+    <h2 id="syntax-title"><span class="gem" aria-hidden="true"></span> Syntax</h2>
     <p>Every editor and highlighter port colors code the same way. A token that does not fit takes the closest row.</p>
     <div class="scroll"><table>
       <thead><tr><th>Token</th><th>Color</th><th data-variant="day">Day</th><th data-variant="night">Night</th></tr></thead>
@@ -354,6 +356,7 @@ footer p + p { margin-top: 4px; }
   </section>
 
   <footer class="panel">
+    <span class="flourish" aria-hidden="true"></span>
     <p>{{meta.name}} {{meta.version}}. Every color on this page is generated from <code>palette/palette.json</code>.</p>
     <p>Type: IBM Plex Sans, Serif and Mono, under the SIL Open Font License.</p>
     <p class="credit">Wallpapers: <a href="https://commons.wikimedia.org/wiki/File:Cozy_interior_of_a_wooden_cabin_with_a_seating_area.jpg">Cabin Seating</a> (Day) by Shixart1985, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>. <a href="https://commons.wikimedia.org/wiki/File:The_fireplace_in_the_dining_room_of_the_mission_house_at_the_The_Elms_-_Formerly_the_Te_Papa_Mission_Station.jpg">Mission Fireplace</a> (Night) by Richard N Horne, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>.</p>

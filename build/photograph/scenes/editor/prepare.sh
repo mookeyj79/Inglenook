@@ -7,7 +7,7 @@
 # Explorer and the gutter show added, changed and removed lines. It also installs
 # vscode-scene, a tiny extension that opens Contrast.psm1, selects two lines and puts one
 # error under a misspelled call. Fixed content, never live, and no colors: the port under
-# test decides every color. Neovim shows the same file and marks (neovim-scene/).
+# test decides every color. Neovim shows the same file and marks (neovim/).
 #
 # What it shows: all eight roles, from the syntax (keywords, functions, types, numbers, a
 # string), the gutter and Explorer git marks (added, changed, removed) and the error; the

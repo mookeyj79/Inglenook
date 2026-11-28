@@ -1,0 +1,42 @@
+- Library:
+    - Shelves:
+        href: http://127.0.0.1:3000/
+        description: Every book on the wall
+        siteMonitor: http://127.0.0.1:3000/
+        widget:
+          type: customapi
+          url: http://127.0.0.1:8130/shelves.json
+          refreshInterval: 3600000
+          mappings:
+            - field: books
+              label: Books
+            - field: lent
+              label: Lent out
+            - field: overdue
+              label: Overdue
+    - Reading room:
+        href: http://127.0.0.1:3000/
+        description: Lamps on, chairs by the fire
+        siteMonitor: http://127.0.0.1:3000/
+    - Catalogue:
+        href: http://127.0.0.1:9/
+        description: Card index, moved to the attic
+        siteMonitor: http://127.0.0.1:9/
+- Workshop:
+    - Kettle:
+        href: http://127.0.0.1:3000/
+        description: Water on the stove
+        siteMonitor: http://127.0.0.1:3000/
+    - Woodpile:
+        href: http://127.0.0.1:3000/
+        description: Logs split and stacked
+        siteMonitor: http://127.0.0.1:3000/
+    - Workbench:
+        href: http://127.0.0.1:3000/
+        description: Planes, chisels and glue
+        siteMonitor: http://127.0.0.1:3000/
+- Garden:
+    - Beds:
+        href: http://127.0.0.1:3000/
+        description: Seeds and the shed
+        siteMonitor: http://127.0.0.1:3000/

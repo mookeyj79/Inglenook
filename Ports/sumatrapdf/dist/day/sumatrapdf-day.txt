@@ -1,0 +1,22 @@
+# Inglenook Day for SumatraPDF 3.6 or later
+# Copy each part over the matching lines in SumatraPDF-settings.txt.
+# https://github.com/mookeyj79/Inglenook
+
+Theme = Inglenook Day
+
+Themes [
+	[
+		Name = Inglenook Day
+		TextColor = #2d373f
+		BackgroundColor = #e0e2dc
+		ControlBackgroundColor = #e9ebe5
+		LinkColor = #9b5a00
+		ColorizeControls = true
+	]
+]
+
+FixedPageUI [
+	TextColor = #2d373f
+	BackgroundColor = #f1f3ee
+	SelectionColor = #9b5a00
+]

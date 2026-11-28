@@ -26,13 +26,14 @@ $Filters = [ordered]@{
     'rgb'    = 'r, g, b'
     'sgr'    = 'r;g;b, for terminal escape codes such as 38;2;r;g;b'
     'comma'  = 'r,g,b with no spaces, for tools that take a comma list such as ripgrep'
+    'argb'   = 'FFRRGGBB, opaque alpha first, upper case, for Visual Studio themes'
     'wash'   = 'the color washed over base, #rrggbb'
     'clear'  = '#rrggbb00, fully transparent'
     'name'   = 'the neutral or named color drawn, by name'
 }
 
 # The filters that can follow |wash, to write the wash in another format.
-$ChainFormats = @('nohash', 'rgb', 'sgr', 'comma')
+$ChainFormats = @('nohash', 'rgb', 'sgr', 'comma', 'argb')
 
 # A channel outside 0..1 by more than this is reported as a gamut warning.
 $GamutTolerance = 0.003
@@ -362,6 +363,7 @@ function Format-Hex([string]$Hex, [string]$Format) {
         'rgb'    { return (ConvertFrom-Hex $Hex) -join ', ' }
         'sgr'    { return (ConvertFrom-Hex $Hex) -join ';' }
         'comma'  { return (ConvertFrom-Hex $Hex) -join ',' }
+        'argb'   { return 'FF' + $Hex.Substring(1).ToUpperInvariant() }
         'clear'  { return $Hex + '00' }
     }
 }

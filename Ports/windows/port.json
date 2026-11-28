@@ -1,0 +1,9 @@
+{
+  "name": "Windows",
+  "category": "system",
+  "tier": 3,
+  "platforms": [
+    "windows"
+  ],
+  "screenshots": "pending"
+}

@@ -1,0 +1,10 @@
+{
+  "day": {
+    "look_and_feel": "Flat Light",
+    "dark_defaults": "false"
+  },
+  "night": {
+    "look_and_feel": "Flat Dark",
+    "dark_defaults": "true"
+  }
+}
