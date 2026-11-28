@@ -87,8 +87,9 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    | `{{color\|rgb}}` | `r, g, b` |
    | `{{color\|sgr}}` | `r;g;b`, for terminal escape codes: `38;2;{{text\|sgr}}` is a foreground, `48;2;...` a background |
    | `{{color\|comma}}` | `r,g,b` with no spaces, for tools that take a comma list, such as ripgrep's `--colors` |
+   | `{{color\|argb}}` | `FFRRGGBB`, opaque alpha first, in upper case, for Visual Studio themes |
    | `{{color\|wash}}` | `#rrggbb`, the color mixed into `base` at the variant's wash strength, for selections, diff lines, and chips. Named colors only, or a role or ANSI slot that points at one |
-   | `{{color\|wash\|comma}}` | the wash in another format: `\|wash` can take one more filter, `nohash`, `rgb`, `sgr`, or `comma`, such as `{{steel\|wash\|comma}}` for ripgrep |
+   | `{{color\|wash\|comma}}` | the wash in another format: `\|wash` can take one more filter, `nohash`, `rgb`, `sgr`, `comma`, or `argb`, such as `{{steel\|wash\|comma}}` for ripgrep |
    | `{{color\|clear}}` | `#rrggbb00`, fully transparent, for app settings that can only be switched off with a color |
    | `{{color\|name}}` | the neutral or named color drawn, by name, such as `firelight` for `{{accent\|name}}` |
    | `{{ansi.<slot>}}` | the terminal color for an ANSI slot (`black` to `white`, `bright_<slot>`), per ADR 0005. Bright slots are computed by the build |

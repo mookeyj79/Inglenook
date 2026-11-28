@@ -105,15 +105,6 @@
       "platforms": [
         "windows"
       ]
-    },
-    {
-      "folder": "visual-studio",
-      "name": "Visual Studio",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
     }
   ]
 }
