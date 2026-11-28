@@ -1,0 +1,19 @@
+{
+  "name": "Bash",
+  "category": "shell",
+  "tier": 2,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "brand",
+    "set": "Simple Icons 16.37.0",
+    "name": "gnubash",
+    "author": "Simple Icons contributors",
+    "source": "https://simpleicons.org/?q=gnubash",
+    "license": "MIT",
+    "mark": "https://github.com/odb/official-bash-logo"
+  }
+}

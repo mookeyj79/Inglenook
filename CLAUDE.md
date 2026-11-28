@@ -17,6 +17,7 @@ The design rules are in PHILOSOPHY.md. They are binding, not background reading.
 PHILOSOPHY.md               design rules (source of truth for decisions)
 GLOSSARY.md                 project terms
 assets/splash.jpg           the splash image at the top of the root README
+assets/ornaments/           filigree SVGs, currentColor only; packaged themes and the preview only (ADR 0010)
 docs/adr/                   recorded decisions and why
 docs/research/              research notes behind the palette
 prototypes/                 throwaway prototype pages, gitignored
@@ -87,7 +88,7 @@ build/screenshots.ps1       the screenshot workflow's steps that are not a shot 
 6. **Solid surfaces only.** The theme never sets transparency. A README may point to the app's own setting as an optional extra.
 7. **Do not guess an app's theme format.** Look it up in the app's official docs and link the source in the port README.
 8. **Every port gets its own folder and its own README.** The folder is `Ports/<app_name>/`. The README is a step-by-step install guide. A `port.json` lists it on the ports page; never list ports by hand in the root README.
-9. **A port ships only with real screenshots of both variants, passing checks, and the owner's approval.**
+9. **A port ships only with passing checks, the owner's approval, and real screenshots of both variants.** The one exception is a port whose shots can only be taken by hand: it may ship with `"screenshots": "pending"` in its port.json until they are taken (ADR 0011).
 
 ## When asked for a new theme or port
 

@@ -69,6 +69,98 @@ function Get-SceneFolder([string]$Kind) {
     return $Kind
 }
 
+# --- Scene folders: what is shared and what is one port's own ---------------------
+# In build/photograph/scenes/<folder>/, a subfolder named exactly after a port (a
+# Ports/<name>/ with a screenshot.json) is that port's own. Every other file and folder
+# is shared by every port shot in that folder. A port's scene input is the shared part
+# plus its own folder, so one port's scene changes no other port's fingerprint.
+
+function Get-RecipePortNames([string]$RepoRoot) {
+    # The folder names under Ports/ that hold a recipe: the names an own scene folder can have.
+    $ports = Join-Path $RepoRoot 'Ports'
+    if (-not (Test-Path -LiteralPath $ports -PathType Container)) { return @() }
+    return @(Get-ChildItem -LiteralPath $ports -Directory | Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'screenshot.json') -PathType Leaf } |
+             ForEach-Object Name | Sort-Object)
+}
+
+function Get-SceneInput {
+    <#
+    .SYNOPSIS
+        Which files of build/photograph/scenes/ a port's shots are made from.
+        Returns @{ Folder; Exclude }: the repo path of its scene folder, and the
+        own folders of the other ports in it, which are left out.
+    #>
+    param([Parameter(Mandatory)][string]$RepoRoot, [Parameter(Mandatory)][string]$Port, [Parameter(Mandatory)][string]$Kind)
+    $folder = "build/photograph/scenes/$(Get-SceneFolder $Kind)"
+    $full = Join-Path $RepoRoot $folder
+    $names = Get-RecipePortNames $RepoRoot
+    $exclude = if (Test-Path -LiteralPath $full -PathType Container) {
+        @(Get-ChildItem -LiteralPath $full -Directory | Where-Object { $_.Name -cne $Port -and $_.Name -cin $names } | ForEach-Object { "$folder/$($_.Name)" })
+    } else { @() }
+    return [pscustomobject]@{ Folder = $folder; Exclude = [string[]]$exclude }
+}
+
+function Get-RecipeSceneRefs($Recipe) {
+    # The subfolders of its scene folder a recipe's steps name: $INGLENOOK_SCENE/<name>/.
+    $text = @(foreach ($k in 'install', 'apply', 'stage', 'launch') { if ($Recipe.Contains($k)) { @($Recipe[$k]) } }) -join "`n"
+    $found = [System.Collections.Generic.SortedSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($m in [regex]::Matches($text, 'INGLENOOK_SCENE\}?[/\\]([^/\\"''\s$]+)[/\\]')) { $null = $found.Add($m.Groups[1].Value) }
+    return [string[]]@($found)
+}
+
+function Get-SceneFolderProblems {
+    <#
+    .SYNOPSIS
+        Every way a scene folder would put a port's files on the wrong side of
+        shared and own. Ports: @{ Name; Recipe } for each port with a valid recipe.
+    .DESCRIPTION
+        A recipe that names another port's own folder (that port's files are not
+        in its fingerprint); an own folder in a scene folder its port is not shot
+        in; and a shared subfolder that only one port's recipe uses and no shared
+        file names, which is that port's own under another name.
+    #>
+    param([Parameter(Mandatory)][string]$RepoRoot, [Parameter(Mandatory)][AllowEmptyCollection()][object[]]$Ports)
+    $problems = [System.Collections.Generic.List[string]]::new()
+    $names = Get-RecipePortNames $RepoRoot
+    $folderOf = @{}
+    foreach ($p in $Ports) { if ($p.Recipe) { $folderOf[$p.Name] = Get-SceneFolder ([string]$p.Recipe['kind']) } }
+    foreach ($p in $Ports) {
+        if (-not $p.Recipe) { continue }
+        foreach ($ref in Get-RecipeSceneRefs $p.Recipe) {
+            if ($ref -cne $p.Name -and $ref -cin $names) {
+                $problems.Add("Ports/$($p.Name)/screenshot.json uses build/photograph/scenes/$($folderOf[$p.Name])/$ref/, the own folder of $ref, so a change there would not make $($p.Name) stale. Move what both use out of it, into the scene folder.")
+            }
+        }
+    }
+    $scenes = Join-Path $RepoRoot 'build' 'photograph' 'scenes'
+    if (-not (Test-Path -LiteralPath $scenes -PathType Container)) { return $problems.ToArray() }
+    foreach ($kindDir in Get-ChildItem -LiteralPath $scenes -Directory | Sort-Object Name) {
+        $folder = $kindDir.Name
+        $subs = @(Get-ChildItem -LiteralPath $kindDir.FullName -Directory | Sort-Object Name)
+        $own = @($subs | Where-Object { $_.Name -cin $names })
+        foreach ($d in $own) {
+            if ($folderOf.ContainsKey($d.Name) -and $folderOf[$d.Name] -cne $folder) {
+                $problems.Add("build/photograph/scenes/$folder/$($d.Name)/ is named after the port $($d.Name), which is shot in the $($folderOf[$d.Name]) scene. Move it to build/photograph/scenes/$($folderOf[$d.Name])/$($d.Name)/.")
+            }
+        }
+        $ownPaths = @($own | ForEach-Object FullName)
+        foreach ($d in @($subs | Where-Object { $_.Name -cnotin $names })) {
+            $users = @(foreach ($p in $Ports) { if ($p.Recipe -and $folderOf[$p.Name] -ceq $folder -and $d.Name -cin (Get-RecipeSceneRefs $p.Recipe)) { $p.Name } })
+            if ($users.Count -ne 1) { continue }
+            $skip = @($ownPaths) + @($d.FullName) | ForEach-Object { $_ + [System.IO.Path]::DirectorySeparatorChar }
+            $outside = @(Get-ChildItem -LiteralPath $kindDir.FullName -Recurse -File -Force | Where-Object {
+                $f = $_.FullName
+                @($skip | Where-Object { $f.StartsWith($_) }).Count -eq 0
+            })
+            $named = @($outside | Where-Object { (Get-Content -LiteralPath $_.FullName -Raw -ErrorAction SilentlyContinue) -match "(^|[^A-Za-z0-9._-])$([regex]::Escape($d.Name))[/\\]" })
+            if (-not $named.Count) {
+                $problems.Add("build/photograph/scenes/$folder/$($d.Name)/ is used only by $($users[0])'s recipe, so it is $($users[0])'s own: rename it to build/photograph/scenes/$folder/$($users[0])/. A shared folder is in every $folder port's fingerprint; an own folder is named exactly after its port.")
+            }
+        }
+    }
+    return $problems.ToArray()
+}
+
 function Get-SceneEnv {
     <#
     .SYNOPSIS
@@ -421,7 +513,8 @@ function Get-ShotFingerprint {
     .DESCRIPTION
         The inputs come from the recipe: the port's dist/; its host's dist/
         and recipe (empty without a host); its own recipe; the folder of its
-        scene kind in build/photograph/scenes/ (an icon theme's is the editor's); the Photographer itself (the
+        scene kind in build/photograph/scenes/ (an icon theme's is the editor's), but the
+        other ports' own folders in it (Get-SceneInput); the Photographer itself (the
         rest of build/photograph/ with its pins, photograph.ps1, this module and Png.psm1); the backdrop of each variant (its hex, or its wallpaper file). The version stamp in
         dist/ (the palette version, palette/palette.json meta.version) is left out, and text is read with LF line endings, so a Windows checkout
         gives the same fingerprint. Templates, READMEs, MAPPING.md, port.json,
@@ -430,13 +523,14 @@ function Get-ShotFingerprint {
     param([Parameter(Mandatory)][string]$RepoRoot, [Parameter(Mandatory)][string]$Port, [Parameter(Mandatory)]$Recipe)
     $hostPort = if ($Recipe.Contains('host')) { [string]$Recipe['host'] } else { '' }
     $stamp = Get-StampVersion $RepoRoot
+    $scene = Get-SceneInput -RepoRoot $RepoRoot -Port $Port -Kind $Recipe['kind']
     $inputs = [ordered]@{
         port = Get-InputGroupHash $RepoRoot @("Ports/$Port/dist") -StampVersion $stamp
         host = if ($hostPort) {
             Get-Sha256 ((Get-InputGroupHash $RepoRoot @("Ports/$hostPort/dist") -StampVersion $stamp) + (Get-InputGroupHash $RepoRoot @("Ports/$hostPort/screenshot.json")))
         } else { '' }
         recipe = Get-InputGroupHash $RepoRoot @("Ports/$Port/screenshot.json")
-        scene = Get-InputGroupHash $RepoRoot @("build/photograph/scenes/$(Get-SceneFolder $Recipe['kind'])")
+        scene = Get-InputGroupHash $RepoRoot @($scene.Folder) -Exclude $scene.Exclude
         photographer = Get-InputGroupHash $RepoRoot @('build/photograph', 'build/photograph.ps1', 'build/lib/Photographer.psm1', 'build/lib/Png.psm1') -Exclude @('build/photograph/scenes')
         backdrop = Get-BackdropHash $RepoRoot
     }
@@ -629,5 +723,5 @@ function Get-ShotWhy {
 }
 
 Export-ModuleMember -Function Get-ShotPlan, ConvertTo-PortDockerfile, ConvertTo-StepScript, ConvertTo-WindowsStepScript, Find-ShotWindow, Get-ShotCrop, Add-ShotTable, Get-BaseBuildArgs, Get-SceneEnv,
-    Get-ShotFingerprint, Get-PreviewFingerprint, Test-ShotStale, New-ShotStamp, Update-ShotStamp, New-ManualShotStamp, Get-SceneFolder, Get-SceneBackdrop, Format-SceneBackdrop,
+    Get-ShotFingerprint, Get-PreviewFingerprint, Get-SceneInput, Get-SceneFolderProblems, Test-ShotStale, New-ShotStamp, Update-ShotStamp, New-ManualShotStamp, Get-SceneFolder, Get-SceneBackdrop, Format-SceneBackdrop,
     Get-TakeVerdict, Get-ShotWhy, Get-Sha256

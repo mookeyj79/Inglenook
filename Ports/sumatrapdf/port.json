@@ -1,0 +1,16 @@
+{
+  "name": "SumatraPDF",
+  "category": "writing",
+  "tier": 3,
+  "platforms": [
+    "windows"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "book-open-text",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/book-open-text",
+    "license": "ISC"
+  }
+}

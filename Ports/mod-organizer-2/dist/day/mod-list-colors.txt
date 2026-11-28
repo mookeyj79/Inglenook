@@ -1,0 +1,12 @@
+Inglenook Day colors for the Mod Organizer 2 mod list and plugin list.
+
+Open Settings, then the Theme tab. Under Colors, double-click a row, type its
+value into the HTML box, set Alpha channel to 255, and click OK.
+
+Is overwritten (loose files)            #d5ded0
+Is overwriting (loose files)            #e4d6d1
+Is overwritten (archives)               #cddbd2
+Is overwriting (archives)               #dfd3d1
+Mod contains selected file              #d2dddf
+Plugin is contained in selected mod     #d2dddf
+Plugin is master of selected plugin     #cbdeda

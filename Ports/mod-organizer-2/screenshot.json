@@ -1,0 +1,5 @@
+{
+  "kind": "desktop",
+  "platform": "windows",
+  "manual": "Mod Organizer 2 opens its main window only after it finds an installed, supported game, which the screenshot runner does not have."
+}

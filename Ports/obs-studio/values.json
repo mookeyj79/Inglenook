@@ -1,0 +1,10 @@
+{
+  "day": {
+    "extends": "com.obsproject.Yami.Light",
+    "dark": "false"
+  },
+  "night": {
+    "extends": "com.obsproject.Yami",
+    "dark": "true"
+  }
+}

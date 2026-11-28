@@ -1,0 +1,6 @@
+{
+  "name": "Cinnamon",
+  "category": "system",
+  "tier": 1,
+  "platforms": ["linux"]
+}

@@ -1,0 +1,5 @@
+{
+  "kind": "web",
+  "platform": "linux",
+  "manual": "Jellyfin's themed pages need a running Jellyfin server and an account signed in through its setup wizard."
+}
