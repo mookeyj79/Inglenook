@@ -109,15 +109,6 @@
       ]
     },
     {
-      "folder": "gtk",
-      "name": "GTK and MATE",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "jellyfin",
       "name": "Jellyfin",
       "category": "web",
