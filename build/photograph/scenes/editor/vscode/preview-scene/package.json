@@ -1,0 +1,11 @@
+{
+  "name": "preview-scene",
+  "displayName": "Inglenook preview scene",
+  "description": "Stages VS Code's part of the editor scene for the Photographer: opens a note in the Markdown preview beside the code.",
+  "version": "1.0.0",
+  "publisher": "inglenook",
+  "license": "MIT",
+  "engines": { "vscode": "^1.80.0" },
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js"
+}

@@ -259,6 +259,13 @@ Bold, italic, headings and strikethrough set a font style only.
 | `number` | `literal` |
 | `operator` | `dim` |
 
+## Ornaments
+
+This port uses ornaments (ADR 0010): it is installed as a packaged extension.
+
+- **Markdown preview divider.** Each extension contributes `markdown.previewStyles` ([Markdown extension guide](https://code.visualstudio.com/api/extension-guides/markdown-extension#changing-the-look-of-the-markdown-preview-with-css)): `media/markdown.css` draws `hr` as `divider.svg` from `assets/ornaments/`, masked in `oxblood`, the same as `.guide hr` on the preview site. Every rule is scoped to `body[data-vscode-theme-id="<variant name>"]` ([webview theming](https://code.visualstudio.com/api/extension-guides/webview#theming-webview-content)), so the divider shows only while that variant is the active theme; with any other theme the preview keeps its plain rule.
+- `template/media/divider.svg.ornament` names the ornament, and the build copies it into `dist/<variant>/media/divider.svg`, so the extension carries its own copy and `vsce` packages it.
+
 ## Gaps and trade-offs
 
 - **Solid highlights.** The reference asks for the inactive selection, selection and word highlights, find match highlights, the find range, range and hover highlights, diff and merge line backgrounds, and the overview ruler marks not to be opaque, so decorations under them show through. Inglenook is solid (washes are solid by design), so where two of them overlap, the upper one hides the lower. The current line and range highlights are solid `raised`, where every syntax color still passes the floor for running text.
@@ -286,7 +293,7 @@ Bold, italic, headings and strikethrough set a font style only.
 - **apply** runs Install steps 3 to 5 (`npx @vscode/vsce package` in each `dist/` folder) with `--out "$HOME"`, since the repo is read-only in the container. Steps 6 to 8 are the README's terminal form, `code --install-extension`, for both VSIX files.
 - **Scripted stand-ins, not tested by hand:** Install step 9 (pick the theme with **Ctrl+K** **Ctrl+T**) and **Set the font** (two lines in the settings editor) are one line that writes `settings.json` with the font lines and `workbench.colorTheme` set to the variant's theme label, read from its `package.json`.
 - **Not tested:** **Install without Node.js**, and **Switch between Day and Night** (`window.autoDetectColorScheme` needs a desktop that reports its mode).
-- **stage** runs the scene's `prepare.sh`, then adds settings that change no color: self-update, extension updates, recommendations, telemetry, experiments, the welcome page, tips, workspace trust, AI features, the secondary side bar and git autofetch off, a solid cursor, and `editor.fontSize` 16.
+- **stage** runs the scene's `prepare.sh`, then this port's own `vscode/stage.sh`, which copies a short note with a horizontal rule to `~/Notes/Hearth.md` (outside the workspace, so the Explorer is unchanged) and installs `preview-scene`, a tiny extension that opens the note in the Markdown preview beside `Contrast.psm1` without taking the focus. Then it adds settings that change no color: self-update, extension updates, recommendations, telemetry, experiments, the welcome page, tips, workspace trust, AI features, the secondary side bar and git autofetch off, a solid cursor, and `editor.fontSize` 16.
 - **launch** opens `~/Inglenook` with `--no-sandbox` (Chromium's sandbox cannot start in the container), `--password-store=basic` (no keyring prompt), `--disable-gpu`, and `--disable-partial-raster` with `--ui-disable-partial-swap` (whole-frame redraws, so takes match pixel for pixel).
 - **window** is matched by title, which names `Contrast.psm1` only once the scene extension has opened it.
 - **Frame.** VS Code on Linux draws its own title bar by default, so the shots show the port's `titleBar` colors and no Adwaita frame.

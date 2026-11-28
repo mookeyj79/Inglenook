@@ -21,6 +21,9 @@
     "{{variant.mode}}"
   ],
   "contributes": {
+    "markdown.previewStyles": [
+      "./media/markdown.css"
+    ],
     "themes": [
       {
         "label": "{{variant.name}}",
