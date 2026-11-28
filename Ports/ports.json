@@ -98,26 +98,6 @@
       ]
     },
     {
-      "folder": "gtk",
-      "name": "GTK and MATE",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
-      "folder": "insomnia",
-      "name": "Insomnia",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "jellyfin",
       "name": "Jellyfin",
       "category": "web",

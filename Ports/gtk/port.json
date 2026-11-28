@@ -1,0 +1,6 @@
+{
+  "name": "GTK and MATE",
+  "category": "system",
+  "tier": 2,
+  "platforms": ["linux"]
+}
