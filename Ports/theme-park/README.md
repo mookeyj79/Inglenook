@@ -108,10 +108,10 @@ theme.park cannot follow the OS light or dark setting.
 ## Known limits
 
 - theme.park sets a few colors per app: backgrounds, popups, buttons, text, links and the accent. Status colors, charts and posters keep each app's own colors.
-- theme.park's base stylesheets lay see-through dark and light tints over some surfaces, such as table rows, menus and sidebars. They show the background through them and cannot be turned off from a theme.
-- theme.park is made for dark themes. Inglenook Day works, but some apps keep white labels or dark tints that suit a dark page better.
+- theme.park is made for dark themes. Inglenook Day works, but some apps keep white labels that suit a dark page better.
 - Parts theme.park does not reach keep the app's own look. If the app has its own light and dark mode, pick dark with Inglenook Night and light with Inglenook Day. In File Browser it is under **Settings**, **Global Settings**.
 - The Petio loading spinner keeps its own color.
+- Where an app shades a poster or backdrop picture, the shade is solid, so it covers the picture.
 
 ## Sources
 

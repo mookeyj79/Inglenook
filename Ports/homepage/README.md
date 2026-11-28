@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** Homepage 2.8.0 on Linux Mint 22.3, in Chromium 158
 
 | Day | Night |
 |---|---|

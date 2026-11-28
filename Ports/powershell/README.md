@@ -2,7 +2,7 @@
 
 **Tier:** 1 Full\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** PowerShell 7.6.10 on Linux Mint 22.3, in GNOME Terminal 3.52.0
 
 | Day | Night |
 |---|---|

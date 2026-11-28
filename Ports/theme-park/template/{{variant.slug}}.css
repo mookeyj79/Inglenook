@@ -67,4 +67,47 @@
   --plex-poster-unwatched: {{ivy}};
   --gitea-color-primary-dark-4: var(--accent-color);
   --overseerr-gradient: linear-gradient(var(--main-bg-color), var(--main-bg-color));
+
+  /* theme.park's base CSS lays see-through black and white tints over
+     headers, sidebars, rows and inputs. The theme is solid, so each tint
+     is a neutral: light black tints are deep, heavier ones deeper, and
+     white tints (hover and focus) are hover, or raised at the top. */
+  --transparency-dark-05: {{deep}};
+  --transparency-dark-10: {{deep}};
+  --transparency-dark-15: {{deep}};
+  --transparency-dark-20: {{deep}};
+  --transparency-dark-25: {{deeper}};
+  --transparency-dark-30: {{deeper}};
+  --transparency-dark-35: {{deeper}};
+  --transparency-dark-40: {{deeper}};
+  --transparency-dark-45: {{deeper}};
+  --transparency-dark-50: {{deeper}};
+  --transparency-dark-55: {{deeper}};
+  --transparency-dark-60: {{deeper}};
+  --transparency-dark-65: {{deeper}};
+  --transparency-dark-70: {{deeper}};
+  --transparency-dark-75: {{deeper}};
+  --transparency-dark-80: {{deeper}};
+  --transparency-dark-85: {{deeper}};
+  --transparency-dark-90: {{deeper}};
+  --transparency-dark-95: {{deeper}};
+  --transparency-light-05: {{hover}};
+  --transparency-light-10: {{hover}};
+  --transparency-light-15: {{hover}};
+  --transparency-light-20: {{hover}};
+  --transparency-light-25: {{hover}};
+  --transparency-light-30: {{hover}};
+  --transparency-light-35: {{hover}};
+  --transparency-light-40: {{hover}};
+  --transparency-light-45: {{hover}};
+  --transparency-light-50: {{hover}};
+  --transparency-light-55: {{hover}};
+  --transparency-light-60: {{hover}};
+  --transparency-light-65: {{hover}};
+  --transparency-light-70: {{hover}};
+  --transparency-light-75: {{hover}};
+  --transparency-light-80: {{hover}};
+  --transparency-light-85: {{hover}};
+  --transparency-light-90: {{raised}};
+  --transparency-light-95: {{raised}};
 }

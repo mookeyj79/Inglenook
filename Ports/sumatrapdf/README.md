@@ -2,7 +2,7 @@
 
 **Tier:** 3 Minimal\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** SumatraPDF 3.6.1 on Windows Server 2025
 
 | Day | Night |
 |---|---|

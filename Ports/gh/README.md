@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** GitHub CLI 2.106.0 on Linux Mint 22.3, in GNOME Terminal 3.52.0
 
 | Day | Night |
 |---|---|

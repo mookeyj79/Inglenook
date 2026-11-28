@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** GNU Screen 4.9.1 on Linux Mint 22.3, in GNOME Terminal 3.52.0
 
 | Day | Night |
 |---|---|

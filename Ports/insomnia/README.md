@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** Insomnia 13.4.0 on Linux Mint 22.3
 
 | Day | Night |
 |---|---|

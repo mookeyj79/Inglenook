@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** GTK 3.24.41 and Marco 1.26.2 on Linux Mint 22.3
 
 | Day | Night |
 |---|---|
