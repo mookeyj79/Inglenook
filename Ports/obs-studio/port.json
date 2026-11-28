@@ -1,0 +1,18 @@
+{
+  "name": "OBS Studio",
+  "category": "app",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "radio-tower",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/radio-tower",
+    "license": "ISC"
+  }
+}

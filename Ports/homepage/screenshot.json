@@ -1,0 +1,23 @@
+{
+  "kind": "web",
+  "platform": "linux",
+  "version": "2.8.0",
+  "install": [
+    "curl -fsSL -o /tmp/node.tar.gz https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.gz && echo '061ec3e3062115705b56b51fa9cc330ab50d34b6969387d4e4b1a50c6809acc2  /tmp/node.tar.gz' | sha256sum -c - && mkdir -p /opt/node && tar -xzf /tmp/node.tar.gz --strip-components=1 -C /opt/node && ln -s /opt/node/bin/node /usr/local/bin/node && rm /tmp/node.tar.gz",
+    "token=$(curl -fsSL 'https://ghcr.io/token?scope=repository:gethomepage/homepage:pull' | python3 -c 'import json,sys; print(json.load(sys.stdin)[\"token\"])') && mkdir -p /opt/homepage && for d in e59e3202291575fbcd45303879740e3c605471882af6693571845512198c29ac d93d82fb6e4a406021378bccf97016ae9103e75a3ec1c28104698aa2bde6aceb b73602ab6255496dec959989451b36ca13b650b5ba7fadb1d8ebf1836cf25b22; do curl -fsSL --retry 5 -H \"Authorization: Bearer $token\" -o /tmp/layer.tgz \"https://ghcr.io/v2/gethomepage/homepage/blobs/sha256:$d\" && echo \"$d  /tmp/layer.tgz\" | sha256sum -c - && tar -xzf /tmp/layer.tgz --strip-components=1 -C /opt/homepage app && rm /tmp/layer.tgz; done && chown -R shooter /opt/homepage"
+  ],
+  "apply": [
+    "mkdir -p ~/homepage/config",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/custom.css\" ~/homepage/config/custom.css",
+    "if [ \"$INGLENOOK_VARIANT\" = day ]; then echo 'theme: light' >> ~/homepage/config/settings.yaml; else echo 'theme: dark' >> ~/homepage/config/settings.yaml; fi"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/homepage/stage.sh\" ~/homepage/config"
+  ],
+  "launch": [
+    "bash \"$INGLENOOK_SCENE/homepage/serve.sh\" ~/homepage/config && bash \"$INGLENOOK_SCENE/browser.sh\" http://127.0.0.1:3000/"
+  ],
+  "window": {
+    "title": "^Hearth$"
+  }
+}

@@ -1,0 +1,18 @@
+- Reading:
+    - Field guide:
+        - abbr: FG
+          href: http://127.0.0.1:3000/
+          description: Birds and trees
+    - Recipes:
+        - abbr: RC
+          href: http://127.0.0.1:3000/
+          description: Bread and soup
+- Making:
+    - Joinery:
+        - abbr: JN
+          href: http://127.0.0.1:3000/
+          description: Dovetails
+    - Knots:
+        - abbr: KN
+          href: http://127.0.0.1:3000/
+          description: Hitches and bends

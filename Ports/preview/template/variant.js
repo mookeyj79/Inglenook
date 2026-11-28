@@ -25,6 +25,10 @@ window.InglenookVariant = (function () {
   function wire() {
     function show(mode) {
       root.dataset.variant = mode;
+      // The favicon follows the variant: each variant's dist/ folder has its own.
+      document.querySelectorAll('link[rel="icon"]').forEach(function (l) {
+        l.href = l.href.replace(/\/(day|night)\/favicon\.svg/, "/" + mode + "/favicon.svg");
+      });
       document.querySelectorAll(".switch a").forEach(function (a) {
         a.setAttribute("aria-current", String(a.dataset.set === mode));
       });
