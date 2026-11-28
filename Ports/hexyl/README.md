@@ -17,7 +17,7 @@
 
 hexyl reads its colors from environment variables. The theme is a file that sets them, which your shell loads when it starts.
 
-**Zsh or Bash** (Linux, macOS):
+### Zsh or Bash (Linux, macOS, WSL)
 
 1. Create the folder `~/.config/inglenook/`.
 2. Save [`dist/day/hexyl.sh`](dist/day/hexyl.sh) or [`dist/night/hexyl.sh`](dist/night/hexyl.sh) there as `hexyl.sh`.
@@ -29,7 +29,7 @@ hexyl reads its colors from environment variables. The theme is a file that sets
 
 4. Open a new terminal.
 
-**PowerShell** (Windows, also macOS and Linux):
+### PowerShell (Windows, macOS, Linux)
 
 1. Create the folder `~/.config/inglenook/` (on Windows, `%USERPROFILE%\.config\inglenook\`).
 2. Save [`dist/day/hexyl.ps1`](dist/day/hexyl.ps1) or [`dist/night/hexyl.ps1`](dist/night/hexyl.ps1) there as `hexyl.ps1`.
@@ -41,9 +41,13 @@ hexyl reads its colors from environment variables. The theme is a file that sets
 
 4. Open a new PowerShell window.
 
-**Nowhere users**: put the same line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads those last.
+### With Nowhere
 
-**Setting the variables another way**: copy the `HEXYL_COLOR_*` lines from [`dist/day/hexyl.sh`](dist/day/hexyl.sh) for Inglenook Day or [`dist/night/hexyl.sh`](dist/night/hexyl.sh) for Inglenook Night.
+Put the same line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads those last.
+
+### Setting the variables another way
+
+Copy the `HEXYL_COLOR_*` lines from [`dist/day/hexyl.sh`](dist/day/hexyl.sh) for Inglenook Day or [`dist/night/hexyl.sh`](dist/night/hexyl.sh) for Inglenook Night.
 
 ## Set the font
 

@@ -36,9 +36,15 @@ To also color `ls`, fd, carapace and Zsh's completion list:
    - PowerShell (`$PROFILE`): `. ~/.config/inglenook/eza.ps1`
 7. Open a new shell.
 
-If you set environment variables another way, the value of `LS_COLORS` is the quoted text in `eza.sh`.
+### With Nowhere
 
-Nowhere users: put the same source line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads them last.
+Put the same source line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads them last.
+
+### Setting the variable another way
+
+The value of `LS_COLORS` is the quoted text in `eza.sh`.
+
+### Keeping eza's config elsewhere
 
 To keep eza's config somewhere else, set `EZA_CONFIG_DIR` to that folder and put `theme.yml` in it.
 

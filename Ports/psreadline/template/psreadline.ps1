@@ -1,5 +1,6 @@
 # {{meta.name}} for PSReadLine: {{variant.name}}. PowerShell only.
 # Source this from your PowerShell profile ($PROFILE). It colors the command line as you type.
+# Palette {{meta.version}}, {{meta.repository}}
 & {
     if (-not (Get-Command Set-PSReadLineOption -ErrorAction Ignore)) { return }
 

@@ -2,7 +2,8 @@
 # less's part of the CLI/TUI scene, run from its recipe's stage steps. A short page in
 # the shape of a man page, with bold and underline made by overstriking, the way man
 # hands a page to less. less opens it with line numbers and the long prompt, at a search
-# for "moss" with the match on screen line 12, its own line, so the page shows from its top, so the prompt, the line numbers, bold, underline and the search show.
+# for "moss". The match is on line 12, so the page still shows from its top, and the
+# prompt, the line numbers, bold, underline and the search all show.
 set -euo pipefail
 page="$HOME/inglenook-check.1"
 

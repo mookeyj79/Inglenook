@@ -31,7 +31,7 @@ Docker reads these colors from one environment variable, `BUILDKIT_COLORS`. The 
 
 4. Open a new terminal.
 
-### PowerShell (Windows, also macOS and Linux)
+### PowerShell (Windows, macOS, Linux)
 
 1. Create the folder `~/.config/inglenook/` (on Windows, `%USERPROFILE%\.config\inglenook\`).
 2. Save [`dist/day/docker.ps1`](dist/day/docker.ps1) or [`dist/night/docker.ps1`](dist/night/docker.ps1) there as `docker.ps1`.

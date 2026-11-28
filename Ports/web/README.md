@@ -20,9 +20,8 @@ Every property name starts with the variant, such as `--inglenook-day-base` and 
 ## Install
 
 1. Download or clone this repo.
-2. Copy `Ports/web/dist/day/theme.css` into your site's CSS folder and name it `inglenook-day.css`.
-3. Copy `Ports/web/dist/night/theme.css` into the same folder and name it `inglenook-night.css`.
-4. Link both from your page's `<head>`, before your own stylesheet:
+2. Copy `Ports/web/dist/day/inglenook-day.css` and `Ports/web/dist/night/inglenook-night.css` into your site's CSS folder.
+3. Link both from your page's `<head>`, before your own stylesheet:
 
    ```html
    <link rel="stylesheet" href="/css/inglenook-day.css">
@@ -30,12 +29,12 @@ Every property name starts with the variant, such as `--inglenook-day-base` and 
    <link rel="stylesheet" href="/css/site.css">
    ```
 
-5. Use the properties in your own CSS. See [Use the properties](#use-the-properties).
+4. Use the properties in your own CSS. See [Use the properties](#use-the-properties).
 
 Files to use:
 
-- Inglenook Day: `dist/day/theme.css`
-- Inglenook Night: `dist/night/theme.css`
+- Inglenook Day: `dist/day/inglenook-day.css`
+- Inglenook Night: `dist/night/inglenook-night.css`
 
 ## Use the properties
 

@@ -27,9 +27,13 @@ zsh-autosuggestions reads its color from a shell variable. The theme is a file t
 
 4. Open a new terminal.
 
-**Nowhere users**: put the same line in `~/.config/nowhere/theme.zsh` instead of `~/.zshrc`. Nowhere loads that file last.
+### With Nowhere
 
-**Setting the variable another way**: copy the `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE` line from [`dist/day/zsh-autosuggestions.zsh`](dist/day/zsh-autosuggestions.zsh) for Inglenook Day or [`dist/night/zsh-autosuggestions.zsh`](dist/night/zsh-autosuggestions.zsh) for Inglenook Night.
+Put the same line in `~/.config/nowhere/theme.zsh` instead of `~/.zshrc`. Nowhere loads that file last.
+
+### Setting the variable another way
+
+Copy the `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE` line from [`dist/day/zsh-autosuggestions.zsh`](dist/day/zsh-autosuggestions.zsh) for Inglenook Day or [`dist/night/zsh-autosuggestions.zsh`](dist/night/zsh-autosuggestions.zsh) for Inglenook Night.
 
 ## Set the font
 

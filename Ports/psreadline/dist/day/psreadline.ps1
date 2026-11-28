@@ -1,5 +1,6 @@
 # Inglenook for PSReadLine: Inglenook Day. PowerShell only.
 # Source this from your PowerShell profile ($PROFILE). It colors the command line as you type.
+# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
 & {
     if (-not (Get-Command Set-PSReadLineOption -ErrorAction Ignore)) { return }
 

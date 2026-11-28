@@ -27,7 +27,9 @@ The theme is one file that sets the plugin's `ZSH_HIGHLIGHT_STYLES`. Zsh loads i
 
 4. Open a new terminal.
 
-**Nowhere users**: put the same line in `~/.config/nowhere/theme.zsh` instead of `~/.zshrc`. Nowhere loads that file last.
+### With Nowhere
+
+Put the same line in `~/.config/nowhere/theme.zsh` instead of `~/.zshrc`. Nowhere loads that file last.
 
 Files to use:
 

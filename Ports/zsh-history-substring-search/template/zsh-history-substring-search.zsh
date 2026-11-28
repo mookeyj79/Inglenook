@@ -1,5 +1,6 @@
 # {{meta.name}} for zsh-history-substring-search: {{variant.name}}.
 # Source this from ~/.zshrc after the plugin loads. Zsh only.
+# Palette {{meta.version}}, {{meta.repository}}
 
 # The part of a found command that matches what you typed: the match at the cursor.
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg={{on_accent}},bg={{accent}},bold'

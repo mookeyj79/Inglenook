@@ -10,7 +10,7 @@ One `.theme` file per variant, `theme[key]="#rrggbb"` lines. btop reads only the
 |---|---|---|
 | `main_bg` | base | Solid surface |
 | `main_fg`, `title` | text | |
-| `hi_fg` (shortcut letters, box numbers) | info | No role means "key to press". Steel reads as information without competing with the accent, as fzf's matches do. Owner to confirm |
+| `hi_fg` (shortcut letters, box numbers) | info | No role means "key to press". Steel reads as information without competing with the accent, as fzf's matches do |
 | `selected_bg` | accent wash | The selected process row |
 | `selected_fg` | text | |
 | `inactive_fg` | faint | |

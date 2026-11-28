@@ -1,5 +1,6 @@
 # {{meta.name}} for zsh-syntax-highlighting: {{variant.name}}.
 # Source this from ~/.zshrc, after the plugin loads. Zsh only.
+# Palette {{meta.version}}, {{meta.repository}}
 
 typeset -gA ZSH_HIGHLIGHT_STYLES
 
