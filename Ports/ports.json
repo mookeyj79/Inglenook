@@ -89,15 +89,6 @@
   ],
   "planned": [
     {
-      "folder": "cinnamon",
-      "name": "Cinnamon",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "grub",
       "name": "GRUB",
       "category": "system",
@@ -156,28 +147,6 @@
       ]
     },
     {
-      "folder": "obs-studio",
-      "name": "OBS Studio",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "qbittorrent",
-      "name": "qBittorrent",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "slack",
       "name": "Slack",
       "category": "app",
@@ -207,15 +176,6 @@
         "windows",
         "macos",
         "linux"
-      ]
-    },
-    {
-      "folder": "theme-park",
-      "name": "theme.park",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
       ]
     },
     {

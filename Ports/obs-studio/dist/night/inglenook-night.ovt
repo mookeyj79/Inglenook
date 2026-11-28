@@ -1,0 +1,380 @@
+/* Inglenook Night for OBS Studio 30.2 and later. https://github.com/mookeyj79/Inglenook
+ * A style of the Yami theme: Settings > Appearance > Theme: Yami, Style: Inglenook Night. */
+
+@OBSThemeMeta {
+    name: 'Inglenook Night';
+    id: 'com.inglenook.night';
+    extends: 'com.obsproject.Yami';
+    author: 'Inglenook';
+    dark: 'true';
+}
+
+@OBSThemeVars {
+    /* Yami's color scales, so nothing that names a scale step keeps a stock color. */
+    --grey1: #363331;
+    --grey2: #262321;
+    --grey3: #312e2c;
+    --grey4: #262321;
+    --grey5: #262321;
+    --grey6: #1b1917;
+    --grey7: #171412;
+    --grey8: #12100e;
+
+    --white1: #d1c9bc;
+    --white2: #d1c9bc;
+    --white3: #b1aa9e;
+    --white4: #b1aa9e;
+    --white5: #8f887f;
+
+    --black1: #d1c9bc;
+    --black2: #d1c9bc;
+    --black3: #b1aa9e;
+    --black4: #8f887f;
+    --black5: #8f887f;
+
+    --blue1: #89b3d8;
+    --blue2: #89b3d8;
+    --blue3: #89b3d8;
+    --blue4: #31383e;
+    --blue5: #31383e;
+    --blue6: #31383e;
+
+    --red1: #d9897e;
+    --red2: #d9897e;
+    --red3: #d9897e;
+    --red4: #412f2c;
+    --red5: #412f2c;
+    --red6: #412f2c;
+
+    --yellow1: #bdb377;
+    --yellow2: #bdb377;
+    --yellow3: #bdb377;
+    --yellow4: #3b382a;
+    --yellow5: #3b382a;
+    --yellow6: #3b382a;
+
+    --green1: #91bc88;
+    --green2: #91bc88;
+    --green3: #91bc88;
+    --green4: #333a2e;
+    --green5: #333a2e;
+    --green6: #333a2e;
+
+    --purple1: #cb9cc6;
+    --purple2: #cb9cc6;
+    --purple3: #cb9cc6;
+    --purple4: #3e333a;
+    --purple5: #3e333a;
+    --purple6: #3e333a;
+
+    --teal1: #72bdbd;
+    --teal2: #72bdbd;
+    --teal3: #72bdbd;
+    --teal4: #2c3a38;
+    --teal5: #2c3a38;
+    --teal6: #2c3a38;
+
+    --pink1: #d4a2aa;
+    --pink2: #d4a2aa;
+    --pink3: #d4a2aa;
+    --pink4: #403434;
+    --pink5: #403434;
+    --pink6: #403434;
+
+    /* Surfaces */
+    --bg_window: #171412;
+    --bg_base: #1b1917;
+    --bg_preview: #12100e;
+
+    /* The accent. Yami fills selected and checked things with its primary color
+     * and keeps the text color on them, so those fills are the accent wash. */
+    --primary: #463624;
+    --primary_light: #463624;
+    --primary_lighter: #f3a958;
+    --primary_dark: #463624;
+    --primary_darker: #463624;
+
+    --warning: #bdb377;
+    --danger: #d9897e;
+
+    --text: #d1c9bc;
+    --text_light: #d1c9bc;
+    --text_muted: #b1aa9e;
+    --text_disabled: #8f887f;
+    --text_inactive: #d1c9bc;
+
+    --highlight_color: #f3a958;
+
+    --scrollbar_handle: #363331;
+    --scrollbar_bg: #1b1917;
+    --scrollbar_hover: #8f887f;
+    --scrollbar_down: #8f887f;
+    --scrollbar_border: #363331;
+
+    /* Inputs and controls */
+    --border_color: #363331;
+
+    --input_bg: #262321;
+    --input_bg_hover: #262321;
+    --input_bg_focus: #262321;
+
+    --list_item_bg_selected: #463624;
+    --list_item_bg_hover: #312e2c;
+
+    --input_border: #363331;
+    --input_border_hover: #8f887f;
+    --input_border_focus: #f3a958;
+
+    --button_bg: #262321;
+    --button_bg_hover: #312e2c;
+    --button_bg_down: #312e2c;
+    --button_bg_disabled: #171412;
+
+    --button_border: #363331;
+    --button_border_hover: #8f887f;
+    --button_border_focus: #f3a958;
+
+    --tab_bg: #171412;
+    --tab_bg_hover: #312e2c;
+    --tab_bg_down: #463624;
+    --tab_bg_disabled: #171412;
+
+    --tab_border: #363331;
+    --tab_border_hover: #8f887f;
+    --tab_border_focus: #f3a958;
+    --tab_border_selected: #f3a958;
+
+    --separator_hover: #f3a958;
+
+    /* Qt palette */
+    --palette_window: #171412;
+    --palette_windowText: #d1c9bc;
+    --palette_base: #1b1917;
+
+    --palette_light: #262321;
+    --palette_mid: #171412;
+    --palette_dark: #1b1917;
+
+    --palette_highlight: #463624;
+    --palette_highlightedText: #d1c9bc;
+
+    --palette_text: #d1c9bc;
+    --palette_link: #f3a958;
+    --palette_linkVisited: #f3a958;
+
+    --palette_button: #262321;
+    --palette_buttonText: #d1c9bc;
+
+    --palette_text_active: #d1c9bc;
+    --palette_text_disabled: #8f887f;
+    --palette_text_inactive: #d1c9bc;
+}
+
+/* Rules below replace the ones in Yami and Yami Light that name a color
+ * directly, so Day and Night draw the same parts the same way. */
+
+.text-bright {
+    color: #f3a958;
+}
+
+.text-success {
+    color: #91bc88;
+}
+
+/* Primary buttons: an accent fill. */
+.button-primary,
+.button-primary:hover,
+.button-primary:focus {
+    background-color: #f3a958;
+    border-color: #f3a958;
+    color: #12100e;
+}
+
+/* Keyboard focus */
+QMenu::item:focus,
+QListView::item:focus,
+QListWidget::item:focus,
+QMenu::item:selected:focus,
+QListView::item:selected:focus,
+QListWidget::item:selected:focus,
+SourceSelectButton:focus,
+SourceSelectButton:checked:focus,
+SourceSelectButton QPushButton:focus,
+SourceSelectButton QPushButton:checked:focus,
+AlignmentSelector:focus {
+    border-color: #f3a958;
+}
+
+AlignmentSelector:hover {
+    border-color: #8f887f;
+}
+
+QListView QLineEdit,
+QListWidget QLineEdit {
+    border-color: #f3a958;
+}
+
+/* Hovered rows */
+QMenu::item:hover,
+QListView::item:hover,
+QListWidget::item:hover {
+    background: #312e2c;
+    border-color: #312e2c;
+}
+
+/* In progress */
+QProgressBar::chunk {
+    background: #89b3d8;
+    border-top-color: #89b3d8;
+    border-bottom-color: #89b3d8;
+}
+
+/* Sliders: the filled part is the value you set. */
+QSlider::sub-page:horizontal,
+QSlider::add-page:vertical,
+.slider-tbar::sub-page:horizontal {
+    background-color: #f3a958;
+}
+
+QSlider::handle {
+    background-color: #b1aa9e;
+}
+
+QSlider::handle:hover {
+    background-color: #d1c9bc;
+}
+
+QSlider::handle:pressed {
+    background-color: #f3a958;
+}
+
+QSlider::handle:disabled {
+    background-color: #363331;
+}
+
+/* Mute: audio cut from the output. Unassigned: muted because no track takes it. */
+.btn-mute.checked {
+    color: #d9897e;
+}
+
+.btn-mute.checked.hover {
+    color: #d9897e;
+    background: #12100e;
+    border-color: #d9897e;
+}
+
+.btn-mute.checked:focus {
+    border-color: #f3a958;
+}
+
+.btn-mute.mute-warning {
+    color: #d1c9bc;
+    background: #3b382a;
+}
+
+.btn-mute.mute-warning.hover,
+.btn-mute.mute-warning:focus {
+    border-color: #bdb377;
+}
+
+/* Monitor and hide toggles: checked buttons, like every other checked button. */
+.btn-monitor:focus {
+    border-color: #f3a958;
+}
+
+.btn-monitor.checked,
+.btn-monitor.checked:hover,
+.toggle-hidden:checked {
+    background: #463624;
+    border-color: #f3a958;
+    color: #d1c9bc;
+}
+
+.btn-monitor.checked:focus,
+.btn-monitor:checked:focus {
+    border-color: #f3a958;
+    color: #d1c9bc;
+}
+
+/* Audio meters: green, yellow and red zones, with the track of each zone a wash. */
+VolumeMeter {
+    color: #b1aa9e;
+    qproperty-backgroundNominalColor: #333a2e;
+    qproperty-backgroundWarningColor: #3b382a;
+    qproperty-backgroundErrorColor: #412f2c;
+    qproperty-foregroundNominalColor: #91bc88;
+    qproperty-foregroundWarningColor: #bdb377;
+    qproperty-foregroundErrorColor: #d9897e;
+    qproperty-magnitudeColor: #d1c9bc;
+    qproperty-majorTickColor: #b1aa9e;
+    qproperty-minorTickColor: #8f887f;
+
+    qproperty-backgroundNominalColorDisabled: #312e2c;
+    qproperty-backgroundWarningColorDisabled: #312e2c;
+    qproperty-backgroundErrorColorDisabled: #312e2c;
+    qproperty-foregroundNominalColorDisabled: #8f887f;
+    qproperty-foregroundWarningColorDisabled: #8f887f;
+    qproperty-foregroundErrorColorDisabled: #8f887f;
+}
+
+VolumeControl.volume-inactive,
+VolumeControl.volume-inactive VolumeMeter {
+    background: #171412;
+}
+
+/* Mixer group headers */
+VolumeControl .mixer-category,
+VolumeControl.volume-pinned .mixer-category,
+VolumeControl.volume-preview .mixer-category {
+    background: #31383e;
+    color: #d1c9bc;
+}
+
+VolumeControl.volume-hidden .mixer-category,
+VolumeControl.volume-inactive .mixer-category {
+    background: #12100e;
+    color: #b1aa9e;
+}
+
+VolumeControl.volume-unassigned .mixer-category {
+    background: #3b382a;
+    color: #d1c9bc;
+}
+
+#stackedMixerArea VolumeControl.volume-hidden QSlider::groove,
+#stackedMixerArea VolumeControl.volume-inactive QSlider::groove {
+    background: #12100e;
+}
+
+/* Switches */
+idian--ToggleSwitch {
+    qproperty-background: #312e2c;
+    qproperty-background_hover: #363331;
+    qproperty-background_checked: #463624;
+    qproperty-background_checked_hover: #463624;
+    qproperty-handleColor: #d1c9bc;
+}
+
+idian--ToggleSwitch.hover,
+idian--Row idian--ToggleSwitch.hover,
+idian--Row.hover > idian--ToggleSwitch.row-buddy {
+    border-color: #8f887f;
+}
+
+idian--ToggleSwitch.checked.hover,
+idian--Row idian--ToggleSwitch.hover.checked,
+idian--Row.hover > idian--ToggleSwitch.checked.row-buddy {
+    border-color: #f3a958;
+}
+
+/* Add Source dialog */
+SourceSelectButton,
+SourceSelectButton QPushButton,
+SourceSelectButton #thumbnail {
+    border-color: #363331;
+}
+
+SourceSelectButton QPushButton:checked {
+    background: #463624;
+    border-color: #f3a958;
+}
