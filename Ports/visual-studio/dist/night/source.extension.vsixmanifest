@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="inglenook-night.c2a40388-209d-4608-84fa-9a3de28d739e" Version="0.1.0" Language="en-US" Publisher="Inglenook" />
+    <Identity Id="inglenook-night.c2a40388-209d-4608-84fa-9a3de28d739e" Version="0.1.1" Language="en-US" Publisher="Inglenook" />
     <DisplayName>Inglenook Night</DisplayName>
     <Description xml:space="preserve">Inglenook Night color theme, part of Inglenook: a cozy, soothing theme for the tools you spend all day in.</Description>
     <MoreInfo>https://github.com/mookeyj79/Inglenook</MoreInfo>

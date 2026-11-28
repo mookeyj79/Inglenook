@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Inglenook Night for Visual Studio, palette 0.1.0. https://github.com/mookeyj79/Inglenook -->
+<!-- Inglenook Night for Visual Studio, palette 0.1.1. https://github.com/mookeyj79/Inglenook -->
 <!-- The list of themed colors is adapted from Catppuccin for Visual Studio (https://github.com/catppuccin/visual-studio), MIT License, Copyright (c) 2021 Catppuccin. See LICENSE-catppuccin. -->
 <Themes>
   <Theme Name="Inglenook Night" GUID="{093a1e64-4c0b-4fbb-bfec-f5e0d68247b9}" BaseGUID="{1ded0138-47ce-435e-84ef-9ec1f439b749}" FallbackId="{1ded0138-47ce-435e-84ef-9ec1f439b749}">

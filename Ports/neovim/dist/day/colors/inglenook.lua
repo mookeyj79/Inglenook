@@ -1,7 +1,7 @@
 -- Inglenook for Neovim: Inglenook Day when 'background' is light,
 -- Inglenook Night when it is dark. Load it with :colorscheme inglenook.
 -- The highlight groups are in lua/inglenook/day.lua and night.lua.
--- Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook
+-- Inglenook 0.1.1, https://github.com/mookeyj79/Inglenook
 
 local name = 'inglenook'
 local function find(key)

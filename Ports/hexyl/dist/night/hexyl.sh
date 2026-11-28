@@ -1,6 +1,6 @@
 # Inglenook for hexyl: Inglenook Night.
 # Source this from your profile. Needs hexyl 0.17 or newer.
-# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+# Palette 0.1.1, https://github.com/mookeyj79/Inglenook
 
 # The offset column on the left.
 export HEXYL_COLOR_OFFSET='#8f887f'

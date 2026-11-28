@@ -1,7 +1,7 @@
 -- Inglenook Day for Neovim: the highlight groups of one variant.
 -- colors/inglenook.lua loads this file when 'background' is light.
 -- Use it through :colorscheme inglenook, not on its own.
--- Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook
+-- Inglenook 0.1.1, https://github.com/mookeyj79/Inglenook
 
 local c = {
   deeper = '#e0e2dc',

@@ -1,4 +1,4 @@
-// Inglenook Night for Insomnia, part of Inglenook 0.1.0.
+// Inglenook Night for Insomnia, part of Inglenook 0.1.1.
 // https://github.com/mookeyj79/Inglenook
 //
 // Insomnia reads its colors from a theme plugin: module.exports.themes, with

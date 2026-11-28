@@ -1,6 +1,6 @@
 # Inglenook for the Bash line editor (Readline) and its completion list: Inglenook Day.
 # Include this from ~/.inputrc: $include ~/.config/inglenook/bash.inputrc
-# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+# Palette 0.1.1, https://github.com/mookeyj79/Inglenook
 
 # The completion list you see when you press Tab twice: file kinds in the colors of
 # LS_COLORS, and the part every match shares in its own color (bash.sh sets it).

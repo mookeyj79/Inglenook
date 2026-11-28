@@ -1,4 +1,4 @@
-# Inglenook Night for btop++, from Inglenook 0.1.0: https://github.com/mookeyj79/Inglenook
+# Inglenook Night for btop++, from Inglenook 0.1.1: https://github.com/mookeyj79/Inglenook
 # Save it in btop's themes folder and set color_theme = "inglenook-night" in btop.conf.
 
 # Main background. btop leaves it to the terminal when theme_background = false.

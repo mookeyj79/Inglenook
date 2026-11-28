@@ -1,4 +1,4 @@
-# Inglenook Night for Git, from Inglenook 0.1.0 (https://github.com/mookeyj79/Inglenook).
+# Inglenook Night for Git, from Inglenook 0.1.1 (https://github.com/mookeyj79/Inglenook).
 # Include this file from your Git config:
 #   git config --global --add include.path ~/.config/inglenook/gitconfig
 # Colors are 24-bit, quoted because Git reads an unquoted # as a comment. Text with no color here uses your terminal's own colors.
