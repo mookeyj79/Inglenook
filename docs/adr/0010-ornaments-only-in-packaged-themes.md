@@ -8,6 +8,6 @@ Text glow and gradients on text stay out everywhere.
 
 ## Consequences
 
-- An ornament is a `currentColor` shape from `assets/ornaments/`, filled with a palette color that has no role: oxblood or ivy. It never uses firelight or a status color, so it never reads as "you are here" or as state.
+- An ornament is a `currentColor` shape from `assets/ornaments/`, filled with a palette color that has no role: oxblood or ivy, or a wash of either (`{{oxblood|wash}}`, `{{ivy|wash}}`). A wash is still a solid color with no meaning, and it lets a large ornament, such as a backdrop, sit quietly behind content. An ornament never uses firelight or a status color, so it never reads as "you are here" or as state.
 - A port that uses ornaments says so in its MAPPING.md.
 - The preview site draws them in oxblood (`Ports/preview/template/base.css`), and `build/site.ps1` publishes the folder.
