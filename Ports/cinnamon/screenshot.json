@@ -1,0 +1,19 @@
+{
+  "kind": "desktop",
+  "platform": "linux",
+  "version": "6.6.9+zena",
+  "install": [
+    "apt-get install -y --no-install-recommends cinnamon=$INGLENOOK_VERSION cinnamon-common=$INGLENOOK_VERSION nemo=6.6.3+zena"
+  ],
+  "apply": [
+    "mkdir -p ~/.themes",
+    "cp -r \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/\"* ~/.themes/",
+    "gsettings set org.cinnamon.theme name \"$(ls \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT\")\""
+  ],
+  "stage": [
+    "gsettings set org.cinnamon.desktop.input-sources sources \"[('xkb', 'us')]\""
+  ],
+  "launch": [
+    "cinnamon-session --session cinnamon"
+  ]
+}

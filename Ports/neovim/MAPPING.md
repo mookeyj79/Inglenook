@@ -70,4 +70,4 @@ The file in `template/colors/` (built as `colors/inglenook.lua`) is the same in 
 - Neovim is free software (Apache 2.0 and Vim license) and needs no login or license.
 - Neovim runs inside the GNOME Terminal port (`host`), so the shots show an Inglenook terminal around it.
 - The recipe sets `background` in `init.lua` per variant, as the README's "always start in one variant" step does, because the scene's terminal is not queried in a fixed way. Not tested by hand.
-- The scene (`build/photograph/scenes/editor/neovim-scene/`) opens the working file against its committed copy in diff mode, sets one error diagnostic (sign, undercurl and virtual text), and selects two lines. The diagnostic stands in for a language server.
+- The scene (`build/photograph/scenes/editor/neovim/`) opens the working file against its committed copy in diff mode, sets one error diagnostic (sign, undercurl and virtual text), and selects two lines. The diagnostic stands in for a language server.

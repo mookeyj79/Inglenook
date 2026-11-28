@@ -1,0 +1,148 @@
+/* {{variant.name}} for Heroic Games Launcher. Generated from palette/palette.json.
+   Heroic puts the file name, without .css, on the body as a class, so keep the name {{meta.slug}}-{{variant.key}}.css.
+
+   The variable list of this file started from Catppuccin for Heroic
+   (https://github.com/catppuccin/heroic), under its license:
+
+   MIT License
+
+   Copyright (c) 2021 Catppuccin
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE. */
+body.{{meta.slug}}-{{variant.key}} {
+  color-scheme: {{variant.mode}};
+
+  /* Surfaces */
+  --body-background: {{base}};
+  --current-background: {{base}};
+  --gradient-body-background: {{base}};
+  --background: {{raised}};
+  --background-darker: {{deep}};
+  --background-lighter: {{raised}};
+  --background-secondary: {{hover}};
+  --navbar-background: {{deep}};
+  --navbar-active-background: {{hover}};
+  --input-background: {{raised}};
+  --search-bar-background: {{raised}};
+  --search-bar-border: {{line}};
+  --modal-background: {{raised}};
+  --modal-border: {{line}};
+  --icons-background: {{deep}};
+  --osk-background: {{base}};
+  --osk-button-background: {{raised}};
+  --osk-button-border: {{line}};
+  --tour-popup-background: {{raised}};
+  --divider: {{line}};
+  --gamecard-title-color: {{deep}};
+  --gradient-gamecard: {{deep}};
+
+  /* The app's own neutral scale, used directly by a few screens */
+  --neutral-01: {{deeper}};
+  --neutral-02: {{deep}};
+  --neutral-03: {{raised}};
+  --neutral-04: {{line}};
+  --neutral-05: {{dim}};
+  --neutral-06: {{text}};
+
+  /* Text */
+  --text-default: {{text}};
+  --text-title: {{text}};
+  --text-gametitle: {{text}};
+  --text-hover: {{text}};
+  --text-secondary: {{dim}};
+  --text-quartenary: {{faint}};
+  --text-tertiary: {{on_accent}};
+  --brand-text-01: {{text}};
+  --brand-text-02: {{dim}};
+  --tour-popup-title: {{text}};
+  --tour-popup-skip-color: {{dim}};
+  --tour-popup-skip-color-hover: {{text}};
+
+  /* Sidebar: the current page is "you are here" */
+  --navbar-inactive: {{text}};
+  --navbar-active: {{accent}};
+  --navbar-accent: {{accent}};
+
+  /* Accent: focus, links, primary buttons */
+  --accent: {{accent}};
+  --accent-overlay: {{accent}};
+  --link-highlight: {{accent}};
+  --button-stroke: {{accent}};
+  --brand-primary: {{accent}};
+  --brand-primary-hover: {{accent}};
+  --brand-secondary: {{accent}};
+  --primary: {{accent}};
+  --primary-hover: {{accent}};
+  --primary-active: {{accent}};
+  --secondary: {{accent}};
+  --primary-button: {{accent}};
+  --secondary-button: {{accent}};
+  --secondary-button-overlay: {{accent}};
+  --play-button: {{accent}};
+  --install-button: {{accent}};
+  --download-button: {{accent}};
+  --download-button-overlay: {{accent}};
+  --tour-bullet-active: {{accent}};
+  --tour-bullet-inactive: {{line}};
+
+  /* Quiet buttons and icons */
+  --tertiary-button: {{hover}};
+  --tertiary-button-overlay: {{line}};
+  --disabled-button: {{hover}};
+  --disabled-button-overlay: {{line}};
+  --icon-disabled: {{faint}};
+  --action-icon: {{dim}};
+  --action-icon-hover: {{text}};
+  --action-icon-active: {{accent}};
+
+  /* State */
+  --success: {{success}};
+  --success-hover: {{success}};
+  --success-button: {{success}};
+  --status-success: {{success}};
+  --status-success-hover: {{success}};
+  --danger: {{error}};
+  --danger-hover: {{error}};
+  --text-danger: {{error}};
+  --status-danger: {{error}};
+  --status-danger-hover: {{error}};
+  --cancel-button: {{error}};
+  --cancel-button-overlay: {{error}};
+  --stop-button: {{error}};
+  --warning: {{warning}};
+  --warning-hover: {{warning}};
+  --text-warning: {{warning}};
+  --text-log: {{warning}};
+  --status-warning: {{warning}};
+  --status-warning-hover: {{warning}};
+  --status-info: {{info}};
+  --status-info-hover: {{info}};
+  --status-default: {{dim}};
+  --anticheat-supported: {{success}};
+  --anticheat-planned: {{info}};
+  --anticheat-running: {{dim}};
+  --anticheat-broken: {{warning}};
+  --anticheat-denied: {{error}};
+}
+
+/* Quiet buttons sit on a neutral, so their text is the content color. */
+body.{{meta.slug}}-{{variant.key}} .button.is-tertiary,
+body.{{meta.slug}}-{{variant.key}} .button.is-tertiary:hover {
+  color: {{text}};
+}

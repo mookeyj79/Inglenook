@@ -1,0 +1,148 @@
+/* Inglenook Day for Heroic Games Launcher. Generated from palette/palette.json.
+   Heroic puts the file name, without .css, on the body as a class, so keep the name inglenook-day.css.
+
+   The variable list of this file started from Catppuccin for Heroic
+   (https://github.com/catppuccin/heroic), under its license:
+
+   MIT License
+
+   Copyright (c) 2021 Catppuccin
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE. */
+body.inglenook-day {
+  color-scheme: light;
+
+  /* Surfaces */
+  --body-background: #f1f3ee;
+  --current-background: #f1f3ee;
+  --gradient-body-background: #f1f3ee;
+  --background: #f9fbf8;
+  --background-darker: #e9ebe5;
+  --background-lighter: #f9fbf8;
+  --background-secondary: #dbded6;
+  --navbar-background: #e9ebe5;
+  --navbar-active-background: #dbded6;
+  --input-background: #f9fbf8;
+  --search-bar-background: #f9fbf8;
+  --search-bar-border: #cfd2cb;
+  --modal-background: #f9fbf8;
+  --modal-border: #cfd2cb;
+  --icons-background: #e9ebe5;
+  --osk-background: #f1f3ee;
+  --osk-button-background: #f9fbf8;
+  --osk-button-border: #cfd2cb;
+  --tour-popup-background: #f9fbf8;
+  --divider: #cfd2cb;
+  --gamecard-title-color: #e9ebe5;
+  --gradient-gamecard: #e9ebe5;
+
+  /* The app's own neutral scale, used directly by a few screens */
+  --neutral-01: #e0e2dc;
+  --neutral-02: #e9ebe5;
+  --neutral-03: #f9fbf8;
+  --neutral-04: #cfd2cb;
+  --neutral-05: #49545d;
+  --neutral-06: #2d373f;
+
+  /* Text */
+  --text-default: #2d373f;
+  --text-title: #2d373f;
+  --text-gametitle: #2d373f;
+  --text-hover: #2d373f;
+  --text-secondary: #49545d;
+  --text-quartenary: #657178;
+  --text-tertiary: #f9fbf8;
+  --brand-text-01: #2d373f;
+  --brand-text-02: #49545d;
+  --tour-popup-title: #2d373f;
+  --tour-popup-skip-color: #49545d;
+  --tour-popup-skip-color-hover: #2d373f;
+
+  /* Sidebar: the current page is "you are here" */
+  --navbar-inactive: #2d373f;
+  --navbar-active: #9b5a00;
+  --navbar-accent: #9b5a00;
+
+  /* Accent: focus, links, primary buttons */
+  --accent: #9b5a00;
+  --accent-overlay: #9b5a00;
+  --link-highlight: #9b5a00;
+  --button-stroke: #9b5a00;
+  --brand-primary: #9b5a00;
+  --brand-primary-hover: #9b5a00;
+  --brand-secondary: #9b5a00;
+  --primary: #9b5a00;
+  --primary-hover: #9b5a00;
+  --primary-active: #9b5a00;
+  --secondary: #9b5a00;
+  --primary-button: #9b5a00;
+  --secondary-button: #9b5a00;
+  --secondary-button-overlay: #9b5a00;
+  --play-button: #9b5a00;
+  --install-button: #9b5a00;
+  --download-button: #9b5a00;
+  --download-button-overlay: #9b5a00;
+  --tour-bullet-active: #9b5a00;
+  --tour-bullet-inactive: #cfd2cb;
+
+  /* Quiet buttons and icons */
+  --tertiary-button: #dbded6;
+  --tertiary-button-overlay: #cfd2cb;
+  --disabled-button: #dbded6;
+  --disabled-button-overlay: #cfd2cb;
+  --icon-disabled: #657178;
+  --action-icon: #49545d;
+  --action-icon-hover: #2d373f;
+  --action-icon-active: #9b5a00;
+
+  /* State */
+  --success: #407135;
+  --success-hover: #407135;
+  --success-button: #407135;
+  --status-success: #407135;
+  --status-success-hover: #407135;
+  --danger: #a04037;
+  --danger-hover: #a04037;
+  --text-danger: #a04037;
+  --status-danger: #a04037;
+  --status-danger-hover: #a04037;
+  --cancel-button: #a04037;
+  --cancel-button-overlay: #a04037;
+  --stop-button: #a04037;
+  --warning: #706416;
+  --warning-hover: #706416;
+  --text-warning: #706416;
+  --text-log: #706416;
+  --status-warning: #706416;
+  --status-warning-hover: #706416;
+  --status-info: #326893;
+  --status-info-hover: #326893;
+  --status-default: #49545d;
+  --anticheat-supported: #407135;
+  --anticheat-planned: #326893;
+  --anticheat-running: #49545d;
+  --anticheat-broken: #706416;
+  --anticheat-denied: #a04037;
+}
+
+/* Quiet buttons sit on a neutral, so their text is the content color. */
+body.inglenook-day .button.is-tertiary,
+body.inglenook-day .button.is-tertiary:hover {
+  color: #2d373f;
+}

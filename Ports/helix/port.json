@@ -1,0 +1,19 @@
+{
+  "name": "Helix",
+  "category": "editor",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "icon": {
+    "kind": "brand",
+    "set": "Simple Icons 16.37.0",
+    "name": "helix",
+    "author": "Simple Icons contributors",
+    "source": "https://simpleicons.org/?q=helix",
+    "license": "CC0-1.0",
+    "mark": "https://github.com/helix-editor/helix/blob/master/LICENSE"
+  }
+}
