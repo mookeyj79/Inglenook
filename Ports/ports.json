@@ -107,17 +107,6 @@
       ]
     },
     {
-      "folder": "telegram",
-      "name": "Telegram Desktop",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "visual-studio",
       "name": "Visual Studio",
       "category": "editor",
