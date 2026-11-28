@@ -6,7 +6,7 @@
 
 ## Before you start
 
-- Jellyfin 12 or later, opened in a web browser or another app that uses Jellyfin Web. The theme follows the colors Jellyfin's own themes are built on since 12.0.
+- Jellyfin 12 or later, opened in a web browser or another app that uses Jellyfin Web.
 - An account on the server. To theme the server for every user, an administrator account.
 
 ## Install

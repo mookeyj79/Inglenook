@@ -138,7 +138,7 @@ The placeholder table (`{{<neutral>}}`, `{{<color>}}`, `{{<role>}}`, `{{color|wa
 - Port screenshots come from the Photographer (`pwsh build/photograph.ps1 -Port <app_name>`), never from a mock, and so do the preview shots (`-Port preview`). Ask the user for shots only when the port has a manual recipe. Show the user every new or changed shot (the rolling PR counts). When the user asks to merge or land, merge the rolling screenshot PR too once its run delivers, then show its shots.
 - Before asking the user to lock a palette candidate, list every check it fails and every gamut warning.
 - Run `node --check` on a prototype page's script before rendering it: a syntax error leaves the page blank with no message.
-- READMEs are for their readers: a port README for the person installing it, the root README for a visitor. No measurements, role names, palette versions, ADR links, research notes, or notes to an agent in them.
+- READMEs are for their readers: a port README for the person installing it, the root README for a visitor. No measurements, role names, palette versions, ADR links, research notes, or notes to an agent in them. Reasons, mapping choices and research behind a port go in that port's MAPPING.md; decisions across ports go in `docs/adr/`.
 - Writing style for docs: plain and short. `check.ps1` fails on em dashes.
 
 ## Agent skills

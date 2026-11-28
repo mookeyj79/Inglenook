@@ -81,4 +81,3 @@ To follow your system's light or dark setting, open **Settings** > **Chat Settin
 - [Telegram Desktop source: Choose from file in Chat Settings](https://github.com/telegramdesktop/tdesktop/blob/dev/Telegram/SourceFiles/settings/sections/settings_chat.cpp)
 - [Telegram's list of theme colors (`colors.palette`)](https://github.com/desktop-app/lib_ui/blob/master/ui/colors.palette)
 - [Telegram wallpaper links](https://core.telegram.org/api/links#wallpaper-links)
-- Method learned from [Catppuccin for Telegram](https://github.com/catppuccin/telegram) (MIT). No files or colors were reused.
