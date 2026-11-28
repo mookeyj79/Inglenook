@@ -98,15 +98,6 @@
       ]
     },
     {
-      "folder": "jellyfin",
-      "name": "Jellyfin",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
-      ]
-    },
-    {
       "folder": "k9s",
       "name": "K9s",
       "category": "cli",
