@@ -519,6 +519,28 @@ Test 'Build: a .png.svg template becomes a PNG of the SVG at its own size, in it
     Assert-Throws { Update-Port -Palette $p -PortDir $bad } '*svgbad/template/x.png.svg*width*height*'
 }
 
+Test 'Build: a template folder named <name>.zip becomes a ZIP archive <name> of its built files' {
+    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2" color="{{accent}}"><rect width="2" height="2" fill="currentColor"/></svg>'
+    $port = New-TestPort 'zipport' @{ '{{variant.key}}.pack.zip/colors.txt' = 'bg: {{base}};'; '{{variant.key}}.pack.zip/tile.png.svg' = $svg; 'plain.txt' = 'x' }
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 4 $r.Written 'files written: one archive and one plain file per variant'
+    $zip = Join-Path $port 'dist' 'night' 'night.pack'
+    Assert-True (Test-Path $zip -PathType Leaf) 'the archive is a file named without .zip'
+    Assert-True (-not (Test-Path (Join-Path $port 'dist' 'night' 'night.pack.zip'))) 'the folder itself is not shipped'
+    Add-Type -AssemblyName System.IO.Compression
+    $archive = [System.IO.Compression.ZipFile]::OpenRead($zip)
+    try {
+        Assert-Equal @('colors.txt', 'tile.png') @($archive.Entries | ForEach-Object FullName) 'entries, sorted, with templates rendered'
+        $reader = [System.IO.StreamReader]::new($archive.GetEntry('colors.txt').Open())
+        Assert-Equal "bg: $($p.Variants['night'].Neutrals['base'].Hex);" $reader.ReadToEnd() 'the colors file'
+        $reader.Dispose()
+        Assert-Equal 137 $archive.GetEntry('tile.png').Open().ReadByte() 'the .png.svg became a PNG'
+    }
+    finally { $archive.Dispose() }
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'a rebuild gives the same bytes'
+}
+
 Test 'Build: CRLF in dist is not drift' {
     $port = New-TestPort 'crlf' @{ 'a.txt' = "one`ntwo" }
     $p = Get-TestPalette (New-PaletteData)
