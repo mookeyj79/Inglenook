@@ -109,17 +109,6 @@
       ]
     },
     {
-      "folder": "insomnia",
-      "name": "Insomnia",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "jellyfin",
       "name": "Jellyfin",
       "category": "web",
