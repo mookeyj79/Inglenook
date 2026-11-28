@@ -128,9 +128,12 @@ footer p + p { margin-top: 4px; }
     <p class="links"><a href="ports.html">Browse the ports</a> <a href="{{meta.repository}}">Source on GitHub</a> <a href="{{meta.repository}}/blob/main/PHILOSOPHY.md">Design rules</a></p>
   </section>
 
-  <div class="pair">
+  <section class="panel block ornate" aria-labelledby="demos-title">
+    <h2 id="demos-title"><span class="gem" aria-hidden="true"></span> Live demos</h2>
+    <p>A terminal session, a code sample, a diagram and a small app, side by side in each variant.</p>
+    <div class="pair">
     <section class="side" data-variant="day" aria-labelledby="day-title">
-      <h2 id="day-title"><span class="gem" aria-hidden="true"></span> {{meta.name}} Day</h2>
+      <h3 id="day-title">{{meta.name}} Day</h3>
       <p class="lede">A soft neutral background leaning faintly green, dark slate text, earthy colors.</p>
       <div class="win">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
@@ -209,7 +212,7 @@ footer p + p { margin-top: 4px; }
       </div>
     </section>
     <section class="side" data-variant="night" aria-labelledby="night-title">
-      <h2 id="night-title"><span class="gem" aria-hidden="true"></span> {{meta.name}} Night</h2>
+      <h3 id="night-title">{{meta.name}} Night</h3>
       <p class="lede">A warm smoked-walnut background, parchment text, colors like lamplight on old bindings.</p>
       <div class="win">
         <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal</span></div>
@@ -287,7 +290,8 @@ footer p + p { margin-top: 4px; }
         </div>
       </div>
     </section>
-  </div>
+    </div>
+  </section>
 
   <section class="panel block ornate" aria-labelledby="swatches-title">
     <h2 id="swatches-title"><span class="gem" aria-hidden="true"></span> Every color</h2>
