@@ -429,7 +429,9 @@ function Get-BaseBuildArgs {
         exact version, for packages from Mint's own repo. font: the BlexMono Nerd
         Font zip's https URL and sha256. chromium: the exact version of Mint's
         chromium package, the browser of the web scene and the preview shots,
-        installed in the last layer so the layers below it stay cached.
+        installed in the last layer so the layers below it stay cached. resvg: the
+        exact version, https URL and sha256 of the resvg release that renders a
+        .png.svg template (Build.psm1 refuses any other version).
     #>
     param([Parameter(Mandatory)][string]$Path)
     $p = Read-JsonFile $Path
@@ -444,10 +446,15 @@ function Get-BaseBuildArgs {
     if (-not ($font -is [System.Collections.IDictionary] -and $font['url'] -is [string] -and $font['url'] -match '^https://\S+$' -and
               $font['sha256'] -is [string] -and $font['sha256'] -match '^[0-9a-f]{64}$')) { $problems.Add('font needs an https url and its sha256') }
     if (-not ($p['chromium'] -is [string] -and $p['chromium'] -match '^\d+(\.\d+){3}\S*$')) { $problems.Add('chromium must be the exact version of Mint''s chromium package') }
+    $resvg = $p['resvg']
+    if (-not ($resvg -is [System.Collections.IDictionary] -and $resvg['version'] -is [string] -and $resvg['version'] -match '^\d+\.\d+\.\d+$' -and
+              $resvg['url'] -is [string] -and $resvg['url'] -match '^https://\S+$' -and
+              $resvg['sha256'] -is [string] -and $resvg['sha256'] -match '^[0-9a-f]{64}$')) { $problems.Add('resvg needs an exact version, an https url and its sha256') }
     if ($problems.Count) { throw "$Path`: $($problems -join '; ')." }
     $mintList = @(foreach ($k in $mint.Keys) { "$k=$($mint[$k])" }) -join ' '
     return @("BASE=$($p['base'])", "UBUNTU_SNAPSHOT=$($p['ubuntu_snapshot'])", "MINT_PACKAGES=$mintList",
-        "FONT_URL=$($font['url'])", "FONT_SHA256=$($font['sha256'])", "CHROMIUM_VERSION=$($p['chromium'])")
+        "FONT_URL=$($font['url'])", "FONT_SHA256=$($font['sha256'])", "CHROMIUM_VERSION=$($p['chromium'])",
+        "RESVG_URL=$($resvg['url'])", "RESVG_SHA256=$($resvg['sha256'])")
 }
 
 # --- The fingerprint: a hash of everything a shot is made from ------------------
