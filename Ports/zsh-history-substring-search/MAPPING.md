@@ -17,7 +17,7 @@ Both keep the plugin's own shape (a background, a foreground and `bold`), so the
 
 - The error wash is mixed into `base`, so it is exact only on an Inglenook terminal. Elsewhere it still reads, as the Git grep match does.
 - Hex triplets need Zsh 5.7 (NEWS, 5.7). On an 88 or 256 color terminal, Zsh can match them to the nearest color with its `zsh/nearcolor` module, so the README says approximate.
-- Bash is not supported: the plugin is a ZLE script, and Bash's readline `history-search-backward` draws no highlight. PowerShell's PSReadLine history search draws none either, so the PSReadLine port has no matching token.
+- Bash is not supported: the plugin is a ZLE script, and Bash's readline `history-search-backward` draws no highlight. PowerShell's PSReadLine does highlight its history search; the PSReadLine port colors it with its `Emphasis` token (the steel wash, ADR 0009).
 - `HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_TIMEOUT` is not a color and is left to the reader. It is in the README on master but not in 1.1.0.
 - Both colors show in the scene.
 

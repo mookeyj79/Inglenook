@@ -15,7 +15,7 @@
 
 ## Install
 
-### Zsh or Bash (Linux, macOS)
+### Zsh or Bash (Linux, macOS, WSL)
 
 1. Create the folder `~/.config/inglenook/`.
 2. Save `dist/day/less.sh` (or `dist/night/less.sh`) into it as `~/.config/inglenook/less.sh`.
@@ -27,7 +27,7 @@
 
 4. Open a new terminal.
 
-### PowerShell (Windows, Linux, macOS)
+### PowerShell (Windows, macOS, Linux)
 
 1. Create the folder `~/.config/inglenook/` (on Windows, `%USERPROFILE%\.config\inglenook\`).
 2. Save `dist/day/less.ps1` (or `dist/night/less.ps1`) into it as `less.ps1`.
@@ -39,11 +39,11 @@
 
 4. Open a new PowerShell window.
 
-### Nowhere
+### With Nowhere
 
 Nowhere already sets `LESS` and loads `~/.config/nowhere/theme.zsh` and `theme.ps1` last. Put the same source line in those files instead of `~/.zshrc` and `$PROFILE`.
 
-### Set LESS another way
+### Setting the variable another way
 
 The file adds these options to the end of `LESS`, and adds `-R` first when `LESS` was empty. Use them as they are if you set `LESS` yourself. Each `-D` option ends with `$`, which tells less where its color ends.
 

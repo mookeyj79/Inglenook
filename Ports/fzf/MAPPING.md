@@ -12,7 +12,7 @@ One `--color` option in `FZF_DEFAULT_OPTS`, built from `template/fzf.env` into `
 | `fg`, `fg+`, `query`, `preview-fg` | text | |
 | `bg+` (current line) | accent wash | The selection band |
 | `pointer`, `marker`, `prompt` | accent | "You are here": the cursor line, picked lines, and the input |
-| `hl` (matched characters in other lines) | steel | Every other match, per Search and matches in PHILOSOPHY.md. fzf colors only the text of a match |
+| `hl` (matched characters in other lines) | steel, bold | Every other match (ADR 0009). fzf colors only the text of a match, so it is steel text, bold |
 | `hl+` (matched characters in the current line) | accent, reverse | The match at the cursor: a firelight fill. fzf takes one color per element, so `reverse` makes the fill and the text on it is the line's accent wash, not `on_accent`: Day 3.95:1, Night 5.86:1, above the floor of 3 for short labels |
 | `spinner` | info | In progress |
 | `info` (match count), `disabled` | faint | Metadata, and the query when search is off |

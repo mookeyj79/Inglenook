@@ -24,7 +24,7 @@ Each variant has three files:
 
 ## Install
 
-**Zsh or Bash** (Linux, macOS):
+### Zsh or Bash (Linux, macOS, WSL)
 
 1. Create the folder `~/.config/inglenook/`.
 2. Save [`dist/day/starship.toml`](dist/day/starship.toml) or [`dist/night/starship.toml`](dist/night/starship.toml) there as `starship.toml`.
@@ -37,7 +37,7 @@ Each variant has three files:
 
 5. Open a new terminal. The prompt shows the colored segments.
 
-**PowerShell** (Windows, also macOS and Linux):
+### PowerShell (Windows, macOS, Linux)
 
 1. Create the folder `~/.config/inglenook/` (on Windows, `%USERPROFILE%\.config\inglenook\`).
 2. Save [`dist/day/starship.toml`](dist/day/starship.toml) or [`dist/night/starship.toml`](dist/night/starship.toml) there as `starship.toml`.
@@ -50,11 +50,17 @@ Each variant has three files:
 
 5. Open a new PowerShell window.
 
-**Nowhere users**: put the same line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads those last, so the Inglenook prompt replaces Nowhere's.
+### With Nowhere
 
-**Setting the variable another way**: set `STARSHIP_CONFIG` to the full path of the saved `starship.toml`. Or skip the variable and save `starship.toml` as `~/.config/starship.toml`, the file Starship reads by default.
+Put the same line in `~/.config/nowhere/theme.zsh` or `~/.config/nowhere/theme.ps1` instead of your profile. Nowhere loads those last, so the Inglenook prompt replaces Nowhere's.
 
-**Keeping your own prompt**: to keep your own `starship.toml` and only take the colors, copy two things from the Inglenook file into yours:
+### Setting the variable another way
+
+Set `STARSHIP_CONFIG` to the full path of the saved `starship.toml`. Or skip the variable and save `starship.toml` as `~/.config/starship.toml`, the file Starship reads by default.
+
+### Keeping your own prompt
+
+To keep your own `starship.toml` and only take the colors, copy two things from the Inglenook file into yours:
 
 1. The line `palette = "inglenook-day"` (or `"inglenook-night"`). Put it near the top, above every `[section]`. If your file already has a `palette = ` line, replace it.
 2. The whole `[palettes.inglenook-day]` (or `[palettes.inglenook-night]`) table at the end of the file. Paste it at the end of yours.

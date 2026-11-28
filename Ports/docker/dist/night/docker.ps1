@@ -1,6 +1,7 @@
 # Inglenook for Docker build output: Inglenook Night.
 # Source this from your profile. Needs Docker with BuildKit (Docker 23 or newer).
 # The names are terminal colors: set your terminal to Inglenook Night too.
+# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
 
 # run: finished steps. cancel: canceled steps. warning: steps with a warning.
 # error: the step that failed.

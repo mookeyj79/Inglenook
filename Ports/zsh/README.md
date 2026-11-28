@@ -34,7 +34,9 @@ The theme is one file that your `~/.zshrc` loads when Zsh starts.
 
 4. Open a new terminal.
 
-**Nowhere users**: put the same line in `~/.config/nowhere/theme.zsh` instead of `~/.zshrc`. Nowhere loads that file last.
+### With Nowhere
+
+Put the same line in `~/.config/nowhere/theme.zsh` instead of `~/.zshrc`. Nowhere loads that file last.
 
 Files to use:
 

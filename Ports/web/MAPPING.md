@@ -28,12 +28,12 @@ The port has no app slots. It exposes the palette as CSS custom properties, name
 
 - Tier 1: every neutral, named color, role and wash is there. The port defines properties only; a site decides which elements use them.
 - Property names carry the variant so both files can load together and a site switches sets without swapping stylesheets (the method of Hyaline's web port and Catppuccin's palette CSS). Plain names on `:root` would make the second file overwrite the first.
-- The file is `theme.css` in each variant folder, and the README has the reader rename the copies. A filtered placeholder (`{{variant.name|slug}}`) cannot go in a file name, because `|` is not allowed in Windows file names, and hardcoding `inglenook-day` would hardcode the theme name.
+- The file is named after its variant (`template/{{variant.slug}}.css`, built as `inglenook-day.css` and `inglenook-night.css`), so the reader copies both files as they are. `{{variant.slug}}` has no `|`, which Windows does not allow in a file name.
 - No `color-scheme` in the files: with both loaded, the site sets it alongside its own switch.
 - No `-rgb` channel forms: the theme never sets transparency, so a site has no use for channels to add alpha to.
 - The syntax properties exist so every site maps its highlighter the same way. Pygments-style class names have tokens the table has no row for; the README says to take the closest row. Hugo's Chroma gives YAML and JSON keys the same class as HTML tags (`.nt`), so a site has to pick one for both (the mikewashere.com mock picked `-syntax-key`).
 - Shadows: a shadow would need a transparent color. The README says to draw edges with `-line` borders instead.
-- Not in the scene: `deeper` inside the page (it is the backdrop around the window), a focus ring (a focused field needs a blinking caret, which fails a take), the washes of clay, oxblood, ivy, pine, steel, dusk, heather and rosewood, and `-syntax-error`. They follow the same roles as what the scene shows.
+- Not in the scene: `deeper` (the page's most recessed area, its header, is `deep`), a focus ring (a focused field needs a blinking caret, which fails a take), the washes of clay, oxblood, ivy, pine, steel, dusk, heather and rosewood, and `-syntax-error`. They follow the same roles as what the scene shows.
 
 ## Research
 

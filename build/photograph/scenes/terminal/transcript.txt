@@ -1,0 +1,29 @@
+# The terminal scene's staged lines, read by run.sh (Linux) and run.ps1 (Windows), so both
+# platforms print the same thing. A line that starts with "$ " is a command at the prompt;
+# every other line is printed as it is, with {name} turned into an ANSI slot: {r} reset,
+# {b} bold, {red} {green} {yellow} {blue} {magenta} {cyan}, {muted} (bright black).
+# Lines that start with "#" are comments.
+$ git log --oneline -3
+{yellow}b60388e{r} {cyan}({b}HEAD -> {green}main{r}{cyan}){r} Add Pin to the glossary {muted}2 days ago{r}
+{yellow}f4960df{r} Add the screenshot terms to the glossary {muted}3 days ago{r}
+{yellow}1e7c435{r} Drop the Layout section from the VS Code install guide {muted}4 days ago{r}
+$ git diff palette/palette.json
+{b}diff --git a/palette/palette.json b/palette/palette.json{r}
+{cyan}@@ -2,7 +2,7 @@{r}
+   "meta": {
+{red}-    "version": "0.1.0",{r}
+{green}+    "version": "0.1.1",{r}
+{cyan}@@ -85,7 +85,7 @@{r}
+         "moss": {
+{red}-          "l": 0.52,{r}
+{green}+          "l": 0.5,{r}
+$ pwsh build/check.ps1
+Palette      {green}ok{r}
+Contrast     {green}ok{r}
+Drift        {red}{b}FAIL{r}
+{red}FAIL: Drift: Ports/gnome-terminal/dist/day/install.sh is out of date. Run build/build.ps1.{r}
+$ pwsh build/build.ps1
+gnome-terminal     {yellow}changed{r}
+preview            {yellow}changed{r}
+windows-terminal   {muted}version stamp only{r}
+{yellow}warning: screenshots of gnome-terminal and preview are now stale{r}

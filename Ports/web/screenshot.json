@@ -6,8 +6,8 @@
   ],
   "apply": [
     "mkdir -p ~/site/css",
-    "cp \"$INGLENOOK_PORT/dist/day/theme.css\" ~/site/css/inglenook-day.css",
-    "cp \"$INGLENOOK_PORT/dist/night/theme.css\" ~/site/css/inglenook-night.css"
+    "cp \"$INGLENOOK_PORT/dist/day/inglenook-day.css\" ~/site/css/",
+    "cp \"$INGLENOOK_PORT/dist/night/inglenook-night.css\" ~/site/css/"
   ],
   "stage": [
     "bash \"$INGLENOOK_SCENE/web/stage.sh\" ~/site"

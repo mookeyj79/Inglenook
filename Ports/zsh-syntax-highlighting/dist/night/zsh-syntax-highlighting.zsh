@@ -1,5 +1,6 @@
 # Inglenook for zsh-syntax-highlighting: Inglenook Night.
 # Source this from ~/.zshrc, after the plugin loads. Zsh only.
+# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
 
 typeset -gA ZSH_HIGHLIGHT_STYLES
 

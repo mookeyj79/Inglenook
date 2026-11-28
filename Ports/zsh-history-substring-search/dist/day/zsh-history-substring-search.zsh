@@ -1,5 +1,6 @@
 # Inglenook for zsh-history-substring-search: Inglenook Day.
 # Source this from ~/.zshrc after the plugin loads. Zsh only.
+# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
 
 # The part of a found command that matches what you typed: the match at the cursor.
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=#f9fbf8,bg=#9b5a00,bold'

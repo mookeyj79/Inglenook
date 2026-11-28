@@ -44,7 +44,9 @@ The theme is two files: one for Readline, which `~/.inputrc` loads, and one for 
 
 6. Open a new terminal.
 
-**Nowhere users**: Nowhere's `theme.zsh` and `theme.ps1` are for Zsh and PowerShell, so for Bash use `~/.inputrc` and `~/.bashrc` as above.
+### With Nowhere
+
+Nowhere's `theme.zsh` and `theme.ps1` are for Zsh and PowerShell, so for Bash use `~/.inputrc` and `~/.bashrc` as above.
 
 Files to use:
 
