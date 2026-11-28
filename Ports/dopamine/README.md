@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** Dopamine 3.0.12 on Linux Mint 22.3
 
 | Day | Night |
 |---|---|

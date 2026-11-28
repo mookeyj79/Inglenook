@@ -2,7 +2,7 @@
 
 **Tier:** 2 Partial\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** Notepad++ 8.9.9.1 on Windows Server 2025
 
 | Day | Night |
 |---|---|

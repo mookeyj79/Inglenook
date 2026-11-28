@@ -25,12 +25,16 @@ The port is one theme option per variant: the variables theme.park's per-app bas
 | `--plex-poster-unwatched` | ivy | A badge on posters that carries no state, so a detail color |
 | `--gitea-color-primary-dark-4` | `var(--accent-color)` | Same as Catppuccin and theme.park's own options |
 | `--overseerr-gradient` | `linear-gradient(var(--main-bg-color), var(--main-bg-color))` | Overseerr needs a gradient here. A gradient of one solid color is a solid page |
+| `--transparency-dark-05` to `-20` | deep | theme.park's light black tints: rows, cards, search boxes. A step below the page |
+| `--transparency-dark-25` to `-95` | deeper | Heavier black tints: the header, the sidebar, column headings, inputs. The most recessed surfaces |
+| `--transparency-light-05` to `-85` | hover | White tints mark hover and focus (a hovered row, the search field) |
+| `--transparency-light-90`, `-95` | raised | Near-opaque white: a lifted surface |
 | `--petio-spinner` | not set | It is a CSS `filter` chain that tints Petio's spinner from black. Those numbers encode a color outside the palette, so the port leaves it out and the spinner keeps its own color |
 
 ## Gaps and trade-offs
 
 - Tier 2. theme.park's theme options are about fifteen variables: surfaces, buttons, text, links and one accent. Status colors (errors, warnings, health), charts, syntax and posters stay as each app or base file draws them.
-- theme.park's base CSS sets `--transparency-dark-*` and `--transparency-light-*` (black and white at 5 to 95% alpha) and lays them over sidebars, headers, rows and menus. They are not part of a theme option and the port does not override them: making them solid would hide what sits under them. The README names this under Known limits. It shows most in Day, where dark tints turn the File Browser header and sidebar gray.
+- theme.park's base CSS sets `--transparency-dark-*` and `--transparency-light-*` (black and white at 5 to 95% alpha) and lays them over sidebars, headers, rows, inputs and menus. The theme option overrides every one with a solid neutral (table above), so surfaces stay solid: in Day the dark tints had turned the File Browser header, sidebar and rows gray. Where an app lays a tint over a picture (a poster, a backdrop), the solid neutral now covers the picture.
 - theme.park is built for dark themes (Catppuccin says so for its light flavor). Some base files use white text or light tints that assume a dark page. Day ships anyway, with the limit in the README.
 - File Browser's breadcrumb bar comes from File Browser's own light or dark mode, not from theme.park: near-white in Day, a dark blue-gray in Night. The scene sets the mode to match the variant (dark for Night), as a reader would; with the light mode, Night showed a white bar.
 - Not in the scene: modals, menus, buttons and their hover (`--button-*`, `--modal-*`, `--drop-down-menu-bg`), links (File Browser shows none in the listing), `--label-text-color`, and the app-specific specials (Servarr queue, Plex, Gitea, Overseerr). They follow the same roles as what the scene shows.
@@ -51,4 +55,4 @@ The port is one theme option per variant: the variables theme.park's per-app bas
   - That stylesheet reaches the page through File Browser's own branding folder (`custom.css`, https://github.com/filebrowser/filebrowser/blob/master/docs/customization.md) in place of Stylus, the Docker mod or `sub_filter`, which all add the same two stylesheets.
   - File Browser's own mode (Settings, Global Settings) is set to dark for Night and light for Day in the scene's database.
 - `build/photograph/scenes/web/theme-park/`: `stage.sh` writes a small folder with fixed dates and File Browser's database (absolute dates, no disk-usage meter, no external links); `serve.sh` starts File Browser on 127.0.0.1:8080 and opens it in the web scene's browser.
-- **Shown:** base (the listing), the accent (folder and file icons, header buttons, the sort arrow, sidebar icons), text (file names), dim (sizes and dates), and theme.park's dark tints over the header and sidebar.
+- **Shown:** base (the listing), the accent (folder and file icons, header buttons, the sort arrow, sidebar icons), text (file names), dim (sizes and dates), and the solid tints: deeper on the header, sidebar and column headings, deep on the rows.

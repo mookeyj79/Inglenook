@@ -2,7 +2,7 @@
 
 **Tier:** 1 Full\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** OBS Studio 32.2.0 on Linux Mint 22.3
 
 | Day | Night |
 |---|---|

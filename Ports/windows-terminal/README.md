@@ -2,7 +2,7 @@
 
 **Tier:** 1 Full\
 **Variants:** Inglenook Day, Inglenook Night\
-**Tested with:** Not tested yet
+**Tested with:** Windows Terminal 1.25.3131.0 on Windows Server 2025
 
 | Day | Night |
 |---|---|
