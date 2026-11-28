@@ -1,0 +1,20 @@
+{
+  "name": "Slack",
+  "category": "app",
+  "tier": 3,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux",
+    "web"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "messages-square",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/messages-square",
+    "license": "ISC"
+  },
+  "screenshots": "pending"
+}
