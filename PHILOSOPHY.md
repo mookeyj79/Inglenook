@@ -169,7 +169,7 @@ Not every app can do everything. Each port declares its tier in its README.
 
 Apps limited to 16 or 256 colors (such as less or nano) are approximate by nature, and their READMEs say so.
 
-A port ships only when it has real screenshots of both variants, passes the checks, and the owner has approved it.
+A port ships only when it has real screenshots of both variants, passes the checks, and the owner has approved it. A port whose shots can only be taken by hand may ship before they are taken, and its card says so. See [ADR 0011](docs/adr/0011-hand-shot-ports-may-ship-before-their-shots.md).
 
 ## Font
 
@@ -239,4 +239,5 @@ Every palette change rebuilds every port. CI fails if any committed output does 
 - **Wallpapers.** Found images, chosen by taste. See [ADR 0007](docs/adr/0007-wallpapers-are-found-images-chosen-by-taste.md).
 - **Port icons.** Single-color, colored by the page. See [ADR 0008](docs/adr/0008-port-icons-are-single-color.md).
 - **Search matches.** A steel wash for every match, firelight for the one at the cursor. See [ADR 0009](docs/adr/0009-matches-are-steel-the-current-match-is-firelight.md).
+- **Pending screenshots.** A port with hand-taken shots may ship before they are taken, marked on its card. See [ADR 0011](docs/adr/0011-hand-shot-ports-may-ship-before-their-shots.md).
 - **Ornaments.** Only in packaged themes and on the preview site, never in a hand-installed one. See [ADR 0010](docs/adr/0010-ornaments-only-in-packaged-themes.md).

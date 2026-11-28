@@ -59,7 +59,7 @@ function Get-JsonFileProblem {
 
 function Test-PortMeta($Meta, [string]$Where, [bool]$Planned, $Categories, $Errors) {
     if ($Meta -isnot [System.Collections.IDictionary]) { $Errors.Add("$Where must be a JSON object."); return }
-    $known = @('name', 'category', 'tier', 'platforms', 'monogram') + $(if ($Planned) { 'folder' } else { 'icon' })
+    $known = @('name', 'category', 'tier', 'platforms', 'monogram') + $(if ($Planned) { 'folder' } else { 'icon', 'screenshots' })
     foreach ($k in $Meta.Keys) { if ($k -notin $known) { $Errors.Add("$Where has an unknown field '$k'.") } }
     if (-not ($Meta['name'] -is [string] -and $Meta['name'].Trim())) { $Errors.Add("$Where needs a 'name'.") }
     if (-not ($Meta['category'] -is [string] -and $Categories.Contains($Meta['category']))) {
@@ -77,6 +77,9 @@ function Test-PortMeta($Meta, [string]$Where, [bool]$Planned, $Categories, $Erro
     }
     else {
         foreach ($p in $plat) { if (-not $Platforms.Contains([string]$p)) { $Errors.Add("$Where has platform '$p'. Use: $($Platforms.Keys -join ', ').") } }
+    }
+    if ($Meta.Contains('screenshots') -and $Meta['screenshots'] -ne 'pending') {
+        $Errors.Add("$Where has 'screenshots' set to '$($Meta['screenshots'])'. Its one value is 'pending', for a port whose hand-taken shots are not taken yet.")
     }
     if ($Meta.Contains('monogram') -and -not ($Meta['monogram'] -is [string] -and $Meta['monogram'] -match '^\S{1,3}$')) {
         $Errors.Add("$Where has a 'monogram' that is not 1 to 3 characters.")
@@ -323,12 +326,24 @@ function Read-ShotList([string]$Dir, [string]$Name, $Errors) {
     return , ([object[]]@($shots))
 }
 
+function Test-ShotsPending($Meta) {
+    # True when port.json says the port's screenshots are not taken yet.
+    return $Meta -is [System.Collections.IDictionary] -and $Meta['screenshots'] -eq 'pending'
+}
+
 function Get-ShotProblems($Catalog) {
     # Every port the Photographer shoots ships with its images: day.png and night.png
     # for a recipe, every image of a shot list. Lists one problem per missing image.
+    # A port whose port.json says "screenshots": "pending" ships without them until
+    # they are taken (ADR 0011); once one is there, the flag has to go.
     $problems = [System.Collections.Generic.List[string]]::new()
     foreach ($p in $Catalog.Ports) {
         $names = if ($p.Shots) { @($p.Shots | ForEach-Object { $_['name'] }) } elseif ($p.Recipe) { @('day', 'night') } else { continue }
+        if (Test-ShotsPending $p.Meta) {
+            $have = @($names | Where-Object { Test-Path -LiteralPath (Join-Path $p.Dir 'screenshots' "$_.png") -PathType Leaf })
+            if ($have.Count) { $problems.Add("Ports/$($p.Name)/screenshots/$($have[0]).png exists, so remove ""screenshots"": ""pending"" from Ports/$($p.Name)/port.json.") }
+            continue
+        }
         foreach ($n in $names) {
             if (-not (Test-Path -LiteralPath (Join-Path $p.Dir 'screenshots' "$n.png") -PathType Leaf)) {
                 $how = if ($p.Recipe -and $p.Recipe.Contains('manual')) { 'take it by hand, then run' } else { 'run' }
@@ -492,6 +507,7 @@ function ConvertTo-PortsData {
                         author = $p.Icon['author']; license = $p.Icon['license']; source = $p.Icon['source'] }
         } else { $null }
         $c['variants'] = @($p.Variants)
+        $c['shotsPending'] = Test-ShotsPending $p.Meta
         $c
     })
     $categoryIcons = [ordered]@{}
