@@ -454,7 +454,7 @@ function Get-BaseBuildArgs {
     $mintList = @(foreach ($k in $mint.Keys) { "$k=$($mint[$k])" }) -join ' '
     return @("BASE=$($p['base'])", "UBUNTU_SNAPSHOT=$($p['ubuntu_snapshot'])", "MINT_PACKAGES=$mintList",
         "FONT_URL=$($font['url'])", "FONT_SHA256=$($font['sha256'])", "CHROMIUM_VERSION=$($p['chromium'])",
-        "RESVG_URL=$($resvg['url'])", "RESVG_SHA256=$($resvg['sha256'])")
+        "RESVG_URL=$($resvg['url'])", "RESVG_SHA256=$($resvg['sha256'])", "RESVG_VERSION=$($resvg['version'])")
 }
 
 # --- The fingerprint: a hash of everything a shot is made from ------------------

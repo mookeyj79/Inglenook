@@ -539,6 +539,31 @@ Test 'Build: a .png.svg template becomes a PNG of the SVG at its own size, in it
     Assert-Throws { Update-Port -Palette $p -PortDir $bad } '*svgbad/template/x.png.svg*width*height*'
 }
 
+Test 'Build: a .png.svg template draws an ornament from assets/ornaments with {{ornament:<file>}}' {
+    $root = Join-Path $Tmp 'svgornrepo'
+    $orn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 2" width="4" height="2"><rect width="2" height="2" fill="currentColor"/></svg>'
+    New-Item -ItemType Directory -Path (Join-Path $root 'assets' 'ornaments') -Force | Out-Null
+    Set-Content -Path (Join-Path $root 'assets' 'ornaments' 'half.svg') -Value "$orn`n" -NoNewline
+    $port = Join-Path $root 'Ports' 'svgorn'
+    New-Item -ItemType Directory -Path (Join-Path $port 'template') -Force | Out-Null
+    $tplPath = Join-Path $port 'template' 'mark.png.svg'
+    Set-Content -Path $tplPath -Value '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="2" viewBox="0 0 4 2" color="{{accent}}">{{ornament:half.svg}}</svg>' -NoNewline
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 2 $r.Written 'files written'
+    $w = 0; $h = 0
+    $px = [InglenookPngPixels]::Decode([System.IO.File]::ReadAllBytes((Join-Path $port 'dist' 'night' 'mark.png')), [ref]$w, [ref]$h)
+    Assert-Equal '4x2' "${w}x${h}" 'size: the template''s, not the ornament''s'
+    $hex = '#' + (@(0..2 | ForEach-Object { '{0:x2}' -f ($px[$_] -shr 8) }) -join '')
+    Assert-Equal (Expand-Template -Text '{{accent}}' -Palette $p -Variant $p.Variants['night'] -Source 'test') $hex 'the ornament, in the template''s color'
+    Assert-Equal 0 ([int]$px[(3 * 4) + 3]) 'clear where the ornament draws nothing'
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'rebuild'
+    Set-Content -Path (Join-Path $root 'assets' 'ornaments' 'half.svg') -Value ($orn -replace 'width="2" height="2" fill', 'width="3" height="2" fill') -NoNewline
+    Assert-Equal 'changed' (Get-PortStatus -Palette $p -PortDir $port).Status 'the ornament changed'
+    Set-Content -Path $tplPath -Value '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="2" viewBox="0 0 4 2">{{ornament:nope.svg}}</svg>' -NoNewline
+    Assert-Throws { Update-Port -Palette $p -PortDir $port } '*svgorn/template/mark.png.svg*nope.svg*assets/ornaments*'
+}
+
 Test 'Build: a template folder named <name>.zip becomes a ZIP archive <name> of its built files' {
     $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2" color="{{accent}}"><rect width="2" height="2" fill="currentColor"/></svg>'
     $port = New-TestPort 'zipport' @{ '{{variant.key}}.pack.zip/colors.txt' = 'bg: {{base}};'; '{{variant.key}}.pack.zip/tile.png.svg' = $svg; 'plain.txt' = 'x' }
@@ -1115,7 +1140,7 @@ Test 'Photographer: pins become the base image''s build arguments, and loose pin
     $built = Get-BaseBuildArgs -Path $path
     Assert-Equal @("BASE=example/mint@sha256:$('a' * 64)", 'UBUNTU_SNAPSHOT=20261124T000000Z', 'MINT_PACKAGES=cinnamon=6.6.9+zena nemo=6.6.3+zena',
         'FONT_URL=https://example.invalid/font.zip', "FONT_SHA256=$('b' * 64)", 'CHROMIUM_VERSION=158.0.8127.88~linuxmint1+mint22.3',
-        'RESVG_URL=https://example.invalid/resvg.tar.gz', "RESVG_SHA256=$('c' * 64)") $built 'build args'
+        'RESVG_URL=https://example.invalid/resvg.tar.gz', "RESVG_SHA256=$('c' * 64)", 'RESVG_VERSION=0.45.1') $built 'build args'
     $pins.base = 'example/mint:latest'; $pins.ubuntu_snapshot = 'yesterday'; $pins.mint_packages = @{ cinnamon = '' }; $pins.font.sha256 = 'x'; $pins.chromium = 'latest version'; $pins.resvg.version = 'latest'
     ConvertTo-Json $pins -Depth 4 | Set-Content $path
     Assert-Throws { Get-BaseBuildArgs -Path $path } '*base must name an image by digest*ubuntu_snapshot*mint_packages*font*chromium*resvg*'

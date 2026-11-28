@@ -37,7 +37,7 @@ Ports/<app_name>/screenshot.json  the recipe the Photographer shoots the port wi
 Ports/<app_name>/screenshots/ day.png and night.png, from the real app
 Ports/preview/                the preview site and the ports page
 build/                        turns palette + templates into dist, runs the checks
-build/photograph/             the Photographer's pins, base image, and scenes
+build/photograph/             the Photographer's pins (pins.json also pins the build's resvg), base image, and scenes
 wallpapers/                   optional images, with credits
 docs/adr/                     recorded decisions and why
 PHILOSOPHY.md                 the design rules
@@ -116,7 +116,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 
    **Packaged themes with ornaments** (ADR 0010) take them from `assets/ornaments/`, never a copy in the template. A template `<name>.ornament` holds the file name of one ornament, such as `divider.svg`, and builds into `<name>`, a copy of that file as it is (`media/divider.svg.ornament` becomes `media/divider.svg`).
 
-   An app that takes only raster images, where an ornament from `assets/ornaments/` belongs (ADR 0010), gets it as a PNG from a template `<name>.png.svg`: an SVG with its size in pixels on the `<svg>` element and its color from a placeholder, such as `<svg width="32" height="32" viewBox="..." color="{{oxblood}}">` around shapes filled with `currentColor`. The build renders it with resvg into `<name>.png`, clear where the SVG draws nothing.
+   An app that takes only raster images, where an ornament from `assets/ornaments/` belongs (ADR 0010), gets it as a PNG from a template `<name>.png.svg`: an SVG with its size in pixels on the `<svg>` element and its color from a placeholder (oxblood or ivy, or a wash of either, per ADR 0010), such as `<svg width="32" height="32" viewBox="..." color="{{oxblood}}">` around shapes filled with `currentColor`. The build renders it with resvg into `<name>.png`, clear where the SVG draws nothing. To draw an ornament, put `{{ornament:<file>}}` inside the `<svg>` element, such as `{{ornament:backdrop-damask.svg}}`: the build puts in the shapes of that file from `assets/ornaments/`, so the template sets the size and color and never copies the ornament.
 
    An app whose theme is one ZIP archive (Telegram's `.tdesktop-theme`) gets it from a template folder `<name>.zip/`: the build renders the folder's files as usual, then packs them into the archive `<name>`, stored and dated so the same files always give the same bytes.
 

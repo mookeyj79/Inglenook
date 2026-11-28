@@ -567,7 +567,8 @@ function Invoke-PreviewShot($Entry, [string]$BaseImage) {
 $baseImage = ''
 if ($needsDocker) { try {
     $baseArgs = @(Get-BaseBuildArgs -Path $PinsPath)
-    $baseFile = [System.IO.File]::ReadAllText((Join-Path $PhotoDir 'linux' 'Dockerfile'))
+    # The tag covers the Dockerfile and the script it copies in.
+    $baseFile = @('Dockerfile', 'install-resvg.sh' | ForEach-Object { [System.IO.File]::ReadAllText((Join-Path $PhotoDir 'linux' $_)) }) -join "`n"
     $baseImage = Get-ContentTag 'inglenook-photograph-base' ((@($baseFile) + $baseArgs) -join "`n")
     Write-Host "Building the base image ($baseImage)..."
     $buildArgs = @(foreach ($a in $baseArgs) { '--build-arg'; $a })

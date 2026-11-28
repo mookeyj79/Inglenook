@@ -23,6 +23,12 @@ for ($n = 0; $n -lt 256; $n++) {
     for ($k = 0; $k -lt 8; $k++) { $c = if ($c -band 1) { [uint32]3988292384 -bxor ($c -shr 1) } else { $c -shr 1 } }
     $PngCrcTable[$n] = $c
 }
+# CRC-32 (the PNG and ZIP checksum) of a byte array.
+function Get-Crc32([byte[]]$Data) {
+    $crc = [uint32]::MaxValue
+    foreach ($v in $Data) { $crc = $PngCrcTable[($crc -bxor $v) -band 0xFF] -bxor ($crc -shr 8) }
+    return [uint32]($crc -bxor [uint32]::MaxValue)
+}
 function ConvertTo-PngUInt32([uint32]$Value) { $b = [BitConverter]::GetBytes($Value); [Array]::Reverse($b); return $b }
 
 function New-SolidPng {
@@ -48,11 +54,9 @@ function New-SolidPng {
     $out.Write([byte[]](137, 80, 78, 71, 13, 10, 26, 10), 0, 8)
     foreach ($chunk in @(@('IHDR', $ihdr), @('IDAT', $z.ToArray()), @('IEND', [byte[]]@()))) {
         $body = [byte[]](@([System.Text.Encoding]::ASCII.GetBytes($chunk[0])) + @($chunk[1]))
-        $crc = [uint32]::MaxValue
-        foreach ($v in $body) { $crc = $PngCrcTable[($crc -bxor $v) -band 0xFF] -bxor ($crc -shr 8) }
         $out.Write((ConvertTo-PngUInt32 ([uint32]($body.Length - 4))), 0, 4)
         $out.Write($body, 0, $body.Length)
-        $out.Write((ConvertTo-PngUInt32 ($crc -bxor [uint32]::MaxValue)), 0, 4)
+        $out.Write((ConvertTo-PngUInt32 (Get-Crc32 $body)), 0, 4)
     }
     return $out.ToArray()
 }
@@ -62,13 +66,18 @@ function New-SolidPng {
 # so every machine draws the same pixels.
 $ResvgPinsPath = Join-Path $PSScriptRoot '..' 'photograph' 'pins.json'
 
+# Looked up once per run: the first .png.svg finds and checks it, the rest reuse it.
+$script:ResvgCommand = $null
+
 function Get-ResvgCommand {
+    if ($script:ResvgCommand) { return $script:ResvgCommand }
     $want = [string](Get-Content -Raw -Path $ResvgPinsPath | ConvertFrom-Json -AsHashtable)['resvg']['version']
     $cmd = Get-Command resvg -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $cmd) { throw "A .png.svg template needs resvg $want on the PATH. See CONTRIBUTING.md." }
     $have = (& $cmd.Source --version 2>&1 | Out-String).Trim()
     if ($have -ne $want) { throw "A .png.svg template needs resvg $want (pinned in build/photograph/pins.json), not $have." }
-    return $cmd.Source
+    $script:ResvgCommand = $cmd.Source
+    return $script:ResvgCommand
 }
 
 function ConvertTo-SvgPng {
@@ -105,9 +114,7 @@ function New-StoredZip {
     foreach ($f in $files) {
         $data = [System.IO.File]::ReadAllBytes($f.Path)
         $name = [System.Text.Encoding]::UTF8.GetBytes($f.Name)
-        $crc = [uint32]::MaxValue
-        foreach ($v in $data) { $crc = $PngCrcTable[($crc -bxor $v) -band 0xFF] -bxor ($crc -shr 8) }
-        $crc = $crc -bxor [uint32]::MaxValue
+        $crc = Get-Crc32 $data
         $offset = $out.Position
         $common = [byte[]](@(& $le16 20) + @(& $le16 0x0800) + @(& $le16 0) + @(& $le16 0) + @(& $le16 $date) +
             @(& $le32 $crc) + @(& $le32 $data.Length) + @(& $le32 $data.Length) + @(& $le16 $name.Length) + @(& $le16 0))
@@ -122,6 +129,71 @@ function New-StoredZip {
         @(& $le32 $cd.Length) + @(& $le32 $start) + @(& $le16 0))
     $out.Write($end, 0, $end.Length)
     return $out.ToArray()
+}
+
+# The path without its suffix: 'media/divider.svg.ornament' less '.ornament'.
+function Remove-Suffix([string]$Path, [string]$Suffix) { return $Path.Substring(0, $Path.Length - $Suffix.Length) }
+
+# The path of one ornament in assets/ornaments/, by file name, such as 'divider.svg'.
+function Get-OrnamentPath([string]$Dir, [string]$Name, [string]$Source, [string]$Form) {
+    $from = Join-Path $Dir $Name
+    if ($Name -notmatch '^[A-Za-z0-9_.-]+$' -or -not (Test-Path -LiteralPath $from -PathType Leaf)) {
+        throw "${Source}: $Form names an ornament, and '$Name' is not in assets/ornaments/."
+    }
+    return $from
+}
+
+# A .png.svg's {{ornament:<file>}}: the shapes inside that ornament's <svg>
+# element, so the template's own <svg> sets the size and the color.
+$OrnamentReference = '\{\{\s*ornament:([^}\s]*)\s*\}\}'
+function Expand-OrnamentReference([string]$Text, [string]$Dir, [string]$Source) {
+    return [regex]::Replace($Text, $OrnamentReference, {
+        param($m)
+        $path = Get-OrnamentPath $Dir $m.Groups[1].Value $Source '{{ornament:<file>}}'
+        $svg = [System.IO.File]::ReadAllText($path)
+        $inner = [regex]::Match($svg, '(?s)<svg\b[^>]*>(.*)</svg>')
+        if (-not $inner.Success) { throw "${Source}: assets/ornaments/$($m.Groups[1].Value) is not an <svg> element." }
+        return $inner.Groups[1].Value
+    })
+}
+
+# What the build makes of a template file, by the end of its built name. Each
+# handler takes the file's context ($c: Target, Tpl, Source, OrnamentDir, and the
+# Palette, Variant and port Values that Expand-Kind fills placeholders from) and returns the files to write, as
+# path = text or bytes. A file that ends in none of these is written as rendered.
+function Expand-Kind($c, [string]$Text) {
+    return Expand-Template -Text $Text -Palette $c.Palette -Variant $c.Variant -PortValues $c.Values -Source $c.Source
+}
+
+$TemplateKinds = [ordered]@{
+    # The file name of one ornament, such as 'divider.svg', becomes <name>, a copy of it.
+    '.ornament' = {
+        param($c)
+        $from = Get-OrnamentPath $c.OrnamentDir $c.Tpl.Text.Trim() $c.Source 'a .ornament'
+        [ordered]@{ (Remove-Suffix $c.Target '.ornament') = [System.IO.File]::ReadAllBytes($from) }
+    }
+    # One color placeholder and an optional size, such as '{{accent|wash}} 8x8', becomes <name>.png of that color.
+    '.png.fill' = {
+        param($c)
+        $m = [regex]::Match((Expand-Kind $c $c.Tpl.Text).Trim(), '^(#[0-9a-fA-F]{6})(?:\s+(\d+)x(\d+))?$')
+        if (-not $m.Success) { throw "$($c.Source): a .png.fill holds one color placeholder and an optional size, such as '{{accent|wash}} 8x8'." }
+        $size = if ($m.Groups[2].Success) { @([int]$m.Groups[2].Value, [int]$m.Groups[3].Value) } else { @(1, 1) }
+        [ordered]@{ (Remove-Suffix $c.Target '.fill') = (New-SolidPng -Hex $m.Groups[1].Value -Width $size[0] -Height $size[1]) }
+    }
+    # An SVG with color placeholders and {{ornament:<file>}}, such as an ornament in
+    # color="{{oxblood}}", becomes <name>.png at its own width and height.
+    '.png.svg' = {
+        param($c)
+        $svg = Expand-Kind $c (Expand-OrnamentReference -Text $c.Tpl.Text -Dir $c.OrnamentDir -Source $c.Source)
+        [ordered]@{ (Remove-Suffix $c.Target '.svg') = (ConvertTo-SvgPng -Svg $svg -Source $c.Source) }
+    }
+    # A shell-variable tool: one .env becomes a .sh and a .ps1.
+    '.env' = {
+        param($c)
+        $shell = ConvertFrom-EnvText -Text (Expand-Kind $c $c.Tpl.Text) -Source $c.Source
+        $stem = Remove-Suffix $c.Target '.env'
+        [ordered]@{ "$stem.sh" = $shell.sh; "$stem.ps1" = $shell.ps1 }
+    }
 }
 
 function Write-PortFiles {
@@ -148,46 +220,12 @@ function Write-PortFiles {
             if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
             $tpl = Read-TemplateFile -Path $file.FullName
             if ($tpl.Binary) { [System.IO.File]::WriteAllBytes($target, $tpl.Bytes); $count++; continue }
-            if ($target -like '*.ornament') {
-                # An ornament: the file name of one in assets/ornaments/, such as
-                # 'divider.svg', becomes <name> without .ornament, copied as it is.
-                $ornament = $tpl.Text.Trim()
-                $from = Join-Path $ornamentDir $ornament
-                if ($ornament -notmatch '^[A-Za-z0-9_.-]+$' -or -not (Test-Path -LiteralPath $from -PathType Leaf)) {
-                    throw "${source}: a .ornament holds the file name of an ornament, and '$ornament' is not in assets/ornaments/."
-                }
-                [System.IO.File]::WriteAllBytes($target.Substring(0, $target.Length - 9), [System.IO.File]::ReadAllBytes($from))
-                $count++
-                continue
-            }
-            $text = Expand-Template -Text $tpl.Text -Palette $Palette -Variant $variant -PortValues $values -Source $source
-            if ($target -like '*.png.fill') {
-                # A solid image: one color placeholder and an optional size, such as
-                # '{{accent|wash}} 8x8', becomes <name>.png of that color.
-                $m = [regex]::Match($text.Trim(), '^(#[0-9a-fA-F]{6})(?:\s+(\d+)x(\d+))?$')
-                if (-not $m.Success) { throw "${source}: a .png.fill holds one color placeholder and an optional size, such as '{{accent|wash}} 8x8'." }
-                $size = if ($m.Groups[2].Success) { @([int]$m.Groups[2].Value, [int]$m.Groups[3].Value) } else { @(1, 1) }
-                $png = New-SolidPng -Hex $m.Groups[1].Value -Width $size[0] -Height $size[1]
-                [System.IO.File]::WriteAllBytes($target.Substring(0, $target.Length - 5), $png)
-                $count++
-                continue
-            }
-            if ($target -like '*.png.svg') {
-                # An SVG with color placeholders, such as an ornament with
-                # color="{{oxblood}}", becomes <name>.png at its own width and height.
-                [System.IO.File]::WriteAllBytes($target.Substring(0, $target.Length - 4), (ConvertTo-SvgPng -Svg $text -Source $source))
-                $count++
-                continue
-            }
-            $outputs = [ordered]@{ $target = $text }
-            if ($target -like '*.env') {
-                # A shell-variable tool: one .env becomes a .sh and a .ps1.
-                $shell = ConvertFrom-EnvText -Text $text -Source $source
-                $stem = $target.Substring(0, $target.Length - 4)
-                $outputs = [ordered]@{ "$stem.sh" = $shell.sh; "$stem.ps1" = $shell.ps1 }
-            }
+            $c = @{ Target = $target; Tpl = $tpl; Source = $source; OrnamentDir = $ornamentDir; Palette = $Palette; Variant = $variant; Values = $values }
+            $kind = @($TemplateKinds.Keys | Where-Object { $target -like "*$_" }) | Select-Object -First 1
+            $outputs = if ($kind) { & $TemplateKinds[$kind] $c } else { [ordered]@{ $target = (Expand-Kind $c $tpl.Text) } }
             foreach ($out in $outputs.Keys) {
-                $bytes = [byte[]](@($tpl.Encoding.GetPreamble()) + @($tpl.Encoding.GetBytes($outputs[$out])))
+                $data = $outputs[$out]
+                $bytes = if ($data -is [string]) { [byte[]](@($tpl.Encoding.GetPreamble()) + @($tpl.Encoding.GetBytes($data))) } else { [byte[]]$data }
                 [System.IO.File]::WriteAllBytes($out, $bytes)
                 $count++
             }
@@ -200,8 +238,9 @@ function Write-PortFiles {
             $inside = @(Get-ChildItem -Path $pack.FullName -Recurse -File -Force).Count
             $zip = New-StoredZip -Dir $pack.FullName
             Remove-Item -Path $pack.FullName -Recurse -Force
-            [System.IO.File]::WriteAllBytes($pack.FullName.Substring(0, $pack.FullName.Length - 4), $zip)
-            $count += 1 - $inside
+            [System.IO.File]::WriteAllBytes((Remove-Suffix $pack.FullName '.zip'), $zip)
+            # The one archive replaces the files inside it, which were counted as written.
+            $count = $count - $inside + 1
         }
     }
     return $count
