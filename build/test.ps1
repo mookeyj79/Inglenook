@@ -1140,7 +1140,7 @@ Test 'Photographer: pins become the base image''s build arguments, and loose pin
     $built = Get-BaseBuildArgs -Path $path
     Assert-Equal @("BASE=example/mint@sha256:$('a' * 64)", 'UBUNTU_SNAPSHOT=20261124T000000Z', 'MINT_PACKAGES=cinnamon=6.6.9+zena nemo=6.6.3+zena',
         'FONT_URL=https://example.invalid/font.zip', "FONT_SHA256=$('b' * 64)", 'CHROMIUM_VERSION=158.0.8127.88~linuxmint1+mint22.3',
-        'RESVG_URL=https://example.invalid/resvg.tar.gz', "RESVG_SHA256=$('c' * 64)") $built 'build args'
+        'RESVG_URL=https://example.invalid/resvg.tar.gz', "RESVG_SHA256=$('c' * 64)", 'RESVG_VERSION=0.45.1') $built 'build args'
     $pins.base = 'example/mint:latest'; $pins.ubuntu_snapshot = 'yesterday'; $pins.mint_packages = @{ cinnamon = '' }; $pins.font.sha256 = 'x'; $pins.chromium = 'latest version'; $pins.resvg.version = 'latest'
     ConvertTo-Json $pins -Depth 4 | Set-Content $path
     Assert-Throws { Get-BaseBuildArgs -Path $path } '*base must name an image by digest*ubuntu_snapshot*mint_packages*font*chromium*resvg*'

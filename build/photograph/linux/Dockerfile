@@ -27,12 +27,12 @@ RUN mkdir -p /usr/share/fonts/nerd \
     && rm /tmp/f.zip && fc-cache -f
 
 # resvg, which renders the build's .png.svg templates, checked against its pinned hash.
+# The same script CI installs it with.
 ARG RESVG_URL
 ARG RESVG_SHA256
-RUN curl -fsSL -o /tmp/resvg.tar.gz "${RESVG_URL}" \
-    && echo "${RESVG_SHA256}  /tmp/resvg.tar.gz" | sha256sum -c - \
-    && tar -xzf /tmp/resvg.tar.gz -C /usr/local/bin resvg \
-    && rm /tmp/resvg.tar.gz
+ARG RESVG_VERSION
+COPY install-resvg.sh /tmp/install-resvg.sh
+RUN bash /tmp/install-resvg.sh "${RESVG_URL}" "${RESVG_SHA256}" "${RESVG_VERSION}" && rm /tmp/install-resvg.sh
 
 # Lossless PNG optimization for the shots.
 RUN apt-get install -y --no-install-recommends optipng

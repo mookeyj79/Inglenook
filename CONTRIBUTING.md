@@ -37,7 +37,7 @@ Ports/<app_name>/screenshot.json  the recipe the Photographer shoots the port wi
 Ports/<app_name>/screenshots/ day.png and night.png, from the real app
 Ports/preview/                the preview site and the ports page
 build/                        turns palette + templates into dist, runs the checks
-build/photograph/             the Photographer's pins, base image, and scenes
+build/photograph/             the Photographer's pins (pins.json also pins the build's resvg), base image, and scenes
 wallpapers/                   optional images, with credits
 docs/adr/                     recorded decisions and why
 PHILOSOPHY.md                 the design rules
