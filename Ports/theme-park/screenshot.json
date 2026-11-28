@@ -1,0 +1,21 @@
+{
+  "kind": "web",
+  "platform": "linux",
+  "version": "2.63.23",
+  "install": [
+    "curl -fsSL -o /tmp/fb.tar.gz \"https://github.com/filebrowser/filebrowser/releases/download/v$INGLENOOK_VERSION/linux-amd64-filebrowser.tar.gz\" && echo 'b14db2bb8033caa3f80205eb6578b2ed0744ebd9e716b790bc4a9703ce909e88  /tmp/fb.tar.gz' | sha256sum -c - && tar -xzf /tmp/fb.tar.gz -C /usr/local/bin filebrowser && rm /tmp/fb.tar.gz",
+    "mkdir -p /opt/theme-park && curl -fsSL -o /opt/theme-park/filebrowser-base.css 'https://raw.githubusercontent.com/themepark-dev/theme.park/edfecadae702072e90920dbcf3bb2b6e8475bab2/css/base/filebrowser/filebrowser-base.css' && echo '81753789e69c98119436d3b2e2e4979e0ea249d6966038a5fd03e73181d3fee3  /opt/theme-park/filebrowser-base.css' | sha256sum -c -"
+  ],
+  "apply": [
+    "cat /opt/theme-park/filebrowser-base.css \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/\"*.css > ~/theme-park-custom.css"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/theme-park/stage.sh\" ~/theme-park-custom.css"
+  ],
+  "launch": [
+    "bash \"$INGLENOOK_SCENE/theme-park/serve.sh\""
+  ],
+  "window": {
+    "title": "File Browser"
+  }
+}

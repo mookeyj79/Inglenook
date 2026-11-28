@@ -73,6 +73,12 @@ $siteOut = Join-Path $Out 'Ports' $site.Name
 New-Item -ItemType Directory -Path $siteOut -Force | Out-Null
 foreach ($part in $site.Site['copy']) { Copy-Item -Path (Join-Path $site.Dir $part) -Destination $siteOut -Recurse }
 if (Test-Path (Join-Path $RepoRoot 'wallpapers')) { Copy-Item -Path (Join-Path $RepoRoot 'wallpapers') -Destination $Out -Recurse }
+# The ornaments the pages draw (base.css masks them in a palette color).
+$ornaments = Join-Path $RepoRoot 'assets' 'ornaments'
+if (Test-Path $ornaments) {
+    New-Item -ItemType Directory -Path (Join-Path $Out 'assets') -Force | Out-Null
+    Copy-Item -Path $ornaments -Destination (Join-Path $Out 'assets') -Recurse
+}
 foreach ($p in $catalog.Ports | Where-Object Icon) {
     $iconOut = Join-Path $Out 'Ports' $p.Name
     New-Item -ItemType Directory -Path $iconOut -Force | Out-Null

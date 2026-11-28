@@ -1,0 +1,22 @@
+{
+  "name": "insomnia-plugin-inglenook-day",
+  "version": "0.1.0",
+  "description": "Inglenook Day color theme for Insomnia, part of Inglenook: a cozy, soothing theme for the tools you spend all day in.",
+  "main": "theme.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mookeyj79/Inglenook"
+  },
+  "keywords": [
+    "insomnia",
+    "insomnia-plugin",
+    "theme",
+    "light"
+  ],
+  "insomnia": {
+    "name": "inglenook-day",
+    "displayName": "Inglenook Day",
+    "description": "Inglenook Day color theme, part of Inglenook."
+  }
+}

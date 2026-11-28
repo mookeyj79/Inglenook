@@ -1,0 +1,6 @@
+- greeting:
+    text_size: xl
+    text: Good evening by the fire
+- search:
+    provider: duckduckgo
+    target: _blank

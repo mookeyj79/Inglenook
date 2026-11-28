@@ -1,0 +1,10 @@
+{
+  "name": "Vim",
+  "category": "editor",
+  "tier": 1,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}
