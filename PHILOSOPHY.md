@@ -241,3 +241,4 @@ Every palette change rebuilds every port. CI fails if any committed output does 
 - **Search matches.** A steel wash for every match, firelight for the one at the cursor. See [ADR 0009](docs/adr/0009-matches-are-steel-the-current-match-is-firelight.md).
 - **Pending screenshots.** A port with hand-taken shots may ship before they are taken, marked on its card. See [ADR 0011](docs/adr/0011-hand-shot-ports-may-ship-before-their-shots.md).
 - **Ornaments.** Only in packaged themes and on the preview site, never in a hand-installed one. See [ADR 0010](docs/adr/0010-ornaments-only-in-packaged-themes.md).
+- **Applying the theme.** The user installs each port and picks Day or Night by hand. Neither Inglenook nor Nowhere applies or switches the theme. See [ADR 0012](docs/adr/0012-the-user-applies-the-theme.md).
