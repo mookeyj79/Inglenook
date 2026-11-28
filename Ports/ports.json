@@ -118,15 +118,6 @@
       ]
     },
     {
-      "folder": "mod-organizer-2",
-      "name": "Mod Organizer 2",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
       "folder": "startallback",
       "name": "StartAllBack",
       "category": "system",
