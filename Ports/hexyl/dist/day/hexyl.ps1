@@ -1,6 +1,6 @@
 # Inglenook for hexyl: Inglenook Day.
 # Source this from your profile. Needs hexyl 0.17 or newer.
-# Palette 0.1.1, https://github.com/mookeyj79/Inglenook
+# Palette 1.0.0, https://github.com/mookeyj79/Inglenook
 
 # The offset column on the left.
 $env:HEXYL_COLOR_OFFSET = '#657178'

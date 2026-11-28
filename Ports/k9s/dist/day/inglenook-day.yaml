@@ -1,4 +1,4 @@
-# Inglenook Day for K9s, from Inglenook 0.1.1: https://github.com/mookeyj79/Inglenook
+# Inglenook Day for K9s, from Inglenook 1.0.0: https://github.com/mookeyj79/Inglenook
 # Save it in K9s's skins folder and set k9s.ui.skin: inglenook-day in config.yaml.
 #
 # The layout and keys of this file are adapted from Catppuccin for k9s

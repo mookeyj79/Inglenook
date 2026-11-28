@@ -1,4 +1,4 @@
-# Inglenook for GRUB: Inglenook Day, palette 0.1.1.
+# Inglenook for GRUB: Inglenook Day, palette 1.0.0.
 # https://github.com/mookeyj79/Inglenook
 # Format: GRUB manual, "Theme file format".
 #

@@ -1,4 +1,4 @@
-# Inglenook Day for GNU Screen 4, from Inglenook 0.1.1.
+# Inglenook Day for GNU Screen 4, from Inglenook 1.0.0.
 # Save as ~/.config/inglenook/screenrc and add this line to ~/.screenrc:
 #   source ~/.config/inglenook/screenrc
 # The color letters are terminal colors: set your terminal to Inglenook Day too.

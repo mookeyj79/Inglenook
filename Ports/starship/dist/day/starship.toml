@@ -1,7 +1,7 @@
 # Inglenook for Starship: Inglenook Day.
 # A whole starship.toml: the Nowhere prompt layout, colored from the palette
 # table at the end. Use it as your config, or copy the palette line and the
-# [palettes] table into your own. Palette 0.1.1, https://github.com/mookeyj79/Inglenook
+# [palettes] table into your own. Palette 1.0.0, https://github.com/mookeyj79/Inglenook
 # Docs: https://starship.rs/config/
 
 "$schema" = 'https://starship.rs/config-schema.json'

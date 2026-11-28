@@ -1,5 +1,5 @@
 # Inglenook for PowerShell $PSStyle: Inglenook Day.
-# Source this from your PowerShell profile ($PROFILE). Palette 0.1.1, https://github.com/mookeyj79/Inglenook
+# Source this from your PowerShell profile ($PROFILE). Palette 1.0.0, https://github.com/mookeyj79/Inglenook
 # Colors what PowerShell formats itself: errors, warnings, verbose and debug messages,
 # table headers and list labels, progress bars, and file names from Get-ChildItem.
 # Needs PowerShell 7.4 or later; older versions skip it.
