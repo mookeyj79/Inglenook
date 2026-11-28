@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!-- Inglenook Night window borders for Marco (MATE), Muffin (Cinnamon) and Metacity.
-     Inglenook 0.1.1, https://github.com/mookeyj79/Inglenook
+     Inglenook 1.0.0, https://github.com/mookeyj79/Inglenook
      Generated from the palette. Solid colors only: no gradients, no images, no shadows. -->
 <metacity_theme>
   <info>
     <name>Inglenook Night</name>
     <author>Inglenook contributors</author>
     <copyright>MIT License</copyright>
-    <date>0.1.1</date>
+    <date>1.0.0</date>
     <description>Inglenook Night window borders.</description>
   </info>
 

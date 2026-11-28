@@ -1,4 +1,4 @@
-# Inglenook Night for Ghidra, from Inglenook 0.1.1 (https://github.com/mookeyj79/Inglenook)
+# Inglenook Night for Ghidra, from Inglenook 1.0.0 (https://github.com/mookeyj79/Inglenook)
 # Import with Edit > Theme > Import... in the Ghidra project window.
 name = Inglenook Night
 lookAndFeel = Flat Dark

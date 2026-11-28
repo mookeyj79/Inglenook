@@ -1,6 +1,6 @@
 {
   "name": "insomnia-plugin-inglenook-night",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Inglenook Night color theme for Insomnia, part of Inglenook: a cozy, soothing theme for the tools you spend all day in.",
   "main": "theme.js",
   "license": "MIT",

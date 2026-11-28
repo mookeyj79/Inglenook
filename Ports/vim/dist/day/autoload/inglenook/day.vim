@@ -1,7 +1,7 @@
 " Inglenook Day for Vim: the highlight groups of one variant.
 " colors/inglenook.vim calls inglenook#day#load() when 'background' is light.
 " Use it through :colorscheme inglenook, not on its own.
-" Inglenook 0.1.1, https://github.com/mookeyj79/Inglenook
+" Inglenook 1.0.0, https://github.com/mookeyj79/Inglenook
 
 " Each color by name, for gVim and for 'termguicolors'.
 let s:gui = {
