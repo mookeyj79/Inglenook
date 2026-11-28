@@ -89,6 +89,41 @@ function ConvertTo-SvgPng {
     finally { Remove-Item -Path $tmp -Recurse -Force }
 }
 
+# A ZIP archive of a folder's files, stored (not compressed), sorted by path,
+# dated 1980-01-01, so the same files always give the same bytes on every
+# machine. For apps whose theme is one archive (Telegram's .tdesktop-theme).
+function New-StoredZip {
+    param([Parameter(Mandatory)][string]$Dir)
+    $files = @(Get-ChildItem -Path $Dir -Recurse -File -Force | ForEach-Object {
+        @{ Name = ([System.IO.Path]::GetRelativePath($Dir, $_.FullName) -replace '\\', '/'); Path = $_.FullName }
+    } | Sort-Object { $_.Name } -Culture '')
+    $out = [System.IO.MemoryStream]::new()
+    $central = [System.IO.MemoryStream]::new()
+    $le16 = { param($v) [BitConverter]::GetBytes([uint16]$v) }
+    $le32 = { param($v) [BitConverter]::GetBytes([uint32]$v) }
+    $date = 33  # 1980-01-01 in DOS date form; time 0
+    foreach ($f in $files) {
+        $data = [System.IO.File]::ReadAllBytes($f.Path)
+        $name = [System.Text.Encoding]::UTF8.GetBytes($f.Name)
+        $crc = [uint32]::MaxValue
+        foreach ($v in $data) { $crc = $PngCrcTable[($crc -bxor $v) -band 0xFF] -bxor ($crc -shr 8) }
+        $crc = $crc -bxor [uint32]::MaxValue
+        $offset = $out.Position
+        $common = [byte[]](@(& $le16 20) + @(& $le16 0x0800) + @(& $le16 0) + @(& $le16 0) + @(& $le16 $date) +
+            @(& $le32 $crc) + @(& $le32 $data.Length) + @(& $le32 $data.Length) + @(& $le16 $name.Length) + @(& $le16 0))
+        foreach ($b in @([byte[]](0x50, 0x4B, 3, 4), $common, $name, $data)) { $out.Write($b, 0, $b.Length) }
+        $entry = [byte[]](@(0x50, 0x4B, 1, 2) + @(& $le16 20) + @($common) + @(& $le16 0) + @(& $le16 0) + @(& $le16 0) + @(& $le32 0) + @(& $le32 $offset))
+        foreach ($b in @($entry, $name)) { $central.Write($b, 0, $b.Length) }
+    }
+    $cd = $central.ToArray()
+    $start = $out.Position
+    $out.Write($cd, 0, $cd.Length)
+    $end = [byte[]](@(0x50, 0x4B, 5, 6) + @(& $le16 0) + @(& $le16 0) + @(& $le16 $files.Count) + @(& $le16 $files.Count) +
+        @(& $le32 $cd.Length) + @(& $le32 $start) + @(& $le16 0))
+    $out.Write($end, 0, $end.Length)
+    return $out.ToArray()
+}
+
 function Write-PortFiles {
     # Renders the port into $OutRoot/<variant>/, replacing what is there.
     # Returns the number of files written. Throws on a bad placeholder.
@@ -142,6 +177,17 @@ function Write-PortFiles {
                 [System.IO.File]::WriteAllBytes($out, $bytes)
                 $count++
             }
+        }
+        # A folder named <name>.zip, such as {{variant.slug}}.tdesktop-theme.zip/,
+        # becomes the ZIP archive <name> of its built files.
+        $packs = @(Get-ChildItem -Path $outDir -Recurse -Directory -Force | Where-Object Name -like '*.zip' |
+            Sort-Object { $_.FullName.Length } -Descending)
+        foreach ($pack in $packs) {
+            $inside = @(Get-ChildItem -Path $pack.FullName -Recurse -File -Force).Count
+            $zip = New-StoredZip -Dir $pack.FullName
+            Remove-Item -Path $pack.FullName -Recurse -Force
+            [System.IO.File]::WriteAllBytes($pack.FullName.Substring(0, $pack.FullName.Length - 4), $zip)
+            $count += 1 - $inside
         }
     }
     return $count

@@ -116,6 +116,8 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 
    An app that takes only raster images, where an ornament from `assets/ornaments/` belongs (ADR 0010), gets it as a PNG from a template `<name>.png.svg`: an SVG with its size in pixels on the `<svg>` element and its color from a placeholder, such as `<svg width="32" height="32" viewBox="..." color="{{oxblood}}">` around shapes filled with `currentColor`. The build renders it with resvg into `<name>.png`, clear where the SVG draws nothing.
 
+   An app whose theme is one ZIP archive (Telegram's `.tdesktop-theme`) gets it from a template folder `<name>.zip/`: the build renders the folder's files as usual, then packs them into the archive `<name>`, stored and dated so the same files always give the same bytes.
+
 5. **Build and check**:
 
    ```sh
