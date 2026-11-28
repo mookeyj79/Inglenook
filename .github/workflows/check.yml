@@ -12,6 +12,10 @@ jobs:
       - uses: actions/checkout@v7
       - name: Install zsh, for checking shell files
         run: sudo apt-get update -q && sudo apt-get install -y -q zsh
+      - name: Install resvg, for .png.svg templates (pinned in build/photograph/pins.json)
+        run: |
+          pins=build/photograph/pins.json
+          sudo bash build/photograph/linux/install-resvg.sh "$(jq -r .resvg.url $pins)" "$(jq -r .resvg.sha256 $pins)" "$(jq -r .resvg.version $pins)"
       - name: Test the build modules
         shell: pwsh
         run: ./build/test.ps1

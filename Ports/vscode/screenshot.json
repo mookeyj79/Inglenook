@@ -18,6 +18,7 @@
   ],
   "stage": [
     "bash \"$INGLENOOK_SCENE/prepare.sh\"",
+    "bash \"$INGLENOOK_SCENE/vscode/stage.sh\"",
     "s=\"$HOME/.config/Code/User/settings.json\"; jq '. + {\"update.mode\": \"none\", \"extensions.autoUpdate\": false, \"extensions.autoCheckUpdates\": false, \"extensions.ignoreRecommendations\": true, \"telemetry.telemetryLevel\": \"off\", \"workbench.enableExperiments\": false, \"workbench.startupEditor\": \"none\", \"workbench.tips.enabled\": false, \"security.workspace.trust.enabled\": false, \"chat.disableAIFeatures\": true, \"workbench.secondarySideBar.defaultVisibility\": \"hidden\", \"git.autofetch\": false, \"editor.cursorBlinking\": \"solid\", \"editor.fontSize\": 16}' \"$s\" > \"$s.new\" && mv \"$s.new\" \"$s\""
   ],
   "launch": [

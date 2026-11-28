@@ -10,5 +10,10 @@
   "runners": {
     "linux": "ubuntu-24.04",
     "windows": "windows-2025"
+  },
+  "resvg": {
+    "version": "0.45.1",
+    "url": "https://github.com/linebender/resvg/releases/download/v0.45.1/resvg-linux-x86_64.tar.gz",
+    "sha256": "3c1d52850a78bc4ed0e9d05605b53ad21bb5313184f14bf72515d29cb98cda10"
   }
 }

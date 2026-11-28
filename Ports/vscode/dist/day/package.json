@@ -21,6 +21,9 @@
     "light"
   ],
   "contributes": {
+    "markdown.previewStyles": [
+      "./media/markdown.css"
+    ],
     "themes": [
       {
         "label": "Inglenook Day",

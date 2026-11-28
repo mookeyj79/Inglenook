@@ -4,7 +4,7 @@
 **Variants:** Inglenook Day, Inglenook Night\
 **Tested with:** Not tested yet
 
-Each variant is one palette file that Telegram Desktop opens as a theme. There is nothing to unzip or build.
+Each variant is one theme file that Telegram Desktop opens as a whole: the colors and a patterned chat wallpaper. There is nothing to unzip or build.
 
 ## Before you start
 
@@ -19,24 +19,17 @@ Telegram keeps one theme for day mode and one for night mode. Install Day first,
 2. In Telegram, open the main menu (the three lines at the top left). If **Night Mode** is on, turn it off.
 3. Open **Settings** > **Chat Settings**.
 4. Under **Chat wallpaper**, click **Choose from file**.
-5. Pick `Ports/telegram/dist/day/inglenook-day.tdesktop-palette`. Telegram previews the theme.
+5. Pick `Ports/telegram/dist/day/inglenook-day.tdesktop-theme`. Telegram previews the theme and its chat wallpaper.
 6. Click **Keep changes**.
 7. Open the main menu and turn on **Night Mode**.
-8. Do steps 3 to 6 again with `Ports/telegram/dist/night/inglenook-night.tdesktop-palette`.
-
-Then give each variant its solid chat wallpaper:
-
-9. Open the palette file of the variant you are in with a text editor. The fifth line is a link that starts with `https://t.me/bg/`.
-10. Paste that link into **Saved Messages** in Telegram and send it.
-11. Click the link. Telegram shows a wallpaper preview. Click **Apply**.
-12. Switch **Night Mode** and repeat steps 9 to 11 with the other file.
+8. Do steps 3 to 6 again with `Ports/telegram/dist/night/inglenook-night.tdesktop-theme`.
 
 Files to use:
 
-- Inglenook Day: `dist/day/inglenook-day.tdesktop-palette`
-- Inglenook Night: `dist/night/inglenook-night.tdesktop-palette`
+- Inglenook Day: `dist/day/inglenook-day.tdesktop-theme`
+- Inglenook Night: `dist/night/inglenook-night.tdesktop-theme`
 
-You can also send a palette file to Saved Messages and click it in the chat to apply it.
+You can also send a theme file to Saved Messages and click it in the chat to apply it.
 
 ## Set the font
 
@@ -47,7 +40,7 @@ Inglenook uses [IBM Plex Mono](https://github.com/IBM/plex). Telegram shows no f
 
 ## Check that it worked
 
-The chat list turns a soft neutral, the open chat is marked in a warm amber, and links and the send button are the same amber.
+The chat list turns a soft neutral, the chat background shows a faint deep-red damask pattern, the open chat is marked in a warm amber, and links and the send button are the same amber.
 
 ## Switch between Day and Night
 
@@ -65,12 +58,11 @@ To follow your system's light or dark setting, open **Settings** > **Chat Settin
 
 - **Choose from file does not list the file**: set the file dialog to **Theme files**, or pick **All files**.
 - **Only one variant changes**: Telegram keeps a theme per mode. Turn on **Night Mode** and apply the Night file while it is on.
-- **The chat background is a pattern**: the wallpaper link (steps 9 to 11) was not applied for this mode.
+- **The chat background is not the damask pattern**: another wallpaper was picked after the theme. Apply the theme file again with **Choose from file**.
 
 ## Known limits
 
-- The chat wallpaper is set separately, from the link in each file. Without it, Telegram keeps its own patterned wallpaper.
-- Telegram tints date pills, service messages and the chat scroll bar slightly toward the wallpaper.
+- If you pick a different chat wallpaper, Telegram tints date pills, service messages and the chat scroll bar slightly toward it.
 - The fade behind dialogs and menus is solid, so the window behind them is hidden while they are open.
 - Buttons and icons that Telegram draws as gradients, such as Premium, are one solid color.
 - On macOS, the unread counter in the menu bar keeps Telegram's own colors.
@@ -80,4 +72,4 @@ To follow your system's light or dark setting, open **Settings** > **Chat Settin
 - [Telegram Desktop source: theme file reading and applying](https://github.com/telegramdesktop/tdesktop/blob/dev/Telegram/SourceFiles/window/themes/window_theme.cpp)
 - [Telegram Desktop source: Choose from file in Chat Settings](https://github.com/telegramdesktop/tdesktop/blob/dev/Telegram/SourceFiles/settings/sections/settings_chat.cpp)
 - [Telegram's list of theme colors (`colors.palette`)](https://github.com/desktop-app/lib_ui/blob/master/ui/colors.palette)
-- [Telegram wallpaper links](https://core.telegram.org/api/links#wallpaper-links)
+- [Telegram Desktop Theme Reference](https://github.com/telegramdesktop/tdesktop/wiki/Theme-Reference)
