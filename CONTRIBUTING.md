@@ -112,6 +112,8 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 
    `check.ps1` parses every shell file and sources it in a fresh shell, which must print nothing: `.sh` in bash and zsh, `.zsh` in zsh, `.ps1` in PowerShell. A script that starts with a shebang (`#!`), such as an install script the reader runs, is only parsed, by the shell its shebang names. A shell that is not installed is a warning locally; CI checks them all. `build/lib/Shell.psm1` holds these rules.
 
+   **Apps whose themes take images** (GRUB's styled boxes) get solid images from the build, never a committed image with colors in it. A template `<name>.png.fill` holds one color placeholder and an optional size, such as `{{accent|wash}} 8x8`, and builds into `<name>.png`, a solid image of that color (1x1 when no size is given).
+
 5. **Build and check**:
 
    ```sh

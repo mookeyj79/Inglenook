@@ -89,15 +89,6 @@
   ],
   "planned": [
     {
-      "folder": "grub",
-      "name": "GRUB",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
       "folder": "startallback",
       "name": "StartAllBack",
       "category": "system",
