@@ -1,0 +1,5 @@
+{
+  "kind": "web",
+  "platform": "linux",
+  "manual": "Slack requires signing in to a workspace before it shows the themed window, and a login never goes in a recipe."
+}

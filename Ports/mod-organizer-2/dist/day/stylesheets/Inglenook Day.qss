@@ -1,0 +1,506 @@
+/* mo2-base-style: Fusion */
+/* Inglenook Day for Mod Organizer 2. Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook */
+
+/* Base: every widget is solid, with the theme font. */
+QWidget {
+  background-color: #e9ebe5;
+  color: #2d373f;
+  font-family: "IBM Plex Mono";
+  selection-background-color: #e3dbc8;
+  selection-color: #2d373f;
+}
+
+QWidget:disabled {
+  color: #657178;
+}
+
+QMainWindow,
+QDialog {
+  background-color: #e9ebe5;
+}
+
+QMainWindow::separator,
+QSplitter::handle {
+  background-color: #e9ebe5;
+}
+
+QMainWindow::separator:hover,
+QSplitter::handle:hover {
+  background-color: #9b5a00;
+}
+
+/* Menu bar, tool bar, status bar: the frame. */
+QMenuBar {
+  background-color: #e0e2dc;
+  color: #2d373f;
+}
+
+QMenuBar::item {
+  background-color: #e0e2dc;
+  padding: 4px 10px;
+}
+
+QMenuBar::item:selected,
+QMenuBar::item:pressed {
+  background-color: #dbded6;
+}
+
+QToolBar {
+  background-color: #e0e2dc;
+  border: none;
+  spacing: 2px;
+}
+
+QToolBar::separator {
+  background-color: #cfd2cb;
+  width: 1px;
+  height: 1px;
+  margin: 4px;
+}
+
+QToolBar QToolButton {
+  background-color: #e0e2dc;
+  border: 1px solid #e0e2dc;
+  padding: 4px;
+  margin: 2px;
+}
+
+QToolBar QToolButton:hover,
+QToolBar QToolButton:pressed {
+  background-color: #dbded6;
+  border-color: #dbded6;
+}
+
+QToolBar QToolButton:focus {
+  border-color: #9b5a00;
+}
+
+QStatusBar {
+  background-color: #e0e2dc;
+  color: #49545d;
+}
+
+QStatusBar::item {
+  border: none;
+}
+
+QStatusBar QLabel {
+  background-color: #e0e2dc;
+  color: #49545d;
+}
+
+/* Menus, tooltips, and popups: raised. */
+QMenu {
+  background-color: #f9fbf8;
+  color: #2d373f;
+  border: 1px solid #cfd2cb;
+  padding: 2px;
+}
+
+QMenu::item {
+  background-color: #f9fbf8;
+  padding: 4px 24px 4px 20px;
+}
+
+QMenu::item:selected {
+  background-color: #dbded6;
+  color: #2d373f;
+}
+
+QMenu::item:disabled {
+  color: #657178;
+}
+
+QMenu::separator {
+  height: 1px;
+  background-color: #cfd2cb;
+  margin: 3px 8px;
+}
+
+QMenu QCheckBox,
+QMenu QRadioButton,
+QMenu QPushButton,
+QMenu QLabel {
+  background-color: #f9fbf8;
+  color: #2d373f;
+}
+
+QMenu QCheckBox:hover,
+QMenu QRadioButton:hover,
+QMenu QPushButton:hover {
+  background-color: #dbded6;
+}
+
+QToolTip,
+SaveGameInfoWidget {
+  background-color: #f9fbf8;
+  color: #2d373f;
+  border: 1px solid #cfd2cb;
+  padding: 3px;
+}
+
+SaveGameInfoWidget QLabel {
+  background-color: #f9fbf8;
+}
+
+/* Lists, trees, and tables: content on base. Only hover and selection set
+   an item background, so MO2's mod list highlight colors and separator
+   colors still show on every other row. */
+QAbstractItemView {
+  background-color: #f1f3ee;
+  alternate-background-color: #f9fbf8;
+  color: #2d373f;
+  border: 1px solid #cfd2cb;
+  selection-background-color: #e3dbc8;
+  selection-color: #2d373f;
+}
+
+QAbstractItemView:focus {
+  border-color: #9b5a00;
+}
+
+QAbstractItemView::item:hover {
+  background-color: #dbded6;
+  color: #2d373f;
+}
+
+QAbstractItemView::item:selected,
+QAbstractItemView::item:selected:hover,
+QAbstractItemView::item:selected:!active {
+  background-color: #e3dbc8;
+  color: #2d373f;
+}
+
+QAbstractItemView::item:disabled {
+  color: #657178;
+}
+
+/* MO2 sets "filtered" on a list while its filter box has text. */
+QAbstractItemView[filtered=true] {
+  border: 2px solid #706416;
+}
+
+QAbstractScrollArea::corner,
+QTableView QTableCornerButton::section {
+  background-color: #e9ebe5;
+  border: none;
+}
+
+QHeaderView {
+  background-color: #e9ebe5;
+  border: none;
+}
+
+QHeaderView::section {
+  background-color: #e9ebe5;
+  color: #49545d;
+  border: none;
+  border-right: 1px solid #cfd2cb;
+  border-bottom: 1px solid #cfd2cb;
+  padding: 3px 6px;
+}
+
+QHeaderView::section:hover {
+  background-color: #dbded6;
+  color: #2d373f;
+}
+
+QHeaderView::section:checked {
+  color: #2d373f;
+}
+
+/* Check boxes, in dialogs and in the mod, plugin, and archive lists. */
+QCheckBox,
+QRadioButton {
+  background-color: #e9ebe5;
+  spacing: 6px;
+}
+
+QCheckBox::indicator,
+QAbstractItemView::indicator,
+QGroupBox::indicator {
+  width: 12px;
+  height: 12px;
+  background-color: #f9fbf8;
+  border: 1px solid #49545d;
+}
+
+QRadioButton::indicator {
+  width: 12px;
+  height: 12px;
+  background-color: #f9fbf8;
+  border: 1px solid #49545d;
+  border-radius: 7px;
+}
+
+QCheckBox::indicator:hover,
+QRadioButton::indicator:hover,
+QAbstractItemView::indicator:hover,
+QGroupBox::indicator:hover {
+  border-color: #9b5a00;
+}
+
+QCheckBox::indicator:checked,
+QAbstractItemView::indicator:checked,
+QGroupBox::indicator:checked {
+  background-color: #9b5a00;
+  border-color: #9b5a00;
+  image: url(./inglenook-day/check.svg);
+}
+
+QCheckBox::indicator:indeterminate,
+QAbstractItemView::indicator:indeterminate {
+  background-color: #e3dbc8;
+  border-color: #9b5a00;
+}
+
+QRadioButton::indicator:checked {
+  background-color: #9b5a00;
+  border-color: #9b5a00;
+}
+
+QCheckBox::indicator:disabled,
+QRadioButton::indicator:disabled,
+QAbstractItemView::indicator:disabled {
+  background-color: #e9ebe5;
+  border-color: #cfd2cb;
+}
+
+/* Tabs: the open tab has a firelight underline. */
+QTabWidget::pane {
+  background-color: #e9ebe5;
+  border: 1px solid #cfd2cb;
+  top: -1px;
+}
+
+QTabBar {
+  background-color: #e9ebe5;
+}
+
+QTabBar::tab {
+  background-color: #e0e2dc;
+  color: #49545d;
+  border: 1px solid #cfd2cb;
+  border-bottom: 2px solid #e0e2dc;
+  padding: 4px 12px;
+  margin-right: -1px;
+}
+
+QTabBar::tab:hover {
+  background-color: #dbded6;
+  color: #2d373f;
+}
+
+QTabBar::tab:selected {
+  background-color: #e9ebe5;
+  color: #2d373f;
+  border-bottom: 2px solid #9b5a00;
+}
+
+QTabBar::tab:disabled {
+  color: #657178;
+}
+
+QTabBar QToolButton {
+  background-color: #e0e2dc;
+  border: 1px solid #cfd2cb;
+}
+
+/* Buttons. The default button in a dialog and the Run button are firelight. */
+QPushButton {
+  background-color: #f9fbf8;
+  color: #2d373f;
+  border: 1px solid #cfd2cb;
+  padding: 4px 12px;
+  min-height: 18px;
+}
+
+QPushButton:hover,
+QPushButton:pressed,
+QPushButton:checked {
+  background-color: #dbded6;
+}
+
+QPushButton:focus {
+  border-color: #9b5a00;
+}
+
+QPushButton:default,
+QPushButton#startButton {
+  background-color: #9b5a00;
+  color: #f9fbf8;
+  border-color: #9b5a00;
+}
+
+QPushButton:default:hover,
+QPushButton#startButton:hover {
+  background-color: #9b5a00;
+  border-color: #2d373f;
+}
+
+QPushButton:disabled,
+QPushButton:default:disabled {
+  background-color: #e9ebe5;
+  color: #657178;
+  border-color: #cfd2cb;
+}
+
+QToolButton {
+  background-color: #e9ebe5;
+  color: #2d373f;
+  border: 1px solid #e9ebe5;
+  padding: 3px;
+}
+
+QToolButton:hover,
+QToolButton:pressed,
+QToolButton:checked {
+  background-color: #dbded6;
+  border-color: #dbded6;
+}
+
+QToolButton:focus {
+  border-color: #9b5a00;
+}
+
+/* Inputs: raised. */
+QLineEdit,
+QComboBox,
+QAbstractSpinBox,
+QTextEdit,
+QPlainTextEdit {
+  background-color: #f9fbf8;
+  color: #2d373f;
+  border: 1px solid #cfd2cb;
+  selection-background-color: #e3dbc8;
+  selection-color: #2d373f;
+}
+
+QLineEdit,
+QComboBox,
+QAbstractSpinBox {
+  padding: 2px 4px;
+  min-height: 18px;
+}
+
+QLineEdit:focus,
+QComboBox:focus,
+QAbstractSpinBox:focus,
+QTextEdit:focus,
+QPlainTextEdit:focus {
+  border-color: #9b5a00;
+}
+
+QLineEdit:disabled,
+QComboBox:disabled,
+QAbstractSpinBox:disabled {
+  background-color: #e9ebe5;
+  color: #657178;
+}
+
+QLineEdit QToolButton {
+  background-color: #f9fbf8;
+  border: none;
+}
+
+/* MO2 sets "valid-filter" to false when a filter cannot be read. */
+QLineEdit[valid-filter=false] {
+  background-color: #e4d6d1;
+  border-color: #a04037;
+}
+
+QComboBox:hover {
+  border-color: #49545d;
+}
+
+QComboBox QAbstractItemView {
+  background-color: #f9fbf8;
+  border: 1px solid #cfd2cb;
+}
+
+QTextBrowser {
+  background-color: #f1f3ee;
+}
+
+LinkLabel {
+  qproperty-linkColor: #9b5a00;
+}
+
+/* Group boxes. */
+QGroupBox {
+  border: 1px solid #cfd2cb;
+  margin-top: 12px;
+  padding-top: 6px;
+}
+
+QGroupBox::title {
+  subcontrol-origin: margin;
+  left: 8px;
+  padding: 0 4px;
+  color: #49545d;
+}
+
+/* Scroll bars: no arrow buttons. */
+QScrollBar:vertical {
+  background-color: #e9ebe5;
+  width: 12px;
+  margin: 0;
+}
+
+QScrollBar:horizontal {
+  background-color: #e9ebe5;
+  height: 12px;
+  margin: 0;
+}
+
+QScrollBar::handle {
+  background-color: #cfd2cb;
+  border: 2px solid #e9ebe5;
+}
+
+QScrollBar::handle:vertical {
+  min-height: 24px;
+}
+
+QScrollBar::handle:horizontal {
+  min-width: 24px;
+}
+
+QScrollBar::handle:hover {
+  background-color: #657178;
+}
+
+QScrollBar::handle:pressed {
+  background-color: #9b5a00;
+}
+
+QScrollBar::add-line,
+QScrollBar::sub-line {
+  width: 0;
+  height: 0;
+  border: none;
+}
+
+QScrollBar::add-page,
+QScrollBar::sub-page {
+  background-color: #e9ebe5;
+}
+
+/* Progress bars, such as downloads. */
+QProgressBar {
+  background-color: #f9fbf8;
+  color: #2d373f;
+  border: 1px solid #cfd2cb;
+  text-align: center;
+}
+
+QProgressBar::chunk {
+  background-color: #e3dbc8;
+  border-right: 2px solid #9b5a00;
+}
+
+/* The log at the bottom of the main window. */
+QDockWidget::title {
+  background-color: #e0e2dc;
+  padding: 4px;
+}

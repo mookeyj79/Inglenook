@@ -1,0 +1,16 @@
+{
+  "name": "Notepad++",
+  "category": "editor",
+  "tier": 2,
+  "platforms": [
+    "windows"
+  ],
+  "icon": {
+    "kind": "glyph",
+    "set": "Lucide 1.72.0",
+    "name": "notepad-text",
+    "author": "Lucide Icons and Contributors",
+    "source": "https://lucide.dev/icons/notepad-text",
+    "license": "ISC"
+  }
+}

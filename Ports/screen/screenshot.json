@@ -1,0 +1,16 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends screen python3"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/inglenook",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/screenrc\" ~/.config/inglenook/screenrc",
+    "echo 'source ~/.config/inglenook/screenrc' >> ~/.screenrc"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/screen/stage.sh\""
+  ]
+}
