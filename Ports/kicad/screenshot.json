@@ -1,0 +1,22 @@
+{
+  "kind": "app",
+  "platform": "linux",
+  "version": "7.0.11+dfsg-1build4",
+  "install": [
+    "apt-get install -y --no-install-recommends kicad=$INGLENOOK_VERSION kicad-demos=$INGLENOOK_VERSION python3"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/kicad/7.0/colors",
+    "cp \"$INGLENOOK_PORT/dist/day/inglenook-day.json\" \"$INGLENOOK_PORT/dist/night/inglenook-night.json\" ~/.config/kicad/7.0/colors/",
+    "for app in pcbnew footprint_editor eeschema gerbview; do printf '{\"appearance\": {\"color_theme\": \"inglenook-%s\"}}\\n' \"$INGLENOOK_VARIANT\" > ~/.config/kicad/7.0/$app.json; done"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/kicad/stage.sh\""
+  ],
+  "launch": [
+    "pcbnew \"$HOME/kicad-demo/pic_programmer.kicad_pcb\""
+  ],
+  "window": {
+    "class": "pcbnew"
+  }
+}

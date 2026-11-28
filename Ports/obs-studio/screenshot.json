@@ -1,0 +1,19 @@
+{
+  "kind": "app",
+  "platform": "linux",
+  "version": "32.2.0-0obsproject1~noble",
+  "install": [
+    "curl -fsSL -o /tmp/obs.deb \"https://launchpad.net/~obsproject/+archive/ubuntu/obs-studio/+files/obs-studio_${INGLENOOK_VERSION}_amd64.deb\" && echo '629de31a94385c82037fd4932a1678210a2cedfb65fd1c0cb36f308acf99f53f  /tmp/obs.deb' | sha256sum -c - && apt-get install -y --no-install-recommends /tmp/obs.deb libgl1-mesa-dri && rm /tmp/obs.deb"
+  ],
+  "apply": [
+    "mkdir -p \"$HOME/.config/obs-studio/themes\" && cp \"$INGLENOOK_PORT\"/dist/day/*.ovt \"$INGLENOOK_PORT\"/dist/night/*.ovt \"$HOME/.config/obs-studio/themes/\"",
+    "id=$(sed -n \"s/^ *id: '\\(.*\\)';\\$/\\1/p\" \"$INGLENOOK_PORT\"/dist/$INGLENOOK_VARIANT/*.ovt) && printf '[Appearance]\\nTheme=%s\\n' \"$id\" > \"$HOME/.config/obs-studio/user.ini\""
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/obs-studio/stage.sh\""
+  ],
+  "launch": [
+    "LIBGL_ALWAYS_SOFTWARE=1 obs --disable-updater --disable-missing-files-check --collection Inglenook --profile Inglenook --scene Live"
+  ],
+  "window": { "title": "^OBS 32\\.2\\.0.*Scenes: Inglenook$" }
+}

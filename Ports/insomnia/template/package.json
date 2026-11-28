@@ -1,0 +1,22 @@
+{
+  "name": "insomnia-plugin-{{variant.slug}}",
+  "version": "{{meta.version}}",
+  "description": "{{variant.name}} color theme for Insomnia, part of {{meta.name}}: a cozy, soothing theme for the tools you spend all day in.",
+  "main": "theme.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "{{meta.repository}}"
+  },
+  "keywords": [
+    "insomnia",
+    "insomnia-plugin",
+    "theme",
+    "{{variant.mode}}"
+  ],
+  "insomnia": {
+    "name": "{{variant.slug}}",
+    "displayName": "{{variant.name}}",
+    "description": "{{variant.name}} color theme, part of {{meta.name}}."
+  }
+}

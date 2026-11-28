@@ -89,125 +89,11 @@
   ],
   "planned": [
     {
-      "folder": "bash",
-      "name": "Bash",
-      "category": "shell",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "cinnamon",
-      "name": "Cinnamon",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
-      "folder": "dopamine",
-      "name": "Dopamine",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "ghidra",
-      "name": "Ghidra",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "screen",
-      "name": "GNU Screen",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "grub",
       "name": "GRUB",
       "category": "system",
       "tier": null,
       "platforms": [
-        "linux"
-      ]
-    },
-    {
-      "folder": "gtk",
-      "name": "GTK and MATE",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "linux"
-      ]
-    },
-    {
-      "folder": "halloy",
-      "name": "Halloy",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "helix",
-      "name": "Helix",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "heroic",
-      "name": "Heroic Games Launcher",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "homepage",
-      "name": "Homepage",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
-      ]
-    },
-    {
-      "folder": "insomnia",
-      "name": "Insomnia",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
         "linux"
       ]
     },
@@ -232,83 +118,9 @@
       ]
     },
     {
-      "folder": "kicad",
-      "name": "KiCad",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "notepad-plus-plus",
-      "name": "Notepad++",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
-      "folder": "obs-studio",
-      "name": "OBS Studio",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "obsidian",
-      "name": "Obsidian",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "qbittorrent",
-      "name": "qBittorrent",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "slack",
-      "name": "Slack",
-      "category": "app",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux",
-        "web"
-      ]
-    },
-    {
       "folder": "startallback",
       "name": "StartAllBack",
       "category": "system",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
-      "folder": "sumatrapdf",
-      "name": "SumatraPDF",
-      "category": "writing",
       "tier": null,
       "platforms": [
         "windows"
@@ -326,59 +138,9 @@
       ]
     },
     {
-      "folder": "theme-park",
-      "name": "theme.park",
-      "category": "web",
-      "tier": null,
-      "platforms": [
-        "web"
-      ]
-    },
-    {
-      "folder": "tmux",
-      "name": "tmux",
-      "category": "cli",
-      "tier": null,
-      "platforms": [
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "typora",
-      "name": "Typora",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
-      "folder": "vim",
-      "name": "Vim",
-      "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "visual-studio",
       "name": "Visual Studio",
       "category": "editor",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
-    },
-    {
-      "folder": "windows",
-      "name": "Windows",
-      "category": "system",
       "tier": null,
       "platforms": [
         "windows"

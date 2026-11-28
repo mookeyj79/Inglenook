@@ -1,0 +1,17 @@
+{
+  "kind": "cli",
+  "platform": "linux",
+  "host": "gnome-terminal",
+  "install": [
+    "apt-get install -y --no-install-recommends tmux"
+  ],
+  "apply": [
+    "mkdir -p ~/.config/tmux",
+    "cp \"$INGLENOOK_PORT/dist/$INGLENOOK_VARIANT/inglenook-$INGLENOOK_VARIANT.conf\" ~/.config/tmux/",
+    "echo 'set -as terminal-features \",xterm-256color:RGB\"' >> ~/.config/tmux/tmux.conf",
+    "echo \"source-file ~/.config/tmux/inglenook-$INGLENOOK_VARIANT.conf\" >> ~/.config/tmux/tmux.conf"
+  ],
+  "stage": [
+    "bash \"$INGLENOOK_SCENE/tmux/stage.sh\""
+  ]
+}

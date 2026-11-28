@@ -1,0 +1,85 @@
+# Inglenook Day for Halloy
+# Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook
+
+[general]
+background = "#e9ebe5"
+border = "#cfd2cb"
+horizontal_rule = "#cfd2cb"
+horizontal_rule_text = "#657178"
+scrollbar = "#cfd2cb"
+unread_indicator = "#326893"
+highlight_indicator = "#706416"
+
+[text]
+primary = "#2d373f"
+secondary = "#49545d"
+tertiary = "#657178"
+success = "#407135"
+error = "#a04037"
+warning = "#706416"
+info = "#326893"
+debug = "#49545d"
+trace = "#657178"
+
+[buttons.primary]
+background = "#e9ebe5"
+background_hover = "#dbded6"
+background_selected = "#e3dbc8"
+background_selected_hover = "#e3dbc8"
+border_active = "#9b5a00"
+
+[buttons.secondary]
+background = "#f9fbf8"
+background_hover = "#dbded6"
+background_selected = "#e3dbc8"
+background_selected_hover = "#e3dbc8"
+border_active = "#9b5a00"
+
+[buffer]
+action = { color = "#49545d", font_style = "italic" }
+background = "#f1f3ee"
+background_text_input = "#f9fbf8"
+background_title_bar = "#e0e2dc"
+border = "#cfd2cb"
+border_selected = "#9b5a00"
+code = "#915023"
+focus_border = "#9b5a00"
+focus_background = "#f9fbf8"
+highlight = "#e3dbc8"
+nickname = "#5e5a9a"
+nickname_offline = "#657178"
+selection = "#e3dbc8"
+timestamp = "#657178"
+topic = "#49545d"
+url = "#9b5a00"
+backlog_rule = "#9b5a00"
+backlog_rule_text = "#9b5a00"
+date_rule = "#cfd2cb"
+date_rule_text = "#657178"
+
+[buffer.server_messages]
+default = "#657178"
+join = "#407135"
+monitored_online = "#407135"
+kick = "#a04037"
+standard_reply_fail = "#a04037"
+standard_reply_warn = "#706416"
+standard_reply_note = "#326893"
+
+[formatting]
+white = "#f9fbf8"
+black = "#2d373f"
+blue = "#326893"
+green = "#407135"
+red = "#a04037"
+brown = "#7e2e39"
+magenta = "#844b80"
+orange = "#915023"
+yellow = "#706416"
+lightgreen = "#2d6420"
+cyan = "#017272"
+lightcyan = "#056262"
+lightblue = "#195a88"
+pink = "#905560"
+grey = "#657178"
+lightgrey = "#cfd2cb"
