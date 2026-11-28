@@ -498,6 +498,26 @@ Test 'Build: a .png.fill template becomes a solid PNG of its color' {
     Assert-Throws { Update-Port -Palette $p -PortDir $bad } '*fillbad/template/x.png.fill*one color placeholder*'
 }
 
+Test 'Build: a .ornament template becomes a copy of that ornament from assets/ornaments' {
+    $root = Join-Path $Tmp 'ornrepo'
+    $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 1"><path fill="currentColor" d="M0 0h2v1z"/></svg>'
+    New-Item -ItemType Directory -Path (Join-Path $root 'assets' 'ornaments') -Force | Out-Null
+    Set-Content -Path (Join-Path $root 'assets' 'ornaments' 'divider.svg') -Value $svg -NoNewline
+    $port = Join-Path $root 'Ports' 'ornport'
+    New-Item -ItemType Directory -Path (Join-Path $port 'template' 'media') -Force | Out-Null
+    Set-Content -Path (Join-Path $port 'template' 'media' 'rule.svg.ornament') -Value "divider.svg`n" -NoNewline
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 2 $r.Written 'files written'
+    Assert-Equal $svg (Get-Content -Raw (Join-Path $port 'dist' 'day' 'media' 'rule.svg')) 'the ornament, as it is'
+    Assert-True (-not (Test-Path (Join-Path $port 'dist' 'night' 'media' 'rule.svg.ornament'))) 'the .ornament itself is not shipped'
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'rebuild'
+    Set-Content -Path (Join-Path $root 'assets' 'ornaments' 'divider.svg') -Value ($svg -replace '2v1', '2v2') -NoNewline
+    Assert-Equal 'changed' (Get-PortStatus -Palette $p -PortDir $port).Status 'the ornament changed'
+    Set-Content -Path (Join-Path $port 'template' 'media' 'rule.svg.ornament') -Value 'nope.svg' -NoNewline
+    Assert-Throws { Update-Port -Palette $p -PortDir $port } '*ornport/template/media/rule.svg.ornament*nope.svg*assets/ornaments*'
+}
+
 Test 'Build: a .png.svg template becomes a PNG of the SVG at its own size, in its palette colors' {
     $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="2" viewBox="0 0 4 2" color="{{accent}}"><rect width="2" height="2" fill="currentColor"/></svg>'
     $port = New-TestPort 'svgport' @{ 'mark.png.svg' = $svg }

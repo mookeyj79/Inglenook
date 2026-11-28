@@ -114,6 +114,8 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 
    **Apps whose themes take images** (GRUB's styled boxes) get solid images from the build, never a committed image with colors in it. A template `<name>.png.fill` holds one color placeholder and an optional size, such as `{{accent|wash}} 8x8`, and builds into `<name>.png`, a solid image of that color (1x1 when no size is given).
 
+   **Packaged themes with ornaments** (ADR 0010) take them from `assets/ornaments/`, never a copy in the template. A template `<name>.ornament` holds the file name of one ornament, such as `divider.svg`, and builds into `<name>`, a copy of that file as it is (`media/divider.svg.ornament` becomes `media/divider.svg`).
+
    An app that takes only raster images, where an ornament from `assets/ornaments/` belongs (ADR 0010), gets it as a PNG from a template `<name>.png.svg`: an SVG with its size in pixels on the `<svg>` element and its color from a placeholder, such as `<svg width="32" height="32" viewBox="..." color="{{oxblood}}">` around shapes filled with `currentColor`. The build renders it with resvg into `<name>.png`, clear where the SVG draws nothing.
 
    An app whose theme is one ZIP archive (Telegram's `.tdesktop-theme`) gets it from a template folder `<name>.zip/`: the build renders the folder's files as usual, then packs them into the archive `<name>`, stored and dated so the same files always give the same bytes.

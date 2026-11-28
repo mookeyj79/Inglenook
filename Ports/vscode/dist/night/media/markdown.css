@@ -1,0 +1,12 @@
+/* The Markdown preview: a horizontal rule is drawn as the divider, in oxblood.
+   Only while this theme is the active one. */
+body[data-vscode-theme-id="Inglenook Night"] hr {
+  display: block;
+  height: 1.9rem;
+  width: min(13rem, 70%);
+  margin: 28px auto;
+  border: 0;
+  background: #b66f75;
+  -webkit-mask: url("divider.svg") center / contain no-repeat;
+  mask: url("divider.svg") center / contain no-repeat;
+}

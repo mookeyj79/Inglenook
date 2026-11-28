@@ -132,6 +132,8 @@ function Write-PortFiles {
     $templateDir = Join-Path $PortDir 'template'
     $files = @(Get-ChildItem -Path $templateDir -Recurse -File -Force)
     $values = Read-PortValues $PortDir
+    # A port sits at <repo>/Ports/<name>/, so its ornaments are at <repo>/assets/ornaments/.
+    $ornamentDir = Join-Path (Split-Path -Parent (Split-Path -Parent $PortDir)) 'assets' 'ornaments'
     $count = 0
     foreach ($variant in $Palette.Variants.Values) {
         $outDir = Join-Path $OutRoot $variant.Key
@@ -146,6 +148,18 @@ function Write-PortFiles {
             if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
             $tpl = Read-TemplateFile -Path $file.FullName
             if ($tpl.Binary) { [System.IO.File]::WriteAllBytes($target, $tpl.Bytes); $count++; continue }
+            if ($target -like '*.ornament') {
+                # An ornament: the file name of one in assets/ornaments/, such as
+                # 'divider.svg', becomes <name> without .ornament, copied as it is.
+                $ornament = $tpl.Text.Trim()
+                $from = Join-Path $ornamentDir $ornament
+                if ($ornament -notmatch '^[A-Za-z0-9_.-]+$' -or -not (Test-Path -LiteralPath $from -PathType Leaf)) {
+                    throw "${source}: a .ornament holds the file name of an ornament, and '$ornament' is not in assets/ornaments/."
+                }
+                [System.IO.File]::WriteAllBytes($target.Substring(0, $target.Length - 9), [System.IO.File]::ReadAllBytes($from))
+                $count++
+                continue
+            }
             $text = Expand-Template -Text $tpl.Text -Palette $Palette -Variant $variant -PortValues $values -Source $source
             if ($target -like '*.png.fill') {
                 # A solid image: one color placeholder and an optional size, such as

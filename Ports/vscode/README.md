@@ -51,8 +51,8 @@ On macOS, use **Cmd** where these steps say **Ctrl**.
 
 Files to use:
 
-- Inglenook Day: `dist/day/` (`package.json`, `themes/inglenook-day-color-theme.json`, `LICENSE`)
-- Inglenook Night: `dist/night/` (`package.json`, `themes/inglenook-night-color-theme.json`, `LICENSE`)
+- Inglenook Day: `dist/day/` (`package.json`, `themes/inglenook-day-color-theme.json`, `media/`, `LICENSE`)
+- Inglenook Night: `dist/night/` (`package.json`, `themes/inglenook-night-color-theme.json`, `media/`, `LICENSE`)
 
 ### Install without Node.js
 
