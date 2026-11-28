@@ -1,6 +1,6 @@
 # Inglenook for the Bash completion list: Inglenook Night.
 # Source this from ~/.bashrc, after anything else that sets LS_COLORS, such as dircolors.
-# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+# Palette 0.1.1, https://github.com/mookeyj79/Inglenook
 
 # Readline colors the part every completion shares (colored-completion-prefix in
 # bash.inputrc) from a key of its own in LS_COLORS. ls ignores that key.

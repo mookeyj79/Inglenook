@@ -1,6 +1,6 @@
 # Inglenook for the Zsh line editor and completion list: Inglenook Day.
 # Source this from ~/.zshrc, after anything else that sets zle_highlight or list-colors.
-# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+# Palette 0.1.1, https://github.com/mookeyj79/Inglenook
 
 # The line editor. Colors written as #rrggbb need a terminal with 24-bit color.
 #   region   text selected between the mark and the cursor

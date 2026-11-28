@@ -1,4 +1,4 @@
-# Inglenook Night for nano, from Inglenook 0.1.0.
+# Inglenook Night for nano, from Inglenook 0.1.1.
 # Put these lines at the end of your own nanorc (~/.config/nano/nanorc or ~/.nanorc).
 # nano reads interface colors only from a nanorc, never from an included file.
 # The color names are terminal colors: set your terminal to Inglenook Night too.

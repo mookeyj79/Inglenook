@@ -1,5 +1,5 @@
 /* mo2-base-style: Fusion */
-/* Inglenook Day for Mod Organizer 2. Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook */
+/* Inglenook Day for Mod Organizer 2. Inglenook 0.1.1, https://github.com/mookeyj79/Inglenook */
 
 /* Base: every widget is solid, with the theme font. */
 QWidget {

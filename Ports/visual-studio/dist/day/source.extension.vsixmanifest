@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="inglenook-day.de55f7c0-4435-4d9f-8b8a-42d154f86d37" Version="0.1.0" Language="en-US" Publisher="Inglenook" />
+    <Identity Id="inglenook-day.de55f7c0-4435-4d9f-8b8a-42d154f86d37" Version="0.1.1" Language="en-US" Publisher="Inglenook" />
     <DisplayName>Inglenook Day</DisplayName>
     <Description xml:space="preserve">Inglenook Day color theme, part of Inglenook: a cozy, soothing theme for the tools you spend all day in.</Description>
     <MoreInfo>https://github.com/mookeyj79/Inglenook</MoreInfo>

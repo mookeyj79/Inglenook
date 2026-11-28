@@ -1,7 +1,7 @@
 " Inglenook for Vim: Inglenook Day when 'background' is light,
 " Inglenook Night when it is dark. Load it with :colorscheme inglenook.
 " The highlight groups are in autoload/inglenook/day.vim and night.vim.
-" Inglenook 0.1.0, https://github.com/mookeyj79/Inglenook
+" Inglenook 0.1.1, https://github.com/mookeyj79/Inglenook
 
 let s:name = 'inglenook'
 let s:key = &background ==# 'light' ? 'day' : 'night'

@@ -1,4 +1,4 @@
 # Inglenook for Starship: Inglenook Day. Points Starship at
 # ~/.config/inglenook/starship.toml. Source this from your shell profile.
-# Palette 0.1.0, https://github.com/mookeyj79/Inglenook
+# Palette 0.1.1, https://github.com/mookeyj79/Inglenook
 export STARSHIP_CONFIG="$HOME/.config/inglenook/starship.toml"
