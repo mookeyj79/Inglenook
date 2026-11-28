@@ -166,15 +166,6 @@
       "platforms": [
         "windows"
       ]
-    },
-    {
-      "folder": "windows",
-      "name": "Windows",
-      "category": "system",
-      "tier": null,
-      "platforms": [
-        "windows"
-      ]
     }
   ]
 }
