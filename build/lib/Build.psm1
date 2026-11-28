@@ -57,6 +57,73 @@ function New-SolidPng {
     return $out.ToArray()
 }
 
+# An SVG rendered to PNG with resvg, for apps whose themes take only raster
+# images. The version is pinned in build/photograph/pins.json (resvg.version),
+# so every machine draws the same pixels.
+$ResvgPinsPath = Join-Path $PSScriptRoot '..' 'photograph' 'pins.json'
+
+function Get-ResvgCommand {
+    $want = [string](Get-Content -Raw -Path $ResvgPinsPath | ConvertFrom-Json -AsHashtable)['resvg']['version']
+    $cmd = Get-Command resvg -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $cmd) { throw "A .png.svg template needs resvg $want on the PATH. See CONTRIBUTING.md." }
+    $have = (& $cmd.Source --version 2>&1 | Out-String).Trim()
+    if ($have -ne $want) { throw "A .png.svg template needs resvg $want (pinned in build/photograph/pins.json), not $have." }
+    return $cmd.Source
+}
+
+function ConvertTo-SvgPng {
+    param([Parameter(Mandatory)][string]$Svg, [Parameter(Mandatory)][string]$Source)
+    if ($Svg -notmatch '<svg\b[^>]*\swidth="\d+"' -or $Svg -notmatch '<svg\b[^>]*\sheight="\d+"') {
+        throw "${Source}: a .png.svg sets its size in pixels on the <svg> element, such as width=`"32`" height=`"32`"."
+    }
+    $resvg = Get-ResvgCommand
+    $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ('inglenook-svg-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $tmp | Out-Null
+    try {
+        $in = Join-Path $tmp 'in.svg'; $out = Join-Path $tmp 'out.png'
+        [System.IO.File]::WriteAllText($in, $Svg)
+        $msg = & $resvg $in $out 2>&1 | Out-String
+        if ($LASTEXITCODE -ne 0 -or -not (Test-Path $out)) { throw "${Source}: resvg could not render it. $($msg.Trim())" }
+        return [System.IO.File]::ReadAllBytes($out)
+    }
+    finally { Remove-Item -Path $tmp -Recurse -Force }
+}
+
+# A ZIP archive of a folder's files, stored (not compressed), sorted by path,
+# dated 1980-01-01, so the same files always give the same bytes on every
+# machine. For apps whose theme is one archive (Telegram's .tdesktop-theme).
+function New-StoredZip {
+    param([Parameter(Mandatory)][string]$Dir)
+    $files = @(Get-ChildItem -Path $Dir -Recurse -File -Force | ForEach-Object {
+        @{ Name = ([System.IO.Path]::GetRelativePath($Dir, $_.FullName) -replace '\\', '/'); Path = $_.FullName }
+    } | Sort-Object { $_.Name } -Culture '')
+    $out = [System.IO.MemoryStream]::new()
+    $central = [System.IO.MemoryStream]::new()
+    $le16 = { param($v) [BitConverter]::GetBytes([uint16]$v) }
+    $le32 = { param($v) [BitConverter]::GetBytes([uint32]$v) }
+    $date = 33  # 1980-01-01 in DOS date form; time 0
+    foreach ($f in $files) {
+        $data = [System.IO.File]::ReadAllBytes($f.Path)
+        $name = [System.Text.Encoding]::UTF8.GetBytes($f.Name)
+        $crc = [uint32]::MaxValue
+        foreach ($v in $data) { $crc = $PngCrcTable[($crc -bxor $v) -band 0xFF] -bxor ($crc -shr 8) }
+        $crc = $crc -bxor [uint32]::MaxValue
+        $offset = $out.Position
+        $common = [byte[]](@(& $le16 20) + @(& $le16 0x0800) + @(& $le16 0) + @(& $le16 0) + @(& $le16 $date) +
+            @(& $le32 $crc) + @(& $le32 $data.Length) + @(& $le32 $data.Length) + @(& $le16 $name.Length) + @(& $le16 0))
+        foreach ($b in @([byte[]](0x50, 0x4B, 3, 4), $common, $name, $data)) { $out.Write($b, 0, $b.Length) }
+        $entry = [byte[]](@(0x50, 0x4B, 1, 2) + @(& $le16 20) + @($common) + @(& $le16 0) + @(& $le16 0) + @(& $le16 0) + @(& $le32 0) + @(& $le32 $offset))
+        foreach ($b in @($entry, $name)) { $central.Write($b, 0, $b.Length) }
+    }
+    $cd = $central.ToArray()
+    $start = $out.Position
+    $out.Write($cd, 0, $cd.Length)
+    $end = [byte[]](@(0x50, 0x4B, 5, 6) + @(& $le16 0) + @(& $le16 0) + @(& $le16 $files.Count) + @(& $le16 $files.Count) +
+        @(& $le32 $cd.Length) + @(& $le32 $start) + @(& $le16 0))
+    $out.Write($end, 0, $end.Length)
+    return $out.ToArray()
+}
+
 function Write-PortFiles {
     # Renders the port into $OutRoot/<variant>/, replacing what is there.
     # Returns the number of files written. Throws on a bad placeholder.
@@ -105,6 +172,13 @@ function Write-PortFiles {
                 $count++
                 continue
             }
+            if ($target -like '*.png.svg') {
+                # An SVG with color placeholders, such as an ornament with
+                # color="{{oxblood}}", becomes <name>.png at its own width and height.
+                [System.IO.File]::WriteAllBytes($target.Substring(0, $target.Length - 4), (ConvertTo-SvgPng -Svg $text -Source $source))
+                $count++
+                continue
+            }
             $outputs = [ordered]@{ $target = $text }
             if ($target -like '*.env') {
                 # A shell-variable tool: one .env becomes a .sh and a .ps1.
@@ -117,6 +191,17 @@ function Write-PortFiles {
                 [System.IO.File]::WriteAllBytes($out, $bytes)
                 $count++
             }
+        }
+        # A folder named <name>.zip, such as {{variant.slug}}.tdesktop-theme.zip/,
+        # becomes the ZIP archive <name> of its built files.
+        $packs = @(Get-ChildItem -Path $outDir -Recurse -Directory -Force | Where-Object Name -like '*.zip' |
+            Sort-Object { $_.FullName.Length } -Descending)
+        foreach ($pack in $packs) {
+            $inside = @(Get-ChildItem -Path $pack.FullName -Recurse -File -Force).Count
+            $zip = New-StoredZip -Dir $pack.FullName
+            Remove-Item -Path $pack.FullName -Recurse -Force
+            [System.IO.File]::WriteAllBytes($pack.FullName.Substring(0, $pack.FullName.Length - 4), $zip)
+            $count += 1 - $inside
         }
     }
     return $count

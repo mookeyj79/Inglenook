@@ -1,8 +1,5 @@
 // {{variant.name}} for Telegram Desktop, from the {{meta.name}} theme {{meta.version}}.
 // {{meta.repository}}
-//
-// A solid chat wallpaper to go with it: open this link in Telegram.
-// https://t.me/bg/{{base|nohash}}
 
 windowBg: {{base}};
 windowFg: {{text}};

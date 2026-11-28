@@ -518,6 +518,49 @@ Test 'Build: a .ornament template becomes a copy of that ornament from assets/or
     Assert-Throws { Update-Port -Palette $p -PortDir $port } '*ornport/template/media/rule.svg.ornament*nope.svg*assets/ornaments*'
 }
 
+Test 'Build: a .png.svg template becomes a PNG of the SVG at its own size, in its palette colors' {
+    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="2" viewBox="0 0 4 2" color="{{accent}}"><rect width="2" height="2" fill="currentColor"/></svg>'
+    $port = New-TestPort 'svgport' @{ 'mark.png.svg' = $svg }
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 2 $r.Written 'files written'
+    $path = Join-Path $port 'dist' 'night' 'mark.png'
+    Assert-True (-not (Test-Path (Join-Path $port 'dist' 'night' 'mark.png.svg'))) 'the .svg itself is not shipped'
+    Assert-True (Compare-ShotPixels -Path $path -Other $path).Same 'decodes as a PNG'
+    $w = 0; $h = 0
+    $px = [InglenookPngPixels]::Decode([System.IO.File]::ReadAllBytes($path), [ref]$w, [ref]$h)
+    Assert-Equal '4x2' "${w}x${h}" 'size'
+    $hex = '#' + (@(0..2 | ForEach-Object { '{0:x2}' -f ($px[$_] -shr 8) }) -join '')
+    Assert-Equal (Expand-Template -Text '{{accent}}' -Palette $p -Variant $p.Variants['night'] -Source 'test') $hex 'the left half is the color'
+    Assert-Equal 65535 ([int]$px[3]) 'the color is opaque'
+    Assert-Equal 0 ([int]$px[(3 * 4) + 3]) 'the right half is clear'
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'rebuild'
+    $bad = New-TestPort 'svgbad' @{ 'x.png.svg' = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 2" color="{{accent}}"/>' }
+    Assert-Throws { Update-Port -Palette $p -PortDir $bad } '*svgbad/template/x.png.svg*width*height*'
+}
+
+Test 'Build: a template folder named <name>.zip becomes a ZIP archive <name> of its built files' {
+    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2" color="{{accent}}"><rect width="2" height="2" fill="currentColor"/></svg>'
+    $port = New-TestPort 'zipport' @{ '{{variant.key}}.pack.zip/colors.txt' = 'bg: {{base}};'; '{{variant.key}}.pack.zip/tile.png.svg' = $svg; 'plain.txt' = 'x' }
+    $p = Get-TestPalette (New-PaletteData)
+    $r = Update-Port -Palette $p -PortDir $port
+    Assert-Equal 4 $r.Written 'files written: one archive and one plain file per variant'
+    $zip = Join-Path $port 'dist' 'night' 'night.pack'
+    Assert-True (Test-Path $zip -PathType Leaf) 'the archive is a file named without .zip'
+    Assert-True (-not (Test-Path (Join-Path $port 'dist' 'night' 'night.pack.zip'))) 'the folder itself is not shipped'
+    Add-Type -AssemblyName System.IO.Compression
+    $archive = [System.IO.Compression.ZipFile]::OpenRead($zip)
+    try {
+        Assert-Equal @('colors.txt', 'tile.png') @($archive.Entries | ForEach-Object FullName) 'entries, sorted, with templates rendered'
+        $reader = [System.IO.StreamReader]::new($archive.GetEntry('colors.txt').Open())
+        Assert-Equal "bg: $($p.Variants['night'].Neutrals['base'].Hex);" $reader.ReadToEnd() 'the colors file'
+        $reader.Dispose()
+        Assert-Equal 137 $archive.GetEntry('tile.png').Open().ReadByte() 'the .png.svg became a PNG'
+    }
+    finally { $archive.Dispose() }
+    Assert-Equal 'unchanged' (Get-PortStatus -Palette $p -PortDir $port).Status 'a rebuild gives the same bytes'
+}
+
 Test 'Build: CRLF in dist is not drift' {
     $port = New-TestPort 'crlf' @{ 'a.txt' = "one`ntwo" }
     $p = Get-TestPalette (New-PaletteData)
@@ -1066,14 +1109,16 @@ Test 'Photographer: pins become the base image''s build arguments, and loose pin
         mint_packages = [ordered]@{ cinnamon = '6.6.9+zena'; nemo = '6.6.3+zena' }
         font = [ordered]@{ url = 'https://example.invalid/font.zip'; sha256 = 'b' * 64 }
         chromium = '158.0.8127.88~linuxmint1+mint22.3'
+        resvg = [ordered]@{ version = '0.45.1'; url = 'https://example.invalid/resvg.tar.gz'; sha256 = 'c' * 64 }
     }
     ConvertTo-Json $pins -Depth 4 | Set-Content $path
     $built = Get-BaseBuildArgs -Path $path
     Assert-Equal @("BASE=example/mint@sha256:$('a' * 64)", 'UBUNTU_SNAPSHOT=20261124T000000Z', 'MINT_PACKAGES=cinnamon=6.6.9+zena nemo=6.6.3+zena',
-        'FONT_URL=https://example.invalid/font.zip', "FONT_SHA256=$('b' * 64)", 'CHROMIUM_VERSION=158.0.8127.88~linuxmint1+mint22.3') $built 'build args'
-    $pins.base = 'example/mint:latest'; $pins.ubuntu_snapshot = 'yesterday'; $pins.mint_packages = @{ cinnamon = '' }; $pins.font.sha256 = 'x'; $pins.chromium = 'latest version'
+        'FONT_URL=https://example.invalid/font.zip', "FONT_SHA256=$('b' * 64)", 'CHROMIUM_VERSION=158.0.8127.88~linuxmint1+mint22.3',
+        'RESVG_URL=https://example.invalid/resvg.tar.gz', "RESVG_SHA256=$('c' * 64)") $built 'build args'
+    $pins.base = 'example/mint:latest'; $pins.ubuntu_snapshot = 'yesterday'; $pins.mint_packages = @{ cinnamon = '' }; $pins.font.sha256 = 'x'; $pins.chromium = 'latest version'; $pins.resvg.version = 'latest'
     ConvertTo-Json $pins -Depth 4 | Set-Content $path
-    Assert-Throws { Get-BaseBuildArgs -Path $path } '*base must name an image by digest*ubuntu_snapshot*mint_packages*font*chromium*'
+    Assert-Throws { Get-BaseBuildArgs -Path $path } '*base must name an image by digest*ubuntu_snapshot*mint_packages*font*chromium*resvg*'
     $pins.Remove('chromium')
     ConvertTo-Json $pins -Depth 4 | Set-Content $path
     Assert-Throws { Get-BaseBuildArgs -Path $path } '*chromium must be*'
