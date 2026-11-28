@@ -8,7 +8,7 @@
 |---|---|
 | ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
 
-Each variant is a qBittorrent theme folder: `dist/day/` is **Inglenook Day** and `dist/night/` is **Inglenook Night**. qBittorrent loads a theme folder when you point it at the `config.json` inside it; keep `stylesheet.qss` next to it. No build step is needed.
+Each variant is a qBittorrent theme folder: `dist/day/` is **Inglenook Day** and `dist/night/` is **Inglenook Night**. qBittorrent loads a theme folder when you point it at the `config.json` inside it; keep `stylesheet.qss` next to it.
 
 This is for the qBittorrent desktop app. The Web UI is not covered.
 

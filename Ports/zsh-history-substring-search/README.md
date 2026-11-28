@@ -68,7 +68,7 @@ The plugin cannot follow the system light or dark setting.
 ## Known limits
 
 - Zsh only. The plugin is a Zsh line editor script, and Bash and PowerShell cannot load it.
-- The bands are mixed for the Inglenook background. In a terminal with another theme they still read, but stand out more or less than intended.
+- The bands are made for the Inglenook background. In a terminal with another theme they still read, but look less even.
 - On a terminal with only 256 colors, Zsh picks the nearest colors, so the bands are approximate.
 
 ## Sources

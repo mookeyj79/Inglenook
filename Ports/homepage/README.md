@@ -8,7 +8,7 @@
 |---|---|
 | ![Inglenook Day](screenshots/day.png) | ![Inglenook Night](screenshots/night.png) |
 
-This port is a `custom.css` file for [Homepage](https://gethomepage.dev), the self-hosted dashboard. Homepage's own `color` setting only picks from a fixed list of palettes, so the theme replaces them with a stylesheet instead.
+This port is a `custom.css` file for [Homepage](https://gethomepage.dev), the self-hosted dashboard. It replaces Homepage's built-in color palettes.
 
 ## Before you start
 

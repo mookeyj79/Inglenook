@@ -83,7 +83,7 @@ The theme draws its own background. To let your terminal's background show throu
 
 - Healthy rows of every resource, including running pods, are plain text. K9s uses one color for every ordinary row, so running pods are not green.
 - Values in the YAML view are one color: K9s does not tell strings from numbers there.
-- Pods that are deleting and pods that fail share a color, as both mean something is going away.
+- Pods that are deleting and pods that fail share a color.
 
 ## Sources
 

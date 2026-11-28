@@ -154,7 +154,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
    Behind every shot is the variant's wallpaper, shown as it is: Cabin Seating in Day and Mission Fireplace in Night (credits in [`wallpapers/README.md`](wallpapers/README.md)). The Photographer sets it; a recipe never does. Then take the path that fits:
 
    - **A Linux recipe, with Docker**: run `pwsh build/photograph.ps1 -Port <app_name>`. It writes `screenshots/day.png` and `night.png` and adds the Day and Night table to the README if it is missing. Check every row of your `MAPPING.md` table in both shots, and list under **Gaps** any color the scene cannot show. Commit the images and the table with the port.
-   - **A Windows or macOS recipe, or no Docker**: commit the recipe. On your pull request, the `screenshots` workflow shoots the port and attaches the images to the run. Check them the same way, then commit them as `screenshots/day.png` and `night.png`: they carry their stamp, so the port is fresh. Windows takes run only on a hosted runner, each take in a job of its own, because a take changes system settings. macOS has no runner yet, so a macOS recipe is listed as not shot.
+   - **A Windows or macOS recipe, or no Docker**: commit the recipe. On your pull request, the `screenshots` workflow shoots the port and attaches the images to the run. Check them the same way, then commit them as `screenshots/day.png` and `night.png`: they carry their stamp, so the port is fresh. Windows takes run only on a hosted runner, because a take changes system settings. macOS has no runner yet, so a macOS recipe is listed as not shot.
    - **A manual recipe**: run `pwsh build/photograph.ps1 -Port <app_name>` first: with no shots yet, it names the scene content and each variant's backdrop. Shoot both variants by hand to that scene, save them as `screenshots/day.png` and `night.png`, then run the same command again: it stamps them and adds the table. After the merge, the workflow keeps one "Screenshots for <App>" issue open whenever the shots are stale.
 
    `check.ps1` fails on a port with a recipe and no `screenshots/day.png` or `night.png`.
@@ -193,6 +193,7 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 3. Run the build and the checks. Every port rebuilds, and the build prints one line per port: `changed`, `version stamp only`, or `unchanged`. Read the contrast table and any gamut warnings.
 4. For a new role or a changed meaning, add an ADR in [`docs/adr/`](docs/adr/) explaining why.
 5. The preview screenshots show the palette. Retake them with `pwsh build/photograph.ps1 -Port preview` and commit them with the change, or merge the rolling screenshots pull request after it.
+
 ## Move a pin
 
 A pin is the exact version of an app, font, base image, or runner that screenshots are made with: a recipe's `version`, or an entry in `build/photograph/pins.json`. Pins move by hand, never on a schedule. Good times are a port's first recipe, an app update that changes or breaks a port, and before a palette major version.
