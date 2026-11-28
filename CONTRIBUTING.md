@@ -114,6 +114,8 @@ The quickest way is [Claude Code](https://claude.com/claude-code): open the repo
 
    **Apps whose themes take images** (GRUB's styled boxes) get solid images from the build, never a committed image with colors in it. A template `<name>.png.fill` holds one color placeholder and an optional size, such as `{{accent|wash}} 8x8`, and builds into `<name>.png`, a solid image of that color (1x1 when no size is given).
 
+   **Packaged themes with ornaments** (ADR 0010) take them from `assets/ornaments/`, never a copy in the template. A template `<name>.ornament` holds the file name of one ornament, such as `divider.svg`, and builds into `<name>`, a copy of that file as it is (`media/divider.svg.ornament` becomes `media/divider.svg`).
+
 5. **Build and check**:
 
    ```sh
