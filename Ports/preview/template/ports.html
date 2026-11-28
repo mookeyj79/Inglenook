@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../day/favicon.svg">
 <link rel="stylesheet" href="../day/theme.css">
 <link rel="stylesheet" href="../night/theme.css">
 <link rel="stylesheet" href="base.css">
@@ -22,7 +23,7 @@ main {
   flex-direction: column;
   gap: 20px;
 }
-.intro { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.intro { padding: 26px 34px; display: flex; flex-direction: column; gap: 8px; }
 h1 { font: 600 1.9rem/1.15 var(--font-display); margin: 0; text-wrap: balance; }
 .intro p { margin: 0; color: var(--dim); max-width: 66ch; }
 .tiers { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 4px 0 0; padding: 0; list-style: none; font-size: .85rem; color: var(--dim); }
@@ -107,7 +108,7 @@ footer p + p { margin-top: 4px; }
 </head>
 <body>
 <div class="topbar">
-  <span class="brand">{{meta.name}}<small>v{{meta.version}}</small></span>
+  <span class="brand"><span class="gem" aria-hidden="true"></span>{{meta.name}}<small>v{{meta.version}}</small></span>
   <div class="topbar-end">
     <a class="repo" href="index.html">Preview</a>
     <a class="repo" href="{{meta.repository}}">GitHub</a>
@@ -120,13 +121,14 @@ footer p + p { margin-top: 4px; }
 
 <!-- data-root and data-guide are relative to this page; build/site.ps1 rewrites them for the published site. -->
 <main id="app" data-repository="{{meta.repository}}" data-root="../../../../" data-guide="guides/{port}.html">
-  <section class="panel intro" aria-labelledby="title">
+  <section class="panel intro ornate" aria-labelledby="title">
     <h1 id="title">Ports</h1>
+    <span class="flourish" aria-hidden="true"></span>
     <p>Every app {{meta.name}} is ported to, and the ones planned. Each port ships {{meta.name}} Day and {{meta.name}} Night from the same palette, with a step-by-step install guide. Apps differ in how much they let a theme change, so each port says how far it gets:</p>
     <ul class="tiers">
-      <li><b>Tier 1, Full:</b> the complete palette</li>
-      <li><b>Tier 2, Partial:</b> most of the palette, with some gaps</li>
-      <li><b>Tier 3, Minimal:</b> background, accent, and status colors</li>
+      <li><span class="gems" aria-hidden="true"><i class="gem"></i><i class="gem"></i><i class="gem"></i></span><b>Tier 1, Full:</b> the complete palette</li>
+      <li><span class="gems" aria-hidden="true"><i class="gem"></i><i class="gem"></i><i class="gem is-empty"></i></span><b>Tier 2, Partial:</b> most of the palette, with some gaps</li>
+      <li><span class="gems" aria-hidden="true"><i class="gem"></i><i class="gem is-empty"></i><i class="gem is-empty"></i></span><b>Tier 3, Minimal:</b> background, accent, and status colors</li>
     </ul>
   </section>
 
@@ -161,6 +163,7 @@ footer p + p { margin-top: 4px; }
   </section>
 
   <footer class="panel">
+    <span class="flourish" aria-hidden="true"></span>
     <p>{{meta.name}} {{meta.version}}. This list is generated from each port's <code>port.json</code>, so it is always current.</p>
     <p>Every color on this page is generated from <code>palette/palette.json</code>.</p>
     <p id="icon-credits" hidden></p>
@@ -230,6 +233,13 @@ footer p + p { margin-top: 4px; }
     node.textContent = "Icons: " + list.join(", ") + ". Brand marks belong to their owners. Each port's port.json, and Ports/ports.json for the category icons, records the source.";
     node.hidden = false;
   }
+  // Three diamonds per tier, filled by how much of the palette it gets: Full 3, Partial 2, Minimal 1.
+  function gems(tierNo) {
+    const g = el("span", "gems");
+    g.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < 3; i++) g.appendChild(el("i", "gem" + (i < 4 - tierNo ? "" : " is-empty")));
+    return g;
+  }
   function categoryName(id) { return data.categories[id] || id; }
   function platformText(p) { return p.platforms.map(function (x) { return platformNames[x] || x; }).join(" · "); }
 
@@ -256,10 +266,17 @@ footer p + p { margin-top: 4px; }
 
     const tags = el("div", "tags");
     if (p.planned) tags.appendChild(el("span", "pill planned", "Planned"));
-    tags.appendChild(el("span", "pill", p.tier ? "Tier " + p.tier + " · " + tierNames[p.tier] : "Tier to be decided"));
+    const tier = el("span", "pill", p.tier ? "Tier " + p.tier + " · " + tierNames[p.tier] : "Tier to be decided");
+    if (p.tier) tier.prepend(gems(p.tier));
+    tags.appendChild(tier);
     if (!p.planned && p.variants.length === 1) {
-      tags.appendChild(el("span", "pill", p.variants[0] === "day" ? "Day only" : "Night only"));
+      const one = el("span", "pill", p.variants[0] === "day" ? "Day only" : "Night only");
+      const half = el("i", "gem is-half");
+      half.setAttribute("aria-hidden", "true");
+      one.prepend(half, " ");
+      tags.appendChild(one);
     }
+    if (p.shotsPending) tags.appendChild(el("span", "pill", "Screenshots coming"));
     c.appendChild(tags);
 
     if (p.platforms.length) c.appendChild(el("p", "plat", platformText(p)));

@@ -1,0 +1,5 @@
+# {{variant.name}} nickname colors for Halloy
+# Paste into config.toml. Use it only with {{variant.name}}.
+
+[buffer.nickname]
+color = { palette = ["{{clay}}", "{{pine}}", "{{dusk}}", "{{heather}}", "{{rosewood}}", "{{oxblood}}", "{{ivy}}"] }

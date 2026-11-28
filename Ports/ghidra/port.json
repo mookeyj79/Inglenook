@@ -1,0 +1,10 @@
+{
+  "name": "Ghidra",
+  "category": "app",
+  "tier": 2,
+  "platforms": [
+    "windows",
+    "macos",
+    "linux"
+  ]
+}

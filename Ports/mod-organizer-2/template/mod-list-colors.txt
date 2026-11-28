@@ -1,0 +1,12 @@
+{{variant.name}} colors for the Mod Organizer 2 mod list and plugin list.
+
+Open Settings, then the Theme tab. Under Colors, double-click a row, type its
+value into the HTML box, set Alpha channel to 255, and click OK.
+
+Is overwritten (loose files)            {{success|wash}}
+Is overwriting (loose files)            {{error|wash}}
+Is overwritten (archives)               {{ivy|wash}}
+Is overwriting (archives)               {{oxblood|wash}}
+Mod contains selected file              {{steel|wash}}
+Plugin is contained in selected mod     {{steel|wash}}
+Plugin is master of selected plugin     {{reference|wash}}
