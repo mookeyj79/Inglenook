@@ -159,17 +159,6 @@
       ]
     },
     {
-      "folder": "typora",
-      "name": "Typora",
-      "category": "writing",
-      "tier": null,
-      "platforms": [
-        "windows",
-        "macos",
-        "linux"
-      ]
-    },
-    {
       "folder": "visual-studio",
       "name": "Visual Studio",
       "category": "editor",
