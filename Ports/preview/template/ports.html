@@ -276,6 +276,7 @@ footer p + p { margin-top: 4px; }
       one.prepend(half, " ");
       tags.appendChild(one);
     }
+    if (p.shotsPending) tags.appendChild(el("span", "pill", "Screenshots coming"));
     c.appendChild(tags);
 
     if (p.platforms.length) c.appendChild(el("p", "plat", platformText(p)));

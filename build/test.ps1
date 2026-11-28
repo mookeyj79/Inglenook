@@ -802,6 +802,24 @@ Test 'Catalog: a port the Photographer shoots ships with every image' {
     Assert-True ((@(Get-ShotProblems (Get-PortCatalog -PortsRoot $root)) -join ' ') -like '*plain/screenshots/day.png is missing*take it by hand*') 'a manual port is told to take them by hand'
 }
 
+Test 'Catalog: a port with pending screenshots ships without them' {
+    $pending = [ordered]@{ name = 'Paid'; category = 'editor'; tier = 1; platforms = @('linux'); screenshots = 'pending' }
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; unlisted = @(); planned = @() } @{ paid = $pending }
+    Set-Recipe $root 'paid' ([ordered]@{ kind = 'document'; platform = 'linux'; manual = 'Needs a license.' })
+    New-Item -ItemType Directory -Path (Join-Path $root 'paid' 'dist' 'day') -Force | Out-Null
+    $c = Get-PortCatalog -PortsRoot $root
+    Assert-Equal 0 $c.Errors.Count "errors: $($c.Errors -join '; ')"
+    Assert-Equal 0 @(Get-ShotProblems $c).Count 'no images, and that is fine while pending'
+    Assert-True ((ConvertTo-PortsData $c).ports[0].shotsPending) 'the card says screenshots are coming'
+    New-Item -ItemType Directory -Path (Join-Path $root 'paid' 'screenshots') -Force | Out-Null
+    Set-Content (Join-Path $root 'paid' 'screenshots' 'day.png') 'png'
+    $all = @(Get-ShotProblems (Get-PortCatalog -PortsRoot $root)) -join ' '
+    Assert-True ($all -like '*paid/screenshots/day.png exists, so remove*pending*') "a shot is there, so the flag goes: $all"
+    $pending['screenshots'] = 'soon'
+    $root = New-TestPorts @{ categories = @{ editor = 'Editors' }; unlisted = @(); planned = @() } @{ paid = $pending }
+    Assert-True (((Get-PortCatalog -PortsRoot $root).Errors -join ' ') -like "*'screenshots' set to 'soon'*") 'only pending'
+}
+
 Test 'Photographer: a port''s own steps, in order' {
     $plan = Get-ShotPlan -Port 'term' -Recipe (New-GoodRecipe)
     Assert-Equal @('term install apt-get install -y app') (Get-PlanLines $plan.Install) 'install'
